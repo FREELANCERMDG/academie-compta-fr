@@ -1,30 +1,24 @@
-# Déploiement sur Render.com (https://render.com)
-# 2 profils :
-#  - PRODUCTION (recommandé, vrais apprenants) : plan "starter" + disque persistant (data.db conservée). ~7 $/mois.
-#  - TEST/DÉMO (gratuit) : passez plan: free et SUPPRIMEZ le bloc "disk" + la variable DATA_DIR
-#    (⚠️ la base data.db sera réinitialisée à chaque redéploiement → ne pas utiliser avec de vrais comptes).
+# Déploiement sur Render.com
+# Profil GRATUIT (mise en ligne immédiate sans carte bancaire).
+# ⚠️ En gratuit : le service "s'endort" après 15 min d'inactivité ET la base data.db
+#    est réinitialisée à chaque redéploiement. Pour la PRODUCTION (vrais apprenants),
+#    repasser en plan "starter" + bloc "disk" + variable DATA_DIR=/data (voir guide 13).
 services:
   - type: web
     name: academie-compta-fr
     runtime: docker
     region: frankfurt
-    plan: starter
+    plan: free
     healthCheckPath: /sante
     autoDeploy: true
     envVars:
       - key: PRODUCTION
         value: "true"
       - key: SESSION_SECRET
-        generateValue: true        # clé de signature des cookies, générée par Render
-      - key: DATA_DIR
-        value: /data               # la base data.db est stockée sur le disque persistant
+        generateValue: true
       - key: ADMIN_EMAIL
-        sync: false                # à saisir dans le tableau de bord Render
+        sync: false
       - key: ADMIN_PASSWORD
-        sync: false                # mot de passe admin FORT
+        sync: false
       - key: BASE_URL
-        sync: false                # https://academie-compta-fr.mg (ou l'URL .onrender.com au début)
-    disk:
-      name: data
-      mountPath: /data             # disque persistant -> conserve data.db
-      sizeGB: 1
+        sync: false
