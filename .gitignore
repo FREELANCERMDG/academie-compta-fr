@@ -15,3 +15,6 @@ platform/screenshots/
 
 # Privé (mots de passe / accès) — NE JAMAIS publier
 PENSE-BETE-ACCES.md
+
+# Deploy hook Render (secret) — NE PAS publier
+.deploy-hook
