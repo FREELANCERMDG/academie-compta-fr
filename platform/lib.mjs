@@ -121,7 +121,7 @@ function hotp(secret, counter) {
   return (code % 1e6).toString().padStart(6, '0');
 }
 export const genTOTP = (secret) => hotp(secret, Math.floor(Date.now() / 30000));
-export function verifyTOTP(secret, token, window = 1) {
+export function verifyTOTP(secret, token, window = 2) {
   if (!/^\d{6}$/.test(token || '')) return false;
   const c = Math.floor(Date.now() / 30000);
   for (let i = -window; i <= window; i++) if (safeEqual(hotp(secret, c + i), token)) return true;
