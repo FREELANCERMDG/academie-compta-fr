@@ -143,7 +143,8 @@ export function securityHeaders(res, { courseCSP = false, quizCSP = false, prod 
   res.setHeader('Content-Security-Policy', csp);
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('Referrer-Policy', 'no-referrer');
+  // Le cours intègre des vidéos YouTube : il faut envoyer l'origine (sinon erreur 153 "configuration"). Ailleurs : no-referrer.
+  res.setHeader('Referrer-Policy', courseCSP ? 'strict-origin-when-cross-origin' : 'no-referrer');
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), browsing-topics=()');
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
