@@ -12,3 +12,6 @@ platform/screenshots/
 
 # Temporaire
 *.tmp
+
+# Privé (mots de passe / accès) — NE JAMAIS publier
+PENSE-BETE-ACCES.md
