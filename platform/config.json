@@ -29,18 +29,18 @@
   "orange_money": {
     "mode": "manuel",
     "numero": "+261 32 73 622 59",
-    "beneficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY",
+    "beneficiaire": "RANDRIAMANANTSOA HERINIAINA ANTHONY",
     "instructions": "Composez #144# ou ouvrez l'app Orange Money, choisissez « Transfert d'argent », envoyez le montant exact au numéro ci-dessus, puis saisissez ci-dessous la référence de transaction reçue par SMS."
   },
   "paiements_manuels": [
     {
       "code": "orange", "nom": "Orange Money", "actif": true,
-      "details": { "Numéro": "+261 32 73 622 59", "Bénéficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY" },
+      "details": { "Numéro": "+261 32 73 622 59", "Bénéficiaire": "RANDRIAMANANTSOA HERINIAINA ANTHONY" },
       "instructions": "Composez #144#, choisissez « Transfert d'argent », envoyez le montant EXACT au numéro ci-dessus, puis saisissez la référence reçue par SMS."
     },
     {
       "code": "mvola", "nom": "MVola (Telma)", "actif": true,
-      "details": { "Numéro": "+261 38 10 417 11", "Bénéficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY" },
+      "details": { "Numéro": "+261 38 10 417 11", "Bénéficiaire": "RANDRIAMANANTSOA HERINIAINA ANTHONY" },
       "instructions": "Composez #111#, « Transfert d'argent », envoyez le montant EXACT au numéro ci-dessus, puis saisissez la référence MVola reçue par SMS."
     },
     {
@@ -64,7 +64,7 @@
     "modules_gratuits": ["mod1"]
   },
   "securite": {
-    "twofa_obligatoire": false,
+    "twofa_obligatoire": true,
     "_note": "Mettre true en production pour imposer la double authentification (2FA) à tous les utilisateurs."
   },
   "acces": {
