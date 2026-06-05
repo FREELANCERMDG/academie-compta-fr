@@ -20,6 +20,8 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 const BASE_URL = (process.env.BASE_URL || cfg.site.base_url || `http://localhost:${PORT}`).replace(/\/$/, '');
 const db = openDB();
 const twofaRequired = () => !(cfg.securite && cfg.securite.twofa_obligatoire === false);
+// Émetteur 2FA en ASCII pur (certaines apps gèrent mal accents/tirets dans l'otpauth URI)
+const ISSUER_2FA = 'Academie Compta FR';
 
 // --- Paramètres fiscaux (source de vérité unique, mise à jour annuelle) ---
 function loadFiscalite() { try { return JSON.parse(fs.readFileSync(path.join(DIR, 'fiscalite.json'), 'utf8')); } catch { return null; } }
@@ -602,7 +604,14 @@ const server = http.createServer(async (req, res) => {
       if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null));
       if (p === '/connexion') return send(res, 200, pageConnexion(sess || ensureGuestSession(res, req), null));
       if (p === '/2fa') { if (!authed0(sess) || !sess.row.pending_2fa || !sess.user.twofa) return redirect(res, '/connexion'); return send(res, 200, page2faVerify(sess)); }
-      if (p === '/2fa-setup-redirect') { if (!authed0(sess)) return redirect(res, '/connexion'); const secret = newTotpSecret(); const uri = otpauthURI(secret, sess.user.email, cfg.site.nom_plateforme); return send(res, 200, page2faSetup(sess, secret, uri, null, await qrDataURL(uri))); }
+      if (p === '/2fa-setup-redirect') {
+        if (!authed0(sess)) return redirect(res, '/connexion');
+        // Secret STABLE : on réutilise le secret en attente s'il existe (sinon le QR scanné ne correspondrait plus après un rechargement)
+        let secret = (!sess.user.twofa && sess.user.totp_secret) ? sess.user.totp_secret : null;
+        if (!secret) { secret = newTotpSecret(); db.prepare('UPDATE users SET totp_secret=?, twofa=0 WHERE id=?').run(secret, sess.user.id); }
+        const uri = otpauthURI(secret, sess.user.email, ISSUER_2FA);
+        return send(res, 200, page2faSetup(sess, secret, uri, null, await qrDataURL(uri)));
+      }
       if (p === '/deconnexion') { if (sess) db.prepare('DELETE FROM sessions WHERE id=?').run(sess.sid); return redirect(res, '/', [cookie('sid', '', { maxAge: 0 })]); }
 
       // espace authentifié
@@ -729,8 +738,9 @@ function postConnexion(req, res, sess, body) {
 }
 
 async function post2faActiver(req, res, sess, body) {
-  const secret = body.secret;
-  if (!verifyTOTP(secret, body.code)) { const uri = otpauthURI(secret, sess.user.email, cfg.site.nom_plateforme); return send(res, 200, page2faSetup(sess, secret, uri, 'Code incorrect, réessayez.', await qrDataURL(uri))); }
+  // Secret de référence = celui conservé en base (stable) ; repli sur le champ caché si besoin
+  const secret = sess.user.totp_secret || body.secret;
+  if (!verifyTOTP(secret, body.code)) { const uri = otpauthURI(secret, sess.user.email, ISSUER_2FA); return send(res, 200, page2faSetup(sess, secret, uri, 'Code incorrect. Vérifiez que l\'heure de votre téléphone est en réglage automatique, puis réessayez.', await qrDataURL(uri))); }
   db.prepare('UPDATE users SET totp_secret=?, twofa=1 WHERE id=?').run(secret, sess.user.id);
   db.prepare('UPDATE sessions SET pending_2fa=0 WHERE id=?').run(sess.sid);
   audit(db, sess.user.id, '2fa_active', '', ip(req));
