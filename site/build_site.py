@@ -66,6 +66,8 @@ MANIFEST = [
     ("modules/Module-PL4-Reprise-immo.md", "m21d", "Module 2 — Logiciel Pennylane", "2.4 Reprise des immobilisations (vidéo)", None),
     ("modules/Module-PL5-TVA.md", "m21e", "Module 2 — Logiciel Pennylane", "2.5 La TVA sur Pennylane", None),
     ("modules/Module-PL6-Preparation-TVA.md", "m21f", "Module 2 — Logiciel Pennylane", "2.6 Préparation TVA sur Pennylane (vidéo)", None),
+    ("modules/Module-PL7-Services.md", "m21g", "Module 2 — Logiciel Pennylane", "2.7 Achats & ventes de services (illustré)", None),
+    ("modules/Module-PL8-Cadrage-TVA.md", "m21h", "Module 2 — Logiciel Pennylane", "2.8 Cadrage TVA sur Pennylane (vidéo)", None),
 
     ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & révision", "3.1 TVA française", "m05"),
     ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & révision", "3.2 Rapprochement bancaire", "m06"),

@@ -30,9 +30,11 @@ const MACRO = [
       "🎥 Importer un FEC pour reprendre une compta existante (vidéo + explication)",
       "🎥 Reprise des immobilisations / à-nouveaux (vidéo + explication)",
       "Comment fonctionne la TVA sur Pennylane (comptes automatiques, biens vs services, débits/encaissements)",
-      "🎥 Préparation de la déclaration de TVA sur Pennylane (vidéo + explication)"
+      "🎥 Préparation de la déclaration de TVA sur Pennylane (vidéo + explication)",
+      "Achats & ventes de services : exigibilité à l'encaissement, comptes d'attente 44574/44564, journal RT (illustré en images)",
+      "🎥 Cadrage de la TVA sur Pennylane (vidéo + explication)"
     ],
-    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md'],
+    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md', 'Module-PL7-Services.md', 'Module-PL8-Cadrage-TVA.md'],
     quiz: 'm21'
   },
   {
