@@ -82,11 +82,11 @@ MANIFEST = [
     ("modules/Module-11-Revision-comptable.md", "m11", "Module 3 — Opérations & révision", "3.7 Révision comptable", "m11"),
     ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & révision", "3.8 Révision par défilement (classes 1 à 7)", None),
 
-    ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, bilan & spécificités", "4.1 Fiscalité des entreprises", "m12"),
-    ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, bilan & spécificités", "4.2 Bilan et clôture", "m13"),
-    ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, bilan & spécificités", "4.3 Spécificités & cas particuliers", None),
-    ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, bilan & spécificités", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
-    ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, bilan & spécificités", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
+    ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
+    ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
+    ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.3 Spécificités & cas particuliers", None),
+    ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
+    ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
 
     ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
     ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale", "5.2 Réel normal (2050 → 2059)", None),
@@ -233,7 +233,7 @@ GROUP_MOD = {
     "Module 1 — Fondamentaux": "mod1",
     "Module 2 — Logiciel Pennylane": "mod2",
     "Module 3 — Opérations & révision": "mod3",
-    "Module 4 — Fiscalité, bilan & spécificités": "mod4",
+    "Module 4 — Fiscalité, clôture & dossiers spécifiques": "mod4",
     "Module 5 — Liasse fiscale": "mod5",
     "Module 6 — Métier, cas pratiques & entretiens": "mod6",
     "Annexes": "free",
@@ -250,7 +250,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, bilan & spécificités", "Module 5 — Liasse fiscale", "Module 6 — Métier, cas pratiques & entretiens", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale", "Module 6 — Métier, cas pratiques & entretiens", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 

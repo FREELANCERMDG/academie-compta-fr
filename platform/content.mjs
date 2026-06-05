@@ -54,13 +54,15 @@ const MACRO = [
     quiz: 'm05'
   },
   {
-    code: 'mod4', titre: 'Module 4 — Fiscalité, bilan & spécificités',
-    resume: "Fiscalité des entreprises (IR/IS, BIC/BNC), travaux de clôture et bilan, cas particuliers, spécificités par activité et dossier bâtiment (BTP).",
+    code: 'mod4', titre: 'Module 4 — Fiscalité, clôture & dossiers spécifiques',
+    resume: "Maîtriser les règles fiscales essentielles, préparer les travaux de clôture, établir le bilan et traiter les spécificités comptables selon l'activité du client.",
     topics: [
-      "Fiscalité (IR/IS, BIC/BNC, acomptes, CFE/CVAE)", "Bilan et clôture (cut-off, FNP, CCA, FAE, PCA)",
-      "Spécificités & cas particuliers : VP/VU, DAS2, BTP/autoliquidation, intérêts courus, créances, débours, CIFD",
-      "Spécificités par activité : BNC, LMNP/LMP, SCI, SNC, SAP, TABAC, auto-entrepreneur, association 1901, agricole (BA), pharmacie",
-      "Dossier BÂTIMENT (BTP) : TVA travaux, autoliquidation, retenue de garantie, situations & saisie des factures"
+      "Fiscalité des entreprises : IR/IS, BIC/BNC, acomptes, CFE/CVAE, DAS2 et crédit d'impôt formation du dirigeant",
+      "Travaux de clôture et préparation du bilan : cut-off, FNP, CCA, FAE, PCA, intérêts courus, créances à contrôler, débours et régularisations de fin d'exercice",
+      "Contrôles comptables de fin d'année : comptes sensibles, justification des soldes, cohérence fiscale, charges et produits rattachés à l'exercice",
+      "Spécificités par activité : BNC, LMNP/LMP, SCI, SNC, services à la personne, tabac, auto-entrepreneur, association loi 1901, activité agricole (BA) et pharmacie",
+      "Cas particuliers comptables et fiscaux : véhicules VP/VU, autoliquidation, retenue de garantie, situations de travaux, créances douteuses, régularisations et retraitements spécifiques",
+      "Dossier Bâtiment / BTP : TVA sur travaux, autoliquidation, factures d'avancement, situations de travaux, retenues de garantie et contrôle des factures fournisseurs/clients"
     ],
     files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md'],
     quiz: 'm12'
