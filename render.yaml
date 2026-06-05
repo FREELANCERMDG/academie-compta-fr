@@ -1,21 +1,26 @@
 # Déploiement sur Render.com
-# Profil GRATUIT (mise en ligne immédiate sans carte bancaire).
-# ⚠️ En gratuit : le service "s'endort" après 15 min d'inactivité ET la base data.db
-#    est réinitialisée à chaque redéploiement. Pour la PRODUCTION (vrais apprenants),
-#    repasser en plan "starter" + bloc "disk" + variable DATA_DIR=/data (voir guide 13).
+# PRODUCTION : plan "starter" + disque persistant monté sur /var/data + DATA_DIR=/var/data.
+# => la base data.db est conservée entre les déploiements (comptes apprenants + 2FA stables)
+#    et le service ne s'endort plus.
 services:
   - type: web
     name: academie-compta-fr
     runtime: docker
     region: frankfurt
-    plan: free
+    plan: starter
     healthCheckPath: /sante
     autoDeploy: true
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
       - key: PRODUCTION
         value: "true"
       - key: SESSION_SECRET
         generateValue: true
+      - key: DATA_DIR
+        value: /var/data
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
