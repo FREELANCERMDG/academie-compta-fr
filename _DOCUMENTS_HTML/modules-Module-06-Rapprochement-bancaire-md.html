@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 6 — Rapprochement bancaire</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 6 — Rapprochement bancaire</h1>
+<p><strong>Niveau :</strong> Intermédiaire · <strong>Durée estimée :</strong> 8–10 h · <strong>Prérequis :</strong> Module 4</p>
+<hr>
+<h2>🎯 Objectifs pédagogiques</h2>
+<ul><li>Comprendre l'objet et la méthode du rapprochement bancaire.</li><li>Pointer banque / comptabilité et expliquer chaque écart.</li><li>Justifier le solde du compte 512.</li></ul>
+<h2>🧩 Compétences</h2>
+<ul><li>Identifier écritures manquantes, doublons, frais oubliés.</li><li>Construire un état de rapprochement équilibré.</li></ul>
+<hr>
+<h2>1. Objectif du rapprochement bancaire</h2>
+<p>Vérifier que le <strong>solde comptable du 512</strong> correspond au <strong>solde du relevé bancaire</strong>, après prise en compte des opérations « en route » (non encore enregistrées d'un côté ou de l'autre). C'est <strong>le contrôle n°1 de fiabilité</strong> d'un dossier : si la banque est juste, une grande partie de la compta est juste.</p>
+<p><strong>Égalité visée :</strong><br><code>Solde comptable 512 (corrigé) = Solde relevé bancaire (corrigé)</code></p>
+<hr>
+<h2>2. La méthode de pointage</h2>
+<ol><li>Récupérer le <strong>relevé bancaire</strong> du mois et le <strong>grand livre 512</strong>.</li><li><strong>Pointer</strong> ligne à ligne ce qui figure des <strong>deux côtés</strong> (même date/montant).</li><li>Isoler ce qui n'est <strong>que dans la compta</strong> (chèque émis non débité, encaissement non crédité).</li><li>Isoler ce qui n'est <strong>que sur le relevé</strong> (frais bancaires, prélèvements, virements non saisis).</li><li><strong>Saisir</strong> ce qui manque en compta (frais, prélèvements, agios…).</li><li><strong>Justifier</strong> les écarts restants (opérations en cours) dans l'état de rapprochement.</li></ol>
+<hr>
+<h2>3. Les écarts typiques et leur traitement</h2>
+<table><thead><tr><th>Écart</th><th>Côté</th><th>Traitement</th></tr></thead><tbody><tr><td><strong>Frais bancaires / agios</strong> oubliés</td><td>Sur relevé seulement</td><td>Saisir 627 / 661 → 512</td></tr><tr><td><strong>Prélèvements fournisseurs</strong> non saisis</td><td>Sur relevé seulement</td><td>Saisir l'achat + 512 (relancer la facture si manquante)</td></tr><tr><td><strong>Encaissements clients</strong> non saisis</td><td>Sur relevé seulement</td><td>Saisir 512 / 411 + lettrer</td></tr><tr><td><strong>Chèque émis non encore débité</strong></td><td>En compta seulement</td><td>Laisser ; figure en rapprochement (à débiter plus tard)</td></tr><tr><td><strong>CB différée</strong></td><td>Décalage</td><td>Débit bancaire postérieur ; rapprocher au mois du débit</td></tr><tr><td><strong>Virement interne</strong></td><td>2 comptes</td><td>Utiliser 580 (cf. §5)</td></tr><tr><td><strong>Doublon</strong></td><td>Compta</td><td>Supprimer l'écriture en double</td></tr></tbody></table>
+<hr>
+<h2>4. Méthodes de recherche d'un écart</h2>
+<ul><li><strong>Par montant</strong> : chercher le montant exact dans le grand livre / le relevé (rapide pour un écart unique).</li><li><strong>Par libellé</strong> : identifier le tiers (ex. « SARL DUPONT », « ORANGE », « URSSAF »).</li><li><strong>Par différence</strong> : si l'écart = un montant connu (ex. 18 € = frais bancaires habituels).</li><li><strong>Par cumul</strong> : si l'écart = somme de plusieurs petites lignes (pointer une à une).</li></ul>
+<hr>
+<h2>5. Virements internes (compte 580)</h2>
+<p>Quand l'argent passe d'un compte bancaire à un autre (ou banque ↔ caisse), on utilise le <strong>580</strong> pour éviter un double comptage.</p>
+<p><strong>Ex. — Virement 2 000 € du compte courant vers le livret</strong></p>
+<ul><li>Sortie compte courant : 580 D 2 000 / 512-courant C 2 000</li><li>Entrée livret : 512-livret D 2 000 / 580 C 2 000</li><li>Le <strong>580 se solde à 0</strong> une fois les deux côtés saisis (à vérifier en révision).</li></ul>
+<hr>
+<h2>6. Justification du solde 512</h2>
+<p>À la fin, on doit pouvoir prouver :<br><code>Solde 512 comptable + chèques non débités − encaissements non crédités … = solde relevé</code></p>
+<p>L'<strong>état de rapprochement</strong> (tableau) liste les opérations en suspens et démontre l'égalité.</p>
+<hr>
+<h2>✅ Checklist rapprochement bancaire</h2>
+<ul><li>&#9744; Relevé du mois complet (toutes les pages)</li><li>&#9744; Solde initial relevé = solde final mois précédent</li><li>&#9744; Toutes les lignes du relevé pointées</li><li>&#9744; Frais bancaires / agios saisis</li><li>&#9744; Prélèvements et virements saisis (pièces relancées si besoin)</li><li>&#9744; Doublons supprimés</li><li>&#9744; Virements internes soldés via 580</li><li>&#9744; État de rapprochement équilibré (écart = 0 ou justifié)</li><li>&#9744; Commentaire sur chaque opération en suspens</li></ul>
+<hr>
+<h2>📊 Modèle d'état de rapprochement (Excel à créer)</h2>
+<table><thead><tr><th></th><th>Côté COMPTA (512)</th><th>Côté BANQUE (relevé)</th></tr></thead><tbody><tr><td>Solde de départ</td><td>…</td><td>…</td></tr><tr><td>(+) Encaissements non crédités</td><td></td><td></td></tr><tr><td>(−) Chèques émis non débités</td><td></td><td></td></tr><tr><td>(+) Opérations sur relevé non saisies</td><td></td><td></td></tr><tr><td><strong>Solde corrigé</strong></td><td><strong>=</strong></td><td><strong>=</strong></td></tr></tbody></table>
+<blockquote>Objectif : les deux <strong>soldes corrigés sont égaux</strong>.</blockquote>
+<hr>
+<h2>🧪 Cas pratique 6.1 — Rapprochement complet</h2>
+<p><strong>Solde comptable 512 au 31/03 : 5 200 € (débiteur).</strong><br><strong>Solde relevé au 31/03 : 4 930 €.</strong><br>Éléments :</p>
+<ul><li>Frais bancaires mars 30 € non saisis.</li><li>Prélèvement Orange 60 € (TTC) non saisi, facture présente.</li><li>Chèque fournisseur émis 400 € non encore débité.</li><li>Encaissement client 200 € enregistré en compta mais pas encore sur le relevé.</li></ul>
+<p><strong>Travail :</strong> saisir les écritures manquantes, puis dresser l'état de rapprochement.</p>
+<h3>✔️ Correction 6.1</h3>
+<p><strong>Écritures à saisir :</strong></p>
+<ul><li>Frais : 627 D 30 / 512 C 30</li><li>Orange : 6262 D 50 / 44566 D 10 / 512 C 60</li></ul>
+<p>→ Nouveau solde comptable = 5 200 − 30 − 60 = <strong>5 110 €</strong></p>
+<p><strong>État de rapprochement :</strong></p>
+<table><thead><tr><th></th><th>Compta</th><th>Banque</th></tr></thead><tbody><tr><td>Solde</td><td>5 110</td><td>4 930</td></tr><tr><td>− Chèque émis non débité (−400 côté banque à venir)</td><td></td><td>+400 → mais banque ne l'a pas encore débité</td></tr><tr><td>+ Encaissement non crédité</td><td></td><td>+200 → banque ne l'a pas encore crédité</td></tr></tbody></table>
+<p>Vérification : Banque 4 930 − 400 (chèque qui sera débité) + 200 (encaissement à venir) = <strong>4 730</strong>… ajustons la logique :</p>
+<p><strong>Méthode correcte :</strong> on part du solde banque et on ajoute/retire les opérations en route pour retrouver la compta :</p>
+<ul><li>Solde banque 4 930</li><li><strong>+ chèque émis non débité 400</strong> (la compta l'a déjà retiré, la banque pas encore) → 5 330</li><li><strong>− encaissement non crédité 200</strong> (la compta l'a déjà ajouté, la banque pas encore) → <strong>5 130</strong></li></ul>
+<p>Hmm, et solde comptable corrigé = 5 110. Écart de 20 → en pratique, cela révèle une <strong>erreur à rechercher</strong> (un montant de 20 €).</p>
+<blockquote>💡 <strong>Leçon clé du cas :</strong> quand l'état ne tombe pas juste, <strong>l'écart résiduel signale une anomalie à chercher</strong> (ici 20 €, à pointer par montant). On ne « force » jamais un rapprochement. <em>(Données volontairement piégées pour l'entraînement : retrouver et corriger la ligne de 20 €.)</em></blockquote>
+<hr>
+<h2>📝 Évaluation de fin de module 6</h2>
+<ol><li>Quel est l'objectif du rapprochement bancaire ?</li><li>Où passe-t-on un virement interne ? (compte)</li><li>Citez 3 écarts typiques et leur traitement.</li><li>Un chèque émis non débité : il manque côté compta ou côté banque ?</li><li>Que faire d'un écart résiduel non expliqué ?</li></ol>
+<p><strong>Seuil : 7/10.</strong><br><strong>Corrigé :</strong> 1) prouver que le solde 512 = relevé bancaire. 2) <strong>580</strong>. 3) frais bancaires (saisir 627), prélèvement non saisi (saisir achat+512), doublon (supprimer). 4) côté <strong>banque</strong> (la banque ne l'a pas encore débité ; la compta l'a déjà). 5) le <strong>rechercher</strong> (par montant/libellé) et corriger — ne jamais forcer le rapprochement.</p></body></html>

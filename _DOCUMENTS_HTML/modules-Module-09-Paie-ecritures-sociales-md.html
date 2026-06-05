@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 9 — Paie et écritures sociales</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 9 — Paie et écritures sociales</h1>
+<p><strong>Niveau :</strong> Intermédiaire · <strong>Durée estimée :</strong> 8–10 h · <strong>Prérequis :</strong> Module 2<br><strong>Chiffres sociaux à jour 2026</strong> (source : urssaf.fr).</p>
+<hr>
+<h2>🎯 Objectifs pédagogiques</h2>
+<ul><li>Lire un journal de paie et comptabiliser les salaires.</li><li>Maîtriser les comptes 641, 645, 421, 431, 437.</li><li>Comprendre URSSAF, retraite, prévoyance, mutuelle, DSN.</li><li>Contrôler la cohérence OD de paie / bulletins / DSN / paiements.</li></ul>
+<h2>🧩 Compétences</h2>
+<ul><li>Passer une OD de paie équilibrée.</li><li>Justifier les charges sociales.</li></ul>
+<hr>
+<h2>1. Repères sociaux 2026</h2>
+<ul><li><strong>SMIC</strong> au 1er janvier 2026 : <strong>12,02 €/h</strong>, soit <strong>1 823,03 €</strong> brut/mois (151,67 h). <em>(Revalorisation au 1er juin 2026 : 12,31 €/h, 1 867,02 €/mois.)</em></li><li><strong>Plafond mensuel de la Sécurité sociale (PMSS) 2026</strong> : <strong>4 005 €</strong> (PASS annuel <strong>48 060 €</strong>).</li><li>Les cotisations se calculent en pourcentage du brut, parfois plafonné au PMSS.</li></ul>
+<hr>
+<h2>2. Logique de la paie</h2>
+<pre><code>Salaire BRUT
+  − cotisations salariales  = NET à payer au salarié (421)
+Salaire BRUT
+  + cotisations patronales  = COÛT total employeur</code></pre>
+<ul><li><strong>641</strong> = salaires <strong>bruts</strong> (charge).</li><li><strong>645</strong> = cotisations <strong>patronales</strong> (charge).</li><li><strong>421</strong> = net à payer au <strong>salarié</strong> (dette).</li><li><strong>431</strong> = cotisations dues à l'<strong>URSSAF</strong> (dette).</li><li><strong>437</strong> = autres organismes (<strong>retraite, prévoyance, mutuelle</strong>) (dette).</li><li><strong>425</strong> = avances/acomptes au personnel (s'il y en a).</li></ul>
+<hr>
+<h2>3. Lire un journal de paie</h2>
+<p>Le logiciel de paie (<strong>Silae</strong>, RCA, etc.) produit un <strong>journal de paie</strong> = la synthèse comptable mensuelle de toutes les paies. Il indique :</p>
+<ul><li>Total brut, total cotisations salariales, total cotisations patronales par organisme, net à payer.</li><li>C'est <strong>lui</strong> qu'on comptabilise (pas chaque bulletin un par un).</li></ul>
+<hr>
+<h2>4. L'OD de paie (écriture mensuelle)</h2>
+<p><strong>Étape 1 — Constatation des salaires (à partir du journal de paie)</strong></p>
+<table><thead><tr><th>Compte</th><th>Libellé</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>641</td><td>Salaires bruts</td><td>brut</td><td></td></tr><tr><td>645</td><td>Charges patronales</td><td>patronales</td><td></td></tr><tr><td>421</td><td>Net à payer</td><td></td><td>net</td></tr><tr><td>431</td><td>URSSAF</td><td></td><td>cot. URSSAF (sal.+pat.)</td></tr><tr><td>437</td><td>Retraite/prévoyance/mutuelle</td><td></td><td>cot. (sal.+pat.)</td></tr><tr><td>(4486 si besoin)</td><td>autres</td><td></td><td></td></tr></tbody></table>
+<blockquote>Équilibre : <code>641 + 645 (D) = 421 + 431 + 437 (C)</code>.</blockquote>
+<p><strong>Étape 2 — Paiement des salaires</strong> : 421 D / 512 C.<br><strong>Étape 3 — Paiement des cotisations</strong> : 431 D + 437 D / 512 C (à l'échéance URSSAF/caisses).</p>
+<hr>
+<h2>5. Les organismes</h2>
+<ul><li><strong>URSSAF</strong> : Sécurité sociale, allocations familiales, CSG/CRDS, assurance chômage (recouvrée par l'URSSAF), FNAL. → compte <strong>431</strong>.</li><li><strong>Retraite complémentaire (Agirc-Arrco)</strong>, <strong>prévoyance</strong>, <strong>mutuelle</strong> → compte <strong>437</strong> (souvent ventilé en sous-comptes 4371, 4372…).</li><li><strong>DSN (Déclaration Sociale Nominative)</strong> : déclaration mensuelle unique qui transmet aux organismes les données de paie et déclenche les prélèvements. Produite par le <strong>gestionnaire de paie</strong> (souvent au cabinet) ; le comptable <strong>rapproche</strong> la DSN des écritures.</li></ul>
+<hr>
+<h2>6. Contrôles de cohérence (essentiel)</h2>
+<p>Rapprocher <strong>4 sources</strong> :</p>
+<ol><li><strong>OD de paie</strong> (comptabilité)</li><li><strong>Bulletins de paie</strong> (total brut, net)</li><li><strong>DSN</strong> (déclaration sociale)</li><li><strong>Paiements bancaires</strong> (nets versés + cotisations)</li></ol>
+<p>Contrôles :</p>
+<ul><li>Σ nets (421) = Σ virements salaires sur le relevé.</li><li>Cotisations 431/437 = montants DSN = prélèvements bancaires.</li><li>421, 431, 437 <strong>soldés</strong> après paiement (sinon : un net non versé, une cotisation non payée → à expliquer).</li></ul>
+<hr>
+<h2>✅ Checklist OD de paie</h2>
+<ul><li>&#9744; Journal de paie reçu et lisible</li><li>&#9744; OD passée et équilibrée (641+645 = 421+431+437)</li><li>&#9744; Net (421) = virements salaires du relevé</li><li>&#9744; Cotisations = DSN = prélèvements</li><li>&#9744; 421/431/437 soldés après paiement</li><li>&#9744; Acomptes salariés (425) traités</li><li>&#9744; Écarts justifiés et commentés</li></ul>
+<hr>
+<h2>🧪 Cas pratique 9.1 — OD de paie</h2>
+<p>Journal de paie du mois :</p>
+<ul><li>Brut total : 10 000 €</li><li>Cotisations salariales : 2 200 €</li><li>Cotisations patronales : 4 200 €</li><li>Net à payer : 7 800 €</li><li>Répartition cotisations : URSSAF 4 800 € · Retraite/prévoyance/mutuelle 1 600 €</li></ul>
+<p><strong>Travail :</strong> passer l'OD de paie, puis les paiements.</p>
+<h3>✔️ Correction 9.1</h3>
+<p><strong>OD de paie :</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>641 Salaires bruts</td><td>10 000</td><td></td></tr><tr><td>645 Charges patronales</td><td>4 200</td><td></td></tr><tr><td>421 Net à payer</td><td></td><td>7 800</td></tr><tr><td>431 URSSAF</td><td></td><td>4 800</td></tr><tr><td>437 Retraite/prévoyance/mutuelle</td><td></td><td>1 600</td></tr></tbody></table>
+<p>Vérification : D = 14 200 ; C = 7 800 + 4 800 + 1 600 = 14 200 ✔️<br><em>(Contrôle : cotisations totales 2 200 + 4 200 = 6 400 = 4 800 + 1 600 ✔️)</em></p>
+<p><strong>Paiement des salaires :</strong> 421 D 7 800 / 512 C 7 800<br><strong>Paiement des cotisations :</strong> 431 D 4 800 + 437 D 1 600 / 512 C 6 400</p>
+<hr>
+<h2>🧪 Cas pratique 9.2 — Contrôle de cohérence</h2>
+<p>Après paiement, le compte 421 présente un solde créditeur de 300 €. Qu'est-ce que cela indique ?</p>
+<h3>✔️ Correction 9.2</h3>
+<p>Un <strong>net non versé</strong> : un salarié n'a pas été payé (ou virement en attente), ou une erreur de montant. À <strong>rechercher</strong> : vérifier le relevé bancaire, identifier le salarié concerné, régulariser ou commenter. Ne pas laisser le 421 non soldé sans explication.</p>
+<hr>
+<h2>📝 Évaluation de fin de module 9</h2>
+<ol><li>Quels comptes pour : brut / patronales / net / URSSAF / autres organismes ?</li><li>Quelle égalité vérifie l'OD de paie ?</li><li>Quelles 4 sources rapprocher pour contrôler la paie ?</li><li>PMSS 2026 ?</li><li>Que signifie un 431 non soldé après paiement ?</li></ol>
+<p><strong>Seuil : 7/10.</strong><br><strong>Corrigé :</strong> 1) 641 / 645 / 421 / 431 / 437. 2) 641+645 = 421+431+437. 3) OD de paie, bulletins, DSN, paiements bancaires. 4) <strong>4 005 €/mois</strong> (PASS 48 060 €/an). 5) une <strong>cotisation non payée</strong> (ou erreur) → à rechercher et justifier.</p>
+<hr>
+<h3>📌 Source officielle 2026</h3>
+<ul><li>Barèmes SMIC / plafonds — <a href="https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/plafonds-securite-sociale.html">urssaf.fr</a></li></ul></body></html>

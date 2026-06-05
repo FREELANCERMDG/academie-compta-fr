@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 4 — Saisie comptable pratique</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 4 — Saisie comptable pratique</h1>
+<p><strong>Niveau :</strong> Débutant → Intermédiaire · <strong>Durée estimée :</strong> 14–16 h · <strong>Prérequis :</strong> Modules 2–3</p>
+<hr>
+<h2>🎯 Objectifs pédagogiques</h2>
+<ul><li>Saisir achats, ventes, banque, caisse et OD.</li><li>Appliquer la bonne TVA (avec, sans, autoliquidation, intracommunautaire, import/export).</li><li>Imputer correctement les charges courantes (loyer, télécom, carburant, honoraires…).</li><li>Traiter les cas particuliers fréquents en cabinet.</li></ul>
+<h2>🧩 Compétences à maîtriser</h2>
+<ul><li>Trouver le bon compte de charge et le bon taux de TVA.</li><li>Saisir un journal de banque équilibré.</li><li>Reconnaître les opérations à autoliquider.</li></ul>
+<hr>
+<h2>1. Les journaux de saisie</h2>
+<table><thead><tr><th>Journal</th><th>Code usuel</th><th>Contenu</th></tr></thead><tbody><tr><td>Achats</td><td>AC / HA</td><td>Factures fournisseurs</td></tr><tr><td>Ventes</td><td>VT</td><td>Factures clients</td></tr><tr><td>Banque</td><td>BQ</td><td>Mouvements bancaires</td></tr><tr><td>Caisse</td><td>CA</td><td>Espèces</td></tr><tr><td>Opérations diverses</td><td>OD</td><td>Paie, TVA, dotations, régularisations</td></tr></tbody></table>
+<hr>
+<h2>2. Saisie des ACHATS</h2>
+<p><strong>Schéma général :</strong> <code>6xx (HT) + 44566 (TVA) au débit / 401 au crédit</code></p>
+<p><strong>Ex. 1 — Achat marchandises 1 000 € HT, TVA 20 %</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>607 Achats de marchandises</td><td>1 000</td><td></td></tr><tr><td>44566 TVA déductible</td><td>200</td><td></td></tr><tr><td>401 Fournisseur</td><td></td><td>1 200</td></tr></tbody></table>
+<p><strong>Ex. 2 — Facture sans TVA (fournisseur en franchise en base)</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>606x ou 611 (selon nature)</td><td>300</td><td></td></tr><tr><td>401 Fournisseur</td><td></td><td>300</td></tr></tbody></table>
+<blockquote>Mention sur la facture : « TVA non applicable, art. 293 B du CGI ». <strong>Pas de TVA déductible.</strong></blockquote>
+<hr>
+<h2>3. Saisie des VENTES</h2>
+<p><strong>Schéma général :</strong> <code>411 (TTC) au débit / 70x (HT) + 44571 (TVA) au crédit</code></p>
+<p><strong>Ex. 3 — Vente prestation 2 000 € HT, TVA 20 %</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>411 Client</td><td>2 400</td><td></td></tr><tr><td>706 Prestations de services</td><td></td><td>2 000</td></tr><tr><td>44571 TVA collectée</td><td></td><td>400</td></tr></tbody></table>
+<hr>
+<h2>4. Saisie de la BANQUE</h2>
+<p>Règle : <strong>512 débité = entrée d'argent</strong>, <strong>512 crédité = sortie</strong>.</p>
+<p><strong>Ex. 4 — Paiement fournisseur 1 200 €</strong> : 401 D 1 200 / 512 C 1 200<br><strong>Ex. 5 — Encaissement client 2 400 €</strong> : 512 D 2 400 / 411 C 2 400<br><strong>Ex. 6 — Frais bancaires 18 €</strong> : 627 D 18 / 512 C 18<br><strong>Ex. 7 — Virement du compte courant vers le livret (compte interne)</strong> : 580 puis contrepassation (cf. virements internes Module 6).</p>
+<hr>
+<h2>5. Saisie de la CAISSE</h2>
+<ul><li>Journal CA : entrées (ventes espèces) au débit du 53, sorties (achats espèces) au crédit.</li><li><strong>Contrôle clé :</strong> le solde 53 ne peut <strong>jamais être créditeur</strong>. Si négatif → erreur (souvent un apport en espèces non saisi ou une dépense en double).</li></ul>
+<hr>
+<h2>6. Saisie des OD (opérations diverses)</h2>
+<p>Servent aux écritures qui ne passent pas par achats/ventes/banque : <strong>paie, TVA, dotations aux amortissements, régularisations, à-nouveaux, reclassements</strong>.</p>
+<hr>
+<h2>7. La TVA selon les cas (synthèse — détail Module 5)</h2>
+<table><thead><tr><th>Situation</th><th>Traitement</th></tr></thead><tbody><tr><td><strong>Facture avec TVA</strong> (FR)</td><td>TVA déductible (44566) ou collectée (44571) selon achat/vente</td></tr><tr><td><strong>Facture sans TVA</strong></td><td>Fournisseur en franchise / opération exonérée → pas de TVA</td></tr><tr><td><strong>Autoliquidation</strong> (sous-traitance BTP, certains achats)</td><td>Pas de TVA sur la facture ; l'entreprise <strong>collecte ET déduit</strong> elle-même</td></tr><tr><td><strong>Intracommunautaire (achat de biens UE)</strong></td><td>Autoliquidation : 4452 TVA due intracom + 44566 déductible</td></tr><tr><td><strong>Importation (hors UE)</strong></td><td>TVA à l'import autoliquidée sur la CA3 depuis 2022</td></tr><tr><td><strong>Exportation / livraison intracom</strong></td><td>Exonérée de TVA (mentions + justificatifs obligatoires)</td></tr></tbody></table>
+<p><strong>Ex. 8 — Autoliquidation sous-traitance BTP 5 000 € HT</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>611 Sous-traitance</td><td>5 000</td><td></td></tr><tr><td>401 Fournisseur</td><td></td><td>5 000</td></tr><tr><td>445662 TVA déductible autoliquidée</td><td>1 000</td><td></td></tr><tr><td>4452 TVA due intracom./autoliq.</td><td></td><td>1 000</td></tr></tbody></table>
+<blockquote>La facture du sous-traitant porte la mention « Autoliquidation ». Neutre en trésorerie de TVA mais <strong>obligatoire</strong> sur la CA3.</blockquote>
+<p><strong>Ex. 9 — Achat intracommunautaire de biens 3 000 € (fournisseur allemand)</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>607 Achats</td><td>3 000</td><td></td></tr><tr><td>445662 TVA déductible intracom.</td><td>600</td><td></td></tr><tr><td>4452 TVA due intracommunautaire</td><td></td><td>600</td></tr></tbody></table>
+<hr>
+<h2>8. Imputation des charges courantes (mémo cabinet)</h2>
+<table><thead><tr><th>Dépense</th><th>Compte</th><th>TVA</th></tr></thead><tbody><tr><td>Loyer local professionnel</td><td>6132</td><td>20 % (si bail soumis) — sinon exonéré</td></tr><tr><td>Location matériel/véhicule</td><td>6135</td><td>20 %</td></tr><tr><td>Assurances</td><td>616</td><td><strong>Pas de TVA</strong> (exonérée)</td></tr><tr><td>Téléphone / Internet</td><td>6262</td><td>20 %</td></tr><tr><td>Carburant essence/gazole</td><td>60622 (ou 6061)</td><td>TVA : voir Module 5 (gazole 80 %, essence alignée)</td></tr><tr><td>Restaurant / repas d'affaires</td><td>6257</td><td>20 % récupérable si justifié pro</td></tr><tr><td>Déplacements (train, avion, péage, hôtel)</td><td>6251</td><td>train/avion exonérés ; hôtel 10 % ; péage 20 %</td></tr><tr><td>Honoraires (EC, avocat)</td><td>6226</td><td>20 %</td></tr><tr><td>Sous-traitance</td><td>611</td><td>20 % (ou autoliquidation BTP)</td></tr><tr><td>Abonnements / logiciels SaaS</td><td>6262 ou 6063</td><td>20 % (vérifier si fournisseur UE → autoliq.)</td></tr><tr><td>Électricité / gaz</td><td>60612</td><td>20 % (+ accises)</td></tr><tr><td>Petit équipement (&lt; 500 € HT)</td><td>6063 / 6068</td><td>20 %</td></tr><tr><td>Fournitures de bureau</td><td>6064</td><td>20 %</td></tr><tr><td>Frais postaux</td><td>6261</td><td>timbres exonérés ; affranchissement pro variable</td></tr><tr><td>Frais bancaires</td><td>627</td><td>souvent sans TVA ; commissions parfois avec TVA</td></tr><tr><td>Cotisations / adhésions</td><td>6281</td><td>selon nature</td></tr><tr><td>Publicité</td><td>6231</td><td>20 %</td></tr><tr><td>Entretien et réparations</td><td>615</td><td>20 %</td></tr></tbody></table>
+<blockquote>⚠️ <strong>Véhicules de tourisme (VP)</strong> : TVA sur l'achat et l'entretien <strong>non déductible</strong> ; carburant partiellement déductible. Détail Module 5 et Module 10.</blockquote>
+<hr>
+<h2>9. Cas particuliers fréquents en cabinet</h2>
+<ul><li><strong>Avoir fournisseur</strong> : écriture inverse de l'achat (401 D / 6xx C + TVA C).</li><li><strong>Acompte versé</strong> : 4091 (fournisseur débiteur) avant la facture définitive.</li><li><strong>Facture à cheval sur 2 exercices</strong> : rattachement (CCA/FNP, Module 13).</li><li><strong>Paiement CB différé</strong> : débit bancaire postérieur (rapprochement, Module 6).</li><li><strong>Note de frais salarié</strong> : charges par nature + 425/455 selon remboursement.</li><li><strong>Prélèvement sans facture</strong> (abonnement) : passer en 471 ou en charge avec relance pièce.</li></ul>
+<hr>
+<h2>✅ Checklist de saisie (par pièce)</h2>
+<ul><li>&#9744; Pièce conforme et lisible</li><li>&#9744; Bon <strong>journal</strong> (AC/VT/BQ/CA/OD)</li><li>&#9744; Bon <strong>tiers</strong> (401/411, le bon)</li><li>&#9744; Bon <strong>compte de charge/produit</strong></li><li>&#9744; Bon <strong>taux de TVA</strong> et <strong>bon compte de TVA</strong></li><li>&#9744; Montant HT + TVA = TTC (recalcul)</li><li>&#9744; Date et n° de pièce corrects</li><li>&#9744; Pas de doublon</li><li>&#9744; Commentaire si opération inhabituelle</li></ul>
+<hr>
+<h2>🧪 Cas pratique 4.1 — Lot de 8 saisies</h2>
+<p>Saisir (TVA 20 % sauf mention) :</p>
+<ol><li>Facture EDF électricité 240 € TTC.</li><li>Facture assurance local 600 €.</li><li>Facture client prestation 4 800 € TTC.</li><li>Carburant gazole 60 € TTC (TVA déductible 80 %).</li><li>Honoraires avocat 1 200 € HT.</li><li>Sous-traitance BTP 2 000 € HT (autoliquidation).</li><li>Achat fournitures Amazon UE (vendeur établi en UE) 100 € (intracom. biens).</li><li>Frais bancaires 12 € (sans TVA).</li></ol>
+<h3>✔️ Correction 4.1</h3>
+<ol><li>60612 = 200 / 44566 = 40 / 401 = 240</li><li>616 = 600 / 401 = 600 <em>(pas de TVA sur assurance)</em></li><li>411 = 4 800 / 706 = 4 000 / 44571 = 800</li><li>60622 = 50 + (TVA non déductible 20 %×0,20×... ) → pratique : 60622 = 50 ; TVA totale = 10, déductible 8 (44566), non déductible 2 (en 60622). Donc <strong>60622 = 52 / 44566 = 8 / 401 = 60</strong></li><li>6226 = 1 200 / 44566 = 240 / 401 = 1 440</li><li>611 = 2 000 / 401 = 2 000 ; 445662 = 400 / 4452 = 400</li><li>6064 (ou 607) = 100 / 445662 = 20 / 4452 = 20 ; 401 = 100</li><li>627 = 12 / 512 = 12</li></ol>
+<hr>
+<h2>📝 Évaluation de fin de module 4</h2>
+<p><strong>A — 6 écritures à passer</strong> (mélange achats/ventes/banque, dont 1 autoliquidation et 1 intracom).<br><strong>B — QCM (4 pts) :</strong></p>
+<ol><li>La TVA sur assurance est : a) 20 % b) <strong>non déductible (exonéré)</strong></li><li>Une facture en franchise en base : a) TVA 20 % b) <strong>pas de TVA</strong></li><li>Le 512 crédité signifie : a) entrée d'argent b) <strong>sortie d'argent</strong></li><li>L'autoliquidation est : a) neutre en TVA mais obligatoire sur la CA3 b) une exonération</li></ol>
+<p><strong>Seuil : 14/20.</strong><br><strong>Corrigé B :</strong> 1b · 2b · 3b · 4a.</p></body></html>

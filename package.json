@@ -1,0 +1,11 @@
+{
+  "name": "academie-compta-fr",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Plateforme e-learning - comptabilité française externalisée (Madagascar)",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node platform/server.mjs",
+    "test": "node platform/test_e2e.mjs"
+  }
+}

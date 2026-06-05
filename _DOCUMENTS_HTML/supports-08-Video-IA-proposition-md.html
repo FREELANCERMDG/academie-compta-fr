@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Proposition : produire les vidéos avec l'IA</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>Proposition : produire les vidéos avec l'IA</h1>
+<p>Objectif : créer rapidement des vidéos de cours <strong>professionnelles</strong> (français + explications en <strong>malgache</strong>) sans studio, en s'appuyant sur l'IA. Les <strong>scripts existent déjà</strong> (<code>supports/02-Scripts-video.md</code>).</p>
+<hr>
+<h2>🎯 Recommandation principale (le meilleur compromis)</h2>
+<p><strong>HeyGen</strong> (présentateur IA) <strong>+ ElevenLabs</strong> (voix off) <strong>+ OBS Studio</strong> (captures logiciels) <strong>+ CapCut</strong> (montage &amp; sous-titres).</p>
+<table><thead><tr><th>Besoin</th><th>Outil IA recommandé</th><th>Pourquoi</th></tr></thead><tbody><tr><td><strong>Présentateur / avatar parlant</strong></td><td><strong>HeyGen</strong></td><td>Excellent en français, avatar réaliste créé <strong>à partir de votre photo/vidéo</strong>, bonne synchro labiale, traduction intégrée</td></tr><tr><td><strong>Voix off naturelle (FR)</strong></td><td><strong>ElevenLabs</strong></td><td>Voix françaises très naturelles ; possibilité de <strong>cloner votre voix</strong> pour une cohérence sur toute la formation</td></tr><tr><td><strong>Explication en malgache</strong></td><td><strong>Votre voix (enregistrée)</strong></td><td>Le malgache est peu couvert par les IA → plus authentique et fiable enregistré par vous (micro) ; ElevenLabs multilingue à tester</td></tr><tr><td><strong>Démos logiciels</strong> (Pennylane, Quadra, Tiime…)</td><td><strong>OBS Studio</strong> (capture écran) + voix IA</td><td>L'IA ne peut pas piloter les logiciels → on filme l'écran réel, voix off IA par-dessus</td></tr><tr><td><strong>Vidéos « texte → vidéo » animées</strong></td><td><strong>Pictory</strong> ou <strong>InVideo AI</strong> ou <strong>Canva (Magic Studio)</strong></td><td>Transforme un script en vidéo avec visuels + sous-titres</td></tr><tr><td><strong>Sous-titres &amp; traduction</strong></td><td><strong>HeyGen</strong> / <strong>Submagic</strong> / <strong>CapCut</strong></td><td>Sous-titres FR + MG automatiques</td></tr><tr><td><strong>Montage final</strong></td><td><strong>CapCut</strong> (gratuit)</td><td>Simple, sous-titres auto, export 1080p</td></tr></tbody></table>
+<hr>
+<h2>🧩 Deux types de vidéos, deux méthodes</h2>
+<ol><li><strong>Cours théoriques</strong> (Modules 1, 2, 5, 11, 12…) → <strong>HeyGen avatar</strong> lisant le script (FR), OU <strong>diapositives</strong> (déjà fournies en <code>.pptx</code>) + <strong>voix off ElevenLabs</strong>. Ajouter une explication <strong>malgache</strong> (votre voix) en complément.</li><li><strong>Démonstrations pratiques</strong> (Modules 21–24, saisie, TVA, rapprochement) → <strong>capture d'écran OBS</strong> du logiciel + <strong>voix off</strong> (la vôtre en malgache, ou ElevenLabs en français).</li></ol>
+<hr>
+<h2>🔁 Chaîne de production (pas à pas)</h2>
+<ol><li><strong>Script</strong> : partez de <code>supports/02-Scripts-video.md</code> (adaptez FR + MG).</li><li><strong>Voix</strong> : générez la voix off dans <strong>ElevenLabs</strong> (ou enregistrez la vôtre en malgache).</li><li><strong>Image</strong> :</li></ol>
+<ul><li>théorie → <strong>HeyGen</strong> (avatar) ou diapositives <code>.pptx</code> ;</li><li>pratique → <strong>OBS</strong> (écran).</li></ul>
+<ol><li><strong>Montage</strong> : assemblez dans <strong>CapCut</strong>, ajoutez titres + <strong>sous-titres bilingues</strong>.</li><li><strong>Export</strong> : 1080p (ou 720p pour le débit à Madagascar).</li><li><strong>Hébergement</strong> : <strong>YouTube (non répertorié)</strong> ou <strong>Vimeo</strong>.</li><li><strong>Intégration</strong> : collez le lien dans <code>site/videos.json</code> (cf. <code>supports/05-Integrer-vos-videos.md</code>) → la vidéo apparaît en haut du module.</li></ol>
+<hr>
+<h2>💰 Budget mensuel indicatif</h2>
+<ul><li>HeyGen : ~24–29 $/mois · ElevenLabs : ~5–22 $/mois · Pictory/InVideo : ~19 $/mois · OBS &amp; CapCut : <strong>gratuits</strong>.</li><li><strong>Démarrage économique</strong> : OBS (gratuit) + ElevenLabs (5 $) + votre voix malgache + CapCut (gratuit) ≈ <strong>5–22 $/mois</strong>.</li><li><strong>Pack « présentateur IA »</strong> : ajoutez HeyGen ≈ <strong>30–50 $/mois</strong> au total.</li></ul>
+<hr>
+<h2>✅ Recommandation de démarrage (MVP)</h2>
+<ol><li><strong>3 vidéos « présentateur » avec HeyGen</strong> : présentation de la formation (marketing), Module 1, Module 2 (les modules gratuits → fort impact conversion).</li><li><strong>Le reste en OBS + voix off</strong> (français ElevenLabs / malgache vous-même).</li><li>Sous-titres bilingues via CapCut.</li><li>Publier sur YouTube non répertorié → <code>videos.json</code>.</li></ol>
+<blockquote>⚠️ Confidentialité : ne filmez que des <strong>dossiers fictifs/anonymisés</strong> (jamais de données client réelles), conformément au RGPD/secret professionnel.</blockquote>
+<hr>
+<h2>🇲🇬 Note sur le malgache</h2>
+<p>Les IA vocales gèrent encore mal le malgache. Pour des explications <strong>en malgache</strong>, le plus fiable et le plus crédible reste <strong>votre propre voix</strong> (un bon micro suffit). Réservez l'IA (HeyGen/ElevenLabs) au <strong>français</strong> et à l'avatar/présentateur. Vous pouvez aussi tester la voix multilingue d'ElevenLabs sur quelques phrases pour juger.</p></body></html>

@@ -1,0 +1,138 @@
+{
+  "_aide": "Renseignez 'src' pour afficher une video en haut du module. type = youtube | vimeo | mp4. youtube/vimeo: collez l'URL ou l'ID. mp4: chemin relatif depuis le dossier site/, ex: videos/module-01.mp4 . Laisser src vide = aucune video. Puis relancez: python site/build_site.py",
+  "_exemple_youtube": {
+    "type": "youtube",
+    "src": "https://youtu.be/VOTRE_ID",
+    "title": "Module 1 expliqué en malgache"
+  },
+  "_exemple_mp4": {
+    "type": "mp4",
+    "src": "videos/module-01.mp4",
+    "title": "Hazavaina amin'ny teny malagasy"
+  },
+  "accueil": {
+    "type": "youtube",
+    "src": "",
+    "title": "Présentation de la formation (malgache)"
+  },
+  "m01": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 1 — expliqué en malgache"
+  },
+  "m02": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 2 — expliqué en malgache"
+  },
+  "m03": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 3 — expliqué en malgache"
+  },
+  "m04": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 4 — expliqué en malgache"
+  },
+  "m05": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 5 TVA — expliqué en malgache"
+  },
+  "m06": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 6 — expliqué en malgache"
+  },
+  "m07": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 7 — expliqué en malgache"
+  },
+  "m08": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 8 — expliqué en malgache"
+  },
+  "m09": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 9 — expliqué en malgache"
+  },
+  "m10": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 10 — expliqué en malgache"
+  },
+  "m11": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 11 — expliqué en malgache"
+  },
+  "m12": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 12 — expliqué en malgache"
+  },
+  "m13": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 13 — expliqué en malgache"
+  },
+  "m14": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 14 — expliqué en malgache"
+  },
+  "m15": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 15 — expliqué en malgache"
+  },
+  "m16": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 16 — expliqué en malgache"
+  },
+  "m17": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 17 — expliqué en malgache"
+  },
+  "m20": {
+    "type": "youtube",
+    "src": "",
+    "title": "Module 20 — expliqué en malgache"
+  },
+  "m21": {
+    "type": "youtube",
+    "src": "",
+    "title": "Pennylane — démo en malgache"
+  },
+  "m22": {
+    "type": "youtube",
+    "src": "",
+    "title": "Tiime — démo en malgache"
+  },
+  "m23": {
+    "type": "youtube",
+    "src": "",
+    "title": "Quadra — démo en malgache"
+  },
+  "m24": {
+    "type": "youtube",
+    "src": "",
+    "title": "Isacompta — démo en malgache"
+  },
+  "cas": {
+    "type": "youtube",
+    "src": "",
+    "title": "Cas pratiques — corrigés en malgache"
+  },
+  "eval": {
+    "type": "youtube",
+    "src": "",
+    "title": "Préparer l'évaluation finale (malgache)"
+  }
+}

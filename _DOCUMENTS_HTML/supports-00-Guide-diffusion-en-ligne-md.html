@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Guide de diffusion de la formation en ligne</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>Guide de diffusion de la formation en ligne</h1>
+<p>Ce guide explique comment <strong>diffuser</strong> la formation aux apprenants à Madagascar, du plus simple au plus complet.</p>
+<hr>
+<h2>1. Le support principal : le site e-learning autonome</h2>
+<p>Fichier : <strong><code>site/index.html</code></strong> (260 Ko, autonome, hors-ligne).</p>
+<ul><li>S'ouvre par <strong>double-clic</strong> dans n'importe quel navigateur (Chrome, Edge, Firefox).</li><li><strong>20 modules + cas pratiques + évaluation + annexes</strong> navigables.</li><li><strong>19 quiz auto-corrigés</strong> (100 questions), score affiché.</li><li><strong>Suivi de progression</strong> sauvegardé dans le navigateur (localStorage) : barre de progression, modules cochés, dernier score par quiz.</li><li><strong>Recherche</strong>, <strong>impression / export PDF</strong> (bouton « Imprimer »), responsive (mobile/tablette).</li></ul>
+<blockquote>Pour le mettre à jour après modification des cours : relancer <code>python site/build_site.py</code> (régénère <code>index.html</code> à partir des <code>.md</code>).</blockquote>
+<hr>
+<h2>2. Options d'hébergement (du gratuit au pro)</h2>
+<table><thead><tr><th>Solution</th><th>Coût</th><th>Mise en place</th><th>Pour qui</th></tr></thead><tbody><tr><td><strong>Clé USB / fichier partagé</strong></td><td>0</td><td>Copier le dossier <code>site/</code></td><td>Démarrage immédiat, zéro internet</td></tr><tr><td><strong>Google Drive (partagé)</strong></td><td>0</td><td>Déposer le dossier, partager le lien</td><td>Petite équipe</td></tr><tr><td><strong>GitHub Pages</strong></td><td>0</td><td>Pousser <code>site/</code> → activer Pages</td><td>Lien web public/privé</td></tr><tr><td><strong>Netlify / Cloudflare Pages</strong></td><td>0</td><td>Glisser-déposer le dossier <code>site/</code></td><td>Lien web pro, rapide</td></tr><tr><td><strong>Google Sites / Notion</strong></td><td>0</td><td>Intégrer les contenus</td><td>Sans technique</td></tr><tr><td><strong>LMS (Moodle, etc.)</strong></td><td>variable</td><td>Voir §3 (SCORM)</td><td>Suivi des notes centralisé</td></tr></tbody></table>
+<p><strong>Recommandation offshore :</strong> commencer par <strong>Netlify (glisser-déposer)</strong> ou <strong>Google Drive partagé</strong> → un lien unique pour toute l'équipe. La progression reste locale à chaque navigateur (suffisant pour de l'auto-formation).</p>
+<hr>
+<h2>3. Intégrer dans un LMS (Moodle / 360Learning / TalentLMS)</h2>
+<p>Deux niveaux :</p>
+<ul><li><strong>Simple</strong> : héberger le site et créer dans le LMS une <strong>activité « URL »</strong> pointant vers <code>index.html</code>. Les quiz du site fonctionnent, mais les notes ne remontent pas au LMS.</li><li><strong>Avec suivi des notes (SCORM)</strong> : pour que le LMS enregistre les scores, il faut <strong>emballer le site en paquet SCORM</strong> :</li></ul>
+<ol><li>Ajouter un <code>imsmanifest.xml</code> (manifeste SCORM 1.2/2004).</li><li>Mapper le score des quiz sur l'API SCORM (<code>cmi.core.score.raw</code>, <code>cmi.core.lesson_status</code>).</li><li>Zipper le tout et l'importer comme « paquet SCORM ».</li></ol>
+<blockquote>C'est un développement complémentaire ; me le demander si vous partez sur Moodle avec notation centralisée.</blockquote>
+<hr>
+<h2>4. Volet vidéo (formation « en ligne » complète)</h2>
+<p>Les <strong>scripts vidéo</strong> sont fournis (<code>supports/02-Scripts-video.md</code>). Pour produire les vidéos :</p>
+<ol><li>Enregistrer l'écran (OBS Studio, gratuit) en montrant l'outil (Pennylane/ACD/Excel) + voix off depuis le script.</li><li>Format conseillé : <strong>8–15 min par module</strong>, 1080p, sous-titres.</li><li>Héberger sur <strong>YouTube (non répertorié)</strong>, <strong>Vimeo</strong> ou Google Drive, puis insérer les liens dans le site (section de chaque module).</li><li>Astuce bande passante Madagascar : proposer une <strong>version allégée (720p)</strong> et le <strong>PDF du module</strong> en téléchargement.</li></ol>
+<hr>
+<h2>5. Volet évaluation &amp; certification</h2>
+<ul><li>Auto-évaluation : <strong>quiz du site</strong> (seuil 70 % par module).</li><li>Évaluation finale <strong>surveillée</strong> : <code>evaluations/Evaluation-finale.md</code> (sur 100, correction fournie).</li><li>Délivrance de l'<strong>attestation</strong> : <code>annexes/Attestation-modele.md</code> selon le score.</li><li>Suivi formateur : classeur <strong><code>annexes/excel/Outils-Formation.xlsx</code></strong> (onglet « Tableau de bord » pour les KPI, ou créer un onglet « Notes apprenants »).</li></ul>
+<hr>
+<h2>6. Organisation type d'une session (cohorte)</h2>
+<ol><li><strong>J0</strong> : envoi du lien + identifiants outils + charte de confidentialité signée.</li><li><strong>Hebdo</strong> : 1–2 modules/semaine (voir planning 8 semaines), + 1 visio de questions/réponses (Teams).</li><li><strong>Rendu</strong> : cas pratiques de la semaine déposés dans le Drive partagé, corrigés par le formateur.</li><li><strong>S8</strong> : évaluation finale surveillée + attestation.</li><li><strong>Post-formation</strong> : suivi sur dossiers réels, KPI mensuels (Module 16).</li></ol>
+<hr>
+<h2>7. Checklist de lancement</h2>
+<ul><li>&#9744; Site testé (ouverture, quiz, impression)</li><li>&#9744; Hébergement choisi + lien diffusé</li><li>&#9744; Classeur Excel distribué</li><li>&#9744; Vidéos enregistrées (ou planifiées)</li><li>&#9744; Charte de confidentialité signée par chaque apprenant</li><li>&#9744; Planning communiqué</li><li>&#9744; Formateur identifié pour la correction des cas pratiques</li><li>&#9744; Modèle d'attestation prêt</li></ul></body></html>

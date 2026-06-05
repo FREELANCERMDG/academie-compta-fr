@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 3 — Organisation d'un dossier comptable externalisé</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 3 — Organisation d'un dossier comptable externalisé</h1>
+<p><strong>Niveau :</strong> Débutant · <strong>Durée estimée :</strong> 6–8 h · <strong>Prérequis :</strong> Modules 1–2</p>
+<hr>
+<h2>🎯 Objectifs pédagogiques</h2>
+<ul><li>Organiser la réception, le classement et le nommage des pièces.</li><li>Gérer les pièces manquantes et non conformes.</li><li>Utiliser les outils de collecte (Dext, Pennylane, Tiime, MEG, Drive).</li><li>Contrôler doublons et factures non conformes.</li><li>Communiquer et suivre les demandes avec le cabinet français.</li></ul>
+<h2>🧩 Compétences à maîtriser</h2>
+<ul><li>Tenir un dossier propre et traçable.</li><li>Relancer efficacement les pièces manquantes.</li><li>Tenir un tableau de suivi de dossier.</li></ul>
+<hr>
+<h2>1. La réception des pièces</h2>
+<p>Les pièces arrivent par : <strong>Dext / MEG</strong> (photo, mail dédié), <strong>Pennylane / Tiime</strong> (upload, connexion bancaire), <strong>Google Drive / Teams</strong> (dépôt de fichiers), <strong>mail du cabinet</strong>.</p>
+<p><strong>Première règle :</strong> une pièce = une <strong>image lisible, complète, non rognée</strong>. On refuse une photo floue, coupée ou en double.</p>
+<hr>
+<h2>2. Classement et nommage des fichiers</h2>
+<h3>Structure de dossier recommandée (GED)</h3>
+<pre><code>CLIENT_X/
+  01_PERMANENT/        (Kbis, statuts, bail, emprunts, immo)
+  02_BANQUE/           (relevés par mois : 2026-01_releve.pdf)
+  03_ACHATS/           (factures fournisseurs par mois)
+  04_VENTES/           (factures clients par mois)
+  05_PAIE/             (bulletins, journaux de paie, DSN)
+  06_TVA/              (déclarations CA3/CA12)
+  07_OD_DIVERS/
+  08_A_TRAITER/        (pièces non encore identifiées)</code></pre>
+<h3>Convention de nommage (à imposer)</h3>
+<p><code>AAAA-MM-JJ_TYPE_TIERS_MONTANT.pdf</code></p>
+<ul><li>Exemple : <code>2026-03-12_ACH_ORANGE_59,90.pdf</code></li><li>Types : ACH (achat), VTE (vente), BQ (banque), OD, IMMO, PAIE.</li></ul>
+<blockquote>✅ Un nommage régulier = recherche instantanée + zéro perte de pièce. C'est un marqueur de professionnalisme offshore.</blockquote>
+<hr>
+<h2>3. Gestion des pièces manquantes</h2>
+<ol><li>Identifier le manque (souvent au rapprochement bancaire : un débit sans facture).</li><li>Le <strong>lister</strong> dans le tableau de suivi.</li><li><strong>Relancer</strong> (le client ou le cabinet selon l'organisation) — modèle de mail en annexe.</li><li>En attendant : passer l'opération en <strong>471</strong> ou laisser le règlement non lettré, <strong>avec commentaire</strong>.</li><li>Ne jamais « inventer » une imputation : une dépense sans justificatif n'est pas déductible (TVA + charge).</li></ol>
+<hr>
+<h2>4. Contrôle des doublons</h2>
+<p>Causes fréquentes : pièce importée 2 fois dans Dext <strong>et</strong> saisie manuellement, ou facture + relevé bancaire comptabilisés séparément.</p>
+<p><strong>Méthode anti-doublon :</strong></p>
+<ul><li>Trier le journal d'achats par <strong>fournisseur + montant + date</strong>.</li><li>Vérifier les <strong>n° de facture</strong> identiques.</li><li>Dans Pennylane/Dext, surveiller l'alerte « doublon potentiel ».</li><li>Contrôle : un même montant, même tiers, même jour → vérifier.</li></ul>
+<hr>
+<h2>5. Factures non conformes (ne pas saisir telles quelles)</h2>
+<p>Une facture française doit comporter : identité et <strong>SIREN</strong> du fournisseur, date, <strong>n° de facture</strong>, détail HT, <strong>taux et montant de TVA</strong>, <strong>n° de TVA intracommunautaire</strong> (si applicable), mentions légales.</p>
+<p><strong>Cas non conformes courants :</strong></p>
+<ul><li>Ticket de caisse sans TVA détaillée → TVA non récupérable (saisir en TTC, signaler).</li><li>« Facture » au nom du dirigeant et non de la société → charge personnelle potentielle (signaler, ne pas déduire la TVA).</li><li>Bon de commande / devis pris pour une facture → refuser.</li><li>Facture en devise → convertir + justifier le taux.</li></ul>
+<hr>
+<h2>6. Tickets, notes de frais, relevés bancaires</h2>
+<ul><li><strong>Tickets restaurant / carburant</strong> : justificatif obligatoire ; TVA récupérable selon nature (cf. Module 5).</li><li><strong>Notes de frais</strong> : rapprocher de la pièce ; salarié remboursé via 425 ou compte associé.</li><li><strong>Relevés bancaires</strong> : base du rapprochement ; vérifier que <strong>tous les mois</strong> sont présents et complets (pas de page manquante).</li></ul>
+<hr>
+<h2>7. Outils de collecte (vue rapide — détail Module 14)</h2>
+<table><thead><tr><th>Outil</th><th>Rôle dans la collecte</th></tr></thead><tbody><tr><td><strong>Dext</strong></td><td>Photo/scan + océrisation des factures, export vers l'outil compta</td></tr><tr><td><strong>MEG</strong></td><td>Collecte + pré-saisie, GED collaborative</td></tr><tr><td><strong>Pennylane</strong></td><td>Connexion bancaire + import factures + saisie web</td></tr><tr><td><strong>Tiime</strong></td><td>Idem, orienté TPE/indépendants</td></tr><tr><td><strong>Google Drive</strong></td><td>Dépôt brut de pièces (à ranger ensuite)</td></tr></tbody></table>
+<hr>
+<h2>8. Communication et suivi avec le cabinet français</h2>
+<ul><li>Un <strong>point quotidien</strong> : ce qui est fait, en cours, bloqué.</li><li>Toute pièce manquante / anomalie → <strong>tracée</strong> (pas de mémoire orale).</li><li>Les questions sont <strong>regroupées</strong> (1 mail clair vaut mieux que 10 messages).</li></ul>
+<hr>
+<h2>✅ Checklist « ouverture / tenue de dossier mensuel »</h2>
+<ul><li>&#9744; Tous les relevés bancaires du mois reçus et complets</li><li>&#9744; Pièces d'achats et de ventes du mois reçues</li><li>&#9744; Pièces rangées et nommées selon la convention</li><li>&#9744; Doublons contrôlés</li><li>&#9744; Factures non conformes identifiées et signalées</li><li>&#9744; Liste des pièces manquantes établie et relancée</li><li>&#9744; Tableau de suivi de dossier mis à jour</li><li>&#9744; Régime TVA et régime fiscal du dossier vérifiés (dossier permanent)</li></ul>
+<hr>
+<h2>📊 Tableau de suivi de dossier (modèle Excel à créer)</h2>
+<p>Colonnes recommandées :</p>
+<table><thead><tr><th>Client</th><th>Mois</th><th>Pièces reçues (O/N)</th><th>Relevés complets (O/N)</th><th>Saisie achats</th><th>Saisie ventes</th><th>Banque saisie</th><th>Rapprochement</th><th>Lettrage</th><th>TVA préparée</th><th>TVA validée</th><th>Pièces manquantes</th><th>Anomalies</th><th>Statut</th><th>Date livraison</th></tr></thead><tbody></tbody></table>
+<p>Statuts : <code>À FAIRE / EN COURS / BLOQUÉ / À VALIDER / TERMINÉ</code>.</p>
+<hr>
+<h2>🧪 Cas pratique 3.1 — Tri de pièces</h2>
+<p>On reçoit en vrac : (a) un devis, (b) une facture Orange 59,90 €, (c) une photo floue d'un ticket carburant, (d) deux fois la même facture EDF, (e) une facture au nom personnel du gérant.<br>Que faire de chacune ?</p>
+<h3>✔️ Correction 3.1</h3>
+<ul><li>(a) Devis → <strong>ne pas saisir</strong>, ce n'est pas une pièce comptable. Classer ou écarter.</li><li>(b) Facture Orange → saisir (6262 + TVA + 401), nommer <code>2026-..._ACH_ORANGE_59,90</code>.</li><li>(c) Ticket flou → <strong>redemander une photo nette</strong> (relance), en attente.</li><li>(d) Doublon EDF → <strong>n'en garder qu'une</strong>, supprimer l'autre, vérifier qu'elle n'est pas saisie 2 fois.</li><li>(e) Facture au nom du gérant → <strong>signaler</strong> : possible charge personnelle ; ne pas récupérer la TVA sans validation du chef de mission.</li></ul>
+<hr>
+<h2>📝 Évaluation de fin de module 3</h2>
+<ol><li>Citez 4 mentions obligatoires d'une facture conforme.</li><li>Donnez la règle de nommage d'un fichier et un exemple.</li><li>Que faire d'une dépense sans justificatif au rapprochement ?</li><li>Citez 3 causes de doublon.</li><li>Quelles colonnes minimales pour un tableau de suivi de dossier ?</li></ol>
+<p><strong>Seuil : 7/10.</strong><br><strong>Corrigé synthétique :</strong> 1) SIREN, date, n° facture, TVA détaillée (+ mentions légales). 2) <code>AAAA-MM-JJ_TYPE_TIERS_MONTANT.pdf</code>, ex. <code>2026-03-12_ACH_ORANGE_59,90.pdf</code>. 3) la passer en 471 ou laisser non lettrée <strong>avec commentaire</strong> + relancer la pièce ; ne pas déduire la TVA. 4) import + saisie manuelle, facture + relevé, double import Dext. 5) client, mois, statut saisie/banque/rapprochement/TVA, pièces manquantes, anomalies, statut, date livraison.</p></body></html>

@@ -1,0 +1,17 @@
+# N'embarquer que site/ + platform/ dans l'image
+slides/
+print/
+modules/
+cas-pratiques/
+evaluations/
+annexes/
+supports/
+*.md
+.git/
+**/__pycache__/
+platform/data.db
+platform/data.db-shm
+platform/data.db-wal
+platform/.env
+platform/screenshots/
+platform/node_modules/

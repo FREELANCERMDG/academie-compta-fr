@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>ANNEXE C — Tableaux de suivi &amp; modèles Excel à créer</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>ANNEXE C — Tableaux de suivi &amp; modèles Excel à créer</h1>
+<blockquote>Recréer ces tableaux dans Excel / Google Sheets. Colonnes données ci-dessous. 💡 Astuce : 1 onglet par tableau, en-têtes figés, mise en forme conditionnelle sur les statuts/retards.</blockquote>
+<hr>
+<h2>C1. Suivi de dossier mensuel</h2>
+<table><thead><tr><th>Client</th><th>Mois</th><th>Pièces reçues (O/N)</th><th>Relevés complets (O/N)</th><th>Saisie achats</th><th>Saisie ventes</th><th>Banque</th><th>Rapprochement</th><th>Lettrage</th><th>TVA préparée</th><th>TVA validée</th><th>Pièces manquantes</th><th>Anomalies</th><th>Statut</th><th>Date livraison</th></tr></thead><tbody></tbody></table>
+<p>Statuts : <code>À FAIRE / EN COURS / BLOQUÉ / À VALIDER / TERMINÉ</code>.<br>Mise en forme : rouge si BLOQUÉ, orange si échéance &lt; 3 jours, vert si TERMINÉ.</p>
+<hr>
+<h2>C2. Tableau de bord de production (KPI)</h2>
+<table><thead><tr><th>Client</th><th>Échéance TVA</th><th>Pièces reçues le</th><th>Saisie</th><th>Banque</th><th>TVA</th><th>Livré le</th><th>Validé</th><th>Retour (O/N)</th><th>Anomalies</th><th>Temps passé</th></tr></thead><tbody></tbody></table>
+<p>KPI à calculer (synthèse en bas) :</p>
+<ul><li><strong>Dossiers traités</strong> : <code>NB.SI(Statut;"TERMINÉ")</code></li><li><strong>% TVA à l'heure</strong> : livraisons avant échéance / total</li><li><strong>Taux de retour</strong> : <code>NB.SI(Retour;"O") / total dossiers</code> → <strong>cible &lt; 5 %</strong></li></ul>
+<hr>
+<h2>C3. État de rapprochement bancaire</h2>
+<table><thead><tr><th></th><th>Côté COMPTA (512)</th><th>Côté BANQUE (relevé)</th></tr></thead><tbody><tr><td>Solde de départ</td><td></td><td></td></tr><tr><td>(+) Encaissements non crédités</td><td></td><td></td></tr><tr><td>(−) Chèques émis non débités</td><td></td><td></td></tr><tr><td>(+) Opérations sur relevé non saisies</td><td></td><td></td></tr><tr><td><strong>Solde corrigé</strong></td><td><code>=</code></td><td><code>=</code></td></tr></tbody></table>
+<p>Contrôle (cellule) : <code>=SI(SoldeComptaCorrigé=SoldeBanqueCorrigé;"OK";"ÉCART À CHERCHER")</code>.</p>
+<hr>
+<h2>C4. Balance âgée (clients / fournisseurs)</h2>
+<table><thead><tr><th>Tiers</th><th>Total dû</th><th>0–30 j</th><th>31–60 j</th><th>61–90 j</th><th>&gt; 90 j</th><th>Statut</th></tr></thead><tbody></tbody></table>
+<p>Mise en forme : rouge sur la colonne &gt; 90 j ; statut <code>À RELANCER</code> si &gt; 60 j.</p>
+<hr>
+<h2>C5. Suivi des pièces manquantes</h2>
+<table><thead><tr><th>Client</th><th>Date détection</th><th>Opération (montant/tiers/date)</th><th>Type de pièce</th><th>Demandé le</th><th>Relancé le</th><th>Reçu (O/N)</th><th>Statut</th></tr></thead><tbody></tbody></table>
+<hr>
+<h2>C6. Fichier des immobilisations</h2>
+<table><thead><tr><th>Bien</th><th>Date mise en service</th><th>Base HT</th><th>Durée</th><th>Taux</th><th>Dotation N</th><th>Amort. cumulés</th><th>VNC</th></tr></thead><tbody></tbody></table>
+<p>Contrôles (bas de tableau) :</p>
+<ul><li><code>Σ Base HT</code> = soldes comptes 21/20</li><li><code>Σ Amort. cumulés</code> = soldes comptes 28</li><li><code>Σ Dotation N</code> = compte 6811</li></ul>
+<hr>
+<h2>C7. Suivi des comptes d'attente (471)</h2>
+<table><thead><tr><th>Date</th><th>Montant</th><th>Sens (D/C)</th><th>Libellé banque</th><th>Nature présumée</th><th>Action</th><th>Relancé le</th><th>Statut</th></tr></thead><tbody></tbody></table>
+<p>Statut : <code>EN ATTENTE / IMPUTÉ / À VALIDER</code>. Objectif : tout passer à IMPUTÉ avant clôture.</p>
+<hr>
+<h2>C8. Contrôle paie (rapprochement 4 sources)</h2>
+<table><thead><tr><th>Mois</th><th>Brut (OD)</th><th>Brut (bulletins)</th><th>Brut (DSN)</th><th>Net (OD)</th><th>Net versé (banque)</th><th>Cotisations (OD)</th><th>Cotisations (DSN)</th><th>Cotisations payées</th><th>Écart</th><th>OK ?</th></tr></thead><tbody></tbody></table>
+<hr>
+<h2>C9. Carnet d'erreurs personnel (progression)</h2>
+<table><thead><tr><th>Date</th><th>Dossier</th><th>Erreur</th><th>Cause</th><th>Correction</th><th>Action préventive</th></tr></thead><tbody></tbody></table>
+<blockquote>Outil n°1 de montée en compétence : on n'y inscrit chaque retour du cabinet qu'une seule fois.</blockquote>
+<hr>
+<h2>C10. Planning mensuel multi-clients</h2>
+<table><thead><tr><th>Client</th><th>Régime TVA</th><th>Échéance</th><th>Date réception pièces cible</th><th>Date livraison cible</th><th>Charge estimée (h)</th><th>Semaine</th></tr></thead><tbody></tbody></table>
+<p>But : lisser la charge sur le mois, éviter l'embouteillage de fin de période.</p></body></html>

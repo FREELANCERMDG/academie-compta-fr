@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 18 — Cas pratiques complets corrigés</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 18 — Cas pratiques complets corrigés</h1>
+<blockquote>10 cas progressifs reproduisant des situations réelles de cabinet. Faire chaque cas <strong>d'abord seul</strong>, puis comparer au corrigé. TVA 20 % sauf mention.</blockquote>
+<hr>
+<h2>CAS 1 — Saisie d'une facture d'achat avec TVA</h2>
+<p><strong>Énoncé :</strong> Facture fournisseur DURAND : marchandises 2 400 € TTC (TVA 20 %), reçue et non payée.</p>
+<p><strong>✔️ Corrigé :</strong> HT = 2 400 / 1,20 = 2 000 ; TVA = 400.</p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>607 Achats de marchandises</td><td>2 000</td><td></td></tr><tr><td>44566 TVA déductible</td><td>400</td><td></td></tr><tr><td>401 DURAND</td><td></td><td>2 400</td></tr></tbody></table>
+<hr>
+<h2>CAS 2 — Saisie d'une facture sans TVA</h2>
+<p><strong>Énoncé :</strong> Facture d'un prestataire en <strong>franchise en base</strong> (mention art. 293 B) : 500 €.</p>
+<p><strong>✔️ Corrigé :</strong> Pas de TVA déductible.</p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>611 Sous-traitance (ou compte de charge adapté)</td><td>500</td><td></td></tr><tr><td>401 Fournisseur</td><td></td><td>500</td></tr></tbody></table>
+<blockquote>Si la facture portait de la TVA à tort → ne pas la déduire, signaler.</blockquote>
+<hr>
+<h2>CAS 3 — Saisie banque avec affectation des opérations</h2>
+<p><strong>Énoncé :</strong> Relevé du mois : (a) virement reçu client MARTIN 3 600 € ; (b) prélèvement Orange 90 € (facture présente) ; (c) frais bancaires 22 € ; (d) virement reçu non identifié 800 €.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>(a) 512 D 3 600 / 411 MARTIN C 3 600 (+ lettrer)</li><li>(b) 6262 D 75 / 44566 D 15 / 512 C 90</li><li>(c) 627 D 22 / 512 C 22</li><li>(d) 512 D 800 / <strong>471 C 800</strong> + commentaire + relance (nature inconnue)</li></ul>
+<hr>
+<h2>CAS 4 — Rapprochement bancaire complet</h2>
+<p><strong>Énoncé :</strong> Solde comptable 512 = 6 000 D. Solde relevé = 6 350.<br>Éléments : frais bancaires 50 € non saisis ; chèque émis 500 € non débité ; encaissement client 900 € non encore crédité par la banque.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ol><li>Saisir les frais : 627 D 50 / 512 C 50 → solde comptable corrigé = <strong>5 950</strong>.</li><li>État de rapprochement (partir du relevé pour retrouver la compta) :</li></ol>
+<ul><li>Relevé 6 350</li><li><strong>+ chèque émis non débité 500</strong> (compta l'a déjà retiré) → 6 850</li><li><strong>− encaissement non crédité 900</strong> (compta l'a déjà ajouté) → <strong>5 950</strong></li></ul>
+<ol><li><strong>5 950 (banque corrigé) = 5 950 (compta corrigé)</strong> ✔️ rapprochement équilibré.</li></ol>
+<hr>
+<h2>CAS 5 — Lettrage fournisseur avec avoir</h2>
+<p><strong>Énoncé :</strong> Compte 401 LEROY : F1 1 500 (C), F2 600 (C), Avoir 100 (D), règlement 2 000 (D).</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>Total dû = 1 500 + 600 − 100 = 2 000.</li><li>Règlement 2 000 → solde tout.</li><li><strong>Lettre A</strong> : F1 + F2 + Avoir + règlement → D = 100 + 2 000 = 2 100 ; C = 1 500 + 600 = 2 100 ✔️.</li><li><strong>Solde 401 = 0</strong>, entièrement lettré.</li></ul>
+<hr>
+<h2>CAS 6 — Préparation TVA mensuelle (réel normal, débits)</h2>
+<p><strong>Énoncé :</strong> Mois : ventes 80 000 € HT ; achats marchandises 45 000 € HT ; frais généraux 6 000 € HT ; immo 3 000 € HT ; crédit TVA antérieur 500 €.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>Collectée : 80 000 × 20 % = 16 000</li><li>Déductible ABS : (45 000 + 6 000) × 20 % = 10 200</li><li>Déductible immo : 3 000 × 20 % = 600</li><li>Crédit antérieur : 500</li><li><strong>TVA à payer = 16 000 − 10 200 − 600 − 500 = 4 700 €</strong></li></ul>
+<p>Écriture (OD) : 44571 D 16 000 / 44566 C 10 200 / 44562 C 600 / 44567 C 500 / 44551 C 4 700.</p>
+<hr>
+<h2>CAS 7 — Apurement du compte 471</h2>
+<p><strong>Énoncé :</strong> 471 : (a) D 300 « PRLV GAN » (assurance, facture trouvée) ; (b) C 1 200 « VIR REÇU » client connu DUBOIS ; (c) D 150 « FRAIS » inconnu.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>(a) 616 D 300 / 471 C 300 (assurance, sans TVA)</li><li>(b) 471 D 1 200 / 411 DUBOIS C 1 200 + lettrer</li><li>(c) <strong>rester en 471</strong> (150) + commentaire + relance.</li><li>471 résiduel = 150 → transmis au chef de mission.</li></ul>
+<hr>
+<h2>CAS 8 — OD de paie</h2>
+<p><strong>Énoncé :</strong> Journal de paie : brut 8 000 ; cotisations salariales 1 800 ; patronales 3 400 ; net 6 200 ; URSSAF 3 800 ; retraite/prév./mutuelle 1 400.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<table><thead><tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr></thead><tbody><tr><td>641 Salaires bruts</td><td>8 000</td><td></td></tr><tr><td>645 Charges patronales</td><td>3 400</td><td></td></tr><tr><td>421 Net à payer</td><td></td><td>6 200</td></tr><tr><td>431 URSSAF</td><td></td><td>3 800</td></tr><tr><td>437 Autres organismes</td><td></td><td>1 400</td></tr></tbody></table>
+<p>Contrôle : D 11 400 = C 11 400 ✔️ ; cotisations 1 800 + 3 400 = 5 200 = 3 800 + 1 400 ✔️.<br>Paiements : 421 D 6 200 / 512 C 6 200 ; 431 D 3 800 + 437 D 1 400 / 512 C 5 200.</p>
+<hr>
+<h2>CAS 9 — Immobilisation avec amortissement</h2>
+<p><strong>Énoncé :</strong> Achat machine le <strong>01/07/2026</strong> : 6 000 € HT, TVA 20 %, durée 5 ans, clôture 31/12/2026.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>Achat : 2154 D 6 000 / 44562 D 1 200 / 404 C 7 200</li><li>Dotation annuelle pleine : 6 000 / 5 = 1 200 €/an</li><li>Prorata 2026 (6 mois) : 1 200 × 6/12 = <strong>600 €</strong></li><li>Dotation 31/12/2026 : 6811 D 600 / 28154 C 600</li><li>VNC au 31/12/2026 = 6 000 − 600 = <strong>5 400 €</strong></li></ul>
+<hr>
+<h2>CAS 10 — Préparation d'un dossier bilan simple</h2>
+<p><strong>Énoncé :</strong> Au 31/12/2026, à régulariser : (a) facture EDF de décembre non reçue, 500 € HT ; (b) assurance 1 200 € payée le 01/07/2026 pour 12 mois ; (c) prestation de décembre facturée en janvier, 4 000 € HT ; (d) dotation amortissement annuelle 600 € (cas 9) ; (e) 471 = 0, banque rapprochée.</p>
+<p><strong>✔️ Corrigé :</strong></p>
+<ul><li>(a) <strong>FNP</strong> : 60612 D 500 / 44586 D 100 / 408 C 600</li><li>(b) <strong>CCA</strong> : part 2027 = 6 mois = 1 200 × 6/12 = 600 → 486 D 600 / 616 C 600</li><li>(c) <strong>FAE</strong> : 418 D 4 800 / 706 C 4 000 / 44587 C 800</li><li>(d) Amortissement : 6811 D 600 / 28154 C 600</li><li>(e) Contrôles finaux : 471 = 0 ✔️, 512 justifié ✔️, lettrage fait, comptes anormaux vérifiés.</li></ul>
+<p><strong>Dossier bilan à transmettre :</strong> balance révisée + feuilles de travail + rapprochements + fichier immo + détail FNP/FAE/CCA + points en suspens → <strong>validation chef de mission / expert-comptable</strong>.</p>
+<hr>
+<h2>🎓 Bonus — Cas transversal « dossier mensuel complet »</h2>
+<p><strong>Énoncé :</strong> Boucler le mois de mars d'un dossier TPE (services, réel normal, à l'encaissement). Pièces : 15 factures d'achats, 8 factures de ventes, relevé bancaire, 1 prélèvement sans facture.</p>
+<p><strong>Démarche attendue (procédure cabinet) :</strong></p>
+<ol><li>Vérifier régime (services, encaissements) dans le dossier permanent.</li><li>Saisir achats (bon compte + TVA), ventes.</li><li>Saisir/rapprocher la banque ; prélèvement sans facture → 471 + relance.</li><li>Lettrer 401/411.</li><li>Apurer 471 (ce qui peut l'être).</li><li>Préparer la <strong>CA3</strong> sur les <strong>encaissements</strong> (TVA collectée = factures payées).</li><li>Passer la checklist qualité (Module 17).</li><li>Livrer avec mail « dossier terminé » + brouillon CA3 à valider (Module 15).</li></ol></body></html>

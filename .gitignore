@@ -1,0 +1,14 @@
+# Dépendances & runtime
+platform/node_modules/
+platform/.env
+platform/data.db
+platform/data.db-shm
+platform/data.db-wal
+platform/screenshots/
+
+# Python
+**/__pycache__/
+*.pyc
+
+# Temporaire
+*.tmp

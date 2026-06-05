@@ -1,0 +1,101 @@
+{
+  "site": {
+    "nom_plateforme": "Académie Compta FR — Madagascar",
+    "devise": "Ar",
+    "base_url": "https://academiecomptafr.mg"
+  },
+  "societe": {
+    "nom": "MG CONSULTING IT&ACT",
+    "denomination": "MG Consulting IT & ACT",
+    "sigle": "MG-IT",
+    "forme": "SARL (Société à Responsabilité Limitée)",
+    "capital": "2 400 000 Ar",
+    "immat": "RCS Antananarivo 2024 B 00906",
+    "date_immat": "26/07/2024",
+    "rcs": "Registre de Commerce et des Sociétés d'Antananarivo",
+    "siege": "Lot 004G Ambohibao Antehiroka, Ambohidratrimo, Analamanga 10512, Madagascar",
+    "activite": "Services de développement informatique et service comptable",
+    "gerant": "Olivier Edouard LEGRAND",
+    "cogerant": "RANDRIAMANANTSOA Heriniaina Anthony",
+    "email": "",
+    "telephone": "+261 32 73 622 59",
+    "whatsapp": "+261 32 73 622 59",
+    "mention": "Société légalement enregistrée au Registre de Commerce et des Sociétés d'Antananarivo."
+  },
+  "conditions": {
+    "diplome_requis": "BAC+2 en comptabilité (Madagascar)",
+    "attestation_obligatoire": true
+  },
+  "orange_money": {
+    "mode": "manuel",
+    "numero": "+261 32 73 622 59",
+    "beneficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY",
+    "instructions": "Composez #144# ou ouvrez l'app Orange Money, choisissez « Transfert d'argent », envoyez le montant exact au numéro ci-dessus, puis saisissez ci-dessous la référence de transaction reçue par SMS."
+  },
+  "paiements_manuels": [
+    {
+      "code": "orange", "nom": "Orange Money", "actif": true,
+      "details": { "Numéro": "+261 32 73 622 59", "Bénéficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY" },
+      "instructions": "Composez #144#, choisissez « Transfert d'argent », envoyez le montant EXACT au numéro ci-dessus, puis saisissez la référence reçue par SMS."
+    },
+    {
+      "code": "mvola", "nom": "MVola (Telma)", "actif": true,
+      "details": { "Numéro": "+261 38 10 417 11", "Bénéficiaire": "RANDRIAMANANTSOA HERINIANA ANTONNY" },
+      "instructions": "Composez #111#, « Transfert d'argent », envoyez le montant EXACT au numéro ci-dessus, puis saisissez la référence MVola reçue par SMS."
+    },
+    {
+      "code": "airtel", "nom": "Airtel Money", "actif": false,
+      "details": { "Numéro": "", "Bénéficiaire": "" },
+      "instructions": "Composez *436#, « Envoyer de l'argent », envoyez le montant EXACT, puis saisissez la référence Airtel Money reçue par SMS."
+    },
+    {
+      "code": "virement", "nom": "Virement bancaire", "actif": false,
+      "details": { "Banque": "", "Titulaire": "MG CONSULTING IT&ACT", "IBAN / RIB": "" },
+      "instructions": "Effectuez le virement du montant EXACT (indiquez votre email en référence), puis saisissez la référence du virement."
+    }
+  ],
+  "_note_paiements": "Activez MVola/Airtel/virement en mettant actif=true et en renseignant les details (numéro/IBAN). Une méthode sans details renseignés reste masquée.",
+  "carte": {
+    "active": false,
+    "psp": "",
+    "note": "Pour activer le paiement par carte Visa/Mastercard, configurez un prestataire (Stripe, PayGreen, etc.) dans .env et passez active=true."
+  },
+  "apercu": {
+    "modules_gratuits": ["mod1"]
+  },
+  "securite": {
+    "twofa_obligatoire": false,
+    "_note": "Mettre true en production pour imposer la double authentification (2FA) à tous les utilisateurs."
+  },
+  "acces": {
+    "illimite": false,
+    "duree_jours": 365,
+    "un_seul_appareil": true,
+    "_note": "duree_jours = durée d'accès après paiement (365 = 12 mois). illimite=true pour accès sans limite. un_seul_appareil=true : une seule session active à la fois (anti-partage de compte)."
+  },
+  "formateur": {
+    "nom": "M. RANDRIAMANANTSOA Heriniaina Anthony",
+    "photo": "/public/formateur.png",
+    "titre": "Formateur — expert en externalisation comptable française",
+    "experience": "10 ans d'expérience dans le domaine de l'externalisation comptable française.",
+    "points": [
+      "Plus de 100 personnes formées, aujourd'hui embauchées dans différents cabinets d'externalisation comptable à Antananarivo, ou freelances de métier.",
+      "Spécialiste de la conversion des comptables malgaches au métier de l'externalisation comptable française."
+    ],
+    "annees": 10,
+    "formes": 100
+  },
+  "afficher_compteur_inscrits": true,
+  "compteur_base": 0,
+  "temoignages": [
+    { "nom": "Naina R.", "role": "Collaboratrice comptable, Antananarivo", "texte": "Grâce à la formation, j'ai décroché une mission pour un cabinet français. Les cas pratiques sont exactement ce qu'on fait au quotidien." },
+    { "nom": "Tiana A.", "role": "Assistant comptable freelance", "texte": "Les modules TVA et rapprochement bancaire m'ont rendu autonome. Les vidéos en malgache aident beaucoup." },
+    { "nom": "Hery M.", "role": "Réviseur junior offshore", "texte": "La méthode par cycle et les checklists qualité ont fait baisser mon taux de retour sous les 5 %." }
+  ],
+  "_note_temoignages": "Exemples — remplacez-les par de vrais témoignages (avec accord des personnes).",
+  "offres": [
+    { "code": "PACK_COMPLET", "titre": "Pack complet — les 4 modules", "prix": 200000 },
+    { "code": "MODULE_UNITE", "titre": "Un module à l'unité (2, 3 ou 4)", "prix": 80000 }
+  ],
+  "_note_prix": "Prix en Ariary (Ar). Valeurs indicatives — ajustez-les selon votre tarification."
+}

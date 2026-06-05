@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>MODULE 8 — Comptes d'attente et comptes sensibles</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>MODULE 8 — Comptes d'attente et comptes sensibles</h1>
+<p><strong>Niveau :</strong> Intermédiaire · <strong>Durée estimée :</strong> 6–8 h · <strong>Prérequis :</strong> Modules 4, 6, 7</p>
+<hr>
+<h2>🎯 Objectifs pédagogiques</h2>
+<ul><li>Maîtriser l'usage et l'apurement du 471 et des comptes sensibles (467, 455, 580, 512, TVA, paie).</li><li>Savoir analyser une opération inconnue et décider : imputer, attendre, ou demander.</li><li>Documenter une anomalie de façon traçable.</li></ul>
+<h2>🧩 Compétences</h2>
+<ul><li>Apurer le 471 avant clôture.</li><li>Justifier les comptes sensibles.</li></ul>
+<hr>
+<h2>1. Le compte 471 — Compte d'attente</h2>
+<p>Le <strong>471</strong> sert à enregistrer <strong>temporairement</strong> une opération qu'on ne sait pas (encore) imputer : un prélèvement sans facture, un virement reçu non identifié, un montant douteux.</p>
+<p><strong>Règles d'or :</strong></p>
+<ul><li>Le 471 est une <strong>salle d'attente</strong>, pas une poubelle.</li><li>Chaque ligne en 471 doit avoir un <strong>commentaire</strong> (date, montant, nature présumée, action en cours).</li><li>Le 471 doit être <strong>soldé (= 0)</strong> avant toute clôture/bilan.</li></ul>
+<hr>
+<h2>2. Les autres comptes sensibles</h2>
+<table><thead><tr><th>Compte</th><th>Nature</th><th>Point de vigilance</th></tr></thead><tbody><tr><td><strong>467</strong> Autres comptes débiteurs/créditeurs</td><td>Tiers divers (ni client, ni fournisseur classique)</td><td>Justifier chaque solde, ne pas en faire un 2e compte d'attente</td></tr><tr><td><strong>455</strong> Compte courant d'associé</td><td>Apports/retraits de l'associé</td><td>Doit être justifié ; un solde <strong>débiteur</strong> en société (SARL/SAS) peut être interdit (abus de biens) → <strong>signaler</strong></td></tr><tr><td><strong>580</strong> Virements internes</td><td>Transferts entre comptes financiers</td><td>Doit se <strong>solder à 0</strong> ; un solde ≠ 0 = un côté manquant</td></tr><tr><td><strong>512</strong> Banque</td><td>—</td><td>Doit être <strong>rapproché</strong> et justifié (Module 6)</td></tr><tr><td><strong>445x</strong> TVA</td><td>—</td><td>Soldes cohérents avec les déclarations (Module 5)</td></tr><tr><td><strong>421/431/437</strong> Paie</td><td>—</td><td>Doivent correspondre aux bulletins/DSN/paiements (Module 9)</td></tr></tbody></table>
+<hr>
+<h2>3. Méthode : analyser une opération inconnue</h2>
+<p>Face à une opération non identifiée (souvent au rapprochement bancaire) :</p>
+<ol><li><strong>Lire le libellé</strong> bancaire (tiers, référence).</li><li><strong>Chercher la pièce</strong> (facture, contrat, échéancier).</li><li><strong>Reconnaître un récurrent</strong> (même prélèvement chaque mois ?).</li><li><strong>Imputer</strong> si certain ; sinon <strong>471 + commentaire</strong>.</li><li><strong>Demander au client / cabinet</strong> si toujours inconnu après recherche.</li></ol>
+<h3>Quand imputer / attendre / demander ?</h3>
+<table><thead><tr><th>Situation</th><th>Décision</th></tr></thead><tbody><tr><td>Pièce trouvée, nature claire</td><td><strong>Imputer</strong> directement</td></tr><tr><td>Récurrent identifié (abonnement connu)</td><td>Imputer + relancer la facture</td></tr><tr><td>Montant inconnu, pas de pièce</td><td><strong>471</strong> + commentaire + relance</td></tr><tr><td>Toujours inconnu après recherche</td><td><strong>Demander</strong> au client (via cabinet)</td></tr></tbody></table>
+<hr>
+<h2>4. Affecter une opération bancaire (arbre de décision)</h2>
+<pre><code>Opération bancaire non saisie ?
+ ├─ C'est un encaissement client connu ? → 512 / 411 + lettrer
+ ├─ C'est un paiement fournisseur connu ? → 401 / 512 + lettrer
+ ├─ C'est une charge avec facture ? → 6xx + TVA / 512
+ ├─ C'est un virement entre comptes ? → 580
+ ├─ C'est l'associé ? → 455
+ └─ Inconnu ? → 471 + commentaire + relance</code></pre>
+<hr>
+<h2>5. Documenter une anomalie (traçabilité)</h2>
+<p>Format recommandé du commentaire d'écriture / du fichier de suivi :<br><code>[DATE] [MONTANT] [LIBELLÉ BANQUE] – nature présumée : … – action : pièce demandée le …/relance le … – statut : EN ATTENTE</code></p>
+<blockquote>Une anomalie <strong>documentée</strong> est à moitié résolue : le chef de mission voit ce qui a été fait et peut trancher vite.</blockquote>
+<hr>
+<h2>✅ Checklist d'apurement du 471</h2>
+<ul><li>&#9744; Éditer le grand livre 471</li><li>&#9744; Chaque ligne a un commentaire</li><li>&#9744; Recherche de pièce effectuée pour chaque ligne</li><li>&#9744; Opérations récurrentes identifiées</li><li>&#9744; Imputations possibles passées</li><li>&#9744; Lignes restantes : relance client/cabinet envoyée</li><li>&#9744; 580 vérifié (= 0)</li><li>&#9744; 455 justifié (alerte si débiteur en société)</li><li>&#9744; <strong>471 ramené à 0</strong> (ou liste des restes transmise au chef de mission)</li></ul>
+<hr>
+<h2>🧪 Cas pratique 8.1 — Apurement du 471</h2>
+<p>Le grand livre 471 contient :</p>
+<ul><li>471 D 250 € — libellé « PRLV ASSURANCE AXA » (facture retrouvée : assurance local)</li><li>471 D 1 200 € — libellé « VIR » sans précision</li><li>471 C 3 000 € — libellé « VIR RECU DUPONT » (client connu)</li><li>471 D 90 € — libellé « PRLV ORANGE » (facture présente)</li></ul>
+<p><strong>Travail :</strong> apurer le compte.</p>
+<h3>✔️ Correction 8.1</h3>
+<ul><li>AXA 250 → 616 D 250 / 471 C 250 <em>(assurance, pas de TVA)</em></li><li>ORANGE 90 → 6262 D 75 / 44566 D 15 / 471 C 90</li><li>VIR REÇU DUPONT 3 000 → 471 D 3 000 / 411 C 3 000 + lettrer (encaissement client)</li><li>VIR 1 200 inconnu → <strong>rester en 471</strong>, commentaire + <strong>relance</strong> (demander au client la nature)</li></ul>
+<p>Après apurement, il reste <strong>1 200 € en 471</strong> à justifier → transmis au chef de mission avec la relance en cours. Les autres lignes sont soldées.</p>
+<hr>
+<h2>🧪 Cas pratique 8.2 — Compte 455 débiteur</h2>
+<p>En révision, le compte 455 d'une SARL est <strong>débiteur de 8 000 €</strong>. Que faites-vous ?</p>
+<h3>✔️ Correction 8.2</h3>
+<p>Un compte courant d'associé <strong>débiteur</strong> dans une SARL/SAS signifie que la société a prêté de l'argent à l'associé → potentiellement un <strong>abus de biens sociaux / avance interdite</strong>. Le collaborateur <strong>ne corrige pas seul</strong> : il <strong>documente</strong> (montant, mouvements) et <strong>signale immédiatement au chef de mission / expert-comptable</strong> pour décision (régularisation, requalification).</p>
+<hr>
+<h2>📝 Évaluation de fin de module 8</h2>
+<ol><li>Le 471 doit-il être nul au bilan ? Pourquoi ?</li><li>Que doit-on toujours mettre sur une ligne en 471 ?</li><li>À quoi sert le 580 et quel doit être son solde ?</li><li>Que faire d'un 455 débiteur en SARL ?</li><li>Donnez l'arbre de décision pour une opération bancaire inconnue.</li></ol>
+<p><strong>Seuil : 7/10.</strong><br><strong>Corrigé :</strong> 1) oui, sinon des comptes sont faux ; il faut tout imputer. 2) un <strong>commentaire</strong> (date, nature présumée, action). 3) virements internes ; solde = <strong>0</strong>. 4) documenter et <strong>signaler au chef de mission</strong> (avance interdite possible). 5) chercher pièce → imputer si certain → sinon 471 + commentaire → demander au client.</p></body></html>

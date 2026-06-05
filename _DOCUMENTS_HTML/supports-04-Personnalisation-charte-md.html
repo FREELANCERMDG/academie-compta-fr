@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang=fr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Personnalisation à votre charte (logo, couleurs, nom)</title><style>
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1c2733;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:6px}h2{color:#1F4E78;margin-top:24px}h3{color:#2E6CA4}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th{background:#1F4E78;color:#fff;text-align:left;padding:6px 9px}td{border:1px solid #c9d2dd;padding:5px 9px}
+tbody tr:nth-child(even){background:#f4f7fb}blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:6px 12px}
+code{background:#eef1f5;padding:1px 5px;border-radius:4px}pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}hr{border:none;border-top:1px solid #d6dde6;margin:18px 0}
+.back{display:inline-block;margin-bottom:14px;font-weight:600}
+</style></head><body><a class="back" href="index.html">← Tous les documents</a><h1>Personnalisation à votre charte (logo, couleurs, nom)</h1>
+<p>Toute l'identité visuelle du pack est pilotée par <strong>un seul fichier : <code>branding.json</code></strong> (à la racine du projet).</p>
+<h2>1. Le fichier <code>branding.json</code></h2>
+<pre><code>{
+  "cabinet_name": "Mon Cabinet",
+  "course_title": "Comptabilité française externalisée",
+  "subtitle": "Formation en ligne · Madagascar · 2026",
+  "primary": "#1F4E78",
+  "accent": "#E8A13A",
+  "logo": "branding/logo.png"
+}</code></pre>
+<table><thead><tr><th>Clé</th><th>Effet</th></tr></thead><tbody><tr><td><code>cabinet_name</code></td><td>Nom affiché dans l'en-tête du site, sur la couverture du livret et des diapositives. Laisser vide = version générique.</td></tr><tr><td><code>course_title</code></td><td>Titre principal de la formation.</td></tr><tr><td><code>subtitle</code></td><td>Sous-titre (en-tête site / couverture).</td></tr><tr><td><code>primary</code></td><td>Couleur principale (bandeaux, titres) — code hexadécimal <code>#RRGGBB</code>.</td></tr><tr><td><code>accent</code></td><td>Couleur d'accent (barres, puces, surlignages).</td></tr><tr><td><code>logo</code></td><td>Chemin du logo (PNG/JPG) relatif à la racine du projet ; intégré automatiquement dans l'en-tête du site. Laisser vide = pas de logo.</td></tr></tbody></table>
+<h2>2. Appliquer la charte (1 commande par support)</h2>
+<p>Après avoir modifié <code>branding.json</code> :</p>
+<pre><code>python site/build_site.py      # site e-learning (couleurs + logo + nom)
+python scorm/build_scorm.py    # re-emballe le SCORM avec le site re-thémé
+python slides/build_slides.py  # 18 diaporamas (couleurs + sous-titre)
+python print/build_booklet.py  # livret PDF (couleurs + couverture)</code></pre>
+<blockquote>Le classeur Excel (<code>annexes/excel/Outils-Formation.xlsx</code>) garde sa charte par défaut ; pour le re-thémer, modifier <code>HEAD_FILL</code>/<code>TITLE_FONT</code> dans <code>annexes/build_xlsx.py</code> puis relancer.</blockquote>
+<h2>3. Conseils couleurs</h2>
+<ul><li><code>primary</code> = une couleur foncée et lisible (le texte par-dessus est blanc).</li><li><code>accent</code> = une couleur vive et contrastée (barres, puces).</li><li>Exemples de palettes :</li></ul>
+<table><thead><tr><th>Style</th><th>primary</th><th>accent</th></tr></thead><tbody><tr><td>Bleu marine (défaut)</td><td><code>#1F4E78</code></td><td><code>#E8A13A</code></td></tr><tr><td>Vert sapin</td><td><code>#0F6E4F</code></td><td><code>#E0A526</code></td></tr><tr><td>Bordeaux</td><td><code>#7A1F2B</code></td><td><code>#C9A227</code></td></tr><tr><td>Anthracite</td><td><code>#2B2F36</code></td><td><code>#2E9BD6</code></td></tr></tbody></table>
+<h2>4. Logo</h2>
+<ol><li>Placez votre logo (fond transparent de préférence) dans <code>branding/logo.png</code>.</li><li>Renseignez <code>"logo": "branding/logo.png"</code> dans <code>branding.json</code>.</li><li>Relancez <code>python site/build_site.py</code> : le logo est encodé dans le fichier (toujours hors-ligne).</li></ol></body></html>

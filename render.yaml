@@ -1,0 +1,25 @@
+# Déploiement 1-clic sur Render.com (https://render.com)
+services:
+  - type: web
+    name: academie-compta-fr
+    runtime: docker
+    region: frankfurt
+    plan: free
+    healthCheckPath: /sante
+    autoDeploy: true
+    envVars:
+      - key: PRODUCTION
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true        # généré automatiquement par Render
+      - key: ADMIN_EMAIL
+        sync: false                # à saisir dans le tableau de bord Render
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: BASE_URL
+        sync: false                # ex. https://academie-compta-fr.onrender.com
+    # Disque persistant (recommandé pour conserver data.db). Décommentez si plan payant :
+    # disk:
+    #   name: data
+    #   mountPath: /app/platform
+    #   sizeGB: 1

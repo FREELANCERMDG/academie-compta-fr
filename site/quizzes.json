@@ -1,0 +1,233 @@
+{
+  "m01": {
+    "title": "Module 1 — Environnement comptable français",
+    "questions": [
+      {"q": "Qui peut signer la liasse fiscale ?", "options": ["Le collaborateur", "Le chef de mission", "L'expert-comptable"], "answer": 2, "explain": "Seul l'expert-comptable engage sa responsabilité et signe."},
+      {"q": "La « tenue » d'un dossier désigne :", "options": ["La révision finale", "La mise à jour mensuelle", "Le dépôt au greffe"], "answer": 1, "explain": "Tenir = mettre à jour mois par mois (saisie + TVA + banque)."},
+      {"q": "Combien de temps conserver les pièces comptables ?", "options": ["3 ans", "5 ans", "10 ans"], "answer": 2, "explain": "Conservation 10 ans (Code de commerce)."},
+      {"q": "Un fichier client peut-il transiter par Gmail personnel ?", "options": ["Oui si urgent", "Non, jamais", "Oui si supprimé après"], "answer": 1, "explain": "Confidentialité / RGPD : jamais sur un support personnel."},
+      {"q": "Les 4 piliers qualité offshore sont :", "options": ["Vitesse, prix, volume, stock", "Rigueur, fiabilité, anticipation, traçabilité", "Saisie, TVA, banque, bilan"], "answer": 1, "explain": "Rigueur, fiabilité, anticipation, traçabilité."}
+    ]
+  },
+  "m02": {
+    "title": "Module 2 — Bases de comptabilité (PCG)",
+    "questions": [
+      {"q": "Quand l'argent entre en banque, le compte 512 est :", "options": ["Débité", "Crédité"], "answer": 0, "explain": "Entrée d'argent = 512 au débit."},
+      {"q": "La TVA collectée est enregistrée au compte :", "options": ["44566", "44571"], "answer": 1, "explain": "44571 = TVA collectée sur les ventes."},
+      {"q": "Une charge (classe 6) augmente au :", "options": ["Débit", "Crédit"], "answer": 0, "explain": "Les charges augmentent au débit."},
+      {"q": "Le compte caisse 53 peut-il être créditeur ?", "options": ["Oui", "Non"], "answer": 1, "explain": "Impossible : une caisse ne peut pas être négative."},
+      {"q": "Un client qui me doit de l'argent : compte 411 au :", "options": ["Débit", "Crédit"], "answer": 0, "explain": "Créance client = 411 au débit."}
+    ]
+  },
+  "m03": {
+    "title": "Module 3 — Organisation du dossier externalisé",
+    "questions": [
+      {"q": "Que faire d'un devis reçu en pièce ?", "options": ["Le saisir comme une facture", "Ne pas le saisir (ce n'est pas une pièce comptable)", "Le passer en 471"], "answer": 1, "explain": "Un devis n'est pas une pièce comptable."},
+      {"q": "Une dépense sans justificatif au rapprochement :", "options": ["On invente une imputation", "On passe en 471 + relance, sans déduire la TVA", "On l'ignore"], "answer": 1, "explain": "471 + commentaire + relance ; pas de TVA sans pièce conforme."},
+      {"q": "Une facture conforme doit comporter notamment :", "options": ["Le SIREN, la date, le n° de facture, la TVA détaillée", "Uniquement le montant TTC", "Uniquement le logo"], "answer": 0, "explain": "Mentions légales obligatoires."},
+      {"q": "Une facture au nom personnel du gérant :", "options": ["Se déduit normalement", "Se signale (charge personnelle probable), TVA non déduite", "Se passe en immobilisation"], "answer": 1, "explain": "Charge personnelle potentielle : signaler."},
+      {"q": "Bon format de nommage d'un fichier :", "options": ["facture1.pdf", "AAAA-MM-JJ_TYPE_TIERS_MONTANT.pdf", "scan.jpg"], "answer": 1, "explain": "Nommage normalisé = recherche instantanée."}
+    ]
+  },
+  "m04": {
+    "title": "Module 4 — Saisie comptable pratique",
+    "questions": [
+      {"q": "La TVA sur une assurance est :", "options": ["20 %", "Non déductible (exonérée)"], "answer": 1, "explain": "Les assurances sont exonérées de TVA."},
+      {"q": "Une facture d'un fournisseur en franchise en base :", "options": ["Porte une TVA à 20 %", "Ne porte pas de TVA"], "answer": 1, "explain": "Mention art. 293 B du CGI, pas de TVA."},
+      {"q": "Le compte 512 crédité signifie :", "options": ["Entrée d'argent", "Sortie d'argent"], "answer": 1, "explain": "512 crédité = sortie."},
+      {"q": "L'autoliquidation est :", "options": ["Neutre en TVA mais obligatoire sur la CA3", "Une exonération totale"], "answer": 0, "explain": "On collecte ET déduit soi-même."},
+      {"q": "L'achat d'un ordinateur à 1 800 € HT se saisit en :", "options": ["Charge (606)", "Immobilisation (2183)"], "answer": 1, "explain": "> 500 € HT et durable = immobilisation."}
+    ]
+  },
+  "m05": {
+    "title": "Module 5 — TVA française",
+    "questions": [
+      {"q": "La TVA à décaisser =", "options": ["Collectée + déductible", "Collectée − déductible"], "answer": 1, "explain": "On reverse la différence."},
+      {"q": "Les prestations de services sont taxables par défaut :", "options": ["Sur les débits", "Sur les encaissements"], "answer": 1, "explain": "TVA exigible à l'encaissement pour les services."},
+      {"q": "Seuil de franchise en base SERVICES 2026 :", "options": ["85 000 €", "37 500 €", "25 000 €"], "answer": 1, "explain": "37 500 € (tolérance 41 250 €)."},
+      {"q": "La déclaration du régime réel normal est la :", "options": ["CA12", "CA3"], "answer": 1, "explain": "CA3 mensuelle (ou trimestrielle)."},
+      {"q": "La TVA sur un véhicule de tourisme est :", "options": ["Déductible", "Non déductible"], "answer": 1, "explain": "TVA non récupérable sur les VP."}
+    ]
+  },
+  "m06": {
+    "title": "Module 6 — Rapprochement bancaire",
+    "questions": [
+      {"q": "L'objectif du rapprochement bancaire est de :", "options": ["Calculer la TVA", "Prouver que le solde 512 = relevé bancaire", "Lettrer les clients"], "answer": 1, "explain": "Justifier le solde de banque."},
+      {"q": "Un virement interne se passe au compte :", "options": ["471", "580", "467"], "answer": 1, "explain": "580 = virements internes, doit se solder à 0."},
+      {"q": "Des frais bancaires oubliés se trouvent :", "options": ["Côté compta seulement", "Côté relevé seulement"], "answer": 1, "explain": "À saisir : 627 / 512."},
+      {"q": "Un chèque émis non encore débité manque :", "options": ["Côté compta", "Côté banque (pas encore débité)"], "answer": 1, "explain": "La compta l'a déjà retiré, la banque pas encore."},
+      {"q": "Face à un écart résiduel inexpliqué, il faut :", "options": ["Le forcer à 0", "Le rechercher (montant/libellé) et corriger"], "answer": 1, "explain": "Ne jamais forcer un rapprochement."}
+    ]
+  },
+  "m07": {
+    "title": "Module 7 — Lettrage clients / fournisseurs",
+    "questions": [
+      {"q": "Le lettrage sert à :", "options": ["Calculer l'amortissement", "Rapprocher factures et règlements", "Établir la liasse"], "answer": 1, "explain": "On connaît ainsi le restant dû."},
+      {"q": "Un compte 411 créditeur signifie :", "options": ["Le client doit de l'argent", "Le client a trop payé (ou acompte)"], "answer": 1, "explain": "C'est une dette envers le client."},
+      {"q": "Un compte 401 débiteur signifie :", "options": ["On doit au fournisseur", "Le fournisseur nous doit (avoir/acompte/double paiement)"], "answer": 1, "explain": "À régulariser."},
+      {"q": "Un écart de règlement de quelques centimes se solde via :", "options": ["471", "658 / 758 (ou 627)"], "answer": 1, "explain": "Charges/produits divers, puis lettrage."},
+      {"q": "La balance âgée classe les créances par :", "options": ["Montant", "Ancienneté"], "answer": 1, "explain": "0-30 j, 30-60 j, etc. → relances."}
+    ]
+  },
+  "m08": {
+    "title": "Module 8 — Comptes d'attente et sensibles",
+    "questions": [
+      {"q": "Le compte 471 au bilan doit être :", "options": ["Débiteur", "Créditeur", "Nul"], "answer": 2, "explain": "Tout doit être imputé avant la clôture."},
+      {"q": "Sur chaque ligne en 471, il faut toujours :", "options": ["Un commentaire (date, nature, action)", "Rien", "Un montant arrondi"], "answer": 0, "explain": "Traçabilité indispensable."},
+      {"q": "Le compte 580 doit avoir un solde :", "options": ["Débiteur", "Égal à 0", "Créditeur"], "answer": 1, "explain": "Sinon un côté de virement manque."},
+      {"q": "Un compte 455 débiteur dans une SARL :", "options": ["Est normal", "Se signale au chef de mission (avance possiblement interdite)"], "answer": 1, "explain": "Risque d'abus de biens sociaux."},
+      {"q": "Une opération bancaire inconnue après recherche :", "options": ["S'invente", "Reste en 471 + relance client", "Se supprime"], "answer": 1, "explain": "Demander la nature au client."}
+    ]
+  },
+  "m09": {
+    "title": "Module 9 — Paie et écritures sociales",
+    "questions": [
+      {"q": "Les salaires bruts se comptabilisent au compte :", "options": ["645", "641", "421"], "answer": 1, "explain": "641 = rémunérations du personnel."},
+      {"q": "Le net à payer au salarié est au compte :", "options": ["421", "431", "437"], "answer": 0, "explain": "421 = personnel, rémunérations dues."},
+      {"q": "L'OD de paie vérifie l'égalité :", "options": ["641 = 421", "641 + 645 = 421 + 431 + 437"], "answer": 1, "explain": "Débits charges = crédits dettes."},
+      {"q": "Le plafond mensuel de la Sécurité sociale (PMSS) 2026 est :", "options": ["3 864 €", "4 005 €", "3 666 €"], "answer": 1, "explain": "PMSS 2026 = 4 005 € (PASS 48 060 €)."},
+      {"q": "Un compte 431 non soldé après paiement indique :", "options": ["Une cotisation non payée (ou erreur)", "Un bénéfice"], "answer": 0, "explain": "À rechercher et justifier."}
+    ]
+  },
+  "m10": {
+    "title": "Module 10 — Immobilisations et amortissements",
+    "questions": [
+      {"q": "Le seuil pratique charge / immobilisation est de :", "options": ["100 € HT", "500 € HT", "1 000 € HT"], "answer": 1, "explain": "Sous 500 € HT : charge ; au-dessus : immo."},
+      {"q": "La dotation aux amortissements se passe au débit du :", "options": ["28", "6811", "215"], "answer": 1, "explain": "6811 (charge) / 28x (cumul)."},
+      {"q": "L'amortissement démarre :", "options": ["À la date d'achat", "À la date de mise en service"], "answer": 1, "explain": "Prorata temporis la 1re année."},
+      {"q": "Formule de la dotation linéaire :", "options": ["Base × taux TVA", "Base ÷ durée d'utilisation"], "answer": 1, "explain": "Réparti sur la durée."},
+      {"q": "La TVA sur un véhicule de tourisme est :", "options": ["Déductible", "Non déductible"], "answer": 1, "explain": "VP : TVA non récupérable."}
+    ]
+  },
+  "m11": {
+    "title": "Module 11 — Révision comptable",
+    "questions": [
+      {"q": "Réviser un compte, c'est :", "options": ["Le saisir", "Justifier l'exactitude de son solde", "Le supprimer"], "answer": 1, "explain": "Solde exact + justifié + feuille de travail."},
+      {"q": "Le solde du compte 580 attendu est :", "options": ["0", "Débiteur", "Créditeur"], "answer": 0, "explain": "Virements internes soldés."},
+      {"q": "Une caisse 53 créditrice est :", "options": ["Normale", "Anormale (impossible)"], "answer": 1, "explain": "À corriger."},
+      {"q": "Dans le cycle emprunts, le compte 164 doit égaler :", "options": ["Le capital restant dû (tableau banque)", "Les intérêts payés"], "answer": 0, "explain": "Rapprochement avec l'échéancier."},
+      {"q": "Une feuille de travail contient notamment :", "options": ["Solde, justification, anomalies, conclusion", "Uniquement le solde"], "answer": 0, "explain": "Preuve du travail pour le chef de mission."}
+    ]
+  },
+  "m12": {
+    "title": "Module 12 — Fiscalité des entreprises",
+    "questions": [
+      {"q": "Le taux normal d'IS en 2026 est :", "options": ["15 %", "25 %", "33 %"], "answer": 1, "explain": "25 % (taux réduit 15 % sous conditions)."},
+      {"q": "Le taux réduit d'IS 15 % s'applique sur les premiers :", "options": ["38 120 €", "42 500 €", "50 000 €"], "answer": 1, "explain": "Si CA < 10 M€ et capital détenu ≥ 75 % par des personnes physiques."},
+      {"q": "La déclaration de résultat à l'IS est la :", "options": ["2031", "2035", "2065"], "answer": 2, "explain": "2065 = IS ; 2031 = BIC ; 2035 = BNC."},
+      {"q": "Les acomptes d'IS sont dus les :", "options": ["15/01-04-07-10", "15/03-06-09-12", "15/02-05-08-11"], "answer": 1, "explain": "Quatre acomptes trimestriels."},
+      {"q": "La CVAE en 2026 est :", "options": ["Supprimée", "Encore due (suppression repoussée à 2030)"], "answer": 1, "explain": "Taux max 0,28 % en 2026."}
+    ]
+  },
+  "m13": {
+    "title": "Module 13 — Bilan et clôture",
+    "questions": [
+      {"q": "Une FNP correspond à :", "options": ["Un produit constaté d'avance", "Une charge de N facturée en N+1", "Une charge d'avance"], "answer": 1, "explain": "Facture Non Parvenue."},
+      {"q": "Le principe qui justifie le cut-off est :", "options": ["La prudence", "L'indépendance des exercices"], "answer": 1, "explain": "Rattacher charges/produits au bon exercice."},
+      {"q": "Une charge constatée d'avance (CCA) se passe :", "options": ["486 D / 6xx C", "6xx D / 486 C"], "answer": 0, "explain": "On neutralise la part de l'exercice suivant."},
+      {"q": "La variation de stock marchandises utilise les comptes :", "options": ["37 et 6037", "31 et 603"], "answer": 0, "explain": "6037 pour les marchandises."},
+      {"q": "Un produit de N facturé en N+1 se traite en :", "options": ["FNP", "FAE (facture à établir)"], "answer": 1, "explain": "418 / 70x + TVA sur FAE."}
+    ]
+  },
+  "m14": {
+    "title": "Module 14 — Outils des cabinets",
+    "questions": [
+      {"q": "Quel outil sert principalement à l'OCR des factures ?", "options": ["Silae", "Dext", "RCA"], "answer": 1, "explain": "Dext (ou MEG/Pennylane) océrise les pièces."},
+      {"q": "Le logiciel de paie leader en cabinet est :", "options": ["Silae", "Cegid Loop", "Trello"], "answer": 0, "explain": "Silae produit bulletins et DSN."},
+      {"q": "Avant de publier une pièce depuis Dext, il faut :", "options": ["Rien vérifier", "Contrôler l'OCR (montant, TVA, date, fournisseur)"], "answer": 1, "explain": "L'OCR peut se tromper."},
+      {"q": "Quel outil sert au suivi des tâches (kanban) ?", "options": ["Trello / Notion", "Sage", "Coala"], "answer": 0, "explain": "Gestion de tâches et dossiers."},
+      {"q": "RCA est surtout utilisé pour :", "options": ["La révision et la liasse", "L'OCR", "La messagerie"], "answer": 0, "explain": "Révision, liasse, prévisionnel."}
+    ]
+  },
+  "m15": {
+    "title": "Module 15 — Communication professionnelle",
+    "questions": [
+      {"q": "Un bon objet de mail contient :", "options": ["[CLIENT] + sujet + action attendue", "Un simple « Bonjour »", "Rien"], "answer": 0, "explain": "Clair et actionnable."},
+      {"q": "Une relance efficace est :", "options": ["Une liste numérotée + échéance + impact", "Un message vague"], "answer": 0, "explain": "Regrouper les demandes."},
+      {"q": "Pour remonter un blocage, on indique :", "options": ["Seulement le problème", "Le blocage + ce qu'on a fait + l'action attendue + l'impact"], "answer": 1, "explain": "Toujours proposer une solution."},
+      {"q": "Le ton attendu avec un cabinet français est :", "options": ["Familier", "Vouvoiement, courtois et factuel"], "answer": 1, "explain": "Professionnalisme."},
+      {"q": "Quand un travail est terminé, on envoie :", "options": ["Rien", "Un résumé des contrôles faits + ce qui reste à valider"], "answer": 1, "explain": "Avec la checklist qualité."}
+    ]
+  },
+  "m16": {
+    "title": "Module 16 — Production offshore",
+    "questions": [
+      {"q": "Le décalage Madagascar / France est de :", "options": ["3 h de retard", "1 à 2 h d'avance (Mada UTC+3)", "Aucun"], "answer": 1, "explain": "Avantage relais possible."},
+      {"q": "L'indicateur qui reflète le mieux l'autonomie est :", "options": ["Le volume", "Le taux de retour (< 5 %)"], "answer": 1, "explain": "Confiance du cabinet."},
+      {"q": "La priorité n°1 dans les échéances est :", "options": ["Le lettrage rétroactif", "Les échéances TVA"], "answer": 1, "explain": "Non négociables."},
+      {"q": "Un bon reporting journalier contient :", "options": ["Fait / en cours / bloqué / prévu demain", "Uniquement le temps passé"], "answer": 0, "explain": "Clair et structuré."},
+      {"q": "Pourquoi ne pas livrer la TVA au dernier moment ?", "options": ["Par habitude", "Risque de retard = pénalités + perte de confiance"], "answer": 1, "explain": "Anticiper toujours."}
+    ]
+  },
+  "m17": {
+    "title": "Module 17 — Qualité et contrôle interne",
+    "questions": [
+      {"q": "Avant livraison, doivent être à 0 les comptes :", "options": ["401 et 411", "471 et 580", "641 et 645"], "answer": 1, "explain": "Comptes d'attente apurés."},
+      {"q": "Une charge au nom du dirigeant :", "options": ["Se déduit avec TVA", "Se signale, TVA non déduite"], "answer": 1, "explain": "Charge personnelle probable."},
+      {"q": "Déduire la TVA sur une assurance est :", "options": ["Correct", "Une erreur (assurance exonérée)"], "answer": 1, "explain": "Erreur fréquente à éviter."},
+      {"q": "Le carnet d'erreurs sert à :", "options": ["Punir", "Ne pas reproduire les erreurs et progresser"], "answer": 1, "explain": "Outil n°1 de montée en compétence."},
+      {"q": "La méthode de contrôle qualité comporte :", "options": ["8 points (banque, TVA, attente, lettrage, doublons, comptes anormaux, anomalies, pièces)", "1 seul point"], "answer": 0, "explain": "Checklist avant validation."}
+    ]
+  },
+  "m20": {
+    "title": "Module 20 — Carrière et freelancing",
+    "questions": [
+      {"q": "Le KPI qui prouve le mieux la qualité à un cabinet est :", "options": ["Le nombre d'heures", "Le taux de retour (< 5 %)"], "answer": 1, "explain": "Fiabilité démontrée."},
+      {"q": "Dans un portfolio, on met :", "options": ["Des données client réelles", "Des cas anonymisés / fictifs"], "answer": 1, "explain": "RGPD / secret professionnel."},
+      {"q": "Un différenciateur clé d'un collaborateur offshore est :", "options": ["Le prix le plus bas", "Maîtrise multi-outils + qualité + confidentialité"], "answer": 1, "explain": "Valeur, pas seulement coût."},
+      {"q": "La progression de carrière type est :", "options": ["Assistant → collaborateur → réviseur → chef de mission", "Directement chef de mission"], "answer": 0, "explain": "Montée par cycles maîtrisés."},
+      {"q": "Ce qu'on ne fait jamais à la place de l'expert-comptable :", "options": ["Saisir une facture", "Valider/signer les déclarations fiscales"], "answer": 1, "explain": "Décisions fiscales et juridiques réservées."}
+    ]
+  },
+  "m21": {
+    "title": "Module 21 — Pennylane",
+    "questions": [
+      {"q": "Avant de valider une transaction Pennylane, il faut :", "options": ["Joindre le justificatif", "Rien"], "answer": 0, "explain": "Une écriture = une pièce."},
+      {"q": "La catégorisation automatique :", "options": ["Est toujours juste", "Se contrôle (compte + TVA)"], "answer": 1, "explain": "Vérifier compte et TVA."},
+      {"q": "Un virement reçu non identifié :", "options": ["On invente une affectation", "Laisser non rapproché + note + relance"], "answer": 1, "explain": "Équivaut au 471."},
+      {"q": "Qui valide et télétransmet la TVA ?", "options": ["Le collaborateur seul", "Le chef de mission / l'expert-comptable"], "answer": 1, "explain": "Le collaborateur prépare."}
+    ]
+  },
+  "m22": {
+    "title": "Module 22 — Tiime",
+    "questions": [
+      {"q": "La pré-catégorisation Tiime est :", "options": ["Fiable à 100 %", "Une suggestion à contrôler"], "answer": 1, "explain": "Toujours vérifier."},
+      {"q": "Une dépense personnelle payée par le compte pro va en :", "options": ["Charge (classe 6)", "Compte courant d'associé (455)"], "answer": 1, "explain": "Pas en charge société."},
+      {"q": "Pour un prestataire de services, la TVA est exigible :", "options": ["Sur les débits", "Sur les encaissements"], "answer": 1, "explain": "Encaissements par défaut."},
+      {"q": "Une transaction sans justificatif :", "options": ["Se valide quand même", "Reste en attente + relance"], "answer": 1, "explain": "Pas de pièce, pas de validation."}
+    ]
+  },
+  "m23": {
+    "title": "Module 23 — Quadra (Cegid)",
+    "questions": [
+      {"q": "Avant de saisir dans Quadra, on vérifie :", "options": ["Dossier + exercice + période", "Rien"], "answer": 0, "explain": "Le bon contexte."},
+      {"q": "Un guide d'écriture sert à saisir vite mais :", "options": ["Le compte/TVA peuvent être inadaptés (à contrôler)", "Est toujours juste"], "answer": 0, "explain": "Vérifier le rendu du guide."},
+      {"q": "Les virements internes se soldent via :", "options": ["471", "580"], "answer": 1, "explain": "580 = 0."},
+      {"q": "En fin de saisie, les brouillards doivent être :", "options": ["Validés", "Laissés en attente"], "answer": 0, "explain": "Sinon écritures oubliées."}
+    ]
+  },
+  "m24": {
+    "title": "Module 24 — Isacompta (ISAGRI)",
+    "questions": [
+      {"q": "Isacompta est très présent dans les dossiers :", "options": ["Uniquement industriels", "Agricoles (BA) et aussi BIC/BNC/IS"], "answer": 1, "explain": "Édité par ISAGRI."},
+      {"q": "Pourquoi vérifier le régime fiscal avant de produire ?", "options": ["Il conditionne la liasse et certains traitements", "Sans importance"], "answer": 0, "explain": "BA ≠ BIC."},
+      {"q": "Avant une édition finale, on apure :", "options": ["641 et 645", "471 et 580"], "answer": 1, "explain": "Comptes d'attente à 0."},
+      {"q": "La liasse fiscale est validée par :", "options": ["Le collaborateur", "L'expert-comptable"], "answer": 1, "explain": "Décision fiscale réservée."}
+    ]
+  },
+  "final": {
+    "title": "Examen final (échantillon QCM)",
+    "questions": [
+      {"q": "La TVA à décaisser =", "options": ["Collectée + déductible", "Collectée − déductible", "Déductible − collectée"], "answer": 1, "explain": ""},
+      {"q": "Le compte 401 enregistre :", "options": ["Les clients", "Les fournisseurs", "La banque"], "answer": 1, "explain": ""},
+      {"q": "Seuil de franchise en base services 2026 :", "options": ["85 000 €", "37 500 €", "25 000 €"], "answer": 1, "explain": ""},
+      {"q": "La TVA sur une assurance est :", "options": ["20 %", "10 %", "Non déductible"], "answer": 2, "explain": ""},
+      {"q": "Le compte de virements internes est le :", "options": ["471", "580", "467"], "answer": 1, "explain": ""},
+      {"q": "Taux normal d'IS 2026 :", "options": ["15 %", "28 %", "25 %"], "answer": 2, "explain": ""},
+      {"q": "La dotation aux amortissements se passe au débit du :", "options": ["28", "6811", "215"], "answer": 1, "explain": ""},
+      {"q": "Le 471 au bilan doit être :", "options": ["Débiteur", "Créditeur", "Nul"], "answer": 2, "explain": ""},
+      {"q": "PMSS 2026 :", "options": ["3 864 €", "4 005 €", "3 666 €"], "answer": 1, "explain": ""},
+      {"q": "Qui signe la liasse fiscale ?", "options": ["Le collaborateur", "Le chef de mission", "L'expert-comptable"], "answer": 2, "explain": ""}
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "academie-compta-fr",
+  "productName": "Académie Compta FR",
+  "version": "1.0.0",
+  "description": "Plateforme de formation en comptabilité française externalisée — MG CONSULTING IT&ACT",
+  "author": "MG CONSULTING IT&ACT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "mg.consulting.academiecompta",
+    "productName": "Académie Compta FR",
+    "win": { "target": "nsis", "icon": "app.ico" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true },
+    "files": ["main.js", "app.ico"]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "academie-compta-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Plateforme e-learning — MG CONSULTING IT&ACT",
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}
