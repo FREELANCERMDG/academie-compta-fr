@@ -472,6 +472,8 @@ function serveCourseIndex(res, sess) {
   try { html = fs.readFileSync(path.join(ROOT, 'site', 'index.html'), 'utf8'); }
   catch { return send(res, 500, layout('Erreur', '<h1>Contenu indisponible</h1>', sess)); }
   html = gateCourse(html, entitledModules(sess && sess.user));
+  // Base href pour que les chemins relatifs (img/..., cerfa.js) résolvent sous /formation/ même sans slash final.
+  html = html.replace('<head>', '<head><base href="/formation/">');
   const email = esc(sess?.user?.email || '');
   const date = new Date().toISOString().slice(0, 10);
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='370' height='210'><text x='8' y='120' transform='rotate(-30 185 105)' fill='rgba(20,40,70,0.10)' font-size='15' font-family='Arial'>${email} &#183; ${date}</text></svg>`;
