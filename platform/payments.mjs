@@ -44,7 +44,7 @@ export async function omApiInit(montant, orderId) {
   const token = await omToken();
   const body = {
     merchant_key: process.env.OM_MERCHANT_KEY,
-    currency: 'OUV', // bac à sable Orange ; en prod : devise réelle (ex. MGA)
+    currency: process.env.OM_CURRENCY || 'OUV', // sandbox = 'OUV' ; en prod = devise fournie par Orange (ex. MGA)
     order_id: orderId,
     amount: montant,
     return_url: process.env.OM_RETURN_URL,
