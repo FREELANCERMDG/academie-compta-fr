@@ -204,7 +204,7 @@ function pageDecouverte(sess) {
   ${videoBloc}
   <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
   <section class="card"><h2>Ce qui est inclus</h2>
-  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite (30 000 Ar / module)</li>
+  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite (à partir de 30 000 Ar / module)</li>
   <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
   <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
   <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
@@ -277,7 +277,7 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & spécificités, liasse fiscale, métier & entretiens) — <b>30 000 Ar / module</b>.</p><a class="btn" href="/inscription">S'inscrire (gratuit)</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de 30 000 Ar / module</b>.</p><a class="btn" href="/inscription">S'inscrire (gratuit)</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
@@ -490,7 +490,7 @@ function gateCourse(html, entitled) {
   if (!conLit || !modLit) return html;
   let CONTENT, MODID;
   try { CONTENT = JSON.parse(conLit.json); MODID = JSON.parse(modLit.json); } catch { return html; }
-  const lock = "<div style=\"text-align:center;padding:48px 20px\"><div style=\"font-size:48px\">🔒</div><h1 style=\"border:none\">Module verrouillé</h1><p>Cette leçon fait partie d'un module payant. Débloquez‑le pour <b>30 000 Ar</b> (Orange Money / MVola).</p><p><a href=\"/tableau-de-bord\" target=\"_top\" style=\"display:inline-block;background:#E8A13A;color:#1c2733;font-weight:700;padding:12px 20px;border-radius:9px;text-decoration:none\">Débloquer ce module →</a></p></div>";
+  const lock = "<div style=\"text-align:center;padding:48px 20px\"><div style=\"font-size:48px\">🔒</div><h1 style=\"border:none\">Module verrouillé</h1><p>Cette leçon fait partie d'un module payant. Débloquez‑le depuis votre espace (Orange Money / MVola).</p><p><a href=\"/tableau-de-bord\" target=\"_top\" style=\"display:inline-block;background:#E8A13A;color:#1c2733;font-weight:700;padding:12px 20px;border-radius:9px;text-decoration:none\">Débloquer ce module →</a></p></div>";
   let changed = false;
   for (const id in MODID) { const code = MODID[id]; if (code && code !== 'free' && !entitled.has(code) && CONTENT[id] !== undefined) { CONTENT[id] = lock; changed = true; } }
   if (!changed) return html;

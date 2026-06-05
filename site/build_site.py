@@ -88,20 +88,20 @@ MANIFEST = [
     ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
     ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
 
-    ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
-    ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale", "5.2 Réel normal (2050 → 2059)", None),
-    ("modules/Module-32-Liasse-reel-simplifie.md", "m32", "Module 5 — Liasse fiscale", "5.3 Réel simplifié (2033‑A → G)", None),
-    ("modules/Module-33-Liasse-BNC-2035.md", "m33", "Module 5 — Liasse fiscale", "5.4 BNC — déclaration contrôlée (2035)", None),
-    ("modules/Module-34-Liasse-agricole-fonciere.md", "m34", "Module 5 — Liasse fiscale", "5.5 Agricole (2139/2143) & SCI/foncier (2072/2044)", None),
+    ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale & déclarations par régime", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
+    ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale & déclarations par régime", "5.2 Réel normal (2050 → 2059)", None),
+    ("modules/Module-32-Liasse-reel-simplifie.md", "m32", "Module 5 — Liasse fiscale & déclarations par régime", "5.3 Réel simplifié (2033‑A → G)", None),
+    ("modules/Module-33-Liasse-BNC-2035.md", "m33", "Module 5 — Liasse fiscale & déclarations par régime", "5.4 BNC — déclaration contrôlée (2035)", None),
+    ("modules/Module-34-Liasse-agricole-fonciere.md", "m34", "Module 5 — Liasse fiscale & déclarations par régime", "5.5 Agricole (2139/2143) & SCI/foncier (2072/2044)", None),
 
-    ("modules/Module-14-Outils-cabinets.md", "m14", "Module 6 — Métier, cas pratiques & entretiens", "6.1 Outils des cabinets", "m14"),
-    ("modules/Module-15-Communication-professionnelle.md", "m15", "Module 6 — Métier, cas pratiques & entretiens", "6.2 Communication pro", "m15"),
-    ("modules/Module-16-Production-offshore.md", "m16", "Module 6 — Métier, cas pratiques & entretiens", "6.3 Production offshore", "m16"),
-    ("modules/Module-17-Qualite-controle-interne.md", "m17", "Module 6 — Métier, cas pratiques & entretiens", "6.4 Qualité & contrôle", "m17"),
-    ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 6 — Métier, cas pratiques & entretiens", "6.5 Carrière & freelancing", "m20"),
-    ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Métier, cas pratiques & entretiens", "6.6 Cas pratiques corrigés", None),
-    ("evaluations/Evaluation-finale.md", "eval", "Module 6 — Métier, cas pratiques & entretiens", "6.7 Évaluation finale", "final"),
-    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Métier, cas pratiques & entretiens", "6.8 Simulations d'entretien", None),
+    ("modules/Module-14-Outils-cabinets.md", "m14", "Module 6 — Pratique métier, qualité, carrière & certification", "6.1 Outils des cabinets", "m14"),
+    ("modules/Module-15-Communication-professionnelle.md", "m15", "Module 6 — Pratique métier, qualité, carrière & certification", "6.2 Communication pro", "m15"),
+    ("modules/Module-16-Production-offshore.md", "m16", "Module 6 — Pratique métier, qualité, carrière & certification", "6.3 Production offshore", "m16"),
+    ("modules/Module-17-Qualite-controle-interne.md", "m17", "Module 6 — Pratique métier, qualité, carrière & certification", "6.4 Qualité & contrôle", "m17"),
+    ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 6 — Pratique métier, qualité, carrière & certification", "6.5 Carrière & freelancing", "m20"),
+    ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Pratique métier, qualité, carrière & certification", "6.6 Cas pratiques corrigés", None),
+    ("evaluations/Evaluation-finale.md", "eval", "Module 6 — Pratique métier, qualité, carrière & certification", "6.7 Évaluation finale", "final"),
+    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Pratique métier, qualité, carrière & certification", "6.8 Simulations d'entretien", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),
@@ -234,8 +234,8 @@ GROUP_MOD = {
     "Module 2 — Logiciel Pennylane": "mod2",
     "Module 3 — Opérations & révision": "mod3",
     "Module 4 — Fiscalité, clôture & dossiers spécifiques": "mod4",
-    "Module 5 — Liasse fiscale": "mod5",
-    "Module 6 — Métier, cas pratiques & entretiens": "mod6",
+    "Module 5 — Liasse fiscale & déclarations par régime": "mod5",
+    "Module 6 — Pratique métier, qualité, carrière & certification": "mod6",
     "Annexes": "free",
 }
 CONTENT, NAV, ORDER, MODID = {}, [], [], {}
@@ -250,7 +250,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale", "Module 6 — Métier, cas pratiques & entretiens", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 

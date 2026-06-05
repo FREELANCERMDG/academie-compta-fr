@@ -68,25 +68,31 @@ const MACRO = [
     quiz: 'm12'
   },
   {
-    code: 'mod5', titre: 'Module 5 — Liasse fiscale (par régime)',
-    resume: "Toute la liasse fiscale, régime par régime : réel normal (2050‑2059), réel simplifié (2033), BNC (2035), agricole (2139/2143) et SCI/foncier (2072/2044).",
+    code: 'mod5', titre: 'Module 5 — Liasse fiscale & déclarations par régime',
+    resume: "Comprendre, préparer et contrôler la liasse fiscale selon le régime d'imposition du client : réel normal, réel simplifié, BNC, agricole, SCI et revenus fonciers.",
     topics: [
-      "Vue d'ensemble : quel régime dépose quoi · passage comptable → fiscal",
-      "Réel normal : tableaux 2050 → 2059 (dont 2058‑A réintégrations/déductions)",
-      "Réel simplifié : tableaux 2033‑A → 2033‑G",
-      "BNC : déclaration contrôlée 2035 (A/B/E)",
-      "Agricole (2139/2143) & SCI/foncier (2072/2044)"
+      "Vue d'ensemble des régimes fiscaux : identifier le régime applicable, les obligations déclaratives et le lien comptabilité → résultat fiscal → liasse",
+      "Passage du résultat comptable au résultat fiscal : réintégrations, déductions, charges non déductibles, produits non imposables, amortissements, provisions et retraitements",
+      "Régime réel normal — tableaux 2050 à 2059 : bilan, compte de résultat, immobilisations, amortissements, provisions, créances et dettes (focus 2058-A)",
+      "Régime réel simplifié — tableaux 2033-A à 2033-G : bilan et compte de résultat simplifiés, immobilisations, amortissements, provisions, plus-values et résultat fiscal",
+      "BNC — déclaration contrôlée 2035 : recettes, dépenses professionnelles, immobilisations, amortissements et détermination du résultat non commercial",
+      "Régime agricole — déclarations 2139 / 2143 : bénéfices agricoles, produits, charges, immobilisations et obligations déclaratives",
+      "SCI et revenus fonciers — déclarations 2072 / 2044 : revenus locatifs, charges déductibles, intérêts d'emprunt et répartition entre associés"
     ],
     files: ['Module-30-Liasse-vue-ensemble.md', 'Module-31-Liasse-reel-normal.md', 'Module-32-Liasse-reel-simplifie.md', 'Module-33-Liasse-BNC-2035.md', 'Module-34-Liasse-agricole-fonciere.md'],
     quiz: null
   },
   {
-    code: 'mod6', titre: 'Module 6 — Métier, cas pratiques, évaluation & entretiens',
-    resume: "Outils des cabinets, communication professionnelle, production offshore, qualité, carrière, cas pratiques corrigés, évaluation finale certifiante et simulations d'entretien.",
+    code: 'mod6', titre: 'Module 6 — Pratique métier, qualité, carrière & certification',
+    resume: "Mettre en application les compétences acquises, adopter les méthodes de travail des cabinets comptables français, préparer son insertion professionnelle et valider son niveau par des cas pratiques et une évaluation finale.",
     topics: [
-      "Outils des cabinets · communication professionnelle", "Production offshore · qualité & contrôle interne",
-      "Carrière & freelancing", "10 cas pratiques complets corrigés", "Évaluation finale certifiante (/100)",
-      "Simulations d'entretien : collaborateur, réviseur, chef de mission, superviseur"
+      "Outils et méthodes des cabinets comptables : logiciels, organisation des dossiers, méthodes de travail, respect des échéances et bonnes pratiques de production",
+      "Communication professionnelle : mails clients, relances, demandes de pièces, échanges avec le chef de mission et posture professionnelle en cabinet",
+      "Production offshore et qualité comptable : travail à distance, contrôle interne, suivi des tâches, traçabilité et exigences qualité des cabinets français",
+      "Carrière, freelance et évolution professionnelle : collaborateur comptable, réviseur, superviseur, chef de mission junior, freelance ou prestataire offshore",
+      "10 cas pratiques complets corrigés : saisie, TVA, rapprochement bancaire, lettrage, comptes d'attente, paie, révision, clôture, bilan et liasse fiscale",
+      "Évaluation finale certifiante : test noté sur 100 points (compétences techniques, rigueur comptable, traitement d'un dossier client)",
+      "Simulations d'entretien professionnel : collaborateur comptable, réviseur, chef de mission junior et superviseur comptable"
     ],
     files: ['Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-25-Simulations-entretien.md'],
     quiz: 'final'
