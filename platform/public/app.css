@@ -88,8 +88,8 @@ code{background:rgba(255,255,255,.10);padding:2px 6px;border-radius:6px;font-siz
 
 /* Programme / aperçu / modules */
 .prog{display:flex;flex-direction:column;gap:10px}
-.pitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card2);color:#e7ecfa}
-.pitem:hover{background:rgba(255,255,255,.1);text-decoration:none;border-color:var(--accent2)}
+.pitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card2);color:#e7ecfa;transition:transform .18s ease,background .18s,border-color .18s,box-shadow .18s}
+.pitem:hover{background:rgba(255,255,255,.1);text-decoration:none;border-color:var(--accent2);transform:translateX(10px);box-shadow:-6px 0 18px rgba(124,108,255,.28)}
 .gratuit{background:rgba(52,211,153,.18);color:#6ee7b7;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap;font-weight:700}
 .lock{background:rgba(255,255,255,.08);color:#9aa7c4;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap}
 .lockcard{border-color:rgba(232,161,58,.45);background:rgba(232,161,58,.08)}

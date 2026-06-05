@@ -26,6 +26,7 @@
     "diplome_requis": "BAC+2 en comptabilité (Madagascar)",
     "attestation_obligatoire": true
   },
+  "admin_email": "antonny@mg-consulting-it-act.com",
   "orange_money": {
     "mode": "manuel",
     "numero": "+261 32 73 622 59",
@@ -89,7 +90,7 @@
   "compteur_base": 0,
   "temoignages": [
     { "nom": "Naina R.", "role": "Collaboratrice comptable, Antananarivo", "texte": "Grâce à la formation, j'ai décroché une mission pour un cabinet français. Les cas pratiques sont exactement ce qu'on fait au quotidien." },
-    { "nom": "Tiana A.", "role": "Assistant comptable freelance", "texte": "Les modules TVA et rapprochement bancaire m'ont rendu autonome. Les vidéos en malgache aident beaucoup." },
+    { "nom": "Tiana A.", "role": "Assistant comptable freelance", "texte": "Les modules TVA et rapprochement bancaire m'ont rendu autonome. Les explications pas à pas et les cas pratiques aident beaucoup." },
     { "nom": "Hery M.", "role": "Réviseur junior offshore", "texte": "La méthode par cycle et les checklists qualité ont fait baisser mon taux de retour sous les 5 %." }
   ],
   "_note_temoignages": "Exemples — remplacez-les par de vrais témoignages (avec accord des personnes).",

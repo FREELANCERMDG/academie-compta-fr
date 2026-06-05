@@ -28,22 +28,27 @@ function fiscaliteBadge() {
   return `<p class="muted" style="text-align:center">📅 Paramètres fiscaux : <b>référence ${esc(String(f.annee_reference))}</b> (${esc(f.loi_de_finances || '')}) — mis à jour le ${esc(f.date_maj || '')}. <span title="Mise à jour annuelle à la sortie de la loi de finances">Sources officielles (impots.gouv / BOFIP).</span></p>`;
 }
 
-// --- Admin initial ---
+// --- Admin initial (email piloté par config.admin_email, sinon ADMIN_EMAIL) ---
 (function ensureAdmin() {
-  const email = process.env.ADMIN_EMAIL, pw = process.env.ADMIN_PASSWORD;
-  if (!email || !pw) return;
-  if (!db.prepare('SELECT 1 FROM users WHERE role=?').get('admin')) {
+  const email = ((cfg.admin_email || process.env.ADMIN_EMAIL || '')).trim().toLowerCase();
+  const pw = process.env.ADMIN_PASSWORD;
+  if (!email) return;
+  const existing = db.prepare("SELECT id, email FROM users WHERE role='admin' LIMIT 1").get();
+  if (!existing) {
+    if (!pw) return;
     const { hash, salt } = hashPassword(pw);
     db.prepare('INSERT INTO users(id,nom,prenom,email,pass_hash,pass_salt,email_verifie,role,cree_le) VALUES(?,?,?,?,?,?,1,?,?)')
-      .run(rid(8), 'Admin', '', email.toLowerCase(), hash, salt, 'admin', new Date().toISOString());
+      .run(rid(8), 'Admin', '', email, hash, salt, 'admin', new Date().toISOString());
     console.log('[init] Compte admin créé :', email);
+  } else if (existing.email !== email) {
+    try { db.prepare('UPDATE users SET email=? WHERE id=?').run(email, existing.id); console.log('[init] Email admin mis à jour :', email); } catch (e) { }
   }
 })();
 
 // --- Helpers HTTP ---
 const ip = req => (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
 function send(res, status, html, opts = {}) {
-  securityHeaders(res, { prod: PROD, quizCSP: !!opts.quiz });
+  securityHeaders(res, { prod: PROD, quizCSP: !!opts.quiz, courseCSP: !!opts.course });
   res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', ...(opts.headers || {}) });
   res.end(html);
 }
@@ -89,7 +94,7 @@ function layout(title, body, sess) {
   const nav = u
     ? `<a href="/programme">Programme</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
     : `<a href="/programme">Programme</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
-  const desc = 'Formation en ligne de comptabilité française externalisée — Madagascar. Cours, quiz, vidéos en malgache, certification. Paiement Orange Money ou carte.';
+  const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française (depuis Madagascar). Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -154,7 +159,7 @@ function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
   return layout('Accueil', `
   <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
-  <p class="lead">Plateforme en ligne pour collaborateurs comptables à Madagascar. Cours, quiz, vidéos en malgache, suivi et certification.</p>
+  <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification.</p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
@@ -243,7 +248,7 @@ function pageProgramme(sess) {
   <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}${fiscaliteBadge()}</section>
   ${formateurCard()}
   ${modulesSection}
-  <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs, vidéos en malgache</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
+  <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs et cas pratiques corrigés</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
   ${tHtml}
   <section class="card"><h2>Tarifs</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
   <p><a class="btn" href="/inscription">Créer mon compte</a></p></section>`, sess);
@@ -340,10 +345,17 @@ function pageDashboard(sess) {
   const fmtDate = s => s ? esc(String(s).slice(0, 10)) : '';
   const expActive = (ins.find(i => i.statut === 'active') || {}).expire_le;
   return layout('Mon espace', `<h1>Bonjour ${esc(u.prenom || u.nom)}</h1>
-  <section class="card"><h2>Mon profil</h2>
-  <p>Email : ${esc(u.email)} · Tél : ${esc(u.tel || '—')}</p>
-  <p>Niveau d'études : ${esc(u.niveau_etudes)} · Auto-évaluation : ${esc(u.niveau_intellectuel)}</p>
-  <p>2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}</p></section>
+  <section class="card"><div class="fbody"><div class="favatar">${esc(initiales((u.prenom || '') + ' ' + (u.nom || '')) || '👤')}</div>
+  <div class="fmeta"><div class="fname">${esc(u.prenom || '')} ${esc(u.nom || '')}</div>
+  <p class="muted" style="margin:6px 0">${esc(u.email)} · ${esc(u.tel || '—')}</p>
+  <p class="muted" style="margin:6px 0">Niveau d'études : ${esc(u.niveau_etudes || '—')} · Auto-évaluation : ${esc(u.niveau_intellectuel || '—')}</p>
+  <p class="muted" style="margin:6px 0">2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}${u.role === 'admin' ? ' · <b>Admin</b>' : ''}</p></div></div></section>
+  <section class="card"><h2>📈 Ma progression</h2>
+  <div style="background:rgba(255,255,255,.08);border-radius:99px;height:16px;overflow:hidden;margin:12px 0"><div id="pgbar" style="height:100%;width:0;background:var(--grad);transition:width .7s ease"></div></div>
+  <p id="pgtxt" class="muted">Chargement de votre progression…</p>
+  <p class="muted">🧪 <span id="pgquiz">—</span> · 🎯 <span id="pgfinal">—</span></p>
+  <p class="muted" style="font-size:12px">Suivi enregistré au fil des leçons et quiz (sur cet appareil). Reprenez où vous en étiez via « Ouvrir la formation ».</p>
+  <script>(function(){try{var p=JSON.parse(localStorage.getItem('fce_progress_v1')||'{}');var done=Object.keys(p.done||{}).length,total=${courseLessonCount()};var pct=Math.min(100,Math.round(done/Math.max(total,1)*100));var b=document.getElementById('pgbar');if(b)b.style.width=pct+'%';var t=document.getElementById('pgtxt');if(t)t.textContent=pct+'% — '+done+' / '+total+' leçons terminées';var qz=p.quiz||{},ks=Object.keys(qz),ok=ks.filter(function(k){var q=qz[k];return q&&q.total&&q.score/q.total>=0.7;}).length;var eq=document.getElementById('pgquiz');if(eq)eq.textContent=ok+' / '+ks.length+' quiz réussis';var f=qz.final,ef=document.getElementById('pgfinal');if(ef)ef.textContent=(f&&f.total)?('Évaluation finale : '+Math.round(f.score/f.total*100)+'/100'):'Évaluation finale : à passer';}catch(e){}})();</script></section>
   <section class="card"><h2>Accès à la formation</h2>
   <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
@@ -443,6 +455,13 @@ function entitledModules(user) {
   return set;
 }
 function hasVisio(uid) { return !!db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND offre_code='VISIO_1H' AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(uid, new Date().toISOString()); }
+let _lessonCount = null;
+function courseLessonCount() {
+  if (_lessonCount != null) return _lessonCount;
+  try { const h = fs.readFileSync(path.join(ROOT, 'site', 'index.html'), 'utf8'); const lit = _extractLiteral(h, 'const MODID='); _lessonCount = lit ? Object.keys(JSON.parse(lit.json)).length : 30; }
+  catch { _lessonCount = 30; }
+  return _lessonCount;
+}
 function _extractLiteral(html, marker) {
   const m = html.indexOf(marker); if (m < 0) return null;
   let i = html.indexOf('{', m); if (i < 0) return null;
@@ -571,7 +590,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/deconnexion') { if (sess) db.prepare('DELETE FROM sessions WHERE id=?').run(sess.sid); return redirect(res, '/', [cookie('sid', '', { maxAge: 0 })]); }
 
       // espace authentifié
-      if (p === '/tableau-de-bord') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageDashboard(sess)); }
+      if (p === '/tableau-de-bord') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageDashboard(sess), { course: true }); }
       if (p === '/attestation') {
         if (!authed(sess)) return redirect(res, '/connexion');
         if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
