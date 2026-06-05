@@ -46,7 +46,18 @@ function fiscaliteBadge() {
 })();
 
 // --- Helpers HTTP ---
-const ip = req => (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+const ip = req => (req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+
+// --- Limitation de débit en mémoire (anti password-spraying / anti-énumération) ---
+const _rl = new Map(); // clé -> { count, reset }
+function rateLimited(key, max, windowMs) {
+  const now = Date.now();
+  let e = _rl.get(key);
+  if (!e || e.reset < now) { e = { count: 0, reset: now + windowMs }; _rl.set(key, e); }
+  e.count++;
+  return e.count > max;
+}
+try { setInterval(() => { const now = Date.now(); for (const [k, e] of _rl) if (e.reset < now) _rl.delete(k); }, 60000).unref(); } catch {}
 function send(res, status, html, opts = {}) {
   securityHeaders(res, { prod: PROD, quizCSP: !!opts.quiz, courseCSP: !!opts.course });
   res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', ...(opts.headers || {}) });
@@ -577,6 +588,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'GET') {
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
+      if (p === '/.well-known/security.txt') {
+        const contact = (cfg.admin_email || (cfg.societe && cfg.societe.email) || 'security@academie-compta-fr.mg');
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        return res.end(`Contact: mailto:${contact}\nPreferred-Languages: fr, en\nCanonical: https://academie-compta-fr.mg/.well-known/security.txt\nExpires: 2027-12-31T23:59:59Z\n`);
+      }
       if (p === '/') return send(res, 200, pageAccueil(sess));
       if (p === '/programme') return send(res, 200, pageProgramme(sess));
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
@@ -662,6 +678,7 @@ function postInscription(req, res, sess, body) {
     const sid = newSession(null, false, req);
     return redirect(res, '/inscription', [cookie('sid', signSid(sid), cookieOpts)]);
   }
+  if (rateLimited('signup:' + ip(req), 8, 10 * 60000)) { audit(db, null, 'rate_limit', 'signup ' + ip(req), ip(req)); return send(res, 429, pageInscription(sess, 'Trop de tentatives depuis votre réseau. Réessayez dans quelques minutes.')); }
   if (!checkCsrf(sess, body)) return send(res, 403, pageInscription(sess, 'Session expirée, réessayez.'));
   const v = { nom: body.nom?.trim(), prenom: body.prenom?.trim(), email: (body.email || '').trim().toLowerCase(), tel: body.tel?.trim(), niveau_etudes: body.niveau_etudes, niveau_intellectuel: body.niveau_intellectuel };
   if (!v.nom || !v.prenom) return send(res, 200, pageInscription(sess, 'Nom et prénom obligatoires.', v));
@@ -688,6 +705,7 @@ function postInscription(req, res, sess, body) {
 function postConnexion(req, res, sess, body) {
   sess = sess || getSession(req);
   if (!sess) { const sid = newSession(null, false, req); return redirect(res, '/connexion', [cookie('sid', signSid(sid), cookieOpts)]); }
+  if (rateLimited('login:' + ip(req), 12, 10 * 60000)) { audit(db, null, 'rate_limit', 'login ' + ip(req), ip(req)); return send(res, 429, pageConnexion(sess, 'Trop de tentatives depuis votre réseau. Réessayez dans quelques minutes.', (body.email || '').trim().toLowerCase())); }
   if (!checkCsrf(sess, body)) return send(res, 403, pageConnexion(sess, 'Session expirée, réessayez.'));
   const email = (body.email || '').trim().toLowerCase();
   const g = loginGuard(db, email);
