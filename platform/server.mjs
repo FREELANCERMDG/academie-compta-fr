@@ -118,6 +118,8 @@ ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' 
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
 const money = n => Number(n).toLocaleString('fr-FR') + ' ' + esc(cfg.site.devise);
+const waDigits = ((cfg.societe && cfg.societe.whatsapp) || '').replace(/\D/g, '');
+const waLink = (t) => `https://wa.me/${waDigits}?text=${encodeURIComponent(t || 'Bonjour, je vous contacte au sujet de la formation.')}`;
 const initiales = nom => (nom || '').split(/\s+/).filter(w => w && !w.endsWith('.')).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
 function formateurCard() {
   const f = cfg.formateur; if (!f) return '';
@@ -156,12 +158,12 @@ function pageAccueil(sess) {
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
+  ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
   <li>Attestation sur l'honneur du diplôme à l'inscription.</li>
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li></ul></section>
   ${apercuModulesSection()}
-  ${formateurCard()}
   <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
   <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`, sess);
 }
@@ -346,6 +348,10 @@ function pageDashboard(sess) {
   <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
   <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 Mon attestation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p></section>
+  <section class="card"><h2>🎥 Visio formation complémentaire</h2>
+  <p>Séance individuelle avec le formateur en visioconférence — <b>${money(25000)} / heure</b>.</p>
+  ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(25000)})</button></form>`}
+  </section>
   <section class="card"><h2>Débloquer un module (paiement)</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
     <select name="offre_code" required>${offres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} — ${money(o.prix)}</option>`).join('')}</select>
@@ -436,6 +442,7 @@ function entitledModules(user) {
   for (const r of rows) offerModules(r.offre_code).forEach(c => set.add(c));
   return set;
 }
+function hasVisio(uid) { return !!db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND offre_code='VISIO_1H' AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(uid, new Date().toISOString()); }
 function _extractLiteral(html, marker) {
   const m = html.indexOf(marker); if (m < 0) return null;
   let i = html.indexOf('{', m); if (i < 0) return null;
