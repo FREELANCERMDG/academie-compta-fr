@@ -1,10 +1,12 @@
 # ANNEXE D — Modèle d'attestation de fin de formation
 
-> À personnaliser avec le logo et l'en-tête de **MG CONSULTING IT&ACT**.
+> Attestation officielle **MG CONSULTING IT&ACT** — logo intégré.
 
 ---
 
 <div align="center">
+
+<img src="img/logo.jpg" alt="MG Consulting IT & ACT" width="280">
 
 **MG CONSULTING IT&ACT**
 
@@ -22,7 +24,7 @@ Je soussigné(e) **M. RANDRIAMANANTSOA Heriniaina Anthony**, formateur, agissant
 
 **[Prénom NOM du participant]**
 
-a suivi l'intégralité de la formation « **Comptabilité française externalisée depuis Madagascar** » (24 modules dont 4 logiciels, ~120–150 h), couvrant :
+a suivi l'intégralité de la formation « **Comptabilité française externalisée depuis Madagascar** » (4 modules · 24 leçons, ~120–150 h), couvrant :
 
 - l'environnement comptable français et la posture offshore ;
 - les bases du PCG et la saisie (achats, ventes, banque, caisse, OD) ;
