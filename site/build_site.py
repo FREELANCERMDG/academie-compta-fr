@@ -63,34 +63,35 @@ MANIFEST = [
     ("modules/Module-21-Logiciel-Pennylane.md", "m21", "Module 2 — Logiciel Pennylane", "2.1 Pennylane — prise en main complète", "m21"),
     ("modules/Module-21B-Pennylane-pratique.md", "m21b", "Module 2 — Logiciel Pennylane", "2.2 Pennylane — pratique par opération", None),
 
-    ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & contrôle", "3.1 TVA française", "m05"),
-    ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & contrôle", "3.2 Rapprochement bancaire", "m06"),
-    ("modules/Module-07-Lettrage-clients-fournisseurs.md", "m07", "Module 3 — Opérations & contrôle", "3.3 Lettrage clients/fournisseurs", "m07"),
-    ("modules/Module-08-Comptes-attente-sensibles.md", "m08", "Module 3 — Opérations & contrôle", "3.4 Comptes d'attente", "m08"),
-    ("modules/Module-09-Paie-ecritures-sociales.md", "m09", "Module 3 — Opérations & contrôle", "3.5 Paie et écritures sociales", "m09"),
-    ("modules/Module-10-Immobilisations-amortissements.md", "m10", "Module 3 — Opérations & contrôle", "3.6 Immobilisations", "m10"),
-    ("modules/Module-11-Revision-comptable.md", "m11", "Module 3 — Opérations & contrôle", "3.7 Révision comptable", "m11"),
-    ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & contrôle", "3.8 Révision par défilement (classes 1 à 7)", None),
+    ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & révision", "3.1 TVA française", "m05"),
+    ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & révision", "3.2 Rapprochement bancaire", "m06"),
+    ("modules/Module-07-Lettrage-clients-fournisseurs.md", "m07", "Module 3 — Opérations & révision", "3.3 Lettrage clients/fournisseurs", "m07"),
+    ("modules/Module-08-Comptes-attente-sensibles.md", "m08", "Module 3 — Opérations & révision", "3.4 Comptes d'attente", "m08"),
+    ("modules/Module-09-Paie-ecritures-sociales.md", "m09", "Module 3 — Opérations & révision", "3.5 Paie et écritures sociales", "m09"),
+    ("modules/Module-10-Immobilisations-amortissements.md", "m10", "Module 3 — Opérations & révision", "3.6 Immobilisations", "m10"),
+    ("modules/Module-11-Revision-comptable.md", "m11", "Module 3 — Opérations & révision", "3.7 Révision comptable", "m11"),
+    ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & révision", "3.8 Révision par défilement (classes 1 à 7)", None),
 
-    ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, bilan & cas", "4.1 Fiscalité des entreprises", "m12"),
-    ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, bilan & cas", "4.2 Bilan et clôture", "m13"),
-    ("modules/Module-14-Outils-cabinets.md", "m14", "Module 4 — Fiscalité, bilan & cas", "4.3 Outils des cabinets", "m14"),
-    ("modules/Module-15-Communication-professionnelle.md", "m15", "Module 4 — Fiscalité, bilan & cas", "4.4 Communication pro", "m15"),
-    ("modules/Module-16-Production-offshore.md", "m16", "Module 4 — Fiscalité, bilan & cas", "4.5 Production offshore", "m16"),
-    ("modules/Module-17-Qualite-controle-interne.md", "m17", "Module 4 — Fiscalité, bilan & cas", "4.6 Qualité & contrôle", "m17"),
-    ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 4 — Fiscalité, bilan & cas", "4.7 Carrière & freelancing", "m20"),
-    ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 4 — Fiscalité, bilan & cas", "4.8 Cas pratiques corrigés", None),
-    ("evaluations/Evaluation-finale.md", "eval", "Module 4 — Fiscalité, bilan & cas", "4.9 Évaluation finale", "final"),
-    ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, bilan & cas", "4.10 Spécificités & cas particuliers", None),
-    ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, bilan & cas", "4.11 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
-    ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, bilan & cas", "4.12 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
-    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 4 — Fiscalité, bilan & cas", "4.13 Simulations d'entretien", None),
+    ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, bilan & spécificités", "4.1 Fiscalité des entreprises", "m12"),
+    ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, bilan & spécificités", "4.2 Bilan et clôture", "m13"),
+    ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, bilan & spécificités", "4.3 Spécificités & cas particuliers", None),
+    ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, bilan & spécificités", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
+    ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, bilan & spécificités", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
 
-    ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 4 — Liasse fiscale", "L.1 Vue d'ensemble & quel régime dépose quoi", None),
-    ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 4 — Liasse fiscale", "L.2 Réel normal (2050 → 2059)", None),
-    ("modules/Module-32-Liasse-reel-simplifie.md", "m32", "Module 4 — Liasse fiscale", "L.3 Réel simplifié (2033‑A → G)", None),
-    ("modules/Module-33-Liasse-BNC-2035.md", "m33", "Module 4 — Liasse fiscale", "L.4 BNC — déclaration contrôlée (2035)", None),
-    ("modules/Module-34-Liasse-agricole-fonciere.md", "m34", "Module 4 — Liasse fiscale", "L.5 Agricole (2139/2143) & SCI/foncier (2072/2044)", None),
+    ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
+    ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale", "5.2 Réel normal (2050 → 2059)", None),
+    ("modules/Module-32-Liasse-reel-simplifie.md", "m32", "Module 5 — Liasse fiscale", "5.3 Réel simplifié (2033‑A → G)", None),
+    ("modules/Module-33-Liasse-BNC-2035.md", "m33", "Module 5 — Liasse fiscale", "5.4 BNC — déclaration contrôlée (2035)", None),
+    ("modules/Module-34-Liasse-agricole-fonciere.md", "m34", "Module 5 — Liasse fiscale", "5.5 Agricole (2139/2143) & SCI/foncier (2072/2044)", None),
+
+    ("modules/Module-14-Outils-cabinets.md", "m14", "Module 6 — Métier, cas pratiques & entretiens", "6.1 Outils des cabinets", "m14"),
+    ("modules/Module-15-Communication-professionnelle.md", "m15", "Module 6 — Métier, cas pratiques & entretiens", "6.2 Communication pro", "m15"),
+    ("modules/Module-16-Production-offshore.md", "m16", "Module 6 — Métier, cas pratiques & entretiens", "6.3 Production offshore", "m16"),
+    ("modules/Module-17-Qualite-controle-interne.md", "m17", "Module 6 — Métier, cas pratiques & entretiens", "6.4 Qualité & contrôle", "m17"),
+    ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 6 — Métier, cas pratiques & entretiens", "6.5 Carrière & freelancing", "m20"),
+    ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Métier, cas pratiques & entretiens", "6.6 Cas pratiques corrigés", None),
+    ("evaluations/Evaluation-finale.md", "eval", "Module 6 — Métier, cas pratiques & entretiens", "6.7 Évaluation finale", "final"),
+    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Métier, cas pratiques & entretiens", "6.8 Simulations d'entretien", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),
@@ -216,7 +217,18 @@ def md_to_html(text):
     return '\n'.join(out)
 
 # ----------------- Construction des donnees -----------------
-CONTENT, NAV, ORDER = {}, [], []
+# Groupe -> code module (verrouillage par paiement). "free" = toujours accessible.
+GROUP_MOD = {
+    "Présentation": "free",
+    "Module 1 — Fondamentaux": "mod1",
+    "Module 2 — Logiciel Pennylane": "mod2",
+    "Module 3 — Opérations & révision": "mod3",
+    "Module 4 — Fiscalité, bilan & spécificités": "mod4",
+    "Module 5 — Liasse fiscale": "mod5",
+    "Module 6 — Métier, cas pratiques & entretiens": "mod6",
+    "Annexes": "free",
+}
+CONTENT, NAV, ORDER, MODID = {}, [], [], {}
 groups = {}
 for rel, pid, grp, title, qk in MANIFEST:
     fp = os.path.join(ROOT, rel)
@@ -225,9 +237,10 @@ for rel, pid, grp, title, qk in MANIFEST:
     if pid in VIDEOS:
         body_html = video_embed(VIDEOS[pid]) + body_html
     CONTENT[pid] = body_html
+    MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & contrôle", "Module 4 — Fiscalité, bilan & cas", "Module 4 — Liasse fiscale", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, bilan & spécificités", "Module 5 — Liasse fiscale", "Module 6 — Métier, cas pratiques & entretiens", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 
@@ -342,6 +355,7 @@ header .grow{flex:1}
 const CONTENT=__CONTENT__;
 const NAV=__NAV__;
 const ORDER=__ORDER__;
+const MODID=__MODID__;
 const QUIZ=__QUIZ__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
@@ -437,6 +451,7 @@ html_out = (TPL
     .replace("__CONTENT__", json.dumps(CONTENT, ensure_ascii=False))
     .replace("__NAV__", json.dumps(NAV, ensure_ascii=False))
     .replace("__ORDER__", json.dumps(ORDER, ensure_ascii=False))
+    .replace("__MODID__", json.dumps(MODID, ensure_ascii=False))
     .replace("__QUIZ__", json.dumps(QUIZ, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----

@@ -7,7 +7,7 @@ import { ROOT, cfg, esc } from './lib.mjs';
 const MODDIR = path.join(ROOT, 'modules');
 const gratuits = new Set((cfg.apercu && cfg.apercu.modules_gratuits) || ['mod1']);
 
-// Définition des 4 modules
+// Définition des 6 modules (mod1 gratuit ; mod2→mod6 payants 30 000 Ar/module)
 const MACRO = [
   {
     code: 'mod1', titre: 'Module 1 — Fondamentaux de la comptabilité française',
@@ -28,18 +28,17 @@ const MACRO = [
       "Interface cabinet (Comptabilité) vs client (Gestion) · prise en main",
       "Menus : Tableau de bord, Saisie, Révision, Fiscalité, États financiers, Dossier client",
       "Collecte des pièces (connexion bancaire, OCR) · factures clients / fournisseurs",
-      "Rapprochement bancaire pas à pas (exemple chiffré) : statuts À traiter / Traité / Justifié · règles d'automatisation",
-      "Déclarer la TVA (CA3) pas à pas + cadrage TVA (réconciliation, écart = 0) — avec exemples",
-      "Intégrer une immobilisation (fiche + plan d'amortissement) — exemple chiffré",
-      "Opérations intracommunautaires (autoliquidation, DEB/DES) & comptes intercos (451/455, réciprocité)",
-      "Lettrage, comptes d'attente 471, paie, révision par cycle, clôture/bilan"
+      "Rapprochement bancaire pas à pas (exemple chiffré) : statuts À traiter / Traité / Justifié",
+      "Déclarer la TVA (CA3) pas à pas + cadrage TVA — avec exemples",
+      "Intégrer une immobilisation (fiche + plan d'amortissement)",
+      "Opérations intracommunautaires (autoliquidation, DEB/DES) & comptes intercos (451/455)"
     ],
     files: ['Module-21-Logiciel-Pennylane.md', 'Module-21B-Pennylane-pratique.md'],
     quiz: 'm21'
   },
   {
-    code: 'mod3', titre: 'Module 3 — Opérations, déclarations & contrôle',
-    resume: "TVA, rapprochement bancaire, lettrage, comptes d'attente, paie, immobilisations et révision par cycle.",
+    code: 'mod3', titre: 'Module 3 — Opérations, déclarations & révision',
+    resume: "TVA (CA3/CA12), rapprochement bancaire, lettrage, comptes d'attente, paie, immobilisations, révision par cycle et révision par défilement (classes 1 à 7).",
     topics: [
       "TVA française (CA3 / CA12)", "Rapprochement bancaire", "Lettrage clients / fournisseurs",
       "Comptes d'attente (471) et comptes sensibles", "Paie et écritures sociales",
@@ -50,19 +49,39 @@ const MACRO = [
     quiz: 'm05'
   },
   {
-    code: 'mod4', titre: 'Module 4 — Fiscalité, bilan, cas pratiques & évaluation',
-    resume: "Fiscalité des entreprises, travaux de clôture et bilan, outils et posture professionnelle, cas pratiques et évaluation finale certifiante.",
+    code: 'mod4', titre: 'Module 4 — Fiscalité, bilan & spécificités',
+    resume: "Fiscalité des entreprises (IR/IS, BIC/BNC), travaux de clôture et bilan, cas particuliers, spécificités par activité et dossier bâtiment (BTP).",
     topics: [
-      "Fiscalité (IR/IS, BIC/BNC, liasse fiscale)", "Bilan et clôture (cut-off, FNP, CCA, FAE, PCA)",
-      "Outils, communication pro, production offshore, qualité", "Carrière & freelancing",
-      "10 cas pratiques complets corrigés", "Évaluation finale certifiante (/100)",
+      "Fiscalité (IR/IS, BIC/BNC, acomptes, CFE/CVAE)", "Bilan et clôture (cut-off, FNP, CCA, FAE, PCA)",
       "Spécificités & cas particuliers : VP/VU, DAS2, BTP/autoliquidation, intérêts courus, créances, débours, CIFD",
       "Spécificités par activité : BNC, LMNP/LMP, SCI, SNC, SAP, TABAC, auto-entrepreneur, association 1901, agricole (BA), pharmacie",
-      "Dossier BÂTIMENT (BTP) : TVA travaux, autoliquidation, retenue de garantie, situations & saisie des factures",
-      "Liasse fiscale par régime : réel normal (2050‑2059), réel simplifié (2033), BNC (2035), agricole (2139/2143), SCI/foncier (2072/2044)",
+      "Dossier BÂTIMENT (BTP) : TVA travaux, autoliquidation, retenue de garantie, situations & saisie des factures"
+    ],
+    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md'],
+    quiz: 'm12'
+  },
+  {
+    code: 'mod5', titre: 'Module 5 — Liasse fiscale (par régime)',
+    resume: "Toute la liasse fiscale, régime par régime : réel normal (2050‑2059), réel simplifié (2033), BNC (2035), agricole (2139/2143) et SCI/foncier (2072/2044).",
+    topics: [
+      "Vue d'ensemble : quel régime dépose quoi · passage comptable → fiscal",
+      "Réel normal : tableaux 2050 → 2059 (dont 2058‑A réintégrations/déductions)",
+      "Réel simplifié : tableaux 2033‑A → 2033‑G",
+      "BNC : déclaration contrôlée 2035 (A/B/E)",
+      "Agricole (2139/2143) & SCI/foncier (2072/2044)"
+    ],
+    files: ['Module-30-Liasse-vue-ensemble.md', 'Module-31-Liasse-reel-normal.md', 'Module-32-Liasse-reel-simplifie.md', 'Module-33-Liasse-BNC-2035.md', 'Module-34-Liasse-agricole-fonciere.md'],
+    quiz: null
+  },
+  {
+    code: 'mod6', titre: 'Module 6 — Métier, cas pratiques, évaluation & entretiens',
+    resume: "Outils des cabinets, communication professionnelle, production offshore, qualité, carrière, cas pratiques corrigés, évaluation finale certifiante et simulations d'entretien.",
+    topics: [
+      "Outils des cabinets · communication professionnelle", "Production offshore · qualité & contrôle interne",
+      "Carrière & freelancing", "10 cas pratiques complets corrigés", "Évaluation finale certifiante (/100)",
       "Simulations d'entretien : collaborateur, réviseur, chef de mission, superviseur"
     ],
-    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-30-Liasse-vue-ensemble.md', 'Module-31-Liasse-reel-normal.md', 'Module-32-Liasse-reel-simplifie.md', 'Module-33-Liasse-BNC-2035.md', 'Module-34-Liasse-agricole-fonciere.md', 'Module-25-Simulations-entretien.md'],
+    files: ['Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-25-Simulations-entretien.md'],
     quiz: 'final'
   }
 ];

@@ -94,8 +94,12 @@
   ],
   "_note_temoignages": "Exemples — remplacez-les par de vrais témoignages (avec accord des personnes).",
   "offres": [
-    { "code": "PACK_COMPLET", "titre": "Pack complet — tous les modules", "prix": 150000 },
-    { "code": "MODULE_UNITE", "titre": "Un module à l'unité", "prix": 30000 }
+    { "code": "MOD2", "titre": "Module 2 — Logiciel Pennylane", "prix": 30000, "modules": ["mod2"] },
+    { "code": "MOD3", "titre": "Module 3 — Opérations & révision", "prix": 30000, "modules": ["mod3"] },
+    { "code": "MOD4", "titre": "Module 4 — Fiscalité, bilan & spécificités", "prix": 30000, "modules": ["mod4"] },
+    { "code": "MOD5", "titre": "Module 5 — Liasse fiscale", "prix": 30000, "modules": ["mod5"] },
+    { "code": "MOD6", "titre": "Module 6 — Métier, cas pratiques & entretiens", "prix": 30000, "modules": ["mod6"] },
+    { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 2 à 6 (économie)", "prix": 120000, "modules": ["mod2", "mod3", "mod4", "mod5", "mod6"] }
   ],
   "_note_prix": "Prix en Ariary (Ar). Valeurs indicatives — ajustez-les selon votre tarification."
 }

@@ -49,9 +49,12 @@ export function openDB() {
   `);
   // migration : colonne d'expiration d'accès
   try { db.exec('ALTER TABLE inscriptions ADD COLUMN expire_le TEXT'); } catch { }
-  // seed offres
+  // seed offres (+ retrait des offres supprimées de la config, si non utilisées)
   const up = db.prepare('INSERT INTO offres(code,titre,prix) VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET titre=excluded.titre,prix=excluded.prix');
   for (const o of cfg.offres) up.run(o.code, o.titre, o.prix);
+  const codes = cfg.offres.map(o => o.code);
+  const ph = codes.map(() => '?').join(',');
+  try { db.prepare(`DELETE FROM offres WHERE code NOT IN (${ph}) AND code NOT IN (SELECT DISTINCT offre_code FROM inscriptions)`).run(...codes); } catch { }
   return db;
 }
 

@@ -146,7 +146,7 @@ function apercuModulesSection() {
       <ul>${topics}</ul>
       <a class="btn ${m.gratuit ? '' : 'ghost'}" href="/apercu?m=${esc(m.code)}">${m.gratuit ? 'Lire le module (gratuit)' : 'Voir l\'aperçu du programme'}</a></section>`;
   }).join('');
-  return `<h2 style="text-align:center;color:var(--navy)">Le programme — aperçu des 4 modules</h2>${cards}`;
+  return `<h2 style="text-align:center;color:var(--navy)">Le programme — aperçu des 6 modules</h2>${cards}`;
 }
 function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
@@ -186,7 +186,7 @@ function pageDecouverte(sess) {
   ${videoBloc}
   <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
   <section class="card"><h2>Ce qui est inclus</h2>
-  <ul><li>📚 <b>4 modules</b> (24 leçons), dont le <b>Module 1 gratuit</b> tout de suite</li>
+  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite (30 000 Ar / module)</li>
   <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
   <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
   <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
@@ -226,12 +226,12 @@ function pageMentions(sess) {
 
 function pageProgramme(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
-  const modulesSection = `<section class="card"><h2>Les 4 modules</h2><div class="prog">${MODULES.map(m => `<a class="pitem" href="/apercu?m=${esc(m.code)}"><span>${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Aperçu</b>'}</a>`).join('')}</div></section>`;
+  const modulesSection = `<section class="card"><h2>Les 6 modules</h2><div class="prog">${MODULES.map(m => `<a class="pitem" href="/apercu?m=${esc(m.code)}"><span>${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Aperçu</b>'}</a>`).join('')}</div></section>`;
   const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0);
   const compteur = (cfg.afficher_compteur_inscrits && n > 0) ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''}</span></div>` : '';
   const f = cfg.formateur || {};
   const fstats = (f.annees ? `<div class="stat"><b>${esc(String(f.annees))} ans</b><span>d'expérience</span></div>` : '') + (f.formes ? `<div class="stat"><b>${esc(String(f.formes))}+</b><span>personnes formées</span></div>` : '');
-  const stats = `<div class="stats">${fstats}<div class="stat"><b>4</b><span>modules</span></div><div class="stat"><b>100+</b><span>questions de quiz</span></div><div class="stat"><b>10</b><span>cas pratiques</span></div><div class="stat"><b>✓</b><span>attestation</span></div>${compteur}</div>`;
+  const stats = `<div class="stats">${fstats}<div class="stat"><b>6</b><span>modules</span></div><div class="stat"><b>100+</b><span>questions de quiz</span></div><div class="stat"><b>10</b><span>cas pratiques</span></div><div class="stat"><b>✓</b><span>attestation</span></div>${compteur}</div>`;
   const temoins = cfg.temoignages || [];
   const tHtml = temoins.length ? `<section class="card"><h2>Ils témoignent</h2><div class="temoins">${temoins.map(t => `<div class="temoin"><p>« ${esc(t.texte)} »</p><div class="who">${esc(t.nom)}</div><div class="role">${esc(t.role)}</div></div>`).join('')}</div></section>` : '';
   return layout('Programme', `
@@ -259,7 +259,7 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2, 3 et 4</b> (saisie & logiciels, TVA/rapprochement/lettrage/paie/révision, fiscalité/bilan/cas pratiques) — avec quiz et vidéos.</p><a class="btn" href="/inscription">S'inscrire</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & spécificités, liasse fiscale, métier & entretiens) — <b>30 000 Ar / module</b>.</p><a class="btn" href="/inscription">S'inscrire (gratuit)</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
@@ -331,6 +331,7 @@ function page2faVerify(sess, err) {
 
 function pageDashboard(sess) {
   const u = sess.user;
+  const ent = entitledModules(u);
   const offres = db.prepare('SELECT * FROM offres').all();
   const ins = db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.user_id=? ORDER BY i.cree_le DESC').all(u.id);
   const active = u.role === 'admin' || hasActive(u.id);
@@ -342,9 +343,10 @@ function pageDashboard(sess) {
   <p>Niveau d'études : ${esc(u.niveau_etudes)} · Auto-évaluation : ${esc(u.niveau_intellectuel)}</p>
   <p>2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}</p></section>
   <section class="card"><h2>Accès à la formation</h2>
-  ${active ? `<p class="ok">Accès actif ✅${(u.role !== 'admin' && expActive) ? ` — jusqu'au <b>${fmtDate(expActive)}</b>` : (u.role === 'admin' ? ' (admin, illimité)' : '')}</p><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 Mon attestation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`
-            : `<p class="muted">Aucune offre active (non payée ou durée expirée). Choisissez une offre ci-dessous.</p><a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`}</section>
-  <section class="card"><h2>Choisir une offre</h2>
+  <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
+  <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
+  <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 Mon attestation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p></section>
+  <section class="card"><h2>Débloquer un module (paiement)</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
     <select name="offre_code" required>${offres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} — ${money(o.prix)}</option>`).join('')}</select>
     <button class="btn" type="submit">Continuer vers le paiement</button></form></section>
@@ -423,10 +425,46 @@ function serveStatic(res, baseDir, relPath, { course = false } = {}) {
 }
 
 // --- Cours protégé : filigrane personnalisé + anti-copie + blocage impression ---
+// --- Droits d'accès par module (paywall : mod1 gratuit, mod2→mod6 payants) ---
+const FREE_MODS = new Set((cfg.apercu && cfg.apercu.modules_gratuits) || ['mod1']);
+function offerModules(code) { const o = (cfg.offres || []).find(x => x.code === code); return (o && o.modules) || []; }
+function entitledModules(user) {
+  const set = new Set(FREE_MODS);
+  if (!user) return set;
+  if (user.role === 'admin') { MODULES.forEach(m => set.add(m.code)); return set; }
+  const rows = db.prepare("SELECT offre_code FROM inscriptions WHERE user_id=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").all(user.id, new Date().toISOString());
+  for (const r of rows) offerModules(r.offre_code).forEach(c => set.add(c));
+  return set;
+}
+function _extractLiteral(html, marker) {
+  const m = html.indexOf(marker); if (m < 0) return null;
+  let i = html.indexOf('{', m); if (i < 0) return null;
+  const start = i; let d = 0, inS = false, esc2 = false;
+  for (; i < html.length; i++) { const ch = html[i];
+    if (inS) { if (esc2) esc2 = false; else if (ch === '\\') esc2 = true; else if (ch === '"') inS = false; continue; }
+    if (ch === '"') inS = true; else if (ch === '{') d++; else if (ch === '}') { d--; if (d === 0) return { start, end: i + 1, json: html.slice(start, i + 1) }; }
+  }
+  return null;
+}
+// Remplace côté serveur le contenu des leçons des modules non débloqués (sécurité : le contenu n'est pas envoyé).
+function gateCourse(html, entitled) {
+  const conLit = _extractLiteral(html, 'const CONTENT=');
+  const modLit = _extractLiteral(html, 'const MODID=');
+  if (!conLit || !modLit) return html;
+  let CONTENT, MODID;
+  try { CONTENT = JSON.parse(conLit.json); MODID = JSON.parse(modLit.json); } catch { return html; }
+  const lock = "<div style=\"text-align:center;padding:48px 20px\"><div style=\"font-size:48px\">🔒</div><h1 style=\"border:none\">Module verrouillé</h1><p>Cette leçon fait partie d'un module payant. Débloquez‑le pour <b>30 000 Ar</b> (Orange Money / MVola).</p><p><a href=\"/tableau-de-bord\" target=\"_top\" style=\"display:inline-block;background:#E8A13A;color:#1c2733;font-weight:700;padding:12px 20px;border-radius:9px;text-decoration:none\">Débloquer ce module →</a></p></div>";
+  let changed = false;
+  for (const id in MODID) { const code = MODID[id]; if (code && code !== 'free' && !entitled.has(code) && CONTENT[id] !== undefined) { CONTENT[id] = lock; changed = true; } }
+  if (!changed) return html;
+  return html.slice(0, conLit.start) + JSON.stringify(CONTENT) + html.slice(conLit.end);
+}
+
 function serveCourseIndex(res, sess) {
   let html;
   try { html = fs.readFileSync(path.join(ROOT, 'site', 'index.html'), 'utf8'); }
   catch { return send(res, 500, layout('Erreur', '<h1>Contenu indisponible</h1>', sess)); }
+  html = gateCourse(html, entitledModules(sess && sess.user));
   const email = esc(sess?.user?.email || '');
   const date = new Date().toISOString().slice(0, 10);
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='370' height='210'><text x='8' y='120' transform='rotate(-30 185 105)' fill='rgba(20,40,70,0.10)' font-size='15' font-family='Arial'>${email} &#183; ${date}</text></svg>`;
@@ -484,7 +522,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   <p class="sub">Formation complète en comptabilité française externalisée depuis Madagascar</p>
   <p>Je soussigné <b>${esc(formateur)}</b>, formateur agissant pour la société <b>${esc(s.nom || '')}</b>, atteste que :</p>
   <p class="name">${nom}</p>
-  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (4 modules · 24 leçons), couvrant la saisie, la TVA, le rapprochement, le lettrage, la paie, les immobilisations, la révision, la fiscalité, le bilan et la liasse.</p>
+  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules), couvrant la saisie, la TVA, le rapprochement, le lettrage, la paie, les immobilisations, la révision, la fiscalité, le bilan et la liasse.</p>
   <div class="grid">
     <div class="box"><div class="lbl">Date d'inscription</div><div class="val">${fmt(u.cree_le)}</div></div>
     <div class="box"><div class="lbl">Résultat à l'évaluation finale</div><div class="val" id="result">…</div></div>
@@ -540,7 +578,7 @@ const server = http.createServer(async (req, res) => {
       // formation protégée
       if (p === '/formation' || p.startsWith('/formation/')) {
         if (!authed(sess)) return redirect(res, '/connexion');
-        if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Accès', '<h1>Accès non activé ou expiré</h1><p>Votre accès n\'est pas actif (offre non payée ou durée expirée). Choisissez ou renouvelez une offre.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
+        // Accès ouvert à tout inscrit : le Module 1 est gratuit, les autres modules sont verrouillés tant que non payés (gating par module dans le contenu).
         const rel = p === '/formation' ? 'index.html' : p.slice('/formation/'.length);
         if (rel === '' || rel === 'index.html') return serveCourseIndex(res, sess);
         return serveStatic(res, path.join(ROOT, 'site'), rel, { course: true });
