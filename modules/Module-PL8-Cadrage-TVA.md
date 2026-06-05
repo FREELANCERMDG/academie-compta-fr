@@ -17,6 +17,27 @@ Le cadrage est un **contrôle de cohérence** indispensable : il garantit qu'auc
 4. Contrôler le **solde de TVA à payer / crédit** et le rapprocher de la **CA3**.
 5. Justifier tout **écart** avant de valider.
 
+## Historique, base par taux et cadrage annuel
+
+Trois cadrages complémentaires viennent compléter l'analyse des comptes clients : le **cadrage historique**, le **cadrage base par taux** et le **cadrage annuel**.
+
+### Cadrage 2 — Historique des déclarations
+Une **vue synthétique** des montants déclarés par **cellule de la CA3**, mois par mois, sur l'exercice en cours. Utile pour vérifier la **cohérence avec les déclarations passées** et s'assurer que les **OD antérieures** ont bien été intégrées.
+
+> ⚠️ Disponible uniquement pour les déclarations **CA3**.
+
+### Cadrage 3 — Base par taux
+Ce cadrage analyse **toutes les écritures** du dossier **par taux de TVA** et met en évidence les **incohérences** : TVA manquante, mauvaise imputation de compte, étiquette erronée. Vous pouvez **corriger les écritures directement** depuis ce cadrage.
+
+> 💡 **Conseil :** effectuez ce cadrage **régulièrement en cours d'exercice** — cela réduit considérablement le travail au moment du cadrage annuel.
+
+### Cadrage 4 — Annuel
+Le cadrage annuel **compare la TVA réellement comptabilisée** avec la **TVA théorique** calculée sur l'ensemble des **comptes de produits (701 à 709, 775, 791)**, par taux. Il intègre les **retraitements N‑1 / N** pour isoler la TVA exigible sur la période.
+
+> ⚠️ **Première année sur Pennylane :** si vous n'avez pas encore réalisé de clôture sur Pennylane, les **à‑nouveaux importés** peuvent manquer de granularité et les **étiquettes TVA** peuvent être absentes des fichiers **FEC**. Ce n'est **pas une anomalie** : vous pouvez **exporter le tableau en Excel**, le corriger manuellement, puis le **réimporter** dans votre dossier de travail.
+
+> 🎥 **Dans la vidéo ci‑dessus :** les trois cadrages sont présentés, dont le **cadrage annuel** et ses spécificités pour une **première année sur Pennylane** — Guillaume vous guide jusqu'au bout du processus.
+
 ## À retenir (réflexes cabinet)
 - Pas de validation de TVA **sans cadrage** : c'est le point de contrôle qui évite les redressements.
 - Un écart vient souvent d'une **transaction non traitée**, d'un **mauvais taux** ou d'un **compte d'attente** mal soldé.

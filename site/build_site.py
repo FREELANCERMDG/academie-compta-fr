@@ -68,6 +68,7 @@ MANIFEST = [
     ("modules/Module-PL6-Preparation-TVA.md", "m21f", "Module 2 — Logiciel Pennylane", "2.6 Préparation TVA sur Pennylane (vidéo)", None),
     ("modules/Module-PL7-Services.md", "m21g", "Module 2 — Logiciel Pennylane", "2.7 Achats & ventes de services (illustré)", None),
     ("modules/Module-PL8-Cadrage-TVA.md", "m21h", "Module 2 — Logiciel Pennylane", "2.8 Cadrage TVA sur Pennylane (vidéo)", None),
+    ("modules/Module-PL9-CA3-CA12.md", "m21i", "Module 2 — Logiciel Pennylane", "2.9 Formulaire CA3/CA12 sur Pennylane (vidéo)", None),
 
     ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & révision", "3.1 TVA française", "m05"),
     ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & révision", "3.2 Rapprochement bancaire", "m06"),
