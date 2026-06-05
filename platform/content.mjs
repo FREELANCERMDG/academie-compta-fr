@@ -33,9 +33,10 @@ const MACRO = [
       "🎥 Préparation de la déclaration de TVA sur Pennylane (vidéo + explication)",
       "Achats & ventes de services : exigibilité à l'encaissement, comptes d'attente 44574/44564, journal RT (illustré en images)",
       "🎥 Cadrage de la TVA sur Pennylane : cadrage + historique, base par taux et cadrage annuel (vidéo + explication)",
-      "🎥 Formulaire CA3 / CA12 sur Pennylane (nouveaux formulaires, vidéo + explication)"
+      "🎥 Formulaire CA3 / CA12 sur Pennylane (nouveaux formulaires, vidéo + explication)",
+      "📌 Guide PDF épinglé : comment basculer sa comptabilité sur Pennylane (reprise d'un dossier)"
     ],
-    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md', 'Module-PL7-Services.md', 'Module-PL8-Cadrage-TVA.md', 'Module-PL9-CA3-CA12.md'],
+    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md', 'Module-PL7-Services.md', 'Module-PL8-Cadrage-TVA.md', 'Module-PL9-CA3-CA12.md', 'Module-PL10-Basculer.md'],
     quiz: 'm21'
   },
   {

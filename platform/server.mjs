@@ -436,7 +436,7 @@ function serveStatic(res, baseDir, relPath, { course = false } = {}) {
   const fp = path.join(baseDir, safe);
   if (!fp.startsWith(baseDir) || !fs.existsSync(fp) || fs.statSync(fp).isDirectory()) { send(res, 404, '404'); return; }
   const ext = path.extname(fp).toLowerCase();
-  const types = { '.css': 'text/css', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.html': 'text/html; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
+  const types = { '.css': 'text/css', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.html': 'text/html; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon', '.pdf': 'application/pdf' };
   securityHeaders(res, { courseCSP: course, prod: PROD });
   res.writeHead(200, { 'Content-Type': types[ext] || 'application/octet-stream' });
   fs.createReadStream(fp).pipe(res);
