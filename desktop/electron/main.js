@@ -3,7 +3,7 @@ const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 
 // URL de la plateforme hébergée. Modifiez ici OU définissez la variable d'env APP_URL.
-const APP_URL = process.env.APP_URL || 'https://academiecomptafr.mg';
+const APP_URL = process.env.APP_URL || 'https://academie-compta-fr.mg';
 
 function createWindow() {
   const win = new BrowserWindow({

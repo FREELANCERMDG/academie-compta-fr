@@ -23,7 +23,7 @@ services:
       - key: ADMIN_PASSWORD
         sync: false                # mot de passe admin FORT
       - key: BASE_URL
-        sync: false                # https://academiecomptafr.mg (ou l'URL .onrender.com au début)
+        sync: false                # https://academie-compta-fr.mg (ou l'URL .onrender.com au début)
     disk:
       name: data
       mountPath: /data             # disque persistant -> conserve data.db

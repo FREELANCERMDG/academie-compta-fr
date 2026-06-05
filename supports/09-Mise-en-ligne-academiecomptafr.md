@@ -1,6 +1,6 @@
-# Mise en ligne — academiecomptafr.mg (pas à pas)
+# Mise en ligne — academie-compta-fr.mg (pas à pas)
 
-Objectif : publier la plateforme sur **https://academiecomptafr.mg**.
+Objectif : publier la plateforme sur **https://academie-compta-fr.mg**.
 Le projet est **déjà prêt** (dépôt Git créé, Dockerfile + render.yaml inclus, config domaine faite). Il reste 3 actions qui nécessitent **vos comptes** (je ne peux pas les faire à votre place) : enregistrer le domaine, créer l'hébergement, pointer le DNS.
 
 ---
@@ -10,7 +10,7 @@ Le projet est **déjà prêt** (dépôt Git créé, Dockerfile + render.yaml inc
 - `securite.twofa_obligatoire` → **true** (réactive la 2FA + QR code).
 - (option) `acces.duree_jours` → la durée d'accès voulue (365 = 12 mois).
 Variables d'environnement à définir sur l'hébergeur :
-- `PRODUCTION=true`, `BASE_URL=https://academiecomptafr.mg`
+- `PRODUCTION=true`, `BASE_URL=https://academie-compta-fr.mg`
 - `ADMIN_EMAIL` + `ADMIN_PASSWORD` (changez le mot de passe admin)
 - `SESSION_SECRET` (chaîne aléatoire longue ; Render peut la générer)
 
@@ -18,7 +18,7 @@ Variables d'environnement à définir sur l'hébergeur :
 
 ## Étape 1 — Enregistrer le domaine (~18 €/an)
 1. Aller chez un bureau .mg : **madagascar-internet.mg** ou **nic.mg/enregistrer**.
-2. Chercher **academiecomptafr.mg** → confirmer « disponible » → commander.
+2. Chercher **academie-compta-fr.mg** → confirmer « disponible » → commander.
 3. Récupérer l'accès à la **zone DNS** du domaine.
 
 ## Étape 2 — Mettre le code sur GitHub
@@ -35,21 +35,21 @@ git push -u origin main
 2. Sélectionner votre dépôt GitHub.
 3. Variables d'environnement :
    - `PRODUCTION=true`
-   - `BASE_URL=https://academiecomptafr.mg`
+   - `BASE_URL=https://academie-compta-fr.mg`
    - `ADMIN_EMAIL=...`  `ADMIN_PASSWORD=...`
    - `SESSION_SECRET` = généré automatiquement (Blueprint) ou collez une longue chaîne aléatoire.
 4. **Health check** : `/sante`. Déployer → vous obtenez une URL `…onrender.com` (testez‑la).
 5. **Persistance des comptes** (important) : le plan gratuit efface les données à chaque redéploiement. Pour garder les comptes/paiements, ajoutez un **disque persistant** monté sur **`/app/platform`** (plan payant Render), ou utilisez un **VPS** (voir guide 06). Sinon, la base se réinitialise.
 
-## Étape 4 — Brancher le domaine academiecomptafr.mg
-1. Sur Render : **Settings → Custom Domains → Add** `academiecomptafr.mg` (et éventuellement `www.academiecomptafr.mg`).
+## Étape 4 — Brancher le domaine academie-compta-fr.mg
+1. Sur Render : **Settings → Custom Domains → Add** `academie-compta-fr.mg` (et éventuellement `www.academie-compta-fr.mg`).
 2. Render affiche les **enregistrements DNS** à créer (un **A** pour le domaine racine + un **CNAME** pour `www`).
 3. Dans la **zone DNS** du domaine (chez votre registrar .mg), créez ces enregistrements.
 4. Attendez la propagation (quelques minutes à quelques heures). Render génère le **certificat HTTPS automatiquement**.
-   → **https://academiecomptafr.mg** est en ligne. 🎉
+   → **https://academie-compta-fr.mg** est en ligne. 🎉
 
 ## Étape 5 — Vérifications finales
-- [ ] Le lien `https://academiecomptafr.mg` s'ouvre (cadenas HTTPS).
+- [ ] Le lien `https://academie-compta-fr.mg` s'ouvre (cadenas HTTPS).
 - [ ] `/sante` répond « ok ».
 - [ ] Aperçu social OK (partagez le lien sur WhatsApp/Facebook → vignette).
 - [ ] Connexion admin + 2FA (QR code) opérationnelle.
@@ -62,7 +62,7 @@ git push -u origin main
 ## Alternative : VPS (données persistantes, contrôle total)
 Sur un petit VPS Linux (OVH/Contabo…) : installer Node ≥ 22, copier `site/` + `platform/`, `npm install` dans `platform/`, créer `platform/.env` (PRODUCTION=true, secrets), lancer avec **pm2**, mettre **Caddy** devant (HTTPS auto) :
 ```
-academiecomptafr.mg {
+academie-compta-fr.mg {
     reverse_proxy localhost:3000
 }
 ```

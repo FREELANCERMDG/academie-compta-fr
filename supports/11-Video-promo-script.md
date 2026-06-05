@@ -27,7 +27,7 @@
 « Accès sécurisé 12 mois, paiement **Orange Money** ou **MVola**, contenu **à jour** des dernières lois de finances. »
 
 **[54–60 s — Appel à l'action]**
-« Lancez votre carrière dès aujourd'hui. **academiecomptafr.mg** — votre place vous attend. »
+« Lancez votre carrière dès aujourd'hui. **academie-compta-fr.mg** — votre place vous attend. »
 
 ---
 
@@ -40,7 +40,7 @@
 | 16–30 s | Captures floutées des modules + Pennylane | « 4 modules · Pennylane · Cas pratiques » | défilement des leçons |
 | 30–42 s | Photo formateur + badges | « 10 ans d'expérience · Module 1 GRATUIT » | étoiles, check verts |
 | 42–54 s | Cadenas + logos Orange Money / MVola | « Sécurisé · 12 mois · MAJ lois de finances » | icônes paiement |
-| 54–60 s | Logo + URL plein écran, CTA | « academiecomptafr.mg — S'inscrire » | bouton orange pulsé |
+| 54–60 s | Logo + URL plein écran, CTA | « academie-compta-fr.mg — S'inscrire » | bouton orange pulsé |
 
 ---
 
@@ -82,7 +82,7 @@ Accès sécurisé 12 mois, paiement Orange Money ou MVola, contenu à jour.
 
 6
 00:00:54,000 --> 00:00:60,000
-academiecomptafr.mg — votre place vous attend.
+academie-compta-fr.mg — votre place vous attend.
 ```
 
 ## 6) Specs d'export
@@ -97,5 +97,5 @@ Une fois le MP4 prêt :
 3. Redémarrer le serveur → la vidéo s'affiche automatiquement sur la page **Visite guidée (1 min)** `/decouverte`.
 
 ## 8) Déclinaisons promo (réseaux)
-- **Légende WhatsApp/Facebook :** « 🎓 Deviens collaborateur comptable pour cabinets français — depuis Mada ! Module 1 GRATUIT. 👉 academiecomptafr.mg »
+- **Légende WhatsApp/Facebook :** « 🎓 Deviens collaborateur comptable pour cabinets français — depuis Mada ! Module 1 GRATUIT. 👉 academie-compta-fr.mg »
 - **3 hooks A/B à tester (3 s) :** « Gagne en € depuis Mada » · « Pennylane de A à Z » · « Réussis ton entretien en cabinet FR ».

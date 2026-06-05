@@ -1,6 +1,6 @@
 # 📣 Pack promo réseaux sociaux — prêt à publier
 
-Plateforme : **Académie Compta FR** · URL : **academiecomptafr.mg** · WhatsApp : **+261 32 73 622 59**
+Plateforme : **Académie Compta FR** · URL : **academie-compta-fr.mg** · WhatsApp : **+261 32 73 622 59**
 Visuels à joindre : `site/img/flyer-promo.png` (affiche) + la **vidéo 60 s** (voir support 11).
 
 ---
@@ -19,12 +19,12 @@ Visuels à joindre : `site/img/flyer-promo.png` (affiche) + la **vidéo 60 s** (
 > 👨‍🏫 Formé par un pro de **10 ans d'expérience** · 🔒 accès sécurisé 12 mois · 🎁 **Module 1 GRATUIT**.
 > 💳 Paiement Orange Money / MVola / Carte.
 >
-> 👉 Inscrivez-vous : **academiecomptafr.mg** — ou WhatsApp **+261 32 73 622 59**.
+> 👉 Inscrivez-vous : **academie-compta-fr.mg** — ou WhatsApp **+261 32 73 622 59**.
 
 ---
 
 ## 2) WhatsApp (statut / diffusion — court)
-> 🎓 *Académie Compta FR* — formez-vous à la **comptabilité française** depuis Mada ! Pennylane, TVA, liasse, entretiens. 🎁 **Module 1 GRATUIT**. 👉 academiecomptafr.mg
+> 🎓 *Académie Compta FR* — formez-vous à la **comptabilité française** depuis Mada ! Pennylane, TVA, liasse, entretiens. 🎁 **Module 1 GRATUIT**. 👉 academie-compta-fr.mg
 
 ---
 
@@ -35,13 +35,13 @@ Visuels à joindre : `site/img/flyer-promo.png` (affiche) + la **vidéo 60 s** (
 >
 > L'**Académie Compta FR** (MG Consulting IT & ACT) propose une formation 100 % en ligne, orientée **pratique cabinet** : cas réels, simulations d'entretien, attestation. Module 1 offert.
 >
-> 🔗 academiecomptafr.mg
+> 🔗 academie-compta-fr.mg
 > #Comptabilité #Madagascar #Offshore #Pennylane #Formation
 
 ---
 
 ## 4) TikTok / Reels / Shorts (caption)
-> Comptable à Mada ? Travaille pour des cabinets 🇫🇷 💼 Pennylane + TVA + entretiens. Module 1 GRATUIT 👇 academiecomptafr.mg
+> Comptable à Mada ? Travaille pour des cabinets 🇫🇷 💼 Pennylane + TVA + entretiens. Module 1 GRATUIT 👇 academie-compta-fr.mg
 > #compta #madagascar #pennylane #emploi #financefrance
 
 **3 hooks (3 premières secondes) à tester en A/B :**
@@ -67,4 +67,4 @@ Visuels à joindre : `site/img/flyer-promo.png` (affiche) + la **vidéo 60 s** (
 | Sam | TikTok | Hook A/B #2 |
 | Dim | Tous | Rappel CTA + lien |
 
-> 💡 Astuce : épingler le **flyer** en photo de couverture et mettre **academiecomptafr.mg** dans la bio de chaque réseau.
+> 💡 Astuce : épingler le **flyer** en photo de couverture et mettre **academie-compta-fr.mg** dans la bio de chaque réseau.

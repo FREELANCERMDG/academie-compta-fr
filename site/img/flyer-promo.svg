@@ -8,7 +8,7 @@
   <!-- Bandeau marque -->
   <rect x="0" y="0" width="800" height="92" fill="#0f2233"/>
   <text x="40" y="58" fill="#ffffff" font-size="30" font-weight="700">Académie Compta <tspan fill="#E8A13A">FR</tspan></text>
-  <text x="760" y="56" fill="#aac0d4" font-size="16" text-anchor="end">academiecomptafr.mg</text>
+  <text x="760" y="56" fill="#aac0d4" font-size="16" text-anchor="end">academie-compta-fr.mg</text>
 
   <!-- Titre -->
   <text x="40" y="180" fill="#ffffff" font-size="42" font-weight="800">Devenez collaborateur</text>
@@ -46,6 +46,6 @@
 
   <!-- CTA bas -->
   <rect x="0" y="1035" width="800" height="96" fill="#E8A13A"/>
-  <text x="40" y="1080" fill="#1c2733" font-size="26" font-weight="800">Inscrivez-vous : academiecomptafr.mg</text>
+  <text x="40" y="1080" fill="#1c2733" font-size="26" font-weight="800">Inscrivez-vous : academie-compta-fr.mg</text>
   <text x="40" y="1112" fill="#1c2733" font-size="20">WhatsApp +261 32 73 622 59 — MG Consulting IT &amp; ACT</text>
 </svg>

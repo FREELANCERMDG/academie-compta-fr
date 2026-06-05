@@ -23,9 +23,9 @@ C'est la page Orange hébergée (le client saisit son **numéro + code** ou **fl
 | `OM_CLIENT_SECRET` | fourni par Orange |
 | `OM_MERCHANT_KEY` | clé marchand |
 | `OM_CURRENCY` | devise de prod (ex. **MGA**) |
-| `OM_RETURN_URL` | `https://academiecomptafr.mg/paiement/retour` |
-| `OM_CANCEL_URL` | `https://academiecomptafr.mg/tableau-de-bord` |
-| `OM_NOTIF_URL` | `https://academiecomptafr.mg/paiement/retour` |
+| `OM_RETURN_URL` | `https://academie-compta-fr.mg/paiement/retour` |
+| `OM_CANCEL_URL` | `https://academie-compta-fr.mg/tableau-de-bord` |
+| `OM_NOTIF_URL` | `https://academie-compta-fr.mg/paiement/retour` |
 
 ## 3) Activer le mode API
 Dans `platform/config.json` → `"orange_money": { "mode": "api" }` (au lieu de `"manuel"`), puis redémarrer. Le bouton **« Payer via Orange Money »** apparaît automatiquement.
