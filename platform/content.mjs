@@ -22,7 +22,7 @@ const MACRO = [
     quiz: 'm01'
   },
   {
-    code: 'mod2', titre: 'Module 2 — Logiciel Pennylane',
+    code: 'mod2', titre: 'Module 2 — Prise en main du logiciel Pennylane',
     resume: "Pennylane en vidéo (lecteur intégré) : la saisie comptable, les règles de catégorisation des transactions, l'import d'un FEC et la reprise des immobilisations — chaque vidéo est expliquée pas à pas.",
     topics: [
       "🎥 Saisie comptable sur Pennylane (vidéo + explication)",

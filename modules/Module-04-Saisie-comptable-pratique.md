@@ -33,11 +33,8 @@
 **Schéma général :** `6xx (HT) + 44566 (TVA) au débit / 401 au crédit`
 
 **Ex. 1 — Achat marchandises 1 000 € HT, TVA 20 %**
-| Compte | Débit | Crédit |
-|---|---|---|
-| 607 Achats de marchandises | 1 000 | |
-| 44566 TVA déductible | 200 | |
-| 401 Fournisseur | | 1 200 |
+
+<table class="ecr"><caption>Journal AC · Facture fournisseur — marchandises</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>607000</td><td>Achats de marchandises</td><td class="d">1 000,00</td><td class="c"></td></tr><tr><td>445660</td><td>TVA déductible 20 %</td><td class="d">200,00</td><td class="c"></td></tr><tr><td>401FRN</td><td>Fournisseur</td><td class="d"></td><td class="c">1 200,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">1 200,00</td><td class="c">1 200,00</td></tr></tbody></table>
 
 **Ex. 2 — Facture sans TVA (fournisseur en franchise en base)**
 | Compte | Débit | Crédit |
@@ -53,11 +50,8 @@
 **Schéma général :** `411 (TTC) au débit / 70x (HT) + 44571 (TVA) au crédit`
 
 **Ex. 3 — Vente prestation 2 000 € HT, TVA 20 %**
-| Compte | Débit | Crédit |
-|---|---|---|
-| 411 Client | 2 400 | |
-| 706 Prestations de services | | 2 000 |
-| 44571 TVA collectée | | 400 |
+
+<table class="ecr"><caption>Journal VT · Facture client — prestation de services</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>411CLI</td><td>Client</td><td class="d">2 400,00</td><td class="c"></td></tr><tr><td>706000</td><td>Prestations de services</td><td class="d"></td><td class="c">2 000,00</td></tr><tr><td>445710</td><td>TVA collectée 20 %</td><td class="d"></td><td class="c">400,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">2 400,00</td><td class="c">2 400,00</td></tr></tbody></table>
 
 ---
 

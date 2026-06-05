@@ -60,18 +60,18 @@ MANIFEST = [
     ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux", "1.3 Organisation du dossier", "m03"),
     ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux", "1.4 Saisie comptable pratique", "m04"),
 
-    ("modules/Module-PL1-Saisie.md", "m21", "Module 2 — Logiciel Pennylane", "2.1 Saisie comptable (vidéo)", "m21"),
-    ("modules/Module-PL2-Categorisation.md", "m21b", "Module 2 — Logiciel Pennylane", "2.2 Règles de catégorisation (vidéo)", None),
-    ("modules/Module-PL3-Import-FEC.md", "m21c", "Module 2 — Logiciel Pennylane", "2.3 Import du FEC (vidéo)", None),
-    ("modules/Module-PL4-Reprise-immo.md", "m21d", "Module 2 — Logiciel Pennylane", "2.4 Reprise des immobilisations (vidéo)", None),
-    ("modules/Module-PL5-TVA.md", "m21e", "Module 2 — Logiciel Pennylane", "2.5 La TVA sur Pennylane", None),
-    ("modules/Module-PL6-Preparation-TVA.md", "m21f", "Module 2 — Logiciel Pennylane", "2.6 Préparation TVA sur Pennylane (vidéo)", None),
-    ("modules/Module-PL7-Services.md", "m21g", "Module 2 — Logiciel Pennylane", "2.7 Achats & ventes de services (illustré)", None),
-    ("modules/Module-PL8-Cadrage-TVA.md", "m21h", "Module 2 — Logiciel Pennylane", "2.8 Cadrage TVA sur Pennylane (vidéo)", None),
-    ("modules/Module-PL9-CA3-CA12.md", "m21i", "Module 2 — Logiciel Pennylane", "2.9 Formulaire CA3/CA12 sur Pennylane (vidéo)", None),
-    ("modules/Module-PL10-Basculer.md", "m21j", "Module 2 — Logiciel Pennylane", "2.10 📌 Basculer sa compta sur Pennylane (PDF)", None),
-    ("modules/Module-PL11-Liasse.md", "m21k", "Module 2 — Logiciel Pennylane", "2.11 Préparer la liasse fiscale sur Pennylane", None),
-    ("modules/Module-PL12-Figer.md", "m21l", "Module 2 — Logiciel Pennylane", "2.12 Figer la comptabilité sur Pennylane (vidéo)", None),
+    ("modules/Module-PL1-Saisie.md", "m21", "Module 2 — Prise en main du logiciel Pennylane", "2.1 Saisie comptable (vidéo)", "m21"),
+    ("modules/Module-PL2-Categorisation.md", "m21b", "Module 2 — Prise en main du logiciel Pennylane", "2.2 Règles de catégorisation (vidéo)", None),
+    ("modules/Module-PL3-Import-FEC.md", "m21c", "Module 2 — Prise en main du logiciel Pennylane", "2.3 Import du FEC (vidéo)", None),
+    ("modules/Module-PL4-Reprise-immo.md", "m21d", "Module 2 — Prise en main du logiciel Pennylane", "2.4 Reprise des immobilisations (vidéo)", None),
+    ("modules/Module-PL5-TVA.md", "m21e", "Module 2 — Prise en main du logiciel Pennylane", "2.5 La TVA sur Pennylane", None),
+    ("modules/Module-PL6-Preparation-TVA.md", "m21f", "Module 2 — Prise en main du logiciel Pennylane", "2.6 Préparation TVA sur Pennylane (vidéo)", None),
+    ("modules/Module-PL7-Services.md", "m21g", "Module 2 — Prise en main du logiciel Pennylane", "2.7 Achats & ventes de services (illustré)", None),
+    ("modules/Module-PL8-Cadrage-TVA.md", "m21h", "Module 2 — Prise en main du logiciel Pennylane", "2.8 Cadrage TVA sur Pennylane (vidéo)", None),
+    ("modules/Module-PL9-CA3-CA12.md", "m21i", "Module 2 — Prise en main du logiciel Pennylane", "2.9 Formulaire CA3/CA12 sur Pennylane (vidéo)", None),
+    ("modules/Module-PL10-Basculer.md", "m21j", "Module 2 — Prise en main du logiciel Pennylane", "2.10 📌 Basculer sa compta sur Pennylane (PDF)", None),
+    ("modules/Module-PL11-Liasse.md", "m21k", "Module 2 — Prise en main du logiciel Pennylane", "2.11 Préparer la liasse fiscale sur Pennylane", None),
+    ("modules/Module-PL12-Figer.md", "m21l", "Module 2 — Prise en main du logiciel Pennylane", "2.12 Figer la comptabilité sur Pennylane (vidéo)", None),
 
     ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & révision", "3.1 TVA française", "m05"),
     ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & révision", "3.2 Rapprochement bancaire", "m06"),
@@ -231,7 +231,7 @@ def md_to_html(text):
 GROUP_MOD = {
     "Présentation": "free",
     "Module 1 — Fondamentaux": "mod1",
-    "Module 2 — Logiciel Pennylane": "mod2",
+    "Module 2 — Prise en main du logiciel Pennylane": "mod2",
     "Module 3 — Opérations & révision": "mod3",
     "Module 4 — Fiscalité, clôture & dossiers spécifiques": "mod4",
     "Module 5 — Liasse fiscale & déclarations par régime": "mod5",
@@ -250,7 +250,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Prise en main du logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 
@@ -312,6 +312,16 @@ header .grow{flex:1}
 .content th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px}
 .content td{border:1px solid var(--bd);padding:7px 10px;vertical-align:top}
 .content tbody tr:nth-child(even){background:#f7fafd}
+/* Écriture comptable illustrée (style logiciel) */
+.content table.ecr{border:1px solid #cfe8dc;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(20,40,70,.08);margin:18px 0}
+.content table.ecr caption{caption-side:top;text-align:left;background:#e8f7ef;color:#0a7a4f;font-weight:700;padding:10px 14px;border-bottom:1px solid #cfe8dc;border-radius:12px 12px 0 0}
+.content table.ecr th{background:#0a8f5b;color:#fff;border:none}
+.content table.ecr td{border:none;border-bottom:1px solid #eef3f1;vertical-align:middle}
+.content table.ecr td:first-child{font-weight:700;color:#0a3d2c;font-variant-numeric:tabular-nums}
+.content table.ecr th.d,.content table.ecr td.d{text-align:right;color:#1554b8;font-variant-numeric:tabular-nums}
+.content table.ecr th.c,.content table.ecr td.c{text-align:right;color:#0a7a4f;font-variant-numeric:tabular-nums}
+.content table.ecr tbody tr:nth-child(even){background:#fafdfb}
+.content table.ecr tr.tot td{background:#f1f8f4;font-weight:800;border-top:2px solid #0a8f5b;border-bottom:none}
 .pagebar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0;padding-top:16px;border-top:1px solid var(--bd)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(20,40,70,.05)}
 /* Video */

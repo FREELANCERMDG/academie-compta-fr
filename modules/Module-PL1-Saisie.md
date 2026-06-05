@@ -15,6 +15,22 @@ La **saisie d'une facture** (achat ou vente) dans Pennylane — de la pièce jus
 5. **Joindre la pièce** justificative.
 6. **Valider** → l'écriture est générée : *achat* `6xx / 44566 / 401` · *vente* `411 / 70x / 44571`.
 
+## Exemples d'écritures (présentées comme dans le logiciel)
+
+**Achat — facture fournisseur (TVA déductible)**
+
+<table class="ecr"><caption>Journal ACH · 15/01/2025 · Facture fournisseur OVH n°F2025-014</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>626100</td><td>Frais de télécoms / hébergement</td><td class="d">100,00</td><td class="c"></td></tr><tr><td>445660</td><td>TVA déductible 20 %</td><td class="d">20,00</td><td class="c"></td></tr><tr><td>401OVH</td><td>OVH SAS</td><td class="d"></td><td class="c">120,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">120,00</td><td class="c">120,00</td></tr></tbody></table>
+
+**Vente — facture client (TVA collectée)**
+
+<table class="ecr"><caption>Journal VT · 18/01/2025 · Facture client DUPONT n°2025-007</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>411DUP</td><td>Client DUPONT</td><td class="d">600,00</td><td class="c"></td></tr><tr><td>706000</td><td>Prestations de services</td><td class="d"></td><td class="c">500,00</td></tr><tr><td>445710</td><td>TVA collectée 20 %</td><td class="d"></td><td class="c">100,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">600,00</td><td class="c">600,00</td></tr></tbody></table>
+
+**Encaissement client (banque + lettrage)**
+
+<table class="ecr"><caption>Journal BQ · 31/01/2025 · Encaissement facture 2025-007</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>512000</td><td>Banque</td><td class="d">600,00</td><td class="c"></td></tr><tr><td>411DUP</td><td>Client DUPONT (lettré)</td><td class="d"></td><td class="c">600,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">600,00</td><td class="c">600,00</td></tr></tbody></table>
+
+> 💡 Le **Débit** (bleu) et le **Crédit** (vert) s'**équilibrent toujours** : c'est la règle de la partie double. Le total débit = total crédit.
+
 ## À retenir (réflexes cabinet)
 - Beaucoup d'écritures se créent **au rapprochement bancaire** : on ne saisit à la main que ce qui n'a pas de transaction.
 - **Pas de pièce → on ne valide pas** ; on relance le client.

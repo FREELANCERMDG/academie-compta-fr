@@ -95,7 +95,7 @@
   ],
   "_note_temoignages": "Exemples — remplacez-les par de vrais témoignages (avec accord des personnes).",
   "offres": [
-    { "code": "MOD2", "titre": "Module 2 — Logiciel Pennylane", "prix": 45000, "modules": ["mod2"] },
+    { "code": "MOD2", "titre": "Module 2 — Prise en main du logiciel Pennylane", "prix": 45000, "modules": ["mod2"] },
     { "code": "MOD3", "titre": "Module 3 — Opérations & révision", "prix": 30000, "modules": ["mod3"] },
     { "code": "MOD4", "titre": "Module 4 — Fiscalité, clôture & dossiers spécifiques", "prix": 30000, "modules": ["mod4"] },
     { "code": "MOD5", "titre": "Module 5 — Liasse fiscale & déclarations par régime", "prix": 30000, "modules": ["mod5"] },
