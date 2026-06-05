@@ -55,10 +55,10 @@ def video_embed(entry):
 MANIFEST = [
     ("site/accueil-cours.md", "accueil", "Présentation", "Bienvenue", None),
 
-    ("modules/Module-01-Environnement-comptable-francais.md", "m01", "Module 1 — Fondamentaux", "1.1 Environnement comptable FR", "m01"),
-    ("modules/Module-02-Bases-comptabilite-PCG.md", "m02", "Module 1 — Fondamentaux", "1.2 Bases de comptabilité (PCG)", "m02"),
-    ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux", "1.3 Organisation du dossier", "m03"),
-    ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux", "1.4 Saisie comptable pratique", "m04"),
+    ("modules/Module-01-Environnement-comptable-francais.md", "m01", "Module 1 — Fondamentaux de la comptabilité française", "1.1 Environnement comptable FR", "m01"),
+    ("modules/Module-02-Bases-comptabilite-PCG.md", "m02", "Module 1 — Fondamentaux de la comptabilité française", "1.2 Bases de comptabilité (PCG)", "m02"),
+    ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux de la comptabilité française", "1.3 Organisation du dossier", "m03"),
+    ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux de la comptabilité française", "1.4 Saisie comptable pratique", "m04"),
 
     ("modules/Module-PL1-Saisie.md", "m21", "Module 2 — Prise en main du logiciel Pennylane", "2.1 Saisie comptable (vidéo)", "m21"),
     ("modules/Module-PL2-Categorisation.md", "m21b", "Module 2 — Prise en main du logiciel Pennylane", "2.2 Règles de catégorisation (vidéo)", None),
@@ -230,7 +230,7 @@ def md_to_html(text):
 # Groupe -> code module (verrouillage par paiement). "free" = toujours accessible.
 GROUP_MOD = {
     "Présentation": "free",
-    "Module 1 — Fondamentaux": "mod1",
+    "Module 1 — Fondamentaux de la comptabilité française": "mod1",
     "Module 2 — Prise en main du logiciel Pennylane": "mod2",
     "Module 3 — Opérations & révision": "mod3",
     "Module 4 — Fiscalité, clôture & dossiers spécifiques": "mod4",
@@ -250,7 +250,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Prise en main du logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux de la comptabilité française", "Module 2 — Prise en main du logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 
