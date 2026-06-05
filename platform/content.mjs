@@ -23,17 +23,14 @@ const MACRO = [
   },
   {
     code: 'mod2', titre: 'Module 2 — Logiciel Pennylane',
-    resume: "Prise en main complète de Pennylane (plateforme n°1 des cabinets français) : interface, menus, collecte des pièces, rapprochement bancaire, TVA, lettrage et révision.",
+    resume: "Pennylane en vidéo (lecteur intégré) : la saisie comptable, les règles de catégorisation des transactions, l'import d'un FEC et la reprise des immobilisations — chaque vidéo est expliquée pas à pas.",
     topics: [
-      "Interface cabinet (Comptabilité) vs client (Gestion) · prise en main",
-      "Menus : Tableau de bord, Saisie, Révision, Fiscalité, États financiers, Dossier client",
-      "Collecte des pièces (connexion bancaire, OCR) · factures clients / fournisseurs",
-      "Rapprochement bancaire pas à pas (exemple chiffré) : statuts À traiter / Traité / Justifié",
-      "Déclarer la TVA (CA3) pas à pas + cadrage TVA — avec exemples",
-      "Intégrer une immobilisation (fiche + plan d'amortissement)",
-      "Opérations intracommunautaires (autoliquidation, DEB/DES) & comptes intercos (451/455)"
+      "🎥 Saisie comptable sur Pennylane (vidéo + explication)",
+      "🎥 Créer des règles de catégorisation des transactions (vidéo + explication)",
+      "🎥 Importer un FEC pour reprendre une compta existante (vidéo + explication)",
+      "🎥 Reprise des immobilisations / à-nouveaux (vidéo + explication)"
     ],
-    files: ['Module-21-Logiciel-Pennylane.md', 'Module-21B-Pennylane-pratique.md'],
+    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md'],
     quiz: 'm21'
   },
   {

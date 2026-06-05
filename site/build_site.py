@@ -60,8 +60,10 @@ MANIFEST = [
     ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux", "1.3 Organisation du dossier", "m03"),
     ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux", "1.4 Saisie comptable pratique", "m04"),
 
-    ("modules/Module-21-Logiciel-Pennylane.md", "m21", "Module 2 — Logiciel Pennylane", "2.1 Pennylane — prise en main complète", "m21"),
-    ("modules/Module-21B-Pennylane-pratique.md", "m21b", "Module 2 — Logiciel Pennylane", "2.2 Pennylane — pratique par opération", None),
+    ("modules/Module-PL1-Saisie.md", "m21", "Module 2 — Logiciel Pennylane", "2.1 Saisie comptable (vidéo)", "m21"),
+    ("modules/Module-PL2-Categorisation.md", "m21b", "Module 2 — Logiciel Pennylane", "2.2 Règles de catégorisation (vidéo)", None),
+    ("modules/Module-PL3-Import-FEC.md", "m21c", "Module 2 — Logiciel Pennylane", "2.3 Import du FEC (vidéo)", None),
+    ("modules/Module-PL4-Reprise-immo.md", "m21d", "Module 2 — Logiciel Pennylane", "2.4 Reprise des immobilisations (vidéo)", None),
 
     ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & révision", "3.1 TVA française", "m05"),
     ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & révision", "3.2 Rapprochement bancaire", "m06"),
