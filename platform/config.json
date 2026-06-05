@@ -65,7 +65,7 @@
     "modules_gratuits": ["mod1"]
   },
   "securite": {
-    "twofa_obligatoire": true,
+    "twofa_obligatoire": false,
     "_note": "Mettre true en production pour imposer la double authentification (2FA) à tous les utilisateurs."
   },
   "acces": {

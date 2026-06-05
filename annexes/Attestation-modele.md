@@ -6,7 +6,7 @@
 
 <div align="center">
 
-<img src="img/logo.jpg" alt="MG Consulting IT & ACT" width="280">
+<img src="/public/logo.jpg" alt="MG Consulting IT & ACT" width="280">
 
 **MG CONSULTING IT&ACT**
 
