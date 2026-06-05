@@ -28,9 +28,10 @@ const MACRO = [
       "🎥 Saisie comptable sur Pennylane (vidéo + explication)",
       "🎥 Créer des règles de catégorisation des transactions (vidéo + explication)",
       "🎥 Importer un FEC pour reprendre une compta existante (vidéo + explication)",
-      "🎥 Reprise des immobilisations / à-nouveaux (vidéo + explication)"
+      "🎥 Reprise des immobilisations / à-nouveaux (vidéo + explication)",
+      "Comment fonctionne la TVA sur Pennylane (comptes automatiques, biens vs services, débits/encaissements)"
     ],
-    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md'],
+    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md'],
     quiz: 'm21'
   },
   {
