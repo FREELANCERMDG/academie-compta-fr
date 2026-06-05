@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1131" viewBox="0 0 800 1131" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F4E78"/><stop offset="1" stop-color="#143452"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1131" fill="url(#bg)"/>
+  <!-- Bandeau marque -->
+  <rect x="0" y="0" width="800" height="92" fill="#0f2233"/>
+  <text x="40" y="58" fill="#ffffff" font-size="30" font-weight="700">Académie Compta <tspan fill="#E8A13A">FR</tspan></text>
+  <text x="760" y="56" fill="#aac0d4" font-size="16" text-anchor="end">academiecomptafr.mg</text>
+
+  <!-- Titre -->
+  <text x="40" y="180" fill="#ffffff" font-size="42" font-weight="800">Devenez collaborateur</text>
+  <text x="40" y="230" fill="#ffffff" font-size="42" font-weight="800">comptable pour des</text>
+  <text x="40" y="280" fill="#E8A13A" font-size="42" font-weight="800">cabinets français 🇫🇷</text>
+  <text x="40" y="326" fill="#cdddec" font-size="22">…depuis Madagascar, 100 % en ligne.</text>
+
+  <!-- Badge gratuit -->
+  <g transform="translate(560,150)">
+    <circle cx="80" cy="80" r="80" fill="#E8A13A"/>
+    <text x="80" y="66" fill="#1c2733" font-size="20" font-weight="800" text-anchor="middle">MODULE 1</text>
+    <text x="80" y="100" fill="#1c2733" font-size="30" font-weight="800" text-anchor="middle">GRATUIT</text>
+  </g>
+
+  <!-- Carte avantages -->
+  <rect x="40" y="370" width="720" height="430" rx="18" fill="#ffffff"/>
+  <text x="70" y="425" fill="#1F4E78" font-size="26" font-weight="800">Ce que vous apprenez</text>
+  <g fill="#1c2733" font-size="22">
+    <text x="70" y="475">✅ 4 modules complets · 24 leçons</text>
+    <text x="70" y="520">✅ Logiciel <tspan font-weight="700">Pennylane</tspan> pas à pas (TVA, rappro, immo…)</text>
+    <text x="70" y="565">✅ TVA, liasse fiscale, révision par cycle</text>
+    <text x="70" y="610">✅ 10 cas pratiques corrigés + 100+ quiz</text>
+    <text x="70" y="655">✅ Simulations d'entretien (4 postes)</text>
+    <text x="70" y="700">✅ Spécificités par activité (BNC, SCI, BTP…)</text>
+    <text x="70" y="745">🏅 <tspan font-weight="700">Attestation</tspan> de fin de formation</text>
+  </g>
+
+  <!-- Formateur / preuve -->
+  <text x="40" y="860" fill="#ffffff" font-size="22">👨‍🏫 Formé par un professionnel — <tspan font-weight="700" fill="#E8A13A">10 ans d'expérience</tspan></text>
+  <text x="40" y="900" fill="#ffffff" font-size="22">🔒 Accès sécurisé 12 mois · contenu à jour des lois de finances</text>
+
+  <!-- Paiement -->
+  <rect x="40" y="930" width="720" height="70" rx="12" fill="#16344f"/>
+  <text x="70" y="974" fill="#ffffff" font-size="22">💳 Paiement : <tspan font-weight="700" fill="#ff7a00">Orange Money</tspan> · <tspan font-weight="700" fill="#ffd200">MVola</tspan> · Carte</text>
+
+  <!-- CTA bas -->
+  <rect x="0" y="1035" width="800" height="96" fill="#E8A13A"/>
+  <text x="40" y="1080" fill="#1c2733" font-size="26" font-weight="800">Inscrivez-vous : academiecomptafr.mg</text>
+  <text x="40" y="1112" fill="#1c2733" font-size="20">WhatsApp +261 32 73 622 59 — MG Consulting IT &amp; ACT</text>
+</svg>

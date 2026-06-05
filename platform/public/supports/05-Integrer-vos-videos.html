@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>05-Integrer-vos-videos.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>Intégrer vos vidéos (explications en malgache) dans la formation</h2>
+<p>Vous pouvez ajouter <strong>une vidéo en haut de chaque module</strong> (et de l&#39;accueil, des cas, de l&#39;évaluation). Idéal pour vos explications <strong>en malgache</strong>. Tout passe par un seul fichier : <strong><code>site/videos.json</code></strong>.</p>
+<hr>
+<h3>1. Principe</h3>
+<p>Le fichier <code>site/videos.json</code> associe chaque page (ex. <code>m05</code>) à une vidéo. Au build, un <strong>lecteur responsive</strong> s&#39;affiche en haut du module. Trois sources possibles :</p>
+<div class="tbl"><table><thead><tr><th><code>type</code></th><th><code>src</code> à mettre</th><th>Quand l&#39;utiliser</th></tr></thead><tbody><tr><td><code>youtube</code></td><td>l&#39;URL ou l&#39;ID YouTube</td><td>Le plus simple, léger (recommandé). Mettre la vidéo en <strong>« Non répertoriée »</strong></td></tr><tr><td><code>vimeo</code></td><td>l&#39;URL ou l&#39;ID Vimeo</td><td>Alternative pro</td></tr><tr><td><code>mp4</code></td><td>chemin local <code>videos/xxx.mp4</code></td><td><strong>Hors-ligne total</strong> (vidéo dans le dossier <code>site/videos/</code>)</td></tr></tbody></table></div>
+<hr>
+<h3>2. Méthode A — YouTube (recommandée, légère pour Madagascar)</h3>
+<ol><li>Mettez votre vidéo en ligne sur YouTube en <strong>« Non répertoriée »</strong> (visible seulement avec le lien).</li><li>Copiez le lien (ex. <code>https://youtu.be/AbCdEf12345</code>).</li><li>Dans <code>site/videos.json</code>, renseignez le module :</li></ol>
+<pre><code>&quot;m05&quot;: { &quot;type&quot;: &quot;youtube&quot;, &quot;src&quot;: &quot;https://youtu.be/AbCdEf12345&quot;, &quot;title&quot;: &quot;Module 5 TVA — fanazavana amin&#39;ny teny malagasy&quot; }</code></pre>
+<ol><li>Régénérez : <code>python site/build_site.py</code> → la vidéo apparaît en haut du Module 5.</li></ol>
+<h3>3. Méthode B — Fichier MP4 local (100 % hors-ligne)</h3>
+<ol><li>Créez le dossier <code>site/videos/</code>.</li><li>Déposez-y vos fichiers, ex. <code>module-05.mp4</code>.</li><li>Dans <code>videos.json</code> :</li></ol>
+<pre><code>&quot;m05&quot;: { &quot;type&quot;: &quot;mp4&quot;, &quot;src&quot;: &quot;videos/module-05.mp4&quot;, &quot;title&quot;: &quot;Module 5 — malgache&quot; }</code></pre>
+<ol><li><code>python site/build_site.py</code>. La vidéo se lit même par double-clic (file://).</li></ol>
+<blockquote>⚠️ Pour le <strong>SCORM</strong>, les MP4 locaux doivent être inclus dans le zip (volumineux). Pour un LMS, préférez <strong>YouTube/Vimeo</strong> (méthode A) afin de garder le paquet léger.</blockquote>
+<h3>4. Identifiants des pages (clés du fichier)</h3>
+<p><code>accueil</code> · <code>m01</code>…<code>m17</code> · <code>m20</code> · <code>m21</code> (Pennylane) · <code>m22</code> (Tiime) · <code>m23</code> (Quadra) · <code>m24</code> (Isacompta) · <code>cas</code> · <code>eval</code>.</p>
+<blockquote>Laisser <code>src</code> vide = aucune vidéo affichée pour ce module.</blockquote>
+<h3>5. Conseils de tournage (vidéos en malgache)</h3>
+<ul><li><strong>Durée</strong> : 8–15 min/module. Structure : accroche → objectif → démonstration écran → points clés (cf. <code>supports/02-Scripts-video.md</code>, à traduire/adapter en malgache).</li><li><strong>Enregistrement d&#39;écran</strong> : OBS Studio (gratuit) pour montrer Pennylane/Quadra/Excel + voix off.</li><li><strong>Qualité</strong> : 720p suffit (bande passante) ; ajoutez des <strong>sous-titres</strong> si possible.</li><li><strong>Confidentialité</strong> : ne filmez que des <strong>dossiers fictifs/anonymisés</strong> (jamais de données client réelles).</li><li><strong>Hébergement</strong> : YouTube non répertorié = simple et léger ; MP4 local = hors-ligne.</li></ul>
+<h3>6. Récapitulatif (3 étapes)</h3>
+<ol><li>Enregistrer la vidéo (malgache).</li><li>Mettre le lien/fichier dans <code>site/videos.json</code>.</li><li><code>python site/build_site.py</code> (puis <code>python scorm/build_scorm.py</code> si LMS).</li></ol></body></html>

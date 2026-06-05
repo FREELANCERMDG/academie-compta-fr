@@ -53,17 +53,15 @@ def video_embed(entry):
 
 # (chemin relatif depuis ROOT, id, groupe, titre nav, cle quiz)
 MANIFEST = [
-    ("README.md", "accueil", "Présentation", "Accueil & programme", None),
+    ("site/accueil-cours.md", "accueil", "Présentation", "Bienvenue", None),
 
     ("modules/Module-01-Environnement-comptable-francais.md", "m01", "Module 1 — Fondamentaux", "1.1 Environnement comptable FR", "m01"),
     ("modules/Module-02-Bases-comptabilite-PCG.md", "m02", "Module 1 — Fondamentaux", "1.2 Bases de comptabilité (PCG)", "m02"),
     ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux", "1.3 Organisation du dossier", "m03"),
+    ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux", "1.4 Saisie comptable pratique", "m04"),
 
-    ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 2 — Saisie & logiciels", "2.1 Saisie comptable pratique", "m04"),
-    ("modules/Module-21-Logiciel-Pennylane.md", "m21", "Module 2 — Saisie & logiciels", "2.2 Logiciel Pennylane", "m21"),
-    ("modules/Module-22-Logiciel-Tiime.md", "m22", "Module 2 — Saisie & logiciels", "2.3 Logiciel Tiime", "m22"),
-    ("modules/Module-23-Logiciel-Quadra.md", "m23", "Module 2 — Saisie & logiciels", "2.4 Logiciel Quadra (Cegid)", "m23"),
-    ("modules/Module-24-Logiciel-Isacompta.md", "m24", "Module 2 — Saisie & logiciels", "2.5 Logiciel Isacompta (ISAGRI)", "m24"),
+    ("modules/Module-21-Logiciel-Pennylane.md", "m21", "Module 2 — Logiciel Pennylane", "2.1 Pennylane — prise en main complète", "m21"),
+    ("modules/Module-21B-Pennylane-pratique.md", "m21b", "Module 2 — Logiciel Pennylane", "2.2 Pennylane — pratique par opération", None),
 
     ("modules/Module-05-TVA-francaise.md", "m05", "Module 3 — Opérations & contrôle", "3.1 TVA française", "m05"),
     ("modules/Module-06-Rapprochement-bancaire.md", "m06", "Module 3 — Opérations & contrôle", "3.2 Rapprochement bancaire", "m06"),
@@ -72,6 +70,7 @@ MANIFEST = [
     ("modules/Module-09-Paie-ecritures-sociales.md", "m09", "Module 3 — Opérations & contrôle", "3.5 Paie et écritures sociales", "m09"),
     ("modules/Module-10-Immobilisations-amortissements.md", "m10", "Module 3 — Opérations & contrôle", "3.6 Immobilisations", "m10"),
     ("modules/Module-11-Revision-comptable.md", "m11", "Module 3 — Opérations & contrôle", "3.7 Révision comptable", "m11"),
+    ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & contrôle", "3.8 Révision par défilement (classes 1 à 7)", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, bilan & cas", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, bilan & cas", "4.2 Bilan et clôture", "m13"),
@@ -82,6 +81,16 @@ MANIFEST = [
     ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 4 — Fiscalité, bilan & cas", "4.7 Carrière & freelancing", "m20"),
     ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 4 — Fiscalité, bilan & cas", "4.8 Cas pratiques corrigés", None),
     ("evaluations/Evaluation-finale.md", "eval", "Module 4 — Fiscalité, bilan & cas", "4.9 Évaluation finale", "final"),
+    ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, bilan & cas", "4.10 Spécificités & cas particuliers", None),
+    ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, bilan & cas", "4.11 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
+    ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, bilan & cas", "4.12 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
+    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 4 — Fiscalité, bilan & cas", "4.13 Simulations d'entretien", None),
+
+    ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 4 — Liasse fiscale", "L.1 Vue d'ensemble & quel régime dépose quoi", None),
+    ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 4 — Liasse fiscale", "L.2 Réel normal (2050 → 2059)", None),
+    ("modules/Module-32-Liasse-reel-simplifie.md", "m32", "Module 4 — Liasse fiscale", "L.3 Réel simplifié (2033‑A → G)", None),
+    ("modules/Module-33-Liasse-BNC-2035.md", "m33", "Module 4 — Liasse fiscale", "L.4 BNC — déclaration contrôlée (2035)", None),
+    ("modules/Module-34-Liasse-agricole-fonciere.md", "m34", "Module 4 — Liasse fiscale", "L.5 Agricole (2139/2143) & SCI/foncier (2072/2044)", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),
@@ -218,7 +227,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     CONTENT[pid] = body_html
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Saisie & logiciels", "Module 3 — Opérations & contrôle", "Module 4 — Fiscalité, bilan & cas", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux", "Module 2 — Logiciel Pennylane", "Module 3 — Opérations & contrôle", "Module 4 — Fiscalité, bilan & cas", "Module 4 — Liasse fiscale", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 
@@ -273,6 +282,8 @@ header .grow{flex:1}
 .content pre{background:#0f2233;color:#d7e3ee;padding:14px;border-radius:10px;overflow:auto;font-size:13px}
 .content pre code{background:none;color:inherit;padding:0}
 .content hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+.content img{max-width:100%;height:auto;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:10px;box-shadow:0 1px 6px rgba(20,40,70,.08)}
+.content figure{margin:14px 0}.content figcaption{font-size:12px;color:#8a97a6;text-align:center;margin-top:4px}
 .tbl{overflow-x:auto;margin:12px 0}
 .content table{border-collapse:collapse;width:100%;font-size:13.5px}
 .content th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px}
@@ -418,6 +429,7 @@ document.getElementById('search').addEventListener('input',e=>{
 });
 renderNav();show(curId());
 </script>
+<script src="cerfa.js"></script>
 </body>
 </html>"""
 

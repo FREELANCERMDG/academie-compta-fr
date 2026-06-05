@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Script « Tour par module » — à coller dans Pictory/Fliki</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;max-width:900px;margin:26px auto;padding:0 18px;color:#1c2733;background:#f4f6f9;line-height:1.55}
+h1{color:#1F4E78;border-bottom:3px solid #E8A13A;padding-bottom:8px}
+.block{background:#fff;border:1px solid #e2e6ec;border-radius:12px;padding:16px 18px;margin:14px 0}
+.scene{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #e2e6ec;border-radius:12px;padding:12px;margin:12px 0}
+.scene img{width:240px;border-radius:8px;border:1px solid #e2e6ec;flex:none}
+.scene .n{background:#1F4E78;color:#fff;border-radius:8px;padding:3px 9px;font-weight:800;font-size:13px}
+.scene .f{color:#6b7785;font-size:12px}
+textarea{width:100%;height:360px;border:1px solid #cfd8e3;border-radius:10px;padding:12px;font-size:14px;font-family:inherit}
+button{background:#E8A13A;color:#1c2733;border:none;font-weight:700;padding:9px 14px;border-radius:8px;cursor:pointer}
+@media(max-width:640px){.scene{flex-direction:column}.scene img{width:100%}}
+</style></head><body>
+<h1>🎬 Script « Tour par module » — prêt à coller (Pictory / Fliki)</h1>
+<div class="block">
+<p><b>Mode d'emploi :</b> 1) Copiez le script. 2) Dans Pictory/Fliki « Script to Video », collez‑le (8 scènes). 3) Sur chaque scène, mettez l'image indiquée. 4) Voix française + sous‑titres → Export.</p>
+<button onclick="navigator.clipboard.writeText(document.getElementById('s').value).then(()=>alert('Script copié !'))">📋 Copier le script</button>
+<p></p>
+<textarea id="s" readonly>Bonjour et bienvenue sur l'Académie Compta FR. C'est la plateforme qui forme les comptables de Madagascar à travailler sur de vrais dossiers français, entièrement en ligne. Laissez-moi vous présenter le programme, module par module.
+
+La formation est organisée en quatre modules et vingt-quatre leçons. Vous partez des fondamentaux, puis vous progressez jusqu'à la fiscalité, le bilan et la liasse. Et pour bien démarrer, le Module 1 est entièrement gratuit.
+
+Module 1, gratuit : les fondamentaux. Vous découvrez le rôle du cabinet, la confidentialité et le RGPD, le plan comptable général, l'organisation d'un dossier, et la saisie des écritures de base : achats, ventes et banque.
+
+Module 2 : le logiciel Pennylane, utilisé par les cabinets français. Pas à pas, vous apprenez le rapprochement bancaire, la déclaration de TVA, l'intégration d'une immobilisation, le cadrage de TVA, ainsi que les opérations intracommunautaires et intercos, le tout avec des exemples chiffrés.
+
+Module 3 : les opérations et le contrôle. TVA, lettrage clients et fournisseurs, comptes d'attente, paie et écritures sociales, immobilisations, et la révision par défilement, compte par compte, des classes 1 à 7.
+
+Module 4 : la fiscalité et le bilan. Impôt sur le revenu et sur les sociétés, BNC, la liasse fiscale régime par régime, les spécificités par activité, le dossier bâtiment, dix cas pratiques corrigés, et même des simulations d'entretien.
+
+Tout au long de la formation, vous profitez d'un suivi de votre progression, de quiz interactifs, des formulaires CERFA expliqués case par case, d'un accès sécurisé pendant douze mois, et d'une attestation à la fin.
+
+Vous serez formé par un professionnel de dix ans d'expérience. Alors n'attendez plus : testez gratuitement le Module 1 et lancez votre carrière sur academiecompta-eff-erre point ème-gé. À très bientôt dans la formation !</textarea>
+</div>
+
+<h2 style="color:#1F4E78">Scène par scène (image + texte)</h2>
+<div class="scene"><img src="01-accueil.png"><div><span class="n">Scène 1</span> <span class="f">01-accueil.png</span><p>Bonjour et bienvenue sur l'Académie Compta FR… Laissez-moi vous présenter le programme, module par module.</p></div></div>
+<div class="scene"><img src="02-programme.png"><div><span class="n">Scène 2</span> <span class="f">02-programme.png</span><p>Quatre modules et vingt-quatre leçons… le Module 1 est entièrement gratuit.</p></div></div>
+<div class="scene"><img src="m1-module1.png"><div><span class="n">Scène 3</span> <span class="f">m1-module1.png</span><p>Module 1, gratuit : les fondamentaux (rôle du cabinet, PCG, saisie…).</p></div></div>
+<div class="scene"><img src="m2-module2.png"><div><span class="n">Scène 4</span> <span class="f">m2-module2.png</span><p>Module 2 : Pennylane pas à pas (rappro, TVA, immo, intracom/intercos).</p></div></div>
+<div class="scene"><img src="m3-module3.png"><div><span class="n">Scène 5</span> <span class="f">m3-module3.png</span><p>Module 3 : opérations & contrôle + révision par défilement (classes 1 à 7).</p></div></div>
+<div class="scene"><img src="m4-module4.png"><div><span class="n">Scène 6</span> <span class="f">m4-module4.png</span><p>Module 4 : fiscalité, liasse par régime, spécificités, bâtiment, cas & entretiens.</p></div></div>
+<div class="scene"><img src="03-visite-guidee.png"><div><span class="n">Scène 7</span> <span class="f">03-visite-guidee.png</span><p>Suivi, quiz, CERFA interactifs, accès 12 mois, attestation.</p></div></div>
+<div class="scene"><img src="04-module1-gratuit.png"><div><span class="n">Scène 8</span> <span class="f">04-module1-gratuit.png</span><p>Formé par un pro de 10 ans. Testez le Module 1 gratuit → academiecomptafr.mg !</p></div></div>
+</body></html>

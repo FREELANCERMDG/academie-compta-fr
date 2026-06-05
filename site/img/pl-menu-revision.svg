@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" font-family="Segoe UI, Arial, sans-serif">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e7d63"/><stop offset="1" stop-color="#0b3f37"/></linearGradient></defs>
+  <rect width="600" height="500" fill="#ffffff"/>
+  <rect width="170" height="500" fill="url(#g)"/>
+  <text x="20" y="40" fill="#fff" font-size="17" font-weight="700">● pennylane</text>
+  <rect x="14" y="58" width="84" height="22" rx="5" fill="#fff"/><text x="56" y="74" fill="#1c2733" font-size="11" text-anchor="middle">Comptabilité</text>
+  <text x="108" y="74" fill="#cfe6df" font-size="11">Gestion</text>
+  <g font-size="13.5" fill="#dff1ea">
+    <text x="20" y="128">✎ Saisie</text>
+    <rect x="0" y="146" width="170" height="30" fill="rgba(255,255,255,.14)"/><text x="20" y="166" fill="#fff" font-weight="700">◷ Révision</text>
+    <text x="20" y="204">€ Fiscalité</text><text x="20" y="242">▭ États de synthèse</text><text x="20" y="280">📁 Dossier du client</text>
+  </g>
+  <text x="195" y="40" font-size="18" font-weight="700" fill="#1c2733">Révision</text>
+  <rect x="195" y="54" width="280" height="58" rx="8" fill="#f6fbf9" stroke="#cdd6df"/>
+  <text x="207" y="76" font-size="13" font-weight="700" fill="#1c2733">Dossier de travail 09/25</text>
+  <text x="207" y="94" font-size="11" fill="#6b7785">01/10/2024 – 30/09/2025 · Comptes</text>
+  <g font-size="11"><circle cx="212" cy="104" r="2" fill="#888"/><text x="222" y="108" fill="#6b7785">2</text><text x="244" y="108" fill="#E8A13A">2</text><text x="266" y="108" fill="#2E6CA4">113</text><text x="300" y="108" fill="#6b7785">0 · 0</text></g>
+  <g font-size="13" fill="#27384a">
+    <text x="195" y="142" font-size="12" font-weight="700" fill="#8a97a6">BALANCES</text>
+    <rect x="195" y="150" width="280" height="26" rx="6" fill="#eef4fb"/><text x="205" y="168" fill="#1F4E78">Balance générale</text>
+    <text x="205" y="194">Balance fournisseurs</text><text x="205" y="218">Balance clients</text><text x="205" y="242">Balance âgée</text>
+    <text x="205" y="276" font-weight="700">Grand livre</text>
+    <text x="195" y="312" font-size="12" font-weight="700" fill="#8a97a6">DOSSIERS DE TRAVAIL</text>
+    <text x="205" y="338">Dossier de travail</text><text x="205" y="362">Historique</text>
+    <text x="195" y="398" font-size="12" font-weight="700" fill="#8a97a6">ÉCRITURES D'INVENTAIRE</text>
+    <text x="205" y="424">Immobilisations · Emprunts · Crédits‑bail</text><text x="205" y="448">Véhicules · Subventions</text>
+  </g>
+  <text x="195" y="490" font-size="10" fill="#9db">Reconstitution pédagogique — MG CONSULTING IT&amp;ACT</text>
+</svg>

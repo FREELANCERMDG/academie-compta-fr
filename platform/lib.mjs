@@ -23,7 +23,10 @@ export const cfg = JSON.parse(fs.readFileSync(path.join(DIR, 'config.json'), 'ut
 
 // ---- Base de données ----
 export function openDB() {
-  const db = new DatabaseSync(path.join(DIR, 'data.db'));
+  // DATA_DIR (ex. disque persistant /data en production) ; sinon dossier de l'app.
+  const dataDir = process.env.DATA_DIR || DIR;
+  try { fs.mkdirSync(dataDir, { recursive: true }); } catch {}
+  const db = new DatabaseSync(path.join(dataDir, 'data.db'));
   db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
   CREATE TABLE IF NOT EXISTS users(
     id TEXT PRIMARY KEY, nom TEXT, prenom TEXT, email TEXT UNIQUE, tel TEXT,
@@ -42,6 +45,7 @@ export function openDB() {
     methode TEXT, statut TEXT DEFAULT 'initie', reference TEXT, provider_ref TEXT, cree_le TEXT, maj_le TEXT);
   CREATE TABLE IF NOT EXISTS tentatives(email TEXT PRIMARY KEY, n INTEGER DEFAULT 0, bloque_jusqu TEXT);
   CREATE TABLE IF NOT EXISTS journal(id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, user_id TEXT, action TEXT, detail TEXT, ip TEXT);
+  CREATE TABLE IF NOT EXISTS demandes(id TEXT PRIMARY KEY, user_id TEXT, sujet TEXT, message TEXT, statut TEXT DEFAULT 'nouvelle', cree_le TEXT);
   `);
   // migration : colonne d'expiration d'accès
   try { db.exec('ALTER TABLE inscriptions ADD COLUMN expire_le TEXT'); } catch { }
@@ -132,7 +136,7 @@ export function securityHeaders(res, { courseCSP = false, quizCSP = false, prod 
     ? "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; base-uri 'none'; frame-ancestors 'none'"
     : quizCSP
     ? "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; manifest-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
-    : "default-src 'none'; style-src 'self'; img-src 'self' data:; manifest-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
+    : "default-src 'none'; style-src 'self'; img-src 'self' data:; media-src 'self'; manifest-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
   res.setHeader('Content-Security-Policy', csp);
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');

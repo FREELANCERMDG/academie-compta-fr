@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>09-Mise-en-ligne-academiecomptafr.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>Mise en ligne — academiecomptafr.mg (pas à pas)</h2>
+<p>Objectif : publier la plateforme sur <strong>https://academiecomptafr.mg</strong>.<br>Le projet est <strong>déjà prêt</strong> (dépôt Git créé, Dockerfile + render.yaml inclus, config domaine faite). Il reste 3 actions qui nécessitent <strong>vos comptes</strong> (je ne peux pas les faire à votre place) : enregistrer le domaine, créer l&#39;hébergement, pointer le DNS.</p>
+<hr>
+<h3>Étape 0 — Avant de publier (production)</h3>
+<p>À régler dans <code>platform/config.json</code> puis commiter :</p>
+<ul><li><code>securite.twofa_obligatoire</code> → <strong>true</strong> (réactive la 2FA + QR code).</li><li>(option) <code>acces.duree_jours</code> → la durée d&#39;accès voulue (365 = 12 mois).</li></ul>
+<p>Variables d&#39;environnement à définir sur l&#39;hébergeur :</p>
+<ul><li><code>PRODUCTION=true</code>, <code>BASE_URL=https://academiecomptafr.mg</code></li><li><code>ADMIN_EMAIL</code> + <code>ADMIN_PASSWORD</code> (changez le mot de passe admin)</li><li><code>SESSION_SECRET</code> (chaîne aléatoire longue ; Render peut la générer)</li></ul>
+<hr>
+<h3>Étape 1 — Enregistrer le domaine (~18 €/an)</h3>
+<ol><li>Aller chez un bureau .mg : <strong>madagascar-internet.mg</strong> ou <strong>nic.mg/enregistrer</strong>.</li><li>Chercher <strong>academiecomptafr.mg</strong> → confirmer « disponible » → commander.</li><li>Récupérer l&#39;accès à la <strong>zone DNS</strong> du domaine.</li></ol>
+<h3>Étape 2 — Mettre le code sur GitHub</h3>
+<p>Le dépôt local est déjà prêt. Créez un dépôt <strong>privé</strong> sur github.com (ex. <code>academie-compta</code>), puis dans un terminal, à la racine du projet :</p>
+<pre><code>git remote add origin https://github.com/VOTRE-COMPTE/academie-compta.git
+git branch -M main
+git push -u origin main</code></pre>
+<p>(Authentification GitHub requise : token ou GitHub CLI.)</p>
+<h3>Étape 3 — Déployer sur Render (gratuit pour tester)</h3>
+<ol><li>Compte sur <strong>render.com</strong> → <strong>New → Blueprint</strong> (il lit <code>render.yaml</code>) <strong>ou</strong> <strong>New → Web Service</strong> (runtime <strong>Docker</strong>, il lit le <code>Dockerfile</code>).</li><li>Sélectionner votre dépôt GitHub.</li><li>Variables d&#39;environnement :</li></ol>
+<ul><li><code>PRODUCTION=true</code></li><li><code>BASE_URL=https://academiecomptafr.mg</code></li><li><code>ADMIN_EMAIL=...</code>  <code>ADMIN_PASSWORD=...</code></li><li><code>SESSION_SECRET</code> = généré automatiquement (Blueprint) ou collez une longue chaîne aléatoire.</li></ul>
+<ol><li><strong>Health check</strong> : <code>/sante</code>. Déployer → vous obtenez une URL <code>…onrender.com</code> (testez‑la).</li><li><strong>Persistance des comptes</strong> (important) : le plan gratuit efface les données à chaque redéploiement. Pour garder les comptes/paiements, ajoutez un <strong>disque persistant</strong> monté sur <strong><code>/app/platform</code></strong> (plan payant Render), ou utilisez un <strong>VPS</strong> (voir guide 06). Sinon, la base se réinitialise.</li></ol>
+<h3>Étape 4 — Brancher le domaine academiecomptafr.mg</h3>
+<ol><li>Sur Render : <strong>Settings → Custom Domains → Add</strong> <code>academiecomptafr.mg</code> (et éventuellement <code>www.academiecomptafr.mg</code>).</li><li>Render affiche les <strong>enregistrements DNS</strong> à créer (un <strong>A</strong> pour le domaine racine + un <strong>CNAME</strong> pour <code>www</code>).</li><li>Dans la <strong>zone DNS</strong> du domaine (chez votre registrar .mg), créez ces enregistrements.</li><li>Attendez la propagation (quelques minutes à quelques heures). Render génère le <strong>certificat HTTPS automatiquement</strong>.</li></ol>
+<p>→ <strong>https://academiecomptafr.mg</strong> est en ligne. 🎉</p>
+<h3>Étape 5 — Vérifications finales</h3>
+<ul><li>&#9744; Le lien <code>https://academiecomptafr.mg</code> s&#39;ouvre (cadenas HTTPS).</li><li>&#9744; <code>/sante</code> répond « ok ».</li><li>&#9744; Aperçu social OK (partagez le lien sur WhatsApp/Facebook → vignette).</li><li>&#9744; Connexion admin + 2FA (QR code) opérationnelle.</li><li>&#9744; Paiement test (Orange Money / MVola) → validation admin → accès.</li><li>&#9744; Mot de passe admin changé, <code>SESSION_SECRET</code> fort.</li><li>&#9744; Sauvegarde de <code>data.db</code> planifiée.</li></ul>
+<hr>
+<h3>Alternative : VPS (données persistantes, contrôle total)</h3>
+<p>Sur un petit VPS Linux (OVH/Contabo…) : installer Node ≥ 22, copier <code>site/</code> + <code>platform/</code>, <code>npm install</code> dans <code>platform/</code>, créer <code>platform/.env</code> (PRODUCTION=true, secrets), lancer avec <strong>pm2</strong>, mettre <strong>Caddy</strong> devant (HTTPS auto) :</p>
+<pre><code>academiecomptafr.mg {
+    reverse_proxy localhost:3000
+}</code></pre>
+<p><code>data.db</code> reste sur le disque (pensez aux sauvegardes).</p>
+<hr>
+<h4>Ce que je peux faire dès que c&#39;est en place</h4>
+<p>Donnez‑moi : (1) le domaine enregistré, (2) l&#39;hébergeur choisi, (3) l&#39;URL <code>…onrender.com</code> ou l&#39;IP du VPS → je vous donne les <strong>enregistrements DNS exacts</strong> et je vérifie chaque point de l&#39;Étape 5 avec vous.</p></body></html>

@@ -11,24 +11,31 @@ const gratuits = new Set((cfg.apercu && cfg.apercu.modules_gratuits) || ['mod1']
 const MACRO = [
   {
     code: 'mod1', titre: 'Module 1 — Fondamentaux de la comptabilité française',
-    resume: "Comprendre l'environnement d'un cabinet français, maîtriser le Plan Comptable Général (PCG) et organiser un dossier comptable externalisé.",
+    resume: "Comprendre l'environnement d'un cabinet français, maîtriser le Plan Comptable Général (PCG), organiser un dossier et saisir les écritures de base.",
     topics: [
       "Rôle du cabinet et du collaborateur · confidentialité, RGPD, secret professionnel",
       "Débit/crédit, journal, grand livre, balance, bilan · PCG et comptes clés (401, 411, 512, 445…)",
-      "Réception, classement et nommage des pièces · suivi du dossier"
+      "Réception, classement et nommage des pièces · suivi du dossier",
+      "Saisie pratique : achats, ventes, banque, OD · TVA, autoliquidation, intracommunautaire"
     ],
-    files: ['Module-01-Environnement-comptable-francais.md', 'Module-02-Bases-comptabilite-PCG.md', 'Module-03-Organisation-dossier-externalise.md'],
+    files: ['Module-01-Environnement-comptable-francais.md', 'Module-02-Bases-comptabilite-PCG.md', 'Module-03-Organisation-dossier-externalise.md', 'Module-04-Saisie-comptable-pratique.md'],
     quiz: 'm01'
   },
   {
-    code: 'mod2', titre: 'Module 2 — Saisie comptable & logiciels cabinet',
-    resume: "Saisir achats, ventes, banque, caisse et OD avec la bonne TVA, et maîtriser les logiciels utilisés par les cabinets français.",
+    code: 'mod2', titre: 'Module 2 — Logiciel Pennylane',
+    resume: "Prise en main complète de Pennylane (plateforme n°1 des cabinets français) : interface, menus, collecte des pièces, rapprochement bancaire, TVA, lettrage et révision.",
     topics: [
-      "Saisie pratique : achats, ventes, banque, OD · TVA, autoliquidation, intracommunautaire",
-      "Pennylane", "Tiime", "Quadra (Cegid)", "Isacompta (ISAGRI)"
+      "Interface cabinet (Comptabilité) vs client (Gestion) · prise en main",
+      "Menus : Tableau de bord, Saisie, Révision, Fiscalité, États financiers, Dossier client",
+      "Collecte des pièces (connexion bancaire, OCR) · factures clients / fournisseurs",
+      "Rapprochement bancaire pas à pas (exemple chiffré) : statuts À traiter / Traité / Justifié · règles d'automatisation",
+      "Déclarer la TVA (CA3) pas à pas + cadrage TVA (réconciliation, écart = 0) — avec exemples",
+      "Intégrer une immobilisation (fiche + plan d'amortissement) — exemple chiffré",
+      "Opérations intracommunautaires (autoliquidation, DEB/DES) & comptes intercos (451/455, réciprocité)",
+      "Lettrage, comptes d'attente 471, paie, révision par cycle, clôture/bilan"
     ],
-    files: ['Module-04-Saisie-comptable-pratique.md', 'Module-21-Logiciel-Pennylane.md', 'Module-22-Logiciel-Tiime.md', 'Module-23-Logiciel-Quadra.md', 'Module-24-Logiciel-Isacompta.md'],
-    quiz: 'm04'
+    files: ['Module-21-Logiciel-Pennylane.md', 'Module-21B-Pennylane-pratique.md'],
+    quiz: 'm21'
   },
   {
     code: 'mod3', titre: 'Module 3 — Opérations, déclarations & contrôle',
@@ -36,9 +43,10 @@ const MACRO = [
     topics: [
       "TVA française (CA3 / CA12)", "Rapprochement bancaire", "Lettrage clients / fournisseurs",
       "Comptes d'attente (471) et comptes sensibles", "Paie et écritures sociales",
-      "Immobilisations et amortissements", "Révision comptable continue"
+      "Immobilisations et amortissements", "Révision comptable continue",
+      "Révision par défilement (classes 1 à 7) : capital/KBIS/PVAGO, réserve légale, immo, emprunts & tableau d'amortissement"
     ],
-    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md'],
+    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md'],
     quiz: 'm05'
   },
   {
@@ -47,9 +55,14 @@ const MACRO = [
     topics: [
       "Fiscalité (IR/IS, BIC/BNC, liasse fiscale)", "Bilan et clôture (cut-off, FNP, CCA, FAE, PCA)",
       "Outils, communication pro, production offshore, qualité", "Carrière & freelancing",
-      "10 cas pratiques complets corrigés", "Évaluation finale certifiante (/100)"
+      "10 cas pratiques complets corrigés", "Évaluation finale certifiante (/100)",
+      "Spécificités & cas particuliers : VP/VU, DAS2, BTP/autoliquidation, intérêts courus, créances, débours, CIFD",
+      "Spécificités par activité : BNC, LMNP/LMP, SCI, SNC, SAP, TABAC, auto-entrepreneur, association 1901, agricole (BA), pharmacie",
+      "Dossier BÂTIMENT (BTP) : TVA travaux, autoliquidation, retenue de garantie, situations & saisie des factures",
+      "Liasse fiscale par régime : réel normal (2050‑2059), réel simplifié (2033), BNC (2035), agricole (2139/2143), SCI/foncier (2072/2044)",
+      "Simulations d'entretien : collaborateur, réviseur, chef de mission, superviseur"
     ],
-    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md'],
+    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-30-Liasse-vue-ensemble.md', 'Module-31-Liasse-reel-normal.md', 'Module-32-Liasse-reel-simplifie.md', 'Module-33-Liasse-BNC-2035.md', 'Module-34-Liasse-agricole-fonciere.md', 'Module-25-Simulations-entretien.md'],
     quiz: 'final'
   }
 ];
@@ -79,6 +92,7 @@ export function mdToHtml(text) {
     const s = L[i].trim();
     if (s.startsWith('```')) { const b = []; i++; while (i < L.length && !L[i].trim().startsWith('```')) b.push(L[i++]); i++; o.push('<pre><code>' + esc(b.join('\n')) + '</code></pre>'); continue; }
     if (s === '') { i++; continue; }
+    if (s.startsWith('<') && s.endsWith('>')) { o.push(L[i]); i++; continue; }
     if (/^-{3,}$/.test(s)) { o.push('<hr>'); i++; continue; }
     let m = s.match(/^(#{1,6})\s+(.*)$/);
     if (m) { const lv = Math.min(m[1].length + 1, 6); o.push(`<h${lv}>${inline(m[2])}</h${lv}>`); i++; continue; }

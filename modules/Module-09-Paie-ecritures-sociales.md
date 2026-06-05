@@ -73,6 +73,36 @@ Le logiciel de paie (**Silae**, RCA, etc.) produit un **journal de paie** = la s
 
 ---
 
+## 5 bis. La DSN — comprendre et contrôler (elle ne se remplit pas « à la main »)
+
+> ⚠️ La **DSN n'est pas un CERFA** à remplir case par case : c'est un **fichier mensuel structuré, généré automatiquement par le logiciel de paie** (Silae, RCA…) à partir des bulletins. Le collaborateur **ne la saisit pas** : il **contrôle** sa cohérence et la **rapproche** de la comptabilité. Voici sa structure pour comprendre ce qu'elle contient.
+
+### Structure (principaux « blocs »)
+
+<div class="cerfa" data-form="dsn"></div>
+
+| Bloc | Contenu |
+|---|---|
+| **Émetteur** | Le cabinet / logiciel qui transmet |
+| **Déclaration** | Type (mensuelle), mois principal déclaré |
+| **Entreprise / Établissement** | SIREN, SIRET, code APE, **taux AT/MP** |
+| **Individu (salarié)** | État civil, **NIR (n° de sécu)** |
+| **Contrat** | Date d'embauche, nature, statut, temps de travail |
+| **Rémunération** | Brut, primes, heures |
+| **Bases & cotisations** | Bases (plafonnée, déplafonnée, CSG…) + cotisations **par organisme** |
+| **Versement** | Montants dus **URSSAF / Agirc‑Arrco / prévoyance** + références de paiement |
+| **Prélèvement à la source (PAS)** | PAS prélevé sur les salariés et reversé à la DGFiP |
+| **Signalements** | Arrêts maladie, fins de contrat |
+
+### Ce que le collaborateur CONTRÔLE (les 4 sources, cf. §6)
+- **Brut DSN = brut des bulletins = compte 641**.
+- **Cotisations DSN = comptes 431/437 = prélèvements bancaires**.
+- **Net + PAS** cohérents avec les virements salariés.
+- DSN **déposée à temps** (le **5** ou le **15** du mois suivant selon l'effectif) → sinon pénalités.
+> En cas d'écart, on **ne modifie pas la DSN** soi‑même : on **signale** au gestionnaire de paie / chef de mission.
+
+---
+
 ## 6. Contrôles de cohérence (essentiel)
 Rapprocher **4 sources** :
 1. **OD de paie** (comptabilité)

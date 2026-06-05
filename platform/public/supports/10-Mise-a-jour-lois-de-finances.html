@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10-Mise-a-jour-lois-de-finances.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>Mise à jour automatique des lois de finances françaises</h2>
+<p>La plateforme doit refléter la <strong>loi de finances</strong> en vigueur (taux de TVA, IS, seuils micro, SMIC, PASS, etc.).</p>
+<h3>1) Source de vérité unique</h3>
+<p>Tous les paramètres chiffrés « réglementaires » sont centralisés dans :</p>
+<pre><code>platform/fiscalite.json</code></pre>
+<p>Ce fichier porte <code>annee_reference</code>, <code>loi_de_finances</code>, <code>date_maj</code> et <code>source</code>. La plateforme affiche un <strong>badge</strong> « Paramètres fiscaux : référence {annee} » sur les pages publiques (accueil / programme / aperçu). Mettre à jour ce fichier suffit à mettre à jour le badge partout.</p>
+<h3>2) Mise à jour annuelle — procédure</h3>
+<p>Chaque année (décembre/janvier, à la publication de la loi de finances) :</p>
+<ol><li>Vérifier sur les sources officielles : <strong>impots.gouv.fr</strong>, <strong>BOFIP</strong>, <strong>service-public.fr</strong>, <strong>economie.gouv.fr</strong>.</li><li>Mettre à jour <code>platform/fiscalite.json</code> (taux, seuils, SMIC, PASS, <code>annee_reference</code>, <code>date_maj</code>).</li><li>Mettre à jour les <strong>chiffres dans les leçons</strong> concernées (Modules 05 TVA, 12 Fiscalité, 26 &amp; 27) si un taux/seuil a changé.</li><li>Régénérer : <code>python site/build_site.py &amp;&amp; python scorm/build_scorm.py</code>.</li><li>Redémarrer le serveur.</li></ol>
+<h3>3) Automatisation</h3>
+<p>Deux niveaux possibles :</p>
+<ul><li><strong>Semi‑automatique (recommandé, fiable) :</strong> une <strong>tâche planifiée annuelle</strong> déclenche l&#39;assistant IA qui (a) recherche les nouveautés de la loi de finances sur les sources officielles, (b) met à jour <code>fiscalite.json</code> et les leçons, (c) régénère le site. Un humain <strong>valide</strong> avant publication (le droit fiscal exige une relecture).</li><li><strong>Veille manuelle :</strong> suivre les communiqués DGFiP / la loi de finances et appliquer la procédure §2.</li></ul>
+<blockquote>⚠️ <strong>Honnêteté technique :</strong> une mise à jour <strong>100 % automatique et sans relecture</strong> des règles fiscales n&#39;est pas recommandée — un texte de loi peut être ambigu ou rétroactif. Le bon réglage est <strong>automatique pour la collecte + humain pour la validation</strong>.</blockquote>
+<h3>4) Historique</h3>
+<div class="tbl"><table><thead><tr><th>Année</th><th>Loi de finances</th><th>Date MAJ</th><th>Par</th></tr></thead><tbody><tr><td>2026</td><td>LF 2026</td><td>2026‑06‑05</td><td>MG Consulting IT &amp; ACT</td></tr></tbody></table></div></body></html>

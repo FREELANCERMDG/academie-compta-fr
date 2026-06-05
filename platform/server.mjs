@@ -21,6 +21,13 @@ const BASE_URL = (process.env.BASE_URL || cfg.site.base_url || `http://localhost
 const db = openDB();
 const twofaRequired = () => !(cfg.securite && cfg.securite.twofa_obligatoire === false);
 
+// --- Paramètres fiscaux (source de vérité unique, mise à jour annuelle) ---
+function loadFiscalite() { try { return JSON.parse(fs.readFileSync(path.join(DIR, 'fiscalite.json'), 'utf8')); } catch { return null; } }
+function fiscaliteBadge() {
+  const f = loadFiscalite(); if (!f) return '';
+  return `<p class="muted" style="text-align:center">📅 Paramètres fiscaux : <b>référence ${esc(String(f.annee_reference))}</b> (${esc(f.loi_de_finances || '')}) — mis à jour le ${esc(f.date_maj || '')}. <span title="Mise à jour annuelle à la sortie de la loi de finances">Sources officielles (impots.gouv / BOFIP).</span></p>`;
+}
+
 // --- Admin initial ---
 (function ensureAdmin() {
   const email = process.env.ADMIN_EMAIL, pw = process.env.ADMIN_PASSWORD;
@@ -84,6 +91,7 @@ function layout(title, body, sess) {
     : `<a href="/programme">Programme</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Formation en ligne de comptabilité française externalisée — Madagascar. Cours, quiz, vidéos en malgache, certification. Paiement Orange Money ou carte.';
   const og = `${BASE_URL}/public/og-image.png`;
+  const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(cfg.site.nom_plateforme)}</title>
 <meta name="description" content="${esc(desc)}">
@@ -105,7 +113,7 @@ function layout(title, body, sess) {
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css"></head>
 <body><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><nav>${nav}</nav></header>
-<main class="wrap">${body}</main>
+<main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer></body></html>`;
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
@@ -126,19 +134,66 @@ function formateurCard() {
 }
 
 // --- Pages ---
+// Aperçu du programme : une carte par module avec son résumé + thèmes + lien aperçu
+function apercuModulesSection() {
+  const cards = MODULES.map(m => {
+    const inf = moduleInfo(m.code) || {};
+    const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
+    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Aperçu</b>';
+    return `<section class="card${m.gratuit ? '' : ' lockcard'}">
+      <div class="row2" style="border:0;padding:0"><h2 style="margin:0">${esc(m.titre)}</h2>${badge}</div>
+      <p class="muted">${esc(inf.resume || '')}</p>
+      <ul>${topics}</ul>
+      <a class="btn ${m.gratuit ? '' : 'ghost'}" href="/apercu?m=${esc(m.code)}">${m.gratuit ? 'Lire le module (gratuit)' : 'Voir l\'aperçu du programme'}</a></section>`;
+  }).join('');
+  return `<h2 style="text-align:center;color:var(--navy)">Le programme — aperçu des 4 modules</h2>${cards}`;
+}
 function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
   return layout('Accueil', `
   <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
   <p class="lead">Plateforme en ligne pour collaborateurs comptables à Madagascar. Cours, quiz, vidéos en malgache, suivi et certification.</p>
-  <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a></p></section>
+  <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
+  <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
+  ${fiscaliteBadge()}</section>
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
   <li>Attestation sur l'honneur du diplôme à l'inscription.</li>
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li></ul></section>
+  ${apercuModulesSection()}
   ${formateurCard()}
   <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
   <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`, sess);
+}
+
+// Visite guidée (1 minute) — montrée à tout nouvel inscrit : tout l'accès en un coup d'œil
+function pageDecouverte(sess) {
+  let v = (cfg.video_decouverte || '').trim();
+  if (!v && fs.existsSync(path.join(DIR, 'public', 'decouverte.mp4'))) v = '/public/decouverte.mp4';
+  const a = cfg.acces || {};
+  const duree = a.illimite ? 'illimité' : `${a.duree_jours || 365} jours (12 mois)`;
+  const videoBloc = v
+    ? `<div class="card"><video controls width="100%" style="border-radius:10px" src="${esc(v)}" poster="/public/icon-512.png"></video><p class="muted">Vidéo de présentation (≈ 1 min).</p></div>`
+    : `<div class="card" style="text-align:center;background:#0f2233;color:#d7e3ee"><div style="font-size:46px">▶</div><p><b>Visite guidée — 1 minute</b></p><p class="muted" style="color:#aac0d4">La vidéo de présentation sera ajoutée ici. En attendant, voici tout ce que vous avez débloqué :</p></div>`;
+  const steps = MODULES.map((m, i) => {
+    const inf = moduleInfo(m.code) || {};
+    return `<div class="row2"><span><b>Étape ${i + 1} — ${esc(m.titre)}</b><br><span class="muted">${esc(inf.resume || '')}</span></span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Inclus</b>'}</div>`;
+  }).join('');
+  return layout('Visite guidée', `
+  <section class="hero"><h1>Bienvenue ! 🎉</h1>
+  <p class="lead">En 1 minute, découvrez <b>tout l'accès</b> de votre formation.</p></section>
+  <img class="illus" src="/public/photos/programme.png" alt="Formation en comptabilité française — votre parcours" width="1536" height="1024" loading="lazy">
+  ${videoBloc}
+  <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
+  <section class="card"><h2>Ce qui est inclus</h2>
+  <ul><li>📚 <b>4 modules</b> (24 leçons), dont le <b>Module 1 gratuit</b> tout de suite</li>
+  <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
+  <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
+  <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
+  <li>🏅 <b>Attestation</b> de fin de formation · 💬 <b>demande de rendez-vous</b> intégrée</li>
+  <li>⏱️ Accès : <b>${esc(duree)}</b> · 1 appareil · contenu protégé (filigrane personnalisé)</li></ul></section>
+  <section class="card"><h2>On commence ?</h2>
+  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/tableau-de-bord">Mon espace</a></p></section>`, sess);
 }
 
 function pageMentions(sess) {
@@ -181,8 +236,9 @@ function pageProgramme(sess) {
   const tHtml = temoins.length ? `<section class="card"><h2>Ils témoignent</h2><div class="temoins">${temoins.map(t => `<div class="temoin"><p>« ${esc(t.texte)} »</p><div class="who">${esc(t.nom)}</div><div class="role">${esc(t.role)}</div></div>`).join('')}</div></section>` : '';
   return layout('Programme', `
   <section class="hero"><h1>Programme de la formation</h1>
-  <p class="lead">Découvrez le contenu <b>gratuitement</b>. Les <b>modules 1 et 2</b> sont offerts en intégralité ; les autres sont consultables en aperçu (objectifs).</p>
-  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}</section>
+  <p class="lead">Découvrez le contenu <b>gratuitement</b>. Seul le <b>Module 1</b> est offert en intégralité ; les modules 2, 3 et 4 sont consultables en aperçu (objectifs).</p>
+  <img class="illus" src="/public/photos/programme.png" alt="Formation en comptabilité française — PCG, écritures, clôture, fiscalité, cas pratiques" width="1536" height="1024" loading="lazy">
+  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}${fiscaliteBadge()}</section>
   ${formateurCard()}
   ${modulesSection}
   <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs, vidéos en malgache</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
@@ -243,6 +299,7 @@ function pageInscription(sess, err, val = {}) {
 
 function pageConnexion(sess, err, email = '') {
   return layout('Connexion', `<h1>Connexion</h1>${err ? `<p class="err">${esc(err)}</p>` : ''}
+  <img class="illus sm" src="/public/photos/office.png" alt="Cabinet comptable externalisé" width="1448" height="1086" loading="lazy">
   <form method="post" action="/connexion" class="card form">
     ${sess ? csrfField(sess) : ''}
     <label>Email<input type="email" name="email" required value="${esc(email)}"></label>
@@ -285,12 +342,18 @@ function pageDashboard(sess) {
   <p>Niveau d'études : ${esc(u.niveau_etudes)} · Auto-évaluation : ${esc(u.niveau_intellectuel)}</p>
   <p>2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}</p></section>
   <section class="card"><h2>Accès à la formation</h2>
-  ${active ? `<p class="ok">Accès actif ✅${(u.role !== 'admin' && expActive) ? ` — jusqu'au <b>${fmtDate(expActive)}</b>` : (u.role === 'admin' ? ' (admin, illimité)' : '')}</p><a class="btn" href="/formation">Ouvrir la formation</a>`
-            : `<p class="muted">Aucune offre active (non payée ou durée expirée). Choisissez une offre ci-dessous.</p>`}</section>
+  ${active ? `<p class="ok">Accès actif ✅${(u.role !== 'admin' && expActive) ? ` — jusqu'au <b>${fmtDate(expActive)}</b>` : (u.role === 'admin' ? ' (admin, illimité)' : '')}</p><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`
+            : `<p class="muted">Aucune offre active (non payée ou durée expirée). Choisissez une offre ci-dessous.</p><a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`}</section>
   <section class="card"><h2>Choisir une offre</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
     <select name="offre_code" required>${offres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} — ${money(o.prix)}</option>`).join('')}</select>
     <button class="btn" type="submit">Continuer vers le paiement</button></form></section>
+  <section class="card"><h2>Une question sur la formation ? 💬</h2>
+  <p class="muted">Posez votre question ou demandez un rendez-vous — le formateur vous répond. (Ou via le bouton WhatsApp en bas à droite.)</p>
+  <form method="post" action="/demande" class="form">${csrfField(sess)}
+    <label>Sujet<input name="sujet" required maxlength="120" placeholder="Ex. Question sur le Module 3, demande de rendez-vous…"></label>
+    <label>Votre message<textarea name="message" required rows="4" maxlength="2000" placeholder="Décrivez votre question…"></textarea></label>
+    <button class="btn" type="submit">Envoyer ma demande</button></form></section>
   <section class="card"><h2>Mes inscriptions</h2>
   ${ins.length ? `<table><tr><th>Offre</th><th>Montant</th><th>Statut</th><th>Accès jusqu'au</th></tr>${ins.map(i => `<tr><td>${esc(i.titre)}</td><td>${money(i.prix)}</td><td>${esc(i.statut)}</td><td>${i.statut === 'active' ? (i.expire_le ? fmtDate(i.expire_le) : 'illimité') : '—'}</td></tr>`).join('')}</table>` : '<p class="muted">Aucune inscription.</p>'}</section>`, sess);
 }
@@ -325,7 +388,13 @@ function pagePaiement(sess, ins, err) {
 function pageAdmin(sess) {
   const users = db.prepare('SELECT id,nom,prenom,email,niveau_etudes,twofa,cree_le FROM users WHERE role!=? ORDER BY cree_le DESC LIMIT 200').all('admin');
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
+  const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   return layout('Admin', `<h1>Administration</h1>
+  <section class="card"><h2>📚 Supports &amp; guides</h2>
+  <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
+  <p><a class="btn" href="/public/supports/index.html" target="_blank" rel="noopener">Ouvrir tous les supports</a>
+     <a class="btn ghost" href="/public/supports/11-Video-promo-script.html" target="_blank" rel="noopener">🎬 Script vidéo</a>
+     <a class="btn ghost" href="/public/supports/12-Promo-reseaux-sociaux.html" target="_blank" rel="noopener">📣 Promo réseaux</a></p></section>
   <section class="card"><h2>Contenu de la formation — tous les modules</h2>
   <p class="muted">Accès complet (admin), sans paiement.</p>
   <p><a class="btn" href="/formation">Ouvrir la formation (tous les modules)</a></p>
@@ -333,6 +402,9 @@ function pageAdmin(sess) {
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
+  <section class="card"><h2>Demandes / questions des apprenants (${dem.length})</h2>
+  ${dem.length ? dem.map(d => `<div class="row2"><span><b>${esc(d.email)}</b> — ${esc(d.sujet)}<br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></span>
+    <form method="post" action="/admin/demande-traitee" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small">Marquer traitée</button></form></div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>2FA</th><th>Inscrit le</th></tr>
   ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
@@ -369,6 +441,8 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 window.addEventListener('beforeprint',function(){try{document.body.style.display='none';}catch(_){}});
 window.addEventListener('afterprint',function(){try{document.body.style.display='';}catch(_){}});})();</script>
 `;
+  const courseBack = `<a href="/tableau-de-bord" title="Retour à mon espace" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:#fff;padding:6px 11px;border-radius:7px;font:600 13px -apple-system,Segoe UI,Arial,sans-serif;text-decoration:none;white-space:nowrap;margin-right:4px">&#8592; Mon espace</a>`;
+  html = html.replace('<header>', '<header>' + courseBack);
   html = html.replace('</body>', inject + '</body>');
   securityHeaders(res, { courseCSP: true, prod: PROD });
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -386,6 +460,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       if (p === '/') return send(res, 200, pageAccueil(sess));
       if (p === '/programme') return send(res, 200, pageProgramme(sess));
+      if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
       if (p === '/apercu') { const code = url.searchParams.get('m') || 'm01'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
@@ -426,6 +501,8 @@ const server = http.createServer(async (req, res) => {
       if (p === '/2fa') return post2fa(req, res, sess, body);
       if (!authed(sess)) return redirect(res, '/connexion');
       if (p === '/choisir') return postChoisir(req, res, sess, body);
+      if (p === '/demande') return postDemande(req, res, sess, body);
+      if (p === '/admin/demande-traitee') return postDemandeTraitee(req, res, sess, body);
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
@@ -481,7 +558,7 @@ function postInscription(req, res, sess, body) {
   const sid = newSession(id, false, req);
   db.prepare('DELETE FROM sessions WHERE id=?').run(sess.sid);
   unSeulAppareil({ id, role: 'apprenant' }, sid);
-  return redirect(res, '/tableau-de-bord', [cookie('sid', signSid(sid), cookieOpts)]);
+  return redirect(res, '/decouverte', [cookie('sid', signSid(sid), cookieOpts)]);
 }
 
 function postConnexion(req, res, sess, body) {
@@ -537,6 +614,19 @@ function postChoisir(req, res, sess, body) {
   return redirect(res, '/paiement?ins=' + id);
 }
 
+function postDemande(req, res, sess, body) {
+  const sujet = (body.sujet || '').trim().slice(0, 120);
+  const message = (body.message || '').trim().slice(0, 2000);
+  if (sujet.length < 2 || message.length < 5) return redirect(res, '/tableau-de-bord');
+  db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(rid(10), sess.user.id, sujet, message, 'nouvelle', new Date().toISOString());
+  audit(db, sess.user.id, 'demande_rdv', sujet, ip(req));
+  return send(res, 200, layout('Demande envoyée', `<h1>Demande envoyée ✅</h1><p>Votre demande « ${esc(sujet)} » a été transmise au formateur. Vous serez recontacté(e).</p><a class="btn" href="/tableau-de-bord">Retour à mon espace</a>`, sess));
+}
+function postDemandeTraitee(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  db.prepare("UPDATE demandes SET statut='traitee' WHERE id=?").run(body.id);
+  return redirect(res, '/admin');
+}
 function postManuel(req, res, sess, body) {
   const ins = insOf(body.ins, sess.user.id); if (!ins) return redirect(res, '/tableau-de-bord');
   const m = methodeManuelle(body.methode); if (!m) return send(res, 200, pagePaiement(sess, ins, 'Moyen de paiement invalide.'));

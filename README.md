@@ -6,7 +6,7 @@
 ---
 
 ## 🚀 Accès à la formation en ligne
-**Ouvrez le fichier [`site/index.html`](site/index.html) par double-clic** : c'est la plateforme e-learning complète (autonome, hors-ligne), avec navigation des 20 modules, **19 quiz auto-corrigés (100 questions)**, suivi de progression et recherche. Pour la diffuser (web, LMS, vidéos), voir [`supports/00-Guide-diffusion-en-ligne.md`](supports/00-Guide-diffusion-en-ligne.md).
+**Ouvrez le fichier [`site/index.html`](site/index.html) par double-clic** : c'est la plateforme e-learning complète (autonome, hors-ligne), avec navigation en **4 modules (24 leçons)**, **quiz auto-corrigés (100+ questions)**, suivi de progression et recherche. Pour la diffuser (web, LMS, vidéos), voir [`supports/00-Guide-diffusion-en-ligne.md`](supports/00-Guide-diffusion-en-ligne.md).
 
 ## 📑 Sommaire des livrables
 
@@ -15,7 +15,7 @@
 | **`site/index.html`** | 🖥️ **Plateforme e-learning interactive** (quiz, progression, hors-ligne) |
 | `site/build_site.py` · `quizzes.json` | Générateur du site + banque de quiz (éditables) |
 | `README.md` | Présentation, objectifs, programme, planning, certification (CE FICHIER) |
-| `modules/` | Les 20 modules de cours détaillés (théorie + procédures + cas + exercices + checklists) |
+| `modules/` | Les **24 leçons détaillées** regroupées en **4 modules** (théorie + procédures + cas + exercices + checklists) |
 | `cas-pratiques/` | Les 10+ cas pratiques complets corrigés |
 | `evaluations/` | Évaluation finale certifiante (/100, corrigée) |
 | `annexes/` | Checklists, modèles de mails, tableaux de suivi |
@@ -114,7 +114,9 @@ Un collaborateur à Madagascar ne « tape pas des écritures ». Il est le **pre
 
 ---
 
-## 6. Programme détaillé (20 modules)
+## 6. Programme détaillé — 4 modules (24 leçons)
+
+> La formation est **présentée en 4 modules** ; le tableau ci-dessous détaille les **24 leçons** qui les composent (Module 1 = leçons 1–3 · Module 2 = saisie + logiciels · Module 3 = TVA→révision · Module 4 = fiscalité, bilan, cas, évaluation).
 
 | # | Module | Niveau | Lien |
 |---|---|---|---|

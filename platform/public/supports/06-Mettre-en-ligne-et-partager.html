@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>06-Mettre-en-ligne-et-partager.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>Mettre la plateforme en ligne &amp; partager le lien (réseaux sociaux)</h2>
+<p>Objectif : obtenir <strong>un lien public</strong> (ex. <code>https://academie-compta.mg</code>) que vous partagez sur Facebook/WhatsApp/TikTok/LinkedIn ; en cliquant, l&#39;utilisateur arrive <strong>directement sur l&#39;application</strong> (inscription → paiement → formation), avec un <strong>bel aperçu</strong> (image + titre).</p>
+<hr>
+<h3>1. Comprendre</h3>
+<ul><li>L&#39;application est un <strong>serveur web</strong> (Node). En local, elle n&#39;est joignable que sur votre PC (<code>localhost</code>).</li><li>Pour un <strong>lien partageable</strong>, il faut l&#39;<strong>héberger</strong> sur un serveur public avec un <strong>nom de domaine + HTTPS</strong>. Ensuite, le lien fonctionne sur <strong>tous les téléphones/PC</strong>, sans rien installer.</li><li>Bonus : c&#39;est une <strong>PWA</strong> — sur mobile, « Ajouter à l&#39;écran d&#39;accueil » l&#39;installe comme une <strong>application</strong>.</li></ul>
+<hr>
+<h3>2. Héberger (3 options)</h3>
+<h4>Option A — Render.com (simple, gratuit pour démarrer) ✅ recommandé pour tester</h4>
+<ol><li>Mettez le dossier <code>FORMATION-COMPLETE-2026</code> sur <strong>GitHub</strong> (dépôt privé).</li><li>Sur https://render.com → <strong>New → Web Service → Build from a repository</strong> → sélectionnez le dépôt.</li><li>Render détecte <code>render.yaml</code> + <code>Dockerfile</code>. Renseignez les variables :</li></ol>
+<ul><li><code>ADMIN_EMAIL</code>, <code>ADMIN_PASSWORD</code> (votre compte admin),</li><li><code>BASE_URL</code> = l&#39;URL fournie par Render (ex. <code>https://academie-compta-fr.onrender.com</code>),</li><li><code>SESSION_SECRET</code> est généré automatiquement, <code>PRODUCTION=true</code> déjà réglé.</li></ul>
+<ol><li>Déployez. Vous obtenez une <strong>URL publique HTTPS</strong> : c&#39;est votre lien à partager.</li></ol>
+<blockquote>⚠️ Plan gratuit : le stockage n&#39;est pas persistant (la base <code>data.db</code> peut être réinitialisée à chaque redéploiement). Pour conserver les comptes, activez un <strong>disque persistant</strong> (décommenté dans <code>render.yaml</code>, plan payant) ou utilisez l&#39;option C.</blockquote>
+<h4>Option B — Railway / Fly.io</h4>
+<p>Même principe (Docker). Railway : « Deploy from GitHub » ; Fly : <code>fly launch</code> (lit le Dockerfile). Définir les mêmes variables d&#39;environnement.</p>
+<h4>Option C — VPS (contrôle total, données persistantes) — recommandé en production</h4>
+<p>Sur un petit VPS (OVH, Contabo, DigitalOcean…) sous Linux :</p>
+<ol><li>Installer Node ≥ 22.</li><li>Copier <code>site/</code> et <code>platform/</code>, créer <code>platform/.env</code> (secrets), <code>PRODUCTION=true</code>.</li><li>Lancer via un service (systemd/pm2) : <code>node platform/server.mjs</code>.</li><li>Mettre <strong>Caddy</strong> devant (HTTPS automatique Let&#39;s Encrypt) :</li></ol>
+<pre><code>   academie-compta.mg {
+       reverse_proxy localhost:3000
+   }</code></pre>
+<p>Caddy gère le certificat TLS tout seul. <code>data.db</code> reste sur le disque (pensez aux <strong>sauvegardes</strong>).</p>
+<hr>
+<h3>3. Nom de domaine</h3>
+<ul><li>Achetez un domaine (ex. <code>.mg</code>, <code>.com</code>) chez un registrar.</li><li>Pointez-le vers l&#39;hébergeur (Render : « Custom Domain » ; VPS : enregistrement A vers l&#39;IP).</li><li>Mettez <code>BASE_URL=https://votre-domaine</code> puis redéployez (important pour l&#39;aperçu social et les retours Orange Money).</li></ul>
+<hr>
+<h3>4. Partage sur les réseaux (déjà intégré)</h3>
+<p>La plateforme inclut les <strong>balises Open Graph / Twitter Card</strong> : en partageant le lien, l&#39;aperçu affiche automatiquement :</p>
+<ul><li><strong>Image</strong> : <code>public/og-image.png</code> (1200×630, déjà générée),</li><li><strong>Titre</strong> + <strong>description</strong> (modifiables dans <code>server.mjs</code>, fonction <code>layout</code>).</li></ul>
+<p>Pour vérifier l&#39;aperçu :</p>
+<ul><li>Facebook : https://developers.facebook.com/tools/debug/</li><li>LinkedIn : https://www.linkedin.com/post-inspector/</li><li>Aperçu générique : https://www.opengraph.xyz/</li></ul>
+<blockquote>WhatsApp/Facebook <strong>mettent en cache</strong> l&#39;aperçu : après modification de l&#39;image, utilisez le « debugger » pour forcer le rafraîchissement.</blockquote>
+<p><strong>Pour personnaliser l&#39;image d&#39;aperçu</strong> : modifiez <code>/c/Temp/og.html</code> (ou recréez <code>platform/public/og-image.png</code> en 1200×630 avec votre logo/charte).</p>
+<hr>
+<h3>5. Orange Money en ligne</h3>
+<ul><li>Mode <strong>manuel</strong> : fonctionne tel quel (le numéro +261 32 73 622 59 s&#39;affiche, vous validez dans l&#39;admin).</li><li>Mode <strong>API</strong> : une fois en ligne avec un domaine, renseignez dans les variables :</li></ul>
+<p><code>OM_RETURN_URL=https://votre-domaine/paiement/retour</code>, <code>OM_CANCEL_URL=https://votre-domaine/tableau-de-bord</code>, <code>OM_NOTIF_URL=https://votre-domaine/paiement/retour</code>, + clés marchand.</p>
+<hr>
+<h3>6. Checklist de mise en ligne</h3>
+<ul><li>&#9744; Dépôt GitHub créé</li><li>&#9744; Service déployé (Render/Railway/VPS)</li><li>&#9744; <code>BASE_URL</code> = domaine public HTTPS</li><li>&#9744; <code>PRODUCTION=true</code>, <code>SESSION_SECRET</code> fort, mot de passe admin changé</li><li>&#9744; <code>/sante</code> répond « ok » (santé)</li><li>&#9744; Aperçu social vérifié (debugger Facebook)</li><li>&#9744; (Prod) stockage persistant de <code>data.db</code> + sauvegardes</li><li>&#9744; Lien testé sur mobile (inscription → paiement → formation)</li><li>&#9744; Lien partagé sur vos réseaux 🎉</li></ul></body></html>

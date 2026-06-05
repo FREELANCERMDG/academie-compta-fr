@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>04-Personnalisation-charte.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>Personnalisation à votre charte (logo, couleurs, nom)</h2>
+<p>Toute l&#39;identité visuelle du pack est pilotée par <strong>un seul fichier : <code>branding.json</code></strong> (à la racine du projet).</p>
+<h3>1. Le fichier <code>branding.json</code></h3>
+<pre><code>{
+  &quot;cabinet_name&quot;: &quot;Mon Cabinet&quot;,
+  &quot;course_title&quot;: &quot;Comptabilité française externalisée&quot;,
+  &quot;subtitle&quot;: &quot;Formation en ligne · Madagascar · 2026&quot;,
+  &quot;primary&quot;: &quot;#1F4E78&quot;,
+  &quot;accent&quot;: &quot;#E8A13A&quot;,
+  &quot;logo&quot;: &quot;branding/logo.png&quot;
+}</code></pre>
+<div class="tbl"><table><thead><tr><th>Clé</th><th>Effet</th></tr></thead><tbody><tr><td><code>cabinet_name</code></td><td>Nom affiché dans l&#39;en-tête du site, sur la couverture du livret et des diapositives. Laisser vide = version générique.</td></tr><tr><td><code>course_title</code></td><td>Titre principal de la formation.</td></tr><tr><td><code>subtitle</code></td><td>Sous-titre (en-tête site / couverture).</td></tr><tr><td><code>primary</code></td><td>Couleur principale (bandeaux, titres) — code hexadécimal <code>#RRGGBB</code>.</td></tr><tr><td><code>accent</code></td><td>Couleur d&#39;accent (barres, puces, surlignages).</td></tr><tr><td><code>logo</code></td><td>Chemin du logo (PNG/JPG) relatif à la racine du projet ; intégré automatiquement dans l&#39;en-tête du site. Laisser vide = pas de logo.</td></tr></tbody></table></div>
+<h3>2. Appliquer la charte (1 commande par support)</h3>
+<p>Après avoir modifié <code>branding.json</code> :</p>
+<pre><code>python site/build_site.py      # site e-learning (couleurs + logo + nom)
+python scorm/build_scorm.py    # re-emballe le SCORM avec le site re-thémé
+python slides/build_slides.py  # 18 diaporamas (couleurs + sous-titre)
+python print/build_booklet.py  # livret PDF (couleurs + couverture)</code></pre>
+<blockquote>Le classeur Excel (<code>annexes/excel/Outils-Formation.xlsx</code>) garde sa charte par défaut ; pour le re-thémer, modifier <code>HEAD_FILL</code>/<code>TITLE_FONT</code> dans <code>annexes/build_xlsx.py</code> puis relancer.</blockquote>
+<h3>3. Conseils couleurs</h3>
+<ul><li><code>primary</code> = une couleur foncée et lisible (le texte par-dessus est blanc).</li><li><code>accent</code> = une couleur vive et contrastée (barres, puces).</li><li>Exemples de palettes :</li></ul>
+<div class="tbl"><table><thead><tr><th>Style</th><th>primary</th><th>accent</th></tr></thead><tbody><tr><td>Bleu marine (défaut)</td><td><code>#1F4E78</code></td><td><code>#E8A13A</code></td></tr><tr><td>Vert sapin</td><td><code>#0F6E4F</code></td><td><code>#E0A526</code></td></tr><tr><td>Bordeaux</td><td><code>#7A1F2B</code></td><td><code>#C9A227</code></td></tr><tr><td>Anthracite</td><td><code>#2B2F36</code></td><td><code>#2E9BD6</code></td></tr></tbody></table></div>
+<h3>4. Logo</h3>
+<ol><li>Placez votre logo (fond transparent de préférence) dans <code>branding/logo.png</code>.</li><li>Renseignez <code>&quot;logo&quot;: &quot;branding/logo.png&quot;</code> dans <code>branding.json</code>.</li><li>Relancez <code>python site/build_site.py</code> : le logo est encodé dans le fichier (toujours hors-ligne).</li></ol></body></html>

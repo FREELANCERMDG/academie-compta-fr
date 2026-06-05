@@ -59,8 +59,21 @@
 - **IS = 10 750 €**
 
 ### Acomptes et solde IS
-- **4 acomptes** : **15 mars, 15 juin, 15 septembre, 15 décembre** (formulaire 2571).
-- **Solde** : le **15 mai** N pour un exercice clos le 31/12/N-1 (sinon le 15 du 4e mois suivant la clôture) — formulaire 2572.
+- **4 acomptes** (formulaire **2571**) : **15/03, 15/06, 15/09, 15/12**. Chaque acompte = **25 % de l'IS de référence** (IS du dernier exercice clos).
+- **Solde** (formulaire **2572**) : **15/05/N** pour un exercice clos le 31/12/N‑1 (sinon le 15 du 4e mois suivant la clôture).
+
+**⭐ Régularisation au 2e acompte (point clé)**
+Au **1er acompte (15/03)**, le résultat **N‑1 n'est pas encore connu** (la liasse n'est déposée qu'en mai) → on le calcule sur l'**avant‑dernier exercice (N‑2)**.
+Au **2e acompte (15/06)**, le résultat **N‑1 est connu** → on **régularise** : le 2e acompte « rattrape » le 1er pour que **le cumul des 2 premiers acomptes = la moitié (2/4) de l'IS N‑1**.
+> **Formule :** **2e acompte = (IS N‑1 × 2/4) − 1er acompte déjà versé.**
+Les **3e et 4e acomptes** = **25 % de l'IS N‑1** chacun. Le **solde** (15/05/N+1) régularise le tout selon l'**IS réel de N**.
+
+**Exemple :** IS N‑2 = 8 000 € ; IS N‑1 (connu en mai) = 12 000 €.
+- 1er acompte (15/03) = 8 000 × 25 % = **2 000 €** (calculé sur N‑2).
+- **2e acompte (15/06) régularisé** = (12 000 × 2/4) − 2 000 = 6 000 − 2 000 = **4 000 €**.
+- 3e (15/09) = 12 000 × 25 % = **3 000 €** · 4e (15/12) = **3 000 €**.
+- Total acomptes N = 12 000 € ; **solde** = IS réel N − 12 000 €.
+> 💡 Le collaborateur **prépare** le calcul (2571) ; l'**expert‑comptable valide**. Un acompte peut être **modulé/réduit** si le résultat baisse (sous conditions, décision de l'EC). Pas d'acompte la **1re année** d'existence, ni si l'IS de référence < 3 000 €.
 
 ---
 
@@ -69,6 +82,66 @@ La **liasse fiscale** = ensemble des tableaux (bilan, compte de résultat, annex
 - **Date limite de dépôt** : généralement **début mai** (2e jour ouvré suivant le 1er mai) pour un exercice clos au 31/12, avec la **télétransmission EDI-TDFC** (délai supplémentaire de 15 jours en pratique).
 
 > Rôle du collaborateur : **préparer les tableaux, justifier les comptes, rassembler les éléments** ; l'expert-comptable **finalise et télétransmet**.
+
+---
+
+## 5 bis. Les formulaires fiscaux (CERFA) — case par case
+
+> ⚠️ En pratique, la **liasse est générée par le logiciel** (RCA, ACD, Cegid…) à partir de la compta révisée : le collaborateur **prépare et contrôle**, l'**expert-comptable valide et télétransmet** (EDI-TDFC). Voici, pour comprendre **où va quoi**, les cadres et lignes **clés** de chaque formulaire.
+
+### 🧾 2065‑SD — Impôt sur les sociétés (IS)
+Formulaire court : le **résultat** vient des **tableaux de la liasse**, et le **calcul de l'IS** se fait sur d'autres imprimés.
+
+<div class="cerfa" data-form="2065"></div>
+| Cadre / ligne | Quoi y mettre |
+|---|---|
+| En‑tête | Identité, **SIRET**, exercice, régime (réel normal / simplifié) |
+| **A — Récapitulation** | Report du **résultat fiscal** issu du tableau **2058‑A** (réel normal) ou **2033‑B** (réel simplifié) |
+| **C‑1 — Résultat fiscal** | **Bénéfice imposable** (ou **déficit**) de l'exercice |
+| Plus/moins‑values | À long terme (taux réduit) le cas échéant |
+| **2065 bis** | Répartition du bénéfice, **rémunérations des dirigeants**, divers |
+> Le **montant de l'IS** (15 %/25 %) n'est PAS sur la 2065 : il se calcule sur le **2571** (acomptes) et le **2572** (solde).
+
+### 🧾 2031‑SD — BIC à l'IR (entreprise individuelle, EURL à l'IR…)
+Même logique, mais pour une entreprise **à l'IR** :
+
+<div class="cerfa" data-form="2031"></div>
+| Cadre | Quoi y mettre |
+|---|---|
+| En‑tête | Identité, SIRET, régime |
+| Résultat | **Bénéfice (ou déficit) BIC** issu de **2050‑2059** (réel normal) ou **2033** (réel simplifié) |
+| Répartition | Quote‑part des associés (sociétés de personnes) |
+> Le résultat est ensuite **reporté sur la déclaration de revenus** du dirigeant (**2042‑C‑PRO**).
+
+### 🧾 2035‑SD — BNC (déclaration contrôlée) — comptabilité de **caisse**
+Le plus « manuel » des trois : **2035‑A** (résultat) + **2035‑B** (résultat fiscal).
+**2035‑A — Recettes & dépenses :**
+| Poste | Quoi y mettre |
+|---|---|
+| **Recettes** | **Recettes encaissées** (honoraires…) — pas les factures impayées |
+| Débours / rétrocessions | Sommes reversées à des confrères |
+| **Dépenses** | **payées** dans l'année : achats, **loyer (6132)**, **véhicule/déplacements**, fournitures, **honoraires**, **cotisations sociales TNS**, télécom, assurances… |
+| Amortissements | Dotations (tableau des immobilisations) |
+**2035‑B — Résultat :**
+| Ligne | Quoi y mettre |
+|---|---|
+| Excédent / Insuffisance | **Bénéfice ou déficit BNC** |
+| CSG déductible, divers | Régularisations |
+| Plus‑values | Le cas échéant |
+> BNC = **recettes encaissées** et **dépenses payées**. Résultat reporté sur **2042‑C‑PRO**.
+
+### 🧾 CFE — 1447‑C‑SD (création) / 1447‑M‑SD (modification)
+La CFE est **calculée par l'administration** (avis reçu en ligne, paiement le **15/12**). On ne **dépose une déclaration** que dans 2 cas :
+
+<div class="cerfa" data-form="cfe"></div>
+| Formulaire | Quand | Cases clés |
+|---|---|---|
+| **1447‑C‑SD** | l'**année de création** (avant le 1er janvier suivant) | identité, **adresse des locaux**, **surfaces / valeur locative**, effectif, exonérations |
+| **1447‑M‑SD** | en cas de **changement** (surface, activité, demande d'exonération) | uniquement les éléments modifiés |
+> 1re année : **exonération de CFE**. Ensuite : avis en ligne, paiement 15/12 (acompte en juin si CFE N‑1 ≥ 3 000 €).
+
+### 📎 Formulaires officiels
+2065‑SD · 2031‑SD · 2035‑SD (+ 2035‑A/B) · 1447‑C‑SD / 1447‑M‑SD — tous sur **impots.gouv.fr** (« Recherche de formulaires »). Tableaux de liasse : **2050‑2059** (réel normal), **2033‑A à 2033‑G** (réel simplifié).
 
 ---
 

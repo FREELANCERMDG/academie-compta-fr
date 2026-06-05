@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>13-Deploiement-academiecomptafr.md</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:880px;margin:24px auto;padding:0 18px;color:#1c2733;line-height:1.55;background:#fff}
+h1,h2,h3,h4{color:#1F4E78}h1{border-bottom:3px solid #E8A13A;padding-bottom:6px}
+a{color:#2E6CA4}table{border-collapse:collapse;width:100%;margin:12px 0}
+th{background:#1F4E78;color:#fff;padding:7px 9px;text-align:left}td{border:1px solid #e2e6ec;padding:6px 9px}
+code{background:#eef1f5;padding:2px 6px;border-radius:5px}
+pre{background:#0f2233;color:#d7e3ee;padding:12px;border-radius:8px;overflow:auto}pre code{background:none;color:inherit}
+blockquote{background:#eef4fb;border-left:4px solid #2E6CA4;padding:8px 14px;border-radius:0 8px 8px 0;margin:12px 0}</style></head><body><h2>🚀 Mise en ligne définitive sur academiecomptafr.mg</h2>
+<p>Objectif : un <strong>lien stable et permanent</strong> (https://academiecomptafr.mg) avec <strong>HTTPS</strong> et <strong>données conservées</strong>.</p>
+<blockquote>3 étapes : <strong>1)</strong> enregistrer le domaine <code>.mg</code> · <strong>2)</strong> déployer la plateforme · <strong>3)</strong> brancher le domaine + sécuriser.<br>⚠️ Je prépare et vérifie tout le code ; <strong>vous</strong> réalisez l&#39;achat du domaine et la création du compte d&#39;hébergement (paiement/identité requis).</blockquote>
+<hr>
+<h3>1) Enregistrer le domaine .mg (NIC.MG)</h3>
+<ul><li>Le <code>.mg</code> est géré par <strong>NIC.MG</strong> via des <strong>registrars accrédités</strong>. Coût indicatif : <strong>~18 €/an</strong>.</li><li>Étapes :</li></ul>
+<ol><li>Choisir un <strong>registrar accrédité</strong> (liste officielle sur le site de NIC.MG).</li><li>Vérifier la disponibilité de <strong>academiecomptafr.mg</strong> (lors de notre recherche : <strong>disponible</strong>).</li><li>Créer un compte, <strong>payer</strong>, fournir les informations du titulaire (<strong>MG Consulting IT &amp; ACT</strong>).</li><li>Vous obtiendrez l&#39;accès à la <strong>gestion DNS</strong> du domaine (nécessaire à l&#39;étape 3).</li></ol>
+<hr>
+<h3>2) Déployer la plateforme (Render.com — le plus simple)</h3>
+<p>Le projet contient déjà <code>Dockerfile</code> + <code>render.yaml</code> (tout est prêt).</p>
+<p><strong>A. Mettre le code sur GitHub</strong><br>Le dossier est déjà un dépôt Git. Créez un dépôt <strong>vide</strong> sur GitHub, puis dans le projet :</p>
+<pre><code>git add -A
+git commit -m &quot;Mise en ligne academiecomptafr.mg&quot;
+git branch -M main
+git remote add origin https://github.com/VOTRE-COMPTE/academie-compta-fr.git
+git push -u origin main</code></pre>
+<p><strong>B. Créer le service sur Render</strong></p>
+<ol><li>Render → <strong>New +</strong> → <strong>Blueprint</strong> → connectez le dépôt GitHub → Render lit <strong><code>render.yaml</code></strong>.</li><li>Plan <strong>Starter</strong> (inclut le <strong>disque persistant</strong> → vos comptes/paiements sont <strong>conservés</strong>).</li><li>Renseignez les variables (marquées « à saisir ») :</li></ol>
+<ul><li><code>ADMIN_EMAIL</code> = votre email admin</li><li><code>ADMIN_PASSWORD</code> = <strong>mot de passe fort</strong></li><li><code>BASE_URL</code> = au début l&#39;URL fournie (ex. <code>https://academie-compta-fr.onrender.com</code>)</li></ul>
+<ol><li><strong>Deploy</strong>. Vérifiez que <strong><code>/sante</code></strong> répond <code>ok</code>.</li></ol>
+<p><em>(Déjà configuré pour vous : <code>PRODUCTION=true</code>, <code>SESSION_SECRET</code> auto, <code>DATA_DIR=/data</code> + disque persistant.)</em></p>
+<hr>
+<h3>3) Brancher le domaine + HTTPS</h3>
+<ol><li>Render → votre service → <strong>Settings → Custom Domains → Add</strong> : ajoutez <strong>academiecomptafr.mg</strong> (et <strong>www.academiecomptafr.mg</strong>).</li><li>Render affiche la <strong>cible DNS</strong> à configurer.</li><li>Chez le <strong>registrar (gestion DNS)</strong>, créez :</li></ol>
+<ul><li><code>www</code> → <strong>CNAME</strong> → <code>votre-service.onrender.com</code></li><li>apex <code>@</code> (academiecomptafr.mg) → <strong>ALIAS/ANAME</strong> (ou <strong>A</strong> vers l&#39;IP indiquée par Render)</li></ul>
+<ol><li><strong>Propagation DNS</strong> : de quelques minutes à 24‑48 h.</li><li>Render génère le <strong>certificat HTTPS</strong> automatiquement (Let&#39;s Encrypt).</li><li>Repassez <code>BASE_URL = https://academiecomptafr.mg</code> → redeploy.</li></ol>
+<hr>
+<h3>4) Sécurité &amp; finitions (production)</h3>
+<ul><li>&#9744; <strong>Mot de passe admin fort</strong> (variable <code>ADMIN_PASSWORD</code>).</li><li>&#9744; Réactiver la <strong>2FA obligatoire</strong> : dans <code>platform/config.json</code> → <code>securite.twofa_obligatoire = true</code>.</li><li>&#9744; Vérifier les <strong>moyens de paiement</strong> (numéros Orange Money / MVola) et les <strong>offres/prix</strong>.</li><li>&#9744; Compléter l&#39;<strong>hébergeur</strong> dans <code>/mentions-legales</code> (ex. Render Inc.).</li><li>&#9744; <strong>Ne jamais</strong> committer de fichier <code>.env</code> (le secret est géré par Render).</li><li>&#9744; <strong>Données persistantes</strong> : <code>DATA_DIR=/data</code> + disque (déjà fait).</li></ul>
+<h3>5) Sauvegardes</h3>
+<ul><li>Render conserve le disque entre les déploiements. Prévoyez une <strong>copie régulière de <code>data.db</code></strong> (export manuel / snapshot selon le plan).</li></ul>
+<hr>
+<h3>📋 Récap — variables d&#39;environnement Render</h3>
+<div class="tbl"><table><thead><tr><th>Variable</th><th>Valeur</th></tr></thead><tbody><tr><td><code>PRODUCTION</code></td><td><code>true</code></td></tr><tr><td><code>SESSION_SECRET</code></td><td>(généré par Render)</td></tr><tr><td><code>DATA_DIR</code></td><td><code>/data</code></td></tr><tr><td><code>ADMIN_EMAIL</code></td><td>votre email</td></tr><tr><td><code>ADMIN_PASSWORD</code></td><td>mot de passe fort</td></tr><tr><td><code>BASE_URL</code></td><td><code>https://academiecomptafr.mg</code></td></tr></tbody></table></div>
+<h3>Alternatives d&#39;hébergement (si besoin)</h3>
+<ul><li><strong>Railway</strong>, <strong>Fly.io</strong> (Docker, simples).</li><li><strong>VPS</strong> (OVH, Contabo…) : Docker + <strong>Caddy</strong> (HTTPS automatique) — plus de contrôle, un peu plus technique.</li></ul>
+<blockquote>Une fois en ligne, le lien <strong>temporaire Cloudflare</strong> ne sera plus nécessaire : tout passe par <strong>https://academiecomptafr.mg</strong>.</blockquote></body></html>

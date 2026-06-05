@@ -1,0 +1,35 @@
+{
+  "annee_reference": 2026,
+  "loi_de_finances": "Loi de finances pour 2026",
+  "date_maj": "2026-06-05",
+  "source": "impots.gouv.fr / BOFIP / service-public.fr",
+  "note": "Source de vérité unique des paramètres fiscaux affichés sur la plateforme. Mise à jour annuelle (voir supports/10-Mise-a-jour-lois-de-finances.md). Toute valeur 'à vérifier' doit être confirmée à la sortie de la loi de finances.",
+  "tva": {
+    "taux": { "normal": 20, "intermediaire": 10, "reduit": 5.5, "super_reduit": 2.1 }
+  },
+  "franchise_base_tva": {
+    "ventes": { "seuil": 85000, "seuil_majore": 93500 },
+    "services_liberal": { "seuil": 37500, "seuil_majore": 41250 }
+  },
+  "micro": {
+    "vente_hebergement": { "plafond": 203100, "abattement": 71 },
+    "services_bic": { "plafond": 83600, "abattement": 50 },
+    "bnc": { "plafond": 83600, "abattement": 34 },
+    "meuble_tourisme_classe": { "abattement": 50 },
+    "meuble_tourisme_non_classe": { "plafond": 15000, "abattement": 30 }
+  },
+  "is": {
+    "taux_normal": 25,
+    "taux_reduit": 15,
+    "plafond_taux_reduit": 42500,
+    "conditions_taux_reduit": "CA < 10 M€ et capital entièrement libéré détenu à 75% par des personnes physiques"
+  },
+  "smic": { "horaire": 12.02, "mensuel_151_67h": 1823.03 },
+  "pass": { "mensuel": 4005, "annuel": 48060 },
+  "location_meublee": { "seuil_lmp": 23000 },
+  "das2": { "seuil": 2400, "note": "Relevé de 1 200 € à 2 400 € pour les sommes versées à partir de 2024 (déclarées en 2025), CGI art. 240/241." },
+  "cifd": { "heures_max": 40 },
+  "vehicules": {
+    "carburant_tva_deductible": { "vp_gazole_essence": 80, "vu": 100 }
+  }
+}

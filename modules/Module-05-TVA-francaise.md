@@ -61,22 +61,76 @@ La TVA est un impôt sur la consommation, **collecté pour l'État**. L'entrepri
 
 ---
 
-## 5. Les déclarations
+## 5. Les déclarations (formulaires CERFA) — quelle case remplir ?
 
-### CA3 (réel normal — mensuelle/trimestrielle)
-Cadres clés :
-- **Ligne 01** : ventes/prestations taxables (base HT).
-- **Lignes 08 à 5B** : TVA collectée par taux.
-- **Ligne 20** : TVA déductible sur ABS (biens et services).
-- **Ligne 19/23** : TVA déductible sur immobilisations.
-- **Ligne 22** : crédit de TVA antérieur.
-- **Ligne 16** : TVA brute due.
-- **Ligne 28** : crédit de TVA.
-- **Ligne 32** : **TVA nette à payer**.
-- Acquisitions intracommunautaires et autoliquidation : cadres dédiés.
+> En pratique on **télédéclare** (EDI via le logiciel, ou EFI sur impots.gouv) ; mais il faut connaître le **CERFA** et savoir **quelle ligne = quoi**, car les écrans de Pennylane/ACD reprennent **exactement** ces lignes.
 
-### CA12 (réel simplifié — annuelle)
-Récapitule l'année + régularise les 2 acomptes (juillet/décembre) déjà versés.
+### 🧾 CA3 — formulaire **3310‑CA3‑SD** (CERFA n° 10963) — réel normal, mensuelle/trimestrielle
+Deux cadres : **Cadre A** = montant des opérations (HT) · **Cadre B** = décompte de la TVA.
+
+<div class="cerfa" data-form="ca3"></div>
+
+**▸ CADRE A — Montant des opérations réalisées (en € HT)**
+| Ligne | Quoi y mettre | Où le trouver en compta |
+|---|---|---|
+| **01** | **Ventes et prestations taxables** (base **HT**) | crédit des comptes 70x |
+| 02 | Autres opérations imposables (base HT) | cas particuliers |
+| 0A | Achats de **prestations de services intracommunautaires** (autoliquidation) | factures de services UE |
+| 03 | **Acquisitions intracommunautaires** de biens (base HT) | achats de biens UE |
+| 04 | **Exportations** hors UE (exonérées) | ventes hors UE |
+| 05 | Autres opérations non imposables | — |
+| 06 | **Livraisons intracommunautaires** (exonérées) | ventes de biens vers l'UE |
+
+**▸ CADRE B — Décompte de la TVA à payer**
+*TVA brute (collectée), par taux :*
+| Ligne | Quoi y mettre |
+|---|---|
+| **08** | base HT **× 20 %** (taux normal) → colonne **base** + colonne **taxe** |
+| **09** | base HT **× 10 %** |
+| **9B** | base HT **× 5,5 %** |
+| **9C** | base HT **× 2,1 %** |
+| **17** | *dont* **TVA sur acquisitions intracommunautaires** (déjà incluse au‑dessus) |
+| **16** | **TOTAL TVA brute due** = somme des lignes 08 à 15 |
+
+*TVA déductible :*
+| Ligne | Quoi y mettre | Compte |
+|---|---|---|
+| **19** | TVA déductible sur **immobilisations** | 44562 |
+| **20** | TVA déductible sur **autres biens et services (ABS)** | 44566 |
+| **21** | Autre TVA à déduire (régularisations, autoliquidation déductible) | — |
+| **22** | **Report du crédit de TVA** (= ligne 27 de la déclaration précédente) | 44567 |
+| **23** | **TOTAL TVA déductible** = lignes 19 à 22 |
+
+*Résultat (un seul des deux cas) :*
+| Ligne | Quoi y mettre |
+|---|---|
+| **28** | **TVA nette DUE** = ligne 16 − ligne 23 *(si 16 > 23 → vous payez)* |
+| **25** | **Crédit de TVA** = ligne 23 − ligne 16 *(si 23 > 16)* |
+| **26** | Remboursement de crédit demandé (optionnel) |
+| **27** | Crédit **à reporter** sur la prochaine déclaration (→ ira en ligne 22 le mois suivant) |
+| **29** | Taxes assimilées (via annexe 3310‑A) |
+| **32** | **TOTAL À PAYER** = ligne 28 (+ 29 − crédits) |
+
+> 🧠 Mémo : **16** = TVA collectée totale · **23** = TVA déductible totale · **28** = à payer · **25/27** = crédit.
+
+**▸ Exemple « où mettre quoi »** (mois, réel normal) : ventes 50 000 HT à 20 % · achats+frais 34 000 HT déductibles · immobilisation 2 000 HT · crédit antérieur 300 €.
+→ **L.01** 50 000 · **L.08** base 50 000 / taxe **10 000** · **L.16** 10 000 · **L.20** **6 800** · **L.19** **400** · **L.22** **300** · **L.23** 7 500 · **L.28** **2 500** · **L.32** **2 500 à payer**.
+
+### 🧾 CA12 — formulaire **3517‑S‑SD** (CERFA n° 11417) — réel simplifié, annuelle
+Récapitule **toute l'année** et **régularise les 2 acomptes** déjà versés (juillet 55 %, décembre 40 %). Lignes clés :
+
+<div class="cerfa" data-form="ca12"></div>
+- **Bases HT par taux** (20 / 10 / 5,5 %) puis TVA brute correspondante.
+- **TVA déductible** : sur **immobilisations** et sur **autres biens et services**.
+- **Acomptes déjà payés** dans l'année → à **déduire**.
+- **Résultat** : **TVA due** (à payer) **ou crédit** = solde annuel.
+
+### 🔗 Lien avec le logiciel
+Dans **Pennylane** (Fiscalité → TVA) ou **ACD**, ces lignes sont **pré‑remplies** depuis la compta. Votre rôle : **vérifier chaque ligne** (08 = collectée 20 %, 20 = déductible ABS, 19 = immo, 22 = crédit reporté…) **avant** validation par le chef de mission.
+
+### 📎 Formulaires officiels (impots.gouv.fr)
+- **CA3** : [formulaire 3310‑CA3‑SD + notice](https://www.impots.gouv.fr/formulaire/3310-ca3-sd/tva-et-taxes-assimilees-regime-du-reel-normal-mini-reel)
+- **CA12** : 3517‑S‑SD (régime simplifié) — sur impots.gouv.fr
 
 ---
 

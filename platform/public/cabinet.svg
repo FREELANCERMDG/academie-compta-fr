@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="440" viewBox="0 0 1000 440" font-family="Segoe UI, Arial, sans-serif" role="img" aria-label="Illustration d'un cabinet comptable français">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef4fb"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe0ff"/><stop offset="1" stop-color="#e8f4ff"/></linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#13314c"/><stop offset="1" stop-color="#0f2233"/></linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="440" rx="18" fill="url(#bg)"/>
+  <!-- sol -->
+  <rect x="0" y="372" width="1000" height="68" rx="0" fill="#e3eaf2"/>
+
+  <!-- Fenêtre avec Paris (française) -->
+  <g>
+    <rect x="70" y="46" width="330" height="210" rx="10" fill="#ffffff" stroke="#cfd8e3" stroke-width="6"/>
+    <rect x="82" y="58" width="306" height="186" rx="5" fill="url(#sky)"/>
+    <!-- soleil + nuages -->
+    <circle cx="120" cy="92" r="16" fill="#ffd479"/>
+    <ellipse cx="300" cy="96" rx="34" ry="13" fill="#ffffff" opacity=".85"/>
+    <ellipse cx="270" cy="104" rx="22" ry="10" fill="#ffffff" opacity=".75"/>
+    <!-- Tour Eiffel -->
+    <g fill="#5b6b7d">
+      <path d="M232 232 L246 120 L254 120 L268 232 Z"/>
+      <path d="M243 150 L257 150 L255 138 L245 138 Z" fill="#e8f4ff"/>
+      <rect x="241" y="172" width="18" height="6"/>
+      <path d="M250 120 L250 104" stroke="#5b6b7d" stroke-width="3"/>
+      <rect x="226" y="230" width="48" height="6"/>
+    </g>
+    <!-- meneaux -->
+    <line x1="235" y1="58" x2="235" y2="244" stroke="#ffffff" stroke-width="6"/>
+    <line x1="82" y1="150" x2="388" y2="150" stroke="#ffffff" stroke-width="6"/>
+  </g>
+
+  <!-- Plante -->
+  <g>
+    <path d="M905 372 q-26 -70 -2 -118 q22 36 6 118 Z" fill="#3d9a5b"/>
+    <path d="M905 372 q26 -60 4 -104 q-20 34 -6 104 Z" fill="#2f7e49"/>
+    <rect x="884" y="372" width="44" height="40" rx="6" fill="#c97b46"/>
+  </g>
+
+  <!-- Bureau -->
+  <rect x="60" y="300" width="880" height="22" rx="8" fill="#b9844f"/>
+  <rect x="60" y="318" width="880" height="10" rx="4" fill="#9a6c3d"/>
+
+  <!-- Comptable (silhouette stylisée) -->
+  <g>
+    <rect x="250" y="190" width="120" height="120" rx="14" fill="#274b6e" opacity=".15"/>
+    <!-- corps -->
+    <path d="M268 300 q42 -64 84 0 Z" fill="#1F4E78"/>
+    <rect x="300" y="262" width="20" height="20" fill="#f1c39b"/>
+    <!-- tête -->
+    <circle cx="310" cy="244" r="26" fill="#f3c9a2"/>
+    <path d="M285 240 q4 -28 25 -28 q22 0 25 26 q-12 -12 -25 -10 q-15 2 -25 12 Z" fill="#3a2a1e"/>
+    <!-- bras vers le clavier -->
+    <path d="M348 296 q26 -8 40 6" stroke="#1F4E78" stroke-width="12" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Écran de gestion (dashboard / Pennylane) -->
+  <g>
+    <rect x="420" y="150" width="250" height="150" rx="10" fill="#0f2233"/>
+    <rect x="430" y="160" width="230" height="130" rx="6" fill="url(#screen)"/>
+    <!-- barre titre -->
+    <rect x="430" y="160" width="230" height="20" rx="6" fill="#1f4e78"/>
+    <circle cx="442" cy="170" r="3" fill="#E8A13A"/><circle cx="452" cy="170" r="3" fill="#9fb6cc"/>
+    <text x="466" y="174" fill="#dce8f4" font-size="10" font-weight="700">COMPTA FR — Tableau de bord</text>
+    <!-- barres -->
+    <rect x="446" y="246" width="22" height="30" fill="#3d9a5b"/>
+    <rect x="476" y="232" width="22" height="44" fill="#4f8fd0"/>
+    <rect x="506" y="214" width="22" height="62" fill="#E8A13A"/>
+    <rect x="536" y="240" width="22" height="36" fill="#3d9a5b"/>
+    <!-- courbe -->
+    <polyline points="446,232 476,222 506,200 536,210 566,190 596,184" fill="none" stroke="#7fd0a0" stroke-width="3"/>
+    <!-- mini grille (CA3) -->
+    <g stroke="#34516c" stroke-width="1">
+      <rect x="446" y="192" width="150" height="0.5"/>
+    </g>
+    <text x="600" y="206" fill="#bfe3c8" font-size="22" font-weight="800">€</text>
+    <!-- pied -->
+    <rect x="535" y="300" width="20" height="16" fill="#0f2233"/>
+    <rect x="510" y="316" width="70" height="8" rx="4" fill="#0f2233"/>
+  </g>
+
+  <!-- Ordinateur portable du comptable -->
+  <g>
+    <rect x="350" y="288" width="92" height="14" rx="4" fill="#cdd6e0"/>
+    <rect x="360" y="252" width="72" height="40" rx="4" fill="#274b6e"/>
+    <rect x="365" y="257" width="62" height="30" rx="2" fill="#9ec3e6"/>
+  </g>
+
+  <!-- Pile de livres : PCG / TVA / IS -->
+  <g font-size="11" font-weight="800" fill="#ffffff">
+    <rect x="690" y="276" width="150" height="22" rx="3" fill="#1F4E78"/><text x="700" y="291">PCG — Plan Comptable</text>
+    <rect x="700" y="254" width="140" height="22" rx="3" fill="#E8A13A"/><text x="710" y="269" fill="#1c2733">TVA · CA3 / CA12</text>
+    <rect x="694" y="232" width="146" height="22" rx="3" fill="#c0392b"/><text x="704" y="247">Liasse fiscale · 2065</text>
+  </g>
+
+  <!-- Dossier avec drapeau tricolore -->
+  <g>
+    <rect x="120" y="300" width="120" height="20" rx="4" fill="#e7eef6"/>
+    <rect x="120" y="276" width="120" height="28" rx="5" fill="#f4f7fb" stroke="#cfd8e3" stroke-width="2"/>
+    <g>
+      <rect x="130" y="282" width="12" height="16" fill="#0055A4"/>
+      <rect x="142" y="282" width="12" height="16" fill="#ffffff"/>
+      <rect x="154" y="282" width="12" height="16" fill="#EF4135"/>
+    </g>
+    <text x="176" y="294" font-size="11" font-weight="800" fill="#1F4E78">DOSSIER</text>
+  </g>
+
+  <!-- Calculatrice -->
+  <g>
+    <rect x="262" y="286" width="48" height="34" rx="5" fill="#2e3a46"/>
+    <rect x="268" y="290" width="36" height="9" rx="2" fill="#9fe0b0"/>
+    <g fill="#728196">
+      <rect x="268" y="302" width="7" height="6" rx="1"/><rect x="278" y="302" width="7" height="6" rx="1"/><rect x="288" y="302" width="7" height="6" rx="1"/><rect x="298" y="302" width="6" height="6" rx="1"/>
+      <rect x="268" y="310" width="7" height="6" rx="1"/><rect x="278" y="310" width="7" height="6" rx="1"/><rect x="288" y="310" width="7" height="6" rx="1"/><rect x="298" y="310" width="6" height="6" rx="1"/>
+    </g>
+  </g>
+
+  <!-- Badges flottants -->
+  <g>
+    <circle cx="700" cy="120" r="26" fill="#E8A13A"/><text x="700" y="129" text-anchor="middle" font-size="22" font-weight="800" fill="#1c2733">%</text>
+    <circle cx="120" cy="300" r="0" fill="none"/>
+    <g transform="translate(740,300)">
+      <rect x="0" y="0" width="120" height="34" rx="8" fill="#ffffff" stroke="#cfd8e3" stroke-width="2"/>
+      <circle cx="18" cy="17" r="9" fill="#3d9a5b"/><path d="M14 17 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/>
+      <text x="34" y="21" font-size="11" font-weight="700" fill="#1F4E78">Bilan validé</text>
+    </g>
+  </g>
+</svg>
