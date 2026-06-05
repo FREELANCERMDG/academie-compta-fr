@@ -342,7 +342,7 @@ function pageDashboard(sess) {
   <p>Niveau d'études : ${esc(u.niveau_etudes)} · Auto-évaluation : ${esc(u.niveau_intellectuel)}</p>
   <p>2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}</p></section>
   <section class="card"><h2>Accès à la formation</h2>
-  ${active ? `<p class="ok">Accès actif ✅${(u.role !== 'admin' && expActive) ? ` — jusqu'au <b>${fmtDate(expActive)}</b>` : (u.role === 'admin' ? ' (admin, illimité)' : '')}</p><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`
+  ${active ? `<p class="ok">Accès actif ✅${(u.role !== 'admin' && expActive) ? ` — jusqu'au <b>${fmtDate(expActive)}</b>` : (u.role === 'admin' ? ' (admin, illimité)' : '')}</p><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 Mon attestation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`
             : `<p class="muted">Aucune offre active (non payée ou durée expirée). Choisissez une offre ci-dessous.</p><a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a>`}</section>
   <section class="card"><h2>Choisir une offre</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
@@ -449,6 +449,59 @@ window.addEventListener('afterprint',function(){try{document.body.style.display=
   res.end(html);
 }
 
+// --- Attestation personnalisée (générée par la plateforme) ---
+function serveAttestation(res, sess) {
+  const u = sess.user; const s = cfg.societe || {};
+  const formateur = (cfg.formateur && cfg.formateur.nom) || s.cogerant || s.gerant || '';
+  const fmt = d => d ? String(d).slice(0, 10).split('-').reverse().join('/') : '—';
+  const today = new Date().toISOString().slice(0, 10).split('-').reverse().join('/');
+  const nom = esc(((u.prenom || '') + ' ' + (u.nom || '')).trim()) || '[Apprenant]';
+  const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attestation — ${esc(s.nom || '')}</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef1f5;font-family:Georgia,'Times New Roman',serif;color:#1c2733}
+.sheet{max-width:820px;margin:24px auto;background:#fff;padding:48px 56px;border:1px solid #d8dee6;box-shadow:0 4px 18px rgba(20,40,70,.12);position:relative}
+.sheet::before{content:'';position:absolute;inset:14px;border:2px solid #1F4E78;pointer-events:none}
+.logo{display:block;margin:0 auto 6px;max-width:230px;height:auto}
+h1{color:#1F4E78;text-align:center;font-size:26px;letter-spacing:1px;margin:10px 0 2px}
+.sub{text-align:center;color:#555;font-style:italic;margin:0 0 22px}
+p{line-height:1.7;margin:10px 0;font-size:16px}
+.name{text-align:center;font-size:24px;font-weight:bold;color:#1F4E78;margin:18px 0;text-transform:uppercase;letter-spacing:1px}
+.grid{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}
+.box{flex:1;min-width:200px;background:#f4f7fb;border:1px solid #dbe4ee;border-radius:8px;padding:12px 16px}
+.box .lbl{font-size:12px;color:#6b7785;text-transform:uppercase;letter-spacing:.5px}
+.box .val{font-size:18px;font-weight:bold;color:#1F4E78}
+.sig{margin-top:36px;font-weight:bold}
+.legal{font-size:11px;color:#7a8694;font-style:italic;margin-top:26px;line-height:1.5}
+.bar{text-align:center;margin:18px 0}
+.btn{background:#E8A13A;color:#1c2733;border:none;padding:11px 20px;border-radius:9px;font-weight:bold;cursor:pointer;font-size:15px;font-family:Arial,sans-serif}
+@media print{body{background:#fff}.sheet{box-shadow:none;border:none;margin:0;max-width:none}.noprint{display:none!important}}
+</style></head><body>
+<div class="bar noprint" style="max-width:820px;margin:14px auto 0"><button class="btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button> <a class="btn" style="text-decoration:none;background:#fff;border:1px solid #cfd8e3;color:#1F4E78" href="/tableau-de-bord">← Mon espace</a></div>
+<div class="sheet">
+  <img class="logo" src="/public/logo.jpg" alt="${esc(s.nom || '')}">
+  <h1>ATTESTATION DE FIN DE FORMATION</h1>
+  <p class="sub">Formation complète en comptabilité française externalisée depuis Madagascar</p>
+  <p>Je soussigné <b>${esc(formateur)}</b>, formateur agissant pour la société <b>${esc(s.nom || '')}</b>, atteste que :</p>
+  <p class="name">${nom}</p>
+  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (4 modules · 24 leçons), couvrant la saisie, la TVA, le rapprochement, le lettrage, la paie, les immobilisations, la révision, la fiscalité, le bilan et la liasse.</p>
+  <div class="grid">
+    <div class="box"><div class="lbl">Date d'inscription</div><div class="val">${fmt(u.cree_le)}</div></div>
+    <div class="box"><div class="lbl">Résultat à l'évaluation finale</div><div class="val" id="result">…</div></div>
+    <div class="box"><div class="lbl">Niveau délivré</div><div class="val" id="niveau">…</div></div>
+  </div>
+  <p id="warn" style="display:none;color:#c0392b;font-size:14px">⚠️ L'évaluation finale n'a pas encore été validée sur cet appareil. Passez le quiz final (Module 4) puis revenez ici.</p>
+  <p>Fait à ____________________, le <b>${today}</b>.</p>
+  <p class="sig">${esc(formateur)} — Formateur, ${esc(s.nom || '')}</p>
+  <p class="legal">${esc(s.denomination || s.nom || '')} — ${esc(s.forme || '')} au capital de ${esc(s.capital || '')} — ${esc(s.immat || '')}${s.siege ? ', ' + esc(s.siege) : ''}. Attestation de fin de formation interne, sans valeur de diplôme d'État ; elle atteste du suivi de la formation et du niveau opérationnel constaté à l'évaluation finale.</p>
+</div>
+<script>(function(){try{var p=JSON.parse(localStorage.getItem('fce_progress_v1')||'{}');var f=p.quiz&&p.quiz.final;var el=document.getElementById('result'),nv=document.getElementById('niveau');if(f&&f.total){var pct=Math.round(f.score/f.total*100);el.textContent=pct+' / 100';nv.textContent=pct>=85?'Avancé — Collaborateur autonome':(pct>=70?'Intermédiaire confirmé':(pct>=55?'Débutant validé':'À repasser (seuil 55)'));}else{el.textContent='—';nv.textContent='—';document.getElementById('warn').style.display='block';}}catch(e){}})();</script>
+</body></html>`;
+  securityHeaders(res, { courseCSP: true, prod: PROD });
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(html);
+}
+
 // --- Routeur ---
 const server = http.createServer(async (req, res) => {
   try {
@@ -472,6 +525,11 @@ const server = http.createServer(async (req, res) => {
 
       // espace authentifié
       if (p === '/tableau-de-bord') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageDashboard(sess)); }
+      if (p === '/attestation') {
+        if (!authed(sess)) return redirect(res, '/connexion');
+        if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
+        return serveAttestation(res, sess);
+      }
       if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess)); }
       if (p === '/paiement') {
         if (!authed(sess)) return redirect(res, '/connexion');

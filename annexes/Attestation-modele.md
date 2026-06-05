@@ -1,6 +1,6 @@
-# ANNEXE D — Modèle d'attestation de fin de formation
+# Attestation de fin de formation
 
-> Attestation officielle **MG CONSULTING IT&ACT** — logo intégré.
+> Attestation officielle **MG CONSULTING IT&ACT** — **générée automatiquement** par la plateforme (nom, **date d'inscription** et **résultat de l'évaluation** de l'apprenant remplis tout seuls). Logo intégré.
 
 ---
 
