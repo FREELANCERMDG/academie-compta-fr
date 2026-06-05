@@ -34,9 +34,11 @@ const MACRO = [
       "Achats & ventes de services : exigibilité à l'encaissement, comptes d'attente 44574/44564, journal RT (illustré en images)",
       "🎥 Cadrage de la TVA sur Pennylane : cadrage + historique, base par taux et cadrage annuel (vidéo + explication)",
       "🎥 Formulaire CA3 / CA12 sur Pennylane (nouveaux formulaires, vidéo + explication)",
-      "📌 Guide PDF épinglé : comment basculer sa comptabilité sur Pennylane (reprise d'un dossier)"
+      "📌 Guide PDF épinglé : comment basculer sa comptabilité sur Pennylane (reprise d'un dossier)",
+      "Préparer la liasse fiscale sur Pennylane (checklist complète : espace cabinet, dossier permanent, modules de révision)",
+      "🎥 Figer la comptabilité sur Pennylane (vidéo + explication)"
     ],
-    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md', 'Module-PL7-Services.md', 'Module-PL8-Cadrage-TVA.md', 'Module-PL9-CA3-CA12.md', 'Module-PL10-Basculer.md'],
+    files: ['Module-PL1-Saisie.md', 'Module-PL2-Categorisation.md', 'Module-PL3-Import-FEC.md', 'Module-PL4-Reprise-immo.md', 'Module-PL5-TVA.md', 'Module-PL6-Preparation-TVA.md', 'Module-PL7-Services.md', 'Module-PL8-Cadrage-TVA.md', 'Module-PL9-CA3-CA12.md', 'Module-PL10-Basculer.md', 'Module-PL11-Liasse.md', 'Module-PL12-Figer.md'],
     quiz: 'm21'
   },
   {
