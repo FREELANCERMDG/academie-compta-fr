@@ -1,0 +1,67 @@
+{
+  "_aide": "Exercices de saisie interactifs. racine = préfixe de compte accepté pour la correction (souple). Montants en nombres.",
+  "ex1": {
+    "titre": "Achat de marchandises",
+    "journal": "AC",
+    "enonce": "Facture fournisseur : marchandises 1 000 € HT, TVA 20 %. Saisissez l'écriture complète.",
+    "astuce": "Charge HT + TVA déductible au débit, fournisseur (TTC) au crédit.",
+    "lignes": [
+      { "compte": "607000", "racine": "607", "libelle": "Achats de marchandises", "debit": 1000, "credit": 0 },
+      { "compte": "445660", "racine": "4456", "libelle": "TVA déductible 20 %", "debit": 200, "credit": 0 },
+      { "compte": "401", "racine": "401", "libelle": "Fournisseur", "debit": 0, "credit": 1200 }
+    ]
+  },
+  "ex2": {
+    "titre": "Vente de prestation",
+    "journal": "VT",
+    "enonce": "Facture client : prestation 2 000 € HT, TVA 20 %. Saisissez l'écriture.",
+    "astuce": "Client (TTC) au débit ; produit HT + TVA collectée au crédit.",
+    "lignes": [
+      { "compte": "411", "racine": "411", "libelle": "Client", "debit": 2400, "credit": 0 },
+      { "compte": "706000", "racine": "706", "libelle": "Prestations de services", "debit": 0, "credit": 2000 },
+      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 20 %", "debit": 0, "credit": 400 }
+    ]
+  },
+  "ex3": {
+    "titre": "Course Uber (VTC)",
+    "journal": "BQ",
+    "enonce": "Reçu Uber : course 30 € TTC, payée par carte bancaire. Attention à la TVA !",
+    "astuce": "VTC = transport de personnes → TVA NON déductible : tout le TTC passe en charge (pas de ligne de TVA).",
+    "lignes": [
+      { "compte": "625100", "racine": "6251", "libelle": "Voyages et déplacements", "debit": 30, "credit": 0 },
+      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 0, "credit": 30 }
+    ]
+  },
+  "ex4": {
+    "titre": "Encaissement d'un client",
+    "journal": "BQ",
+    "enonce": "Le client règle 2 400 € par virement bancaire. Saisissez l'encaissement.",
+    "astuce": "Banque au débit (l'argent entre), client au crédit (la créance s'éteint). On lettrera ensuite avec la facture.",
+    "lignes": [
+      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 2400, "credit": 0 },
+      { "compte": "411", "racine": "411", "libelle": "Client", "debit": 0, "credit": 2400 }
+    ]
+  },
+  "ex5": {
+    "titre": "Recette du jour (2 taux de TVA)",
+    "journal": "CA",
+    "enonce": "Z de caisse : ventes à 5,5 % = 1 000 € HT (TVA 55 €) et à 20 % = 500 € HT (TVA 100 €). Tout encaissé en banque (1 655 € TTC).",
+    "astuce": "On ventile par taux : banque au débit (1 655), ventes 1 500 + TVA 55 + TVA 100 au crédit.",
+    "lignes": [
+      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 1655, "credit": 0 },
+      { "compte": "707000", "racine": "707", "libelle": "Ventes de marchandises", "debit": 0, "credit": 1500 },
+      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 5,5 %", "debit": 0, "credit": 55 },
+      { "compte": "445720", "racine": "4457", "libelle": "TVA collectée 20 %", "debit": 0, "credit": 100 }
+    ]
+  },
+  "ex6": {
+    "titre": "Dotation aux amortissements (clôture)",
+    "journal": "OD",
+    "enonce": "À la clôture : une machine de 12 000 € est amortie sur 5 ans en linéaire. Passez la dotation de l'exercice.",
+    "astuce": "12 000 / 5 = 2 400. Dotation (charge 6811) au débit, amortissement (28) au crédit.",
+    "lignes": [
+      { "compte": "681120", "racine": "6811", "libelle": "Dotation aux amortissements", "debit": 2400, "credit": 0 },
+      { "compte": "281540", "racine": "2815", "libelle": "Amortissement du matériel", "debit": 0, "credit": 2400 }
+    ]
+  }
+}

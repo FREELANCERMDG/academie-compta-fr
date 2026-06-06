@@ -50,7 +50,7 @@ const MACRO = [
       "Immobilisations et amortissements", "Révision comptable continue",
       "Révision par défilement (classes 1 à 7) : capital/KBIS/PVAGO, réserve légale, immo, emprunts & tableau d'amortissement"
     ],
-    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md'],
+    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md'],
     quiz: 'm05'
   },
   {

@@ -84,6 +84,7 @@ MANIFEST = [
     ("modules/Module-PRAT1-Quotidien.md", "pr1", "Module 3 — Opérations & révision", "3.9 🛠️ Le quotidien du collaborateur (pratique)", None),
     ("modules/Module-PRAT2-Justification-cycles.md", "pr2", "Module 3 — Opérations & révision", "3.10 🛠️ Justifier les comptes par cycle (pratique)", None),
     ("modules/Module-PRAT4-Factures-particulieres.md", "pr4", "Module 3 — Opérations & révision", "3.11 🛠️ Saisir les factures particulières (cas réels)", None),
+    ("modules/Module-PRAT5-Entrainement-saisie.md", "pr5", "Module 3 — Opérations & révision", "3.12 🧮 Entraînement : matrice de saisie (interactif)", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
@@ -261,6 +262,13 @@ for grp in ["Présentation", "Module 1 — Fondamentaux de la comptabilité fran
 with open(os.path.join(BASE, "quizzes.json"), "r", encoding="utf-8") as f:
     QUIZ = json.load(f)
 
+# Exercices de saisie interactifs (matrice façon logiciel)
+try:
+    with open(os.path.join(BASE, "exercices.json"), "r", encoding="utf-8") as f:
+        EXOS = json.load(f)
+except Exception:
+    EXOS = {}
+
 # ----------------- Template HTML -----------------
 TPL = r"""<!DOCTYPE html>
 <html lang="fr">
@@ -381,6 +389,7 @@ const NAV=__NAV__;
 const ORDER=__ORDER__;
 const MODID=__MODID__;
 const QUIZ=__QUIZ__;
+const EXOS=__EXOS__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}
@@ -467,7 +476,8 @@ document.getElementById('search').addEventListener('input',e=>{
 });
 renderNav();show(curId());
 </script>
-<script src="cerfa.js"></script>
+<script src="/formation/cerfa.js"></script>
+<script src="/formation/saisie.js"></script>
 </body>
 </html>"""
 
@@ -476,7 +486,8 @@ html_out = (TPL
     .replace("__NAV__", json.dumps(NAV, ensure_ascii=False))
     .replace("__ORDER__", json.dumps(ORDER, ensure_ascii=False))
     .replace("__MODID__", json.dumps(MODID, ensure_ascii=False))
-    .replace("__QUIZ__", json.dumps(QUIZ, ensure_ascii=False)))
+    .replace("__QUIZ__", json.dumps(QUIZ, ensure_ascii=False))
+    .replace("__EXOS__", json.dumps(EXOS, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----
 name = (BR.get("cabinet_name") or "").strip()
