@@ -50,7 +50,7 @@ const MACRO = [
       "Immobilisations et amortissements", "Révision comptable continue",
       "Révision par défilement (classes 1 à 7) : capital/KBIS/PVAGO, réserve légale, immo, emprunts & tableau d'amortissement"
     ],
-    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md'],
+    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md'],
     quiz: 'm05'
   },
   {
@@ -64,7 +64,7 @@ const MACRO = [
       "Cas particuliers comptables et fiscaux : véhicules VP/VU, autoliquidation, retenue de garantie, situations de travaux, créances douteuses, régularisations et retraitements spécifiques",
       "Dossier Bâtiment / BTP : TVA sur travaux, autoliquidation, factures d'avancement, situations de travaux, retenues de garantie et contrôle des factures fournisseurs/clients"
     ],
-    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md'],
+    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-PRAT3-Cloture-cas-fil-rouge.md'],
     quiz: 'm12'
   },
   {

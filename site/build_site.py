@@ -81,12 +81,15 @@ MANIFEST = [
     ("modules/Module-10-Immobilisations-amortissements.md", "m10", "Module 3 — Opérations & révision", "3.6 Immobilisations", "m10"),
     ("modules/Module-11-Revision-comptable.md", "m11", "Module 3 — Opérations & révision", "3.7 Révision comptable", "m11"),
     ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & révision", "3.8 Révision par défilement (classes 1 à 7)", None),
+    ("modules/Module-PRAT1-Quotidien.md", "pr1", "Module 3 — Opérations & révision", "3.9 🛠️ Le quotidien du collaborateur (pratique)", None),
+    ("modules/Module-PRAT2-Justification-cycles.md", "pr2", "Module 3 — Opérations & révision", "3.10 🛠️ Justifier les comptes par cycle (pratique)", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
     ("modules/Module-26-Specificites-cas-particuliers.md", "m26", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.3 Spécificités & cas particuliers", None),
     ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
     ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
+    ("modules/Module-PRAT3-Cloture-cas-fil-rouge.md", "pr3", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.6 🛠️ Clôture pas à pas — dossier fil rouge (pratique)", None),
 
     ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale & déclarations par régime", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
     ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale & déclarations par régime", "5.2 Réel normal (2050 → 2059)", None),
