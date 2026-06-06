@@ -86,6 +86,7 @@ MANIFEST = [
     ("modules/Module-PRAT4-Factures-particulieres.md", "pr4", "Module 3 — Opérations & révision", "3.11 🛠️ Saisir les factures particulières (cas réels)", None),
     ("modules/Module-PRAT5-Entrainement-saisie.md", "pr5", "Module 3 — Opérations & révision", "3.12 🧮 Entraînement : matrice de saisie (interactif)", None),
     ("modules/Module-PRAT6-Simulateur.md", "pr6", "Module 3 — Opérations & révision", "3.13 🏢 Simulateur Cabinet : traiter les factures (interactif)", None),
+    ("modules/Module-PRAT7-TVA-CA3.md", "pr7", "Module 3 — Opérations & révision", "3.14 🧾 Déclarer la TVA (CA3) — simulateur", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
@@ -108,6 +109,7 @@ MANIFEST = [
     ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Pratique métier, qualité, carrière & certification", "6.6 Cas pratiques corrigés", None),
     ("evaluations/Evaluation-finale.md", "eval", "Module 6 — Pratique métier, qualité, carrière & certification", "6.7 Évaluation finale", "final"),
     ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Pratique métier, qualité, carrière & certification", "6.8 Simulations d'entretien", None),
+    ("modules/Module-PRAT8-ChefMission.md", "pr8", "Module 6 — Pratique métier, qualité, carrière & certification", "6.9 🔍 Réviseur & Chef de mission (simulateur)", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),
@@ -277,6 +279,18 @@ try:
 except Exception:
     DOSSIERS = {}
 
+# Simulateurs pro : déclaration TVA (CA3) + audits (valider/anomalies)
+try:
+    with open(os.path.join(BASE, "tva.json"), "r", encoding="utf-8") as f:
+        TVASIM = json.load(f)
+except Exception:
+    TVASIM = {}
+try:
+    with open(os.path.join(BASE, "audits.json"), "r", encoding="utf-8") as f:
+        AUDITS = json.load(f)
+except Exception:
+    AUDITS = {}
+
 # ----------------- Template HTML -----------------
 TPL = r"""<!DOCTYPE html>
 <html lang="fr">
@@ -399,6 +413,8 @@ const MODID=__MODID__;
 const QUIZ=__QUIZ__;
 const EXOS=__EXOS__;
 const DOSSIERS=__DOSSIERS__;
+const TVASIM=__TVASIM__;
+const AUDITS=__AUDITS__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}
@@ -488,6 +504,7 @@ renderNav();show(curId());
 <script src="/formation/cerfa.js"></script>
 <script src="/formation/saisie.js"></script>
 <script src="/formation/sim.js"></script>
+<script src="/formation/pro.js"></script>
 </body>
 </html>"""
 
@@ -498,7 +515,9 @@ html_out = (TPL
     .replace("__MODID__", json.dumps(MODID, ensure_ascii=False))
     .replace("__QUIZ__", json.dumps(QUIZ, ensure_ascii=False))
     .replace("__EXOS__", json.dumps(EXOS, ensure_ascii=False))
-    .replace("__DOSSIERS__", json.dumps(DOSSIERS, ensure_ascii=False)))
+    .replace("__DOSSIERS__", json.dumps(DOSSIERS, ensure_ascii=False))
+    .replace("__TVASIM__", json.dumps(TVASIM, ensure_ascii=False))
+    .replace("__AUDITS__", json.dumps(AUDITS, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----
 name = (BR.get("cabinet_name") or "").strip()

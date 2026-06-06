@@ -1,0 +1,25 @@
+{
+  "_aide": "Exercices 'audit' : l'apprenant marque chaque item OK ou Problème. Sert pour 'valider le travail' (chef de mission) et 'détecter les anomalies' (réviseur).",
+  "a1": {
+    "titre": "Chef de mission : validez le travail du collaborateur",
+    "enonce": "Un collaborateur junior a passé ces écritures. Pour chacune, indiquez si elle est CORRECTE ou s'il y a un PROBLÈME.",
+    "items": [
+      { "texte": "Facture d'assurance 600 € : 616 Assurances 500 (D) / 44566 TVA 100 (D) / 401 600 (C)", "probleme": true, "explication": "L'assurance est EXONÉRÉE de TVA : pas de TVA déductible. Correct = 616 600 (D) / 401 600 (C)." },
+      { "texte": "Honoraires EC 300 € TTC : 6226 250 (D) / 44566 50 (D) / 401 300 (C)", "probleme": false, "explication": "Correct : honoraires en 6226, TVA déductible, fournisseur au crédit." },
+      { "texte": "Course Uber 30 € : 6251 25 (D) / 44566 5 (D) / 512 30 (C)", "probleme": true, "explication": "VTC = transport de personnes → TVA NON déductible. Correct = 6251 30 (D) / 512 30 (C)." },
+      { "texte": "Vente 1 800 € TTC : 411 1 800 (D) / 706 1 500 (C) / 44571 300 (C)", "probleme": false, "explication": "Correct : client TTC au débit, produit HT + TVA collectée au crédit." },
+      { "texte": "Achat marchandises 1 200 € : 607 1 200 (D) / 401 1 200 (C)", "probleme": true, "explication": "TVA déductible oubliée. Correct = 607 1 000 (D) / 44566 200 (D) / 401 1 200 (C)." }
+    ]
+  },
+  "a2": {
+    "titre": "Réviseur : détectez les anomalies de la balance",
+    "enonce": "Avant la clôture, voici l'état de quelques comptes. Cochez ceux qui présentent une ANOMALIE à corriger.",
+    "items": [
+      { "texte": "Compte 471 « Compte d'attente » : solde 1 250 € débiteur", "probleme": true, "explication": "Un compte d'attente doit être SOLDÉ à 0 à la clôture : l'analyser et l'imputer." },
+      { "texte": "Compte 512 Banque : rapproché avec le relevé, écart = 0", "probleme": false, "explication": "Normal : la banque est rapprochée." },
+      { "texte": "Compte 530 Caisse : solde CRÉDITEUR de −80 €", "probleme": true, "explication": "La caisse ne peut JAMAIS être créditrice : erreur de saisie (apport non saisi ou dépense en double)." },
+      { "texte": "Compte 164 Emprunts : solde = capital restant dû du tableau d'amortissement", "probleme": false, "explication": "Normal : le 164 correspond au capital restant dû." },
+      { "texte": "TVA collectée (44571) : ne correspond pas au CA × taux (écart de 600 €)", "probleme": true, "explication": "Anomalie de cadrage TVA : justifier l'écart (TVA oubliée, mauvais taux, opération non taxée…)." }
+    ]
+  }
+}

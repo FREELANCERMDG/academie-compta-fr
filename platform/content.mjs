@@ -50,7 +50,7 @@ const MACRO = [
       "Immobilisations et amortissements", "Révision comptable continue",
       "Révision par défilement (classes 1 à 7) : capital/KBIS/PVAGO, réserve légale, immo, emprunts & tableau d'amortissement"
     ],
-    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md', 'Module-PRAT6-Simulateur.md'],
+    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md', 'Module-PRAT6-Simulateur.md', 'Module-PRAT7-TVA-CA3.md'],
     quiz: 'm05'
   },
   {
@@ -94,7 +94,7 @@ const MACRO = [
       "Évaluation finale certifiante : test noté sur 100 points (compétences techniques, rigueur comptable, traitement d'un dossier client)",
       "Simulations d'entretien professionnel : collaborateur comptable, réviseur, chef de mission junior et superviseur comptable"
     ],
-    files: ['Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-25-Simulations-entretien.md'],
+    files: ['Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-25-Simulations-entretien.md', 'Module-PRAT8-ChefMission.md'],
     quiz: 'final'
   }
 ];

@@ -1,0 +1,27 @@
+{
+  "_aide": "Exercices de déclaration de TVA (CA3). L'apprenant remplit les cases ; vérification automatique.",
+  "t1": {
+    "titre": "Déclaration de TVA (CA3) — TVA à payer",
+    "enonce": "Mois de mars. Ventes taxables à 20 % : 10 000 € HT. TVA déductible sur biens et services : 1 200 €. TVA déductible sur immobilisations : 400 €. Remplissez les cases de la CA3.",
+    "champs": [
+      { "key": "base", "label": "Base HT des opérations taxables (20 %)", "attendu": 10000 },
+      { "key": "collectee", "label": "TVA brute due (collectée)", "attendu": 2000 },
+      { "key": "ded_bs", "label": "TVA déductible sur biens et services", "attendu": 1200 },
+      { "key": "ded_immo", "label": "TVA déductible sur immobilisations", "attendu": 400 },
+      { "key": "nette", "label": "TVA nette à payer", "attendu": 400 }
+    ],
+    "astuce": "TVA collectée = 10 000 × 20 % = 2 000. TVA nette = 2 000 − 1 200 − 400 = 400 € à payer."
+  },
+  "t2": {
+    "titre": "CA3 — cas avec crédit de TVA",
+    "enonce": "Mois d'avril. Ventes à 20 % : 5 000 € HT. TVA déductible biens/services : 900 €. TVA déductible sur immobilisations (achat machine) : 2 000 €. Remplissez la CA3.",
+    "champs": [
+      { "key": "base", "label": "Base HT taxable (20 %)", "attendu": 5000 },
+      { "key": "collectee", "label": "TVA collectée", "attendu": 1000 },
+      { "key": "ded_bs", "label": "TVA déductible biens et services", "attendu": 900 },
+      { "key": "ded_immo", "label": "TVA déductible immobilisations", "attendu": 2000 },
+      { "key": "credit", "label": "Crédit de TVA à reporter", "attendu": 1900 }
+    ],
+    "astuce": "1 000 − 900 − 2 000 = −1 900 € → pas un montant à payer mais un CRÉDIT de TVA de 1 900 € (à reporter ou à se faire rembourser)."
+  }
+}
