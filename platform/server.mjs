@@ -60,6 +60,17 @@ function rateLimited(key, max, windowMs) {
   return e.count > max;
 }
 try { setInterval(() => { const now = Date.now(); for (const [k, e] of _rl) if (e.reset < now) _rl.delete(k); }, 60000).unref(); } catch {}
+
+// --- Suivi des visites (agrégé par jour + pays, sans donnée personnelle) ---
+const VISIT_PAGES = new Set(['/', '/programme', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
+function trackVisit(req, p) {
+  try {
+    if (!VISIT_PAGES.has(p)) return;
+    const jour = new Date().toISOString().slice(0, 10);
+    const pays = (req.headers['cf-ipcountry'] || 'XX').toString().toUpperCase().slice(0, 2);
+    db.prepare('INSERT INTO visites(jour,pays,n) VALUES(?,?,1) ON CONFLICT(jour,pays) DO UPDATE SET n=n+1').run(jour, pays);
+  } catch {}
+}
 function send(res, status, html, opts = {}) {
   securityHeaders(res, { prod: PROD, quizCSP: !!opts.quiz, courseCSP: !!opts.course });
   res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', ...(opts.headers || {}) });
@@ -418,11 +429,28 @@ function pagePaiement(sess, ins, err) {
   ${apiBloc}${carteBloc}`, sess);
 }
 
+const COUNTRY_NAMES = { FR: 'France', MG: 'Madagascar', BE: 'Belgique', CH: 'Suisse', CA: 'Canada', LU: 'Luxembourg', US: 'États-Unis', GB: 'Royaume-Uni', MA: 'Maroc', DZ: 'Algérie', TN: 'Tunisie', CI: "Côte d'Ivoire", SN: 'Sénégal', CM: 'Cameroun', BJ: 'Bénin', TG: 'Togo', BF: 'Burkina Faso', ML: 'Mali', GA: 'Gabon', CD: 'RD Congo', CG: 'Congo', NE: 'Niger', GN: 'Guinée', RW: 'Rwanda', BI: 'Burundi', KM: 'Comores', DJ: 'Djibouti', MU: 'Maurice', RE: 'La Réunion', YT: 'Mayotte', MC: 'Monaco', DE: 'Allemagne', ES: 'Espagne', IT: 'Italie', PT: 'Portugal', NL: 'Pays-Bas', XX: 'Inconnu', T1: 'Réseau Tor' };
+const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
+const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
+
 function pageAdmin(sess) {
   const users = db.prepare('SELECT id,nom,prenom,email,niveau_etudes,twofa,cree_le FROM users WHERE role!=? ORDER BY cree_le DESC LIMIT 200').all('admin');
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
+  // --- Statistiques de visites ---
+  const _jour = new Date().toISOString().slice(0, 10);
+  const _j7 = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
+  const vTot = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites').get().t;
+  const vToday = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour=?').get(_jour).t;
+  const v7 = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour>=?').get(_j7).t;
+  const vPays = db.prepare('SELECT pays, SUM(n) AS t FROM visites GROUP BY pays ORDER BY t DESC LIMIT 20').all();
+  const visitesHtml = `<section class="card"><h2>📊 Visites du site</h2>
+  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
+  ${vPays.length ? `<h3>🌍 D'où viennent les visiteurs</h3><div class="tbl"><table><tr><th>Pays</th><th>Visites</th><th>Part</th></tr>
+  ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
   return layout('Admin', `<h1>Administration</h1>
+  ${visitesHtml}
   <section class="card"><h2>📚 Supports &amp; guides</h2>
   <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
   <p><a class="btn" href="/public/supports/index.html" target="_blank" rel="noopener">Ouvrir tous les supports</a>
@@ -589,6 +617,7 @@ const server = http.createServer(async (req, res) => {
     const sess = getSession(req);
 
     if (req.method === 'GET') {
+      trackVisit(req, p);
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       if (p === '/.well-known/security.txt') {
         const contact = (cfg.admin_email || (cfg.societe && cfg.societe.email) || 'security@academie-compta-fr.mg');
