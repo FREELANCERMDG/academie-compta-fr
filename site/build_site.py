@@ -83,6 +83,7 @@ MANIFEST = [
     ("modules/Module-28-Revision-par-classe.md", "m28", "Module 3 — Opérations & révision", "3.8 Révision par défilement (classes 1 à 7)", None),
     ("modules/Module-PRAT1-Quotidien.md", "pr1", "Module 3 — Opérations & révision", "3.9 🛠️ Le quotidien du collaborateur (pratique)", None),
     ("modules/Module-PRAT2-Justification-cycles.md", "pr2", "Module 3 — Opérations & révision", "3.10 🛠️ Justifier les comptes par cycle (pratique)", None),
+    ("modules/Module-PRAT4-Factures-particulieres.md", "pr4", "Module 3 — Opérations & révision", "3.11 🛠️ Saisir les factures particulières (cas réels)", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
