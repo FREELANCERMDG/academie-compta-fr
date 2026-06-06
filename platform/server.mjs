@@ -71,6 +71,31 @@ function trackVisit(req, p) {
     db.prepare('INSERT INTO visites(jour,pays,n) VALUES(?,?,1) ON CONFLICT(jour,pays) DO UPDATE SET n=n+1').run(jour, pays);
   } catch {}
 }
+
+// --- Progression carrière (niveau calculé côté serveur, autoritatif) ---
+const NIVEAUX = ['Recrue', 'Collaborateur', 'Collaborateur confirmé', 'Réviseur', 'Chef de mission'];
+function computeNiveau(d) {
+  d = d || {};
+  const P = d.prog || {}, EX = d.exo || {}, SI = d.sim || {}, TV = d.tva || {}, AU = d.audit || {};
+  const exoN = Object.values(EX).filter(Boolean).length;
+  const fac = (SI.d1 || 0) >= 6;
+  const tvaN = Object.values(TV).filter(Boolean).length;
+  const rev = !!AU.a2, chef = !!AU.a1;
+  const qz = P.quiz || {}, fin = qz.final, cert = !!(fin && fin.total && fin.score / fin.total >= 0.7);
+  let lvl = 0; if (exoN >= 4 || fac) lvl = 1; if (lvl >= 1 && fac && tvaN >= 1) lvl = 2; if (lvl >= 2 && rev) lvl = 3; if (lvl >= 3 && chef && cert) lvl = 4;
+  const badges = [exoN >= 4, fac, tvaN >= 1, rev, chef, cert].filter(Boolean).length;
+  const lessons = Object.keys(P.done || {}).length;
+  return { lvl, badges, lessons };
+}
+function postProgression(req, res, sess, body) {
+  let d = {}; try { d = JSON.parse(body.prog || '{}'); } catch { }
+  const n = computeNiveau(d);
+  try {
+    db.prepare('INSERT INTO progression(user_id,niveau,niveau_nom,badges,lessons,maj_le) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET niveau=excluded.niveau,niveau_nom=excluded.niveau_nom,badges=excluded.badges,lessons=excluded.lessons,maj_le=excluded.maj_le')
+      .run(sess.user.id, n.lvl, NIVEAUX[n.lvl] || 'Recrue', n.badges, n.lessons, new Date().toISOString());
+  } catch { }
+  res.writeHead(204); res.end();
+}
 function send(res, status, html, opts = {}) {
   securityHeaders(res, { prod: PROD, quizCSP: !!opts.quiz, courseCSP: !!opts.course });
   res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', ...(opts.headers || {}) });
@@ -383,7 +408,7 @@ function pageDashboard(sess) {
   <section class="card"><h2>🎖️ Parcours Cabinet — niveaux &amp; badges</h2>
   <div id="career"><p class="muted">Chargement de votre parcours…</p></div>
   <p class="muted" style="font-size:12px">Montez en niveau en réussissant les simulateurs (saisie, factures, TVA, révision, chef de mission). Suivi sur cet appareil.</p>
-  <script>(function(){function g(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}var P=g('fce_progress_v1'),EX=g('fce_exo_v1'),SI=g('fce_sim_v1'),TV=g('fce_tva_v1'),AU=g('fce_audit_v1');var exoN=Object.keys(EX).filter(function(k){return EX[k]}).length;var fac=(SI.d1||0)>=6;var tvaN=Object.keys(TV).filter(function(k){return TV[k]}).length;var rev=!!AU.a2,chef=!!AU.a1;var qz=P.quiz||{},fin=qz.final,cert=!!(fin&&fin.total&&fin.score/fin.total>=0.7);var B=[{k:'🧮',n:'Saisie',ok:exoN>=4},{k:'🏢',n:'Factures',ok:fac},{k:'🧾',n:'TVA',ok:tvaN>=1},{k:'🔍',n:'Révision',ok:rev},{k:'👔',n:'Chef de mission',ok:chef},{k:'🏅',n:'Certifié',ok:cert}];var L=['Recrue','Collaborateur','Collaborateur confirmé','Réviseur','Chef de mission'];var lvl=0;if(exoN>=4||fac)lvl=1;if(lvl>=1&&fac&&tvaN>=1)lvl=2;if(lvl>=2&&rev)lvl=3;if(lvl>=3&&chef&&cert)lvl=4;var nxt=['Validez 4 exercices de saisie (Module 3.12).','Terminez le Simulateur Cabinet (3.13) et la déclaration de TVA (3.14).','Détectez les anomalies de révision (6.9).','Validez le travail du collaborateur (6.9) et réussissez le quiz final.'];var c=document.getElementById('career');if(!c)return;var h='<div style=\"font-size:22px;font-weight:800;color:#fff\">'+L[lvl]+' <span class=\"muted\" style=\"font-size:14px;font-weight:400\">(niveau '+(lvl+1)+'/5)</span></div>';h+='<div style=\"background:rgba(255,255,255,.08);border-radius:99px;height:14px;overflow:hidden;margin:10px 0\"><div style=\"height:100%;width:'+(lvl/4*100)+'%;background:var(--grad);transition:width .7s\"></div></div>';h+='<div class=\"grid\" style=\"grid-template-columns:repeat(auto-fit,minmax(120px,1fr))\">'+B.map(function(b){return '<div class=\"offre\" style=\"text-align:center;opacity:'+(b.ok?'1':'.4')+'\"><div style=\"font-size:28px\">'+b.k+'</div><div style=\"font-weight:700;font-size:13px;color:#fff\">'+b.n+'</div><div class=\"muted\" style=\"font-size:11px\">'+(b.ok?'✅ obtenu':'🔒 à débloquer')+'</div></div>'}).join('')+'</div>';h+=(lvl<4)?'<p class=\"muted\" style=\"margin-top:10px\">🎯 Prochain objectif : '+nxt[lvl]+'</p>':'<p class=\"ok\" style=\"margin-top:10px\">🏆 Niveau maximum atteint — prêt pour le cabinet !</p>';c.innerHTML=h;})();</script></section>
+  <script>(function(){function g(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}var P=g('fce_progress_v1'),EX=g('fce_exo_v1'),SI=g('fce_sim_v1'),TV=g('fce_tva_v1'),AU=g('fce_audit_v1');var exoN=Object.keys(EX).filter(function(k){return EX[k]}).length;var fac=(SI.d1||0)>=6;var tvaN=Object.keys(TV).filter(function(k){return TV[k]}).length;var rev=!!AU.a2,chef=!!AU.a1;var qz=P.quiz||{},fin=qz.final,cert=!!(fin&&fin.total&&fin.score/fin.total>=0.7);var B=[{k:'🧮',n:'Saisie',ok:exoN>=4},{k:'🏢',n:'Factures',ok:fac},{k:'🧾',n:'TVA',ok:tvaN>=1},{k:'🔍',n:'Révision',ok:rev},{k:'👔',n:'Chef de mission',ok:chef},{k:'🏅',n:'Certifié',ok:cert}];var L=['Recrue','Collaborateur','Collaborateur confirmé','Réviseur','Chef de mission'];var lvl=0;if(exoN>=4||fac)lvl=1;if(lvl>=1&&fac&&tvaN>=1)lvl=2;if(lvl>=2&&rev)lvl=3;if(lvl>=3&&chef&&cert)lvl=4;var nxt=['Validez 4 exercices de saisie (Module 3.12).','Terminez le Simulateur Cabinet (3.13) et la déclaration de TVA (3.14).','Détectez les anomalies de révision (6.9).','Validez le travail du collaborateur (6.9) et réussissez le quiz final.'];var c=document.getElementById('career');try{fetch('/progression',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'_csrf=${sess.row.csrf}&prog='+encodeURIComponent(JSON.stringify({prog:P,exo:EX,sim:SI,tva:TV,audit:AU}))});}catch(e){}if(!c)return;var h='<div style=\"font-size:22px;font-weight:800;color:#fff\">'+L[lvl]+' <span class=\"muted\" style=\"font-size:14px;font-weight:400\">(niveau '+(lvl+1)+'/5)</span></div>';h+='<div style=\"background:rgba(255,255,255,.08);border-radius:99px;height:14px;overflow:hidden;margin:10px 0\"><div style=\"height:100%;width:'+(lvl/4*100)+'%;background:var(--grad);transition:width .7s\"></div></div>';h+='<div class=\"grid\" style=\"grid-template-columns:repeat(auto-fit,minmax(120px,1fr))\">'+B.map(function(b){return '<div class=\"offre\" style=\"text-align:center;opacity:'+(b.ok?'1':'.4')+'\"><div style=\"font-size:28px\">'+b.k+'</div><div style=\"font-weight:700;font-size:13px;color:#fff\">'+b.n+'</div><div class=\"muted\" style=\"font-size:11px\">'+(b.ok?'✅ obtenu':'🔒 à débloquer')+'</div></div>'}).join('')+'</div>';h+=(lvl<4)?'<p class=\"muted\" style=\"margin-top:10px\">🎯 Prochain objectif : '+nxt[lvl]+'</p>':'<p class=\"ok\" style=\"margin-top:10px\">🏆 Niveau maximum atteint — prêt pour le cabinet !</p>';c.innerHTML=h;})();</script></section>
   <section class="card"><h2>Accès à la formation</h2>
   <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
@@ -438,7 +463,7 @@ const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
 function pageAdmin(sess) {
-  const users = db.prepare('SELECT id,nom,prenom,email,niveau_etudes,twofa,cree_le FROM users WHERE role!=? ORDER BY cree_le DESC LIMIT 200').all('admin');
+  const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -471,8 +496,8 @@ function pageAdmin(sess) {
   ${dem.length ? dem.map(d => `<div class="row2"><span><b>${esc(d.email)}</b> — ${esc(d.sujet)}<br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></span>
     <form method="post" action="/admin/demande-traitee" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small">Marquer traitée</button></form></div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
-  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>2FA</th><th>Inscrit le</th></tr>
-  ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
+  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>2FA</th><th>Inscrit le</th></tr>
+  ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
 }
 
 // --- Service de fichiers statiques sécurisé ---
@@ -556,7 +581,7 @@ window.addEventListener('afterprint',function(){try{document.body.style.display=
   html = html.replace('<header>', '<header>' + courseBack);
   html = html.replace('</body>', inject + '</body>');
   securityHeaders(res, { courseCSP: true, prod: PROD });
-  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate' });
   res.end(html);
 }
 
@@ -609,7 +634,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
 <script>(function(){try{var p=JSON.parse(localStorage.getItem('fce_progress_v1')||'{}');var f=p.quiz&&p.quiz.final;var el=document.getElementById('result'),nv=document.getElementById('niveau');if(f&&f.total){var pct=Math.round(f.score/f.total*100);el.textContent=pct+' / 100';nv.textContent=pct>=85?'Avancé — Collaborateur autonome':(pct>=70?'Intermédiaire confirmé':(pct>=55?'Débutant validé':'À repasser (seuil 55)'));}else{el.textContent='—';nv.textContent='—';document.getElementById('warn').style.display='block';}}catch(e){}})();</script>
 </body></html>`;
   securityHeaders(res, { courseCSP: true, prod: PROD });
-  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate' });
   res.end(html);
 }
 
@@ -683,6 +708,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/2fa') return post2fa(req, res, sess, body);
       if (!authed(sess)) return redirect(res, '/connexion');
       if (p === '/choisir') return postChoisir(req, res, sess, body);
+      if (p === '/progression') return postProgression(req, res, sess, body);
       if (p === '/demande') return postDemande(req, res, sess, body);
       if (p === '/admin/demande-traitee') return postDemandeTraitee(req, res, sess, body);
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);

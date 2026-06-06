@@ -47,6 +47,7 @@ export function openDB() {
   CREATE TABLE IF NOT EXISTS journal(id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, user_id TEXT, action TEXT, detail TEXT, ip TEXT);
   CREATE TABLE IF NOT EXISTS demandes(id TEXT PRIMARY KEY, user_id TEXT, sujet TEXT, message TEXT, statut TEXT DEFAULT 'nouvelle', cree_le TEXT);
   CREATE TABLE IF NOT EXISTS visites(jour TEXT, pays TEXT, n INTEGER DEFAULT 0, PRIMARY KEY(jour, pays));
+  CREATE TABLE IF NOT EXISTS progression(user_id TEXT PRIMARY KEY, niveau INTEGER DEFAULT 0, niveau_nom TEXT, badges INTEGER DEFAULT 0, lessons INTEGER DEFAULT 0, maj_le TEXT);
   `);
   // migration : colonne d'expiration d'accès
   try { db.exec('ALTER TABLE inscriptions ADD COLUMN expire_le TEXT'); } catch { }
