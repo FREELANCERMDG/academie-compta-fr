@@ -45,10 +45,10 @@
   "ex5": {
     "titre": "Recette du jour (2 taux de TVA)",
     "journal": "CA",
-    "enonce": "Z de caisse : ventes à 5,5 % = 1 000 € HT (TVA 55 €) et à 20 % = 500 € HT (TVA 100 €). Tout encaissé en banque (1 655 € TTC).",
-    "astuce": "On ventile par taux : banque au débit (1 655), ventes 1 500 + TVA 55 + TVA 100 au crédit.",
+    "enonce": "Z de caisse : ventes à 5,5 % = 1 000 € HT (TVA 55 €) et à 20 % = 500 € HT (TVA 100 €). Tout encaissé par carte bancaire (1 655 € TTC, en attente de versement).",
+    "astuce": "On ventile par taux. L'encaissement CB passe par le 511 (cartes bancaires à l'encaissement) au débit (1 655) ; ventes 1 500 + TVA 55 + TVA 100 au crédit. Le 511 sera soldé vers 512 au versement.",
     "lignes": [
-      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 1655, "credit": 0 },
+      { "compte": "511500", "racine": "511", "libelle": "Cartes bancaires à l'encaissement", "debit": 1655, "credit": 0 },
       { "compte": "707000", "racine": "707", "libelle": "Ventes de marchandises", "debit": 0, "credit": 1500 },
       { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 5,5 %", "debit": 0, "credit": 55 },
       { "compte": "445720", "racine": "4457", "libelle": "TVA collectée 20 %", "debit": 0, "credit": 100 }
