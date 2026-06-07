@@ -140,6 +140,11 @@ La CFE est **calculée par l'administration** (avis reçu en ligne, paiement le 
 | **1447‑M‑SD** | en cas de **changement** (surface, activité, demande d'exonération) | uniquement les éléments modifiés |
 > 1re année : **exonération de CFE**. Ensuite : avis en ligne, paiement 15/12 (acompte en juin si CFE N‑1 ≥ 3 000 €).
 
+### 🧾 DAS2 (n° 11716*24) — honoraires versés à des tiers — **simulateur interactif**
+Chaque année, l'entreprise déclare les **honoraires, commissions et courtages** versés à des tiers (à déclarer dès **2 400 €** par bénéficiaire). Ci‑dessous : à gauche les **données du dossier**, à droite le **formulaire officiel** à remplir. Complétez le **cadre C** (nombre de bénéficiaires + montant total TTC), puis cliquez **Vérifier** (ou **Voir le corrigé**).
+
+<div class="simdoc" data-sim="das2"></div>
+
 ### 📎 Formulaires officiels
 2065‑SD · 2031‑SD · 2035‑SD (+ 2035‑A/B) · 1447‑C‑SD / 1447‑M‑SD — tous sur **impots.gouv.fr** (« Recherche de formulaires »). Tableaux de liasse : **2050‑2059** (réel normal), **2033‑A à 2033‑G** (réel simplifié).
 
