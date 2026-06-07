@@ -49,7 +49,13 @@ function fiscaliteBadge() {
 })();
 
 // --- Helpers HTTP ---
-const ip = req => (req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+// Le site est servi derrière un Worker Cloudflare (reverse-proxy). Le Worker transmet
+// l'IP et le pays réels du visiteur via x-orig-ip / x-orig-country, signés par
+// x-proxy-auth = PROXY_SECRET. On ne fait confiance à ces en-têtes QUE si la signature
+// correspond (sinon un accès direct à *.onrender.com pourrait usurper l'IP).
+const PROXY_SECRET = process.env.PROXY_SECRET || '';
+const fromProxy = req => !!PROXY_SECRET && req.headers['x-proxy-auth'] === PROXY_SECRET;
+const ip = req => ((fromProxy(req) && req.headers['x-orig-ip']) || req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
 
 // --- Limitation de débit en mémoire (anti password-spraying / anti-énumération) ---
 const _rl = new Map(); // clé -> { count, reset }
@@ -68,7 +74,7 @@ function trackVisit(req, p) {
   try {
     if (!VISIT_PAGES.has(p)) return;
     const jour = new Date().toISOString().slice(0, 10);
-    const pays = (req.headers['cf-ipcountry'] || 'XX').toString().toUpperCase().slice(0, 2);
+    const pays = (((fromProxy(req) && req.headers['x-orig-country']) || req.headers['cf-ipcountry'] || 'XX')).toString().toUpperCase().slice(0, 2);
     db.prepare('INSERT INTO visites(jour,pays,n) VALUES(?,?,1) ON CONFLICT(jour,pays) DO UPDATE SET n=n+1').run(jour, pays);
   } catch {}
 }

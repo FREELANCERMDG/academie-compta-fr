@@ -27,6 +27,11 @@ services:
         sync: false
       - key: BASE_URL
         sync: false
+      # Secret partagé avec le Worker Cloudflare (reverse-proxy) : l'app ne fait confiance
+      # aux en-têtes x-orig-ip / x-orig-country que si x-proxy-auth correspond à cette valeur.
+      # Doit être IDENTIQUE à la constante PROXY_SECRET du Worker delicate-waterfall-77f0.
+      - key: PROXY_SECRET
+        sync: false
       # E-mail (notifications aux apprenants) — compte Brevo gratuit. Laisser vide = e-mail désactivé.
       - key: BREVO_API_KEY
         sync: false
