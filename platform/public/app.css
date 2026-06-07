@@ -92,6 +92,7 @@ code{background:rgba(255,255,255,.10);padding:2px 6px;border-radius:6px;font-siz
 .pitem:hover{background:rgba(255,255,255,.1);text-decoration:none;border-color:var(--accent2);transform:translateX(10px);box-shadow:-6px 0 18px rgba(124,108,255,.28)}
 .gratuit{background:rgba(52,211,153,.18);color:#6ee7b7;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap;font-weight:700}
 .lock{background:rgba(255,255,255,.08);color:#9aa7c4;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap}
+.tarif{background:rgba(232,161,58,.18);color:#f0c486;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap;font-weight:700}
 .lockcard{border-color:rgba(232,161,58,.45);background:rgba(232,161,58,.08)}
 .qr{display:block;margin:10px auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px}
 

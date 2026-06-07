@@ -217,7 +217,10 @@ function pageAccueil(sess) {
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
   <li>Attestation sur l'honneur du diplôme à l'inscription.</li>
-  <li>Engagement de confidentialité (RGPD / secret professionnel).</li></ul></section>
+  <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
+  <li>🔐 <b>Connexion sécurisée (double authentification)</b> : avant de vous inscrire, installez l'application gratuite <b>Google Authenticator</b> sur votre téléphone <b>Android</b> (ou iPhone) — elle vous sera demandée pour protéger votre compte.</li></ul></section>
+  <section class="card" style="border-left:4px solid var(--accent)"><h2>🔐 Sécurisez votre connexion</h2>
+  <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Téléchargez <b>Google Authenticator</b> (gratuit) depuis le <b>Play Store</b> (Android) ou l'App Store (iPhone) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p></section>
   ${apercuModulesSection()}
   <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
   <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`, sess);
@@ -283,7 +286,8 @@ function pageMentions(sess) {
 
 function pageProgramme(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
-  const modulesSection = `<section class="card"><h2>Les 6 modules</h2><div class="prog">${MODULES.map(m => `<a class="pitem" href="/apercu?m=${esc(m.code)}"><span>${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Aperçu</b>'}</a>`).join('')}</div></section>`;
+  const prixMod = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? money(o.prix) : ''; };
+  const modulesSection = `<section class="card"><h2>Les 6 modules</h2><div class="prog">${MODULES.map(m => `<a class="pitem" href="/apercu?m=${esc(m.code)}"><span>${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : `<b class="tarif">${esc(prixMod(m.code))}</b>`}</a>`).join('')}</div></section>`;
   const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0);
   const compteur = (cfg.afficher_compteur_inscrits && n > 0) ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''}</span></div>` : '';
   const f = cfg.formateur || {};
@@ -480,14 +484,13 @@ function pageAdmin(sess, notif) {
   ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
   return layout('Admin', `<h1>Administration</h1>
-  ${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
+  ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
-  ${mailConfigured() ? '' : `<p class="err">⚠️ E-mail non configuré. Ajoutez les variables <code>BREVO_API_KEY</code> et <code>MAIL_FROM</code> (compte Brevo gratuit) sur Render pour activer l'envoi.</p>`}
   <form method="post" action="/admin/notifier" class="form">${csrfField(sess)}
     <label>Objet<input name="sujet" value="Nouvelle mise à jour de votre formation"></label>
     <label>Message<textarea name="message" rows="4" placeholder="Décrivez la mise à jour / amélioration apportée…" required></textarea></label>
-    <button class="btn" type="submit"${mailConfigured() ? '' : ' disabled'}>Envoyer la notification à tous les apprenants</button></form>
-  <p class="muted" style="font-size:12px">Envoie un e-mail à tous les inscrits. À utiliser pour une amélioration importante (évitez d'envoyer à chaque micro-changement).</p></section>
+    <button class="btn" type="submit">Envoyer la notification à tous les apprenants</button></form>
+  <p class="muted" style="font-size:12px">Envoie un e-mail à tous les inscrits.</p></section>` : ''}
   ${visitesHtml}
   <section class="card"><h2>📚 Supports &amp; guides</h2>
   <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
@@ -657,6 +660,12 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET') {
       trackVisit(req, p);
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
+      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
+      if (p === '/sitemap.xml') {
+        const urls = ['/', '/programme', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
+        const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
+        res.writeHead(200, { 'Content-Type': 'application/xml; charset=utf-8' }); return res.end(xml);
+      }
       if (p === '/.well-known/security.txt') {
         const contact = (cfg.admin_email || (cfg.societe && cfg.societe.email) || 'security@academie-compta-fr.mg');
         res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
