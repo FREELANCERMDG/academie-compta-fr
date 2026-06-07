@@ -48,6 +48,11 @@
 > **Exemple.** Résultat comptable **50 000 €**. Réintégrations : amendes 800 + TVS 1 200 + amort. VP excédentaire 2 000 = **+4 000**. Déductions : plus‑value LT 6 000 (taxée à part) = **−6 000**.
 > **Résultat fiscal = 50 000 + 4 000 − 6 000 = 48 000 €.** IS (15 % jusqu'à 42 500, puis 25 %) ≈ 42 500 × 15 % + 5 500 × 25 % = **6 375 + 1 375 = 7 750 €**.
 
+### 🛠️ Simulateur interactif — préparez la liasse (réel normal)
+À partir du dossier ci‑dessous (à gauche), complétez le **2058‑A** (à droite) : réintégrations (**WB**), déductions (**WC**), résultat fiscal (**WD = WA + WB − WC**) puis le bénéfice imposable (**XE**). Suivez le **tutoriel** en tête, puis cliquez **Vérifier ma déclaration**.
+
+<div class="simdoc" data-sim="liasse"></div>
+
 ---
 
 ## 3) Plus‑values (2059‑A) — l'essentiel
