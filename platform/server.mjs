@@ -5,7 +5,8 @@ import path from 'node:path';
 import {
   DIR, ROOT, cfg, loadEnv, openDB, hashPassword, verifyPassword, rid,
   signSid, unsignSid, parseCookies, cookie, safeEqual, newTotpSecret, otpauthURI,
-  verifyTOTP, esc, securityHeaders, loginGuard, loginFail, loginReset, audit, isEmail, strongPw
+  verifyTOTP, esc, securityHeaders, loginGuard, loginFail, loginReset, audit, isEmail, strongPw,
+  sendEmail, mailConfigured
 } from './lib.mjs';
 import {
   creerPaiement, setStatutPaiement, methodesManuelles, methodeManuelle, omApiActive, omApiInit, omApiStatus, carteActive
@@ -462,7 +463,7 @@ const COUNTRY_NAMES = { FR: 'France', MG: 'Madagascar', BE: 'Belgique', CH: 'Sui
 const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
-function pageAdmin(sess) {
+function pageAdmin(sess, notif) {
   const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
@@ -479,6 +480,14 @@ function pageAdmin(sess) {
   ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
   return layout('Admin', `<h1>Administration</h1>
+  ${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
+  <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
+  ${mailConfigured() ? '' : `<p class="err">⚠️ E-mail non configuré. Ajoutez les variables <code>BREVO_API_KEY</code> et <code>MAIL_FROM</code> (compte Brevo gratuit) sur Render pour activer l'envoi.</p>`}
+  <form method="post" action="/admin/notifier" class="form">${csrfField(sess)}
+    <label>Objet<input name="sujet" value="Nouvelle mise à jour de votre formation"></label>
+    <label>Message<textarea name="message" rows="4" placeholder="Décrivez la mise à jour / amélioration apportée…" required></textarea></label>
+    <button class="btn" type="submit"${mailConfigured() ? '' : ' disabled'}>Envoyer la notification à tous les apprenants</button></form>
+  <p class="muted" style="font-size:12px">Envoie un e-mail à tous les inscrits. À utiliser pour une amélioration importante (évitez d'envoyer à chaque micro-changement).</p></section>
   ${visitesHtml}
   <section class="card"><h2>📚 Supports &amp; guides</h2>
   <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
@@ -679,7 +688,7 @@ const server = http.createServer(async (req, res) => {
         if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
         return serveAttestation(res, sess);
       }
-      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess)); }
+      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'))); }
       if (p === '/paiement') {
         if (!authed(sess)) return redirect(res, '/connexion');
         const ins = insOf(url.searchParams.get('ins'), sess.user.id); if (!ins) return send(res, 404, layout('404', '<h1>Introuvable</h1>', sess));
@@ -714,6 +723,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
+      if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       return send(res, 404, 'not found');
     }
     send(res, 405, 'method not allowed');
@@ -889,6 +899,26 @@ function postAdminValider(req, res, sess, body) {
     audit(db, sess.user.id, 'paiement_valide_admin', pay.id, ip(req));
   }
   return redirect(res, '/admin');
+}
+
+async function postAdminNotifier(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const sujet = (body.sujet || '').trim() || 'Mise à jour de votre formation';
+  const message = (body.message || '').trim();
+  const users = db.prepare("SELECT email FROM users WHERE role!='admin' AND email IS NOT NULL AND email!=''").all();
+  let sent = 0;
+  if (mailConfigured() && message && users.length) {
+    const html = `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733;max-width:560px">
+      <h2 style="color:#16307a">${esc(sujet)}</h2>
+      <p>${esc(message).replace(/\n/g, '<br>')}</p>
+      <p><a href="${BASE_URL}/tableau-de-bord" style="display:inline-block;background:#16307a;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Accéder à ma formation</a></p>
+      <hr style="border:none;border-top:1px solid #eee;margin:18px 0">
+      <p style="color:#888;font-size:12px">${esc((cfg.societe || {}).nom || '')} — academie-compta-fr.mg</p></div>`;
+    const results = await Promise.all(users.map(u => sendEmail(u.email, sujet, html).catch(() => ({ ok: false }))));
+    sent = results.filter(r => r && r.ok).length;
+    audit(db, sess.user.id, 'notif_maj', sent + '/' + users.length + ' e-mails', ip(req));
+  }
+  return redirect(res, '/admin?notif=' + sent);
 }
 
 server.listen(PORT, () => console.log(`Plateforme en écoute : http://localhost:${PORT}  (PROD=${PROD})`));

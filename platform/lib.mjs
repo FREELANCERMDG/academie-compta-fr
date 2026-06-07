@@ -174,6 +174,24 @@ export function audit(db, userId, action, detail, ip) {
   db.prepare('INSERT INTO journal(ts,user_id,action,detail,ip) VALUES(?,?,?,?,?)').run(new Date().toISOString(), userId || null, action, detail || '', ip || '');
 }
 
+// ---- Envoi d'e-mail (API Brevo, sans dépendance ; no-op si non configuré) ----
+export const mailConfigured = () => !!(process.env.BREVO_API_KEY && process.env.MAIL_FROM);
+export async function sendEmail(to, subject, html) {
+  const key = process.env.BREVO_API_KEY, from = process.env.MAIL_FROM;
+  if (!key || !from || !to) return { ok: false, skipped: true };
+  try {
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': key, 'content-type': 'application/json', 'accept': 'application/json' },
+      body: JSON.stringify({
+        sender: { email: from, name: process.env.MAIL_FROM_NAME || 'Académie Compta FR' },
+        to: [{ email: to }], subject, htmlContent: html
+      })
+    });
+    return { ok: r.ok, status: r.status };
+  } catch (e) { return { ok: false, error: String(e) }; }
+}
+
 // ---- Validation ----
 export const isEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e || '');
 export const strongPw = p => typeof p === 'string' && p.length >= 10 && /[A-Za-z]/.test(p) && /\d/.test(p);
