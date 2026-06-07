@@ -210,6 +210,58 @@
     return h+"</div>";
   }
 
+  /* =====================================================================
+     CAS 3 — LIASSE BNC : Déclaration contrôlée (2035) — profession libérale
+     ===================================================================== */
+  var BNC = {
+    ex:"2024", denom:"CABINET ARCHITECTURE DESIGN", adr:"15 rue de la Paix, 75002 Paris", siret:"81234567800015", naf:"7111Z", duree:"12", cloture:"31/12/2024",
+    rec:{enc:85000, subv:0, autres:0},
+    chg:[{lib:"Achats",code:"AE",v:5600},{lib:"Services extérieurs",code:"AF",v:12800},{lib:"Autres services extérieurs",code:"AG",v:8900},{lib:"Impôts, taxes et versements assimilés",code:"AH",v:1200},{lib:"Charges de personnel",code:"AI",v:8500},{lib:"Autres charges",code:"AJ",v:4100},{lib:"Dotations aux amortissements",code:"AK",v:5200}],
+    amort:[{nat:"Matériel informatique",deb:12000,dot:2400,fin:9600},{nat:"Mobilier de bureau",deb:7000,dot:2800,fin:4200}]
+  };
+  BNC.totRec=BNC.rec.enc+BNC.rec.subv+BNC.rec.autres;
+  BNC.totChg=BNC.chg.reduce(function(s,x){return s+x.v;},0);
+  BNC.benef=BNC.totRec-BNC.totChg;
+  BNC.totDot=BNC.amort.reduce(function(s,x){return s+x.dot;},0);
+  function srcBNC(){
+    var b=BNC, chg=b.chg.map(function(x){return "<div class='row'><span class='k'>"+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("");
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Profession</span><span class='v'>Architecte (BNC)</span></div>"
+      +"<div class='row'><span class='k'>Cabinet</span><span class='v'>"+esc(b.denom)+"</span></div>"
+      +"<div class='row'><span class='k'>Exercice clos</span><span class='v'>"+esc(b.cloture)+"</span></div>"
+      +"<div class='sec'>Recettes encaissées (caisse)</div>"
+      +"<div class='row'><span class='k'><b>Recettes encaissées</b></span><span class='v'>"+eur(b.rec.enc)+"</span></div>"
+      +"<div class='sec'>Dépenses payées par nature</div>"+chg
+      +"<div class='row'><span class='k'><b>Total des charges</b></span><span class='v'>"+eur(b.totChg)+"</span></div>"
+      +"<div class='sec'>Amortissements (dotations)</div>"
+      +b.amort.map(function(x){return "<div class='row'><span class='k'>"+esc(x.nat)+"</span><span class='v'>"+eur(x.dot)+"</span></div>";}).join("")
+      +"</div><p class='sd-note'>💡 BNC = comptabilité de <b>caisse</b> : recettes <b>encaissées</b> et dépenses <b>payées</b> dans l'année.</p>";
+  }
+  function formBNC(){
+    var b=BNC, h="<div class='cf'>";
+    h+=marianne("DÉCLARATION DES BÉNÉFICES NON COMMERCIAUX","Régime de la déclaration contrôlée — art. 34 ou 92 du CGI","N° 2035");
+    h+="<div class='cf-sec'><div class='cf-st'>1 · Renseignements généraux</div><div class='cf-body'>"
+      +"<div class='cf-line'><span class='cf-lab'>Désignation</span>"+ro(b.denom,"grow")+"</div>"
+      +"<div class='cf-line'><span class='cf-lab'>Adresse</span>"+ro(b.adr,"grow")+"</div>"
+      +"<div class='cf-line'><span class='cf-lab'>SIRET</span>"+ro(b.siret)+"<span class='cf-lab'>Code NAF</span>"+ro(b.naf)+"</div>"
+      +"<div class='cf-line'><span class='cf-lab'>Durée (mois)</span>"+ro(b.duree)+"<span class='cf-lab'>Clôture</span>"+ro(b.cloture)+"</div></div></div>";
+    h+="<div class='cf-cols'>"
+      +"<div class='cf-col'><div class='cf-st'>2 · Récapitulation des recettes</div><div class='cf-body'>"
+        +lineFill("Recettes encaissées","AA","aa",b.rec.enc,{ph:"…"})+lineRO("Subventions d'exploitation","AB",b.rec.subv)+lineRO("Autres produits","AC",b.rec.autres)
+        +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TOTAL DES RECETTES</b></span>"+code("AD")+eurIn(fill("ad",b.totRec,{ph:"…"}))+"</div></div></div>"
+      +"<div class='cf-col'><div class='cf-st'>3 · Récapitulation des charges</div><div class='cf-body'>"
+        +b.chg.map(function(x){return lineRO(x.lib,x.code,x.v);}).join("")
+        +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TOTAL DES CHARGES</b></span>"+code("AL")+eurIn(fill("al",b.totChg,{ph:"…"}))+"</div></div></div></div>";
+    h+="<div class='cf-cols'>"
+      +"<div class='cf-col'><div class='cf-st'>4 · Détermination du résultat</div><div class='cf-body'>"
+        +lineFill("Total des recettes (report AD)","AM","am",b.totRec,{ph:"…"})+lineFill("Total des charges (report AL)","AN","an",b.totChg,{ph:"…"})+lineFill("Bénéfice (AM − AN)","AO","ao",b.benef,{ph:"…"})+lineRO("Déficit (AN − AM)","AP",0)
+        +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>RÉSULTAT FISCAL (→ 2042-C-PRO)</b></span>"+code("AQ")+eurIn(fill("aq",b.benef,{ph:"…"}))+"</div></div></div>"
+      +"<div class='cf-col'><div class='cf-st'>5 · Détail des amortissements</div><div class='cf-body'><table class='cf-tbl'><thead><tr><th style='text-align:left'>Nature</th><th>Début</th><th>Dotation</th><th>Fin</th></tr></thead><tbody>"
+        +b.amort.map(function(x){return "<tr><td>"+esc(x.nat)+"</td><td style='text-align:right'>"+eur(x.deb)+"</td><td style='text-align:right'>"+eur(x.dot)+"</td><td style='text-align:right'>"+eur(x.fin)+"</td></tr>";}).join("")
+        +"<tr><td colspan='2' style='text-align:right;font-weight:700'>TOTAL dotations</td><td style='text-align:right;font-weight:700'>"+eur(b.totDot)+"</td><td></td></tr></tbody></table></div></div></div>";
+    return h+"</div>";
+  }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
     das2: {
@@ -224,7 +276,7 @@
     },
     liasse: {
       titre:"Module 5 — Simulateur des liasses fiscales", sous:"La théorie d'abord, puis on remplit la liasse selon le régime du dossier.",
-      tabs:[{id:"rn",label:"Réel normal",sub:"2050 → 2059"},{id:"rs",label:"Réel simplifié",sub:"2033-A→G",soon:true},{id:"bnc",label:"BNC 2035",soon:true},{id:"ba",label:"Agricole",sub:"2139/2143",soon:true},{id:"sci",label:"SCI / foncier",sub:"2072/2044",soon:true}],
+      tabs:[{id:"rn",label:"Réel normal",sub:"2050 → 2059"},{id:"rs",label:"Réel simplifié",sub:"2033-A→G",soon:true},{id:"bnc",label:"BNC 2035",sub:"déclaration contrôlée"},{id:"ba",label:"Agricole",sub:"2139/2143",soon:true},{id:"sci",label:"SCI / foncier",sub:"2072/2044",soon:true}],
       active:"rn",
       panes:{ rn:{ srcCap:"Données comptables source", src:srcRN, wide:true, formCap:"Liasse — 2058-A (réel normal)", form:formRN,
         tuto:["<b>Reportez le résultat comptable</b> (case <b>WA</b>) — c'est le point de départ.",
@@ -232,7 +284,14 @@
               "<b>Additionnez les déductions</b> (case <b>WC</b>) : +values long terme, quote-part mère-fille…",
               "<b>Calculez le résultat fiscal</b> : <b>WD = WA + WB − WC</b>.",
               "Reportez le <b>bénéfice imposable</b> (case <b>XE</b>), puis <b>Vérifier</b>."],
-        lien:"Lien fondamental : comptabilité → résultat fiscal → liasse." } }
+        lien:"Lien fondamental : comptabilité → résultat fiscal → liasse." },
+        bnc:{ srcCap:"Données du dossier (BNC)", src:srcBNC, wide:true, formCap:"Déclaration — 2035 (BNC, déclaration contrôlée)", form:formBNC,
+          tuto:["BNC = <b>comptabilité de caisse</b> : ne retenez que les recettes <b>encaissées</b> et les dépenses <b>payées</b> dans l'année.",
+                "Reportez les <b>recettes encaissées</b> (AA), puis le <b>total des recettes</b> (AD).",
+                "Additionnez les <b>charges par nature</b> (AE → AK) → <b>total des charges</b> (AL).",
+                "Calculez le <b>bénéfice</b> : AO = AD − AL ; reportez le <b>résultat fiscal</b> (AQ).",
+                "Cliquez <b>Vérifier ma déclaration</b>."],
+          lien:"BNC : recettes encaissées − dépenses payées = résultat fiscal (imposé à l'IR)." } }
     }
   };
 
@@ -262,6 +321,7 @@
     el.setAttribute("data-rendered","1");
     if(!sim){ el.innerHTML="<p style='color:#c0392b'>(Simulateur non disponible : "+esc(key)+")</p>"; return; }
     el.classList.add("simdoc");
+    var initTab=el.getAttribute("data-tab"); if(initTab && sim.panes[initTab]) sim.active=initTab;
     var tabsH=sim.tabs.map(function(t){ return "<div class='sd-tab "+(t.id===sim.active?"on":"")+(t.soon?" soon":"")+"' data-tab='"+escA(t.id)+"'>"+esc(t.label)+(t.sub?"<span class='b'>"+esc(t.sub)+"</span>":"")+(t.soon?"<span class='b'>bientôt</span>":"")+"</div>"; }).join("");
     el.innerHTML="<div class='sd-top'><span class='sd-ic'>🖥️</span><span class='sd-h'>"+esc(sim.titre)+"</span><span class='sd-sub'>"+esc(sim.sous)+"</span></div>"
       +"<div class='sd-tabs'>"+tabsH+"</div><div class='sd-stage'>"+buildPane(sim,sim.active)+"</div>";

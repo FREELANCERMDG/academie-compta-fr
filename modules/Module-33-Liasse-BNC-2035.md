@@ -35,6 +35,11 @@
 
 > **Exemple.** Recettes encaissées **120 000 €**, dépenses payées **70 000 €** → résultat **50 000 €**. Réintégration CSG non déductible **+2 500** ; pas de déduction → **résultat fiscal 52 500 €** (imposé à l'**IR** dans la catégorie BNC, reporté sur la **2042‑C‑PRO**).
 
+### 🛠️ Simulateur interactif — remplissez la 2035 (BNC)
+À partir du dossier d'un **cabinet d'architecture** (à gauche), complétez la déclaration **2035** (à droite) : recettes (AA, AD), charges (AL), puis le résultat (AO/AQ). Suivez le **tutoriel** en tête, puis **Vérifier ma déclaration**.
+
+<div class="simdoc" data-sim="liasse" data-tab="bnc"></div>
+
 ---
 
 ## 4) Comptes & spécificités BNC (rappel)
