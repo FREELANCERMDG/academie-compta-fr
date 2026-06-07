@@ -346,7 +346,8 @@ function pageInscription(sess, err, val = {}) {
       <div style="flex:1;min-width:220px"><h2 style="margin:0">Avant de vous inscrire : installez <b>Google Authenticator</b></h2>
       <p class="muted" style="margin:4px 0">Votre connexion est protégée par <b>double authentification (2FA)</b>. Cette application <b>gratuite</b> génère votre code de sécurité à 6 chiffres.</p>
       <p style="margin:6px 0"><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Installer sur Google Play (Android)</a>
-      <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></div>
+      <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p>
+      <p class="muted" style="font-size:13px;margin:2px 0"><b>🔗 Lien direct :</b> <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" style="word-break:break-all">play.google.com/store/apps/details?id=com.google.android.apps.authenticator2</a></p></div>
     </div>
     <h3 style="margin:14px 0 6px">Comment faire (≈ 3 minutes) :</h3>
     <ol style="margin:0;padding-left:20px;line-height:1.7">
