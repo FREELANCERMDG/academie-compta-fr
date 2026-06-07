@@ -1,12 +1,12 @@
-# N'embarquer que site/ + platform/ dans l'image
+# N'embarquer que site/ + platform/ + les leçons modules/*.md dans l'image
 slides/
 print/
-modules/
 cas-pratiques/
 evaluations/
 annexes/
 supports/
 *.md
+!modules/*.md
 .git/
 **/__pycache__/
 platform/data.db
