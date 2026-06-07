@@ -226,9 +226,6 @@ function pageAccueil(sess) {
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
-  <section class="card" style="text-align:center"><h2 style="margin-top:0">🎬 Découvrez l'Académie Compta FR en vidéo</h2>
-  <video class="illus" controls preload="metadata" playsinline poster="/public/photos/hero.png" src="/public/promo/academie-promo.mp4" style="background:#000"></video>
-  <p><a class="btn" href="/inscription">Créer mon compte (gratuit)</a></p></section>
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
