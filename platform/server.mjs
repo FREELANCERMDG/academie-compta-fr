@@ -287,8 +287,7 @@ function pageMentions(sess) {
 
 function pageProgramme(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
-  const prixMod = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? money(o.prix) : ''; };
-  const modulesSection = `<section class="card"><h2>Les 6 modules</h2><div class="prog">${MODULES.map(m => `<a class="pitem" href="/apercu?m=${esc(m.code)}"><span>${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : `<b class="tarif">${esc(prixMod(m.code))}</b>`}</a>`).join('')}</div></section>`;
+  const modulesSection = apercuModulesSection();
   const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0);
   const compteur = (cfg.afficher_compteur_inscrits && n > 0) ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''}</span></div>` : '';
   const f = cfg.formateur || {};
