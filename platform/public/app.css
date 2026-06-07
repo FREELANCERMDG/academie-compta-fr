@@ -25,6 +25,13 @@ a{color:var(--navy2);text-decoration:none}a:hover{color:#fff}
 .top nav a{color:#cdd6ee;margin-left:18px;font-size:14px;font-weight:500}
 .top nav a:hover{color:#fff}
 .top nav a.cta{background:var(--grad);color:#fff;padding:9px 16px;border-radius:10px;font-weight:700;box-shadow:0 6px 18px rgba(124,108,255,.35)}
+/* Bandeau d'annonce défilant */
+.ticker{background:var(--grad);color:#fff;overflow:hidden;white-space:nowrap;font-weight:600;font-size:14px;box-shadow:0 4px 14px rgba(124,108,255,.28);position:sticky;top:0;z-index:39}
+.ticker-track{display:inline-flex;white-space:nowrap;will-change:transform;animation:tick 32s linear infinite;padding:9px 0}
+.ticker-track span{padding:0 2rem}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker{white-space:normal}.ticker-track{animation:none;display:block;text-align:center}}
 
 .wrap{max-width:1080px;margin:30px auto;padding:0 20px}
 .backbar{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
