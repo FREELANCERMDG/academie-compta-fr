@@ -395,6 +395,7 @@ function pageConnexion(sess, err, email = '') {
 function page2faSetup(sess, secret, uri, err, qr) {
   return layout('Activer la double authentification', `<h1>Double authentification (2FA)</h1>
   <p>Sécurisez votre compte « à double tour ». <b>Scannez ce QR code</b> avec <b>Google Authenticator</b> / <b>Authy</b> :</p>
+  <p class="muted">📱 Pas encore l'application ? <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"><b>Installer Google Authenticator sur Google Play</b></a> · <a target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">iPhone (App Store)</a></p>
   <div class="card">${qr ? `<img class="qr" src="${qr}" alt="QR code 2FA" width="220" height="220">` : ''}
   <p class="muted">Si vous ne pouvez pas scanner, saisissez la clé manuellement : <code>${esc(secret)}</code></p></div>
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
