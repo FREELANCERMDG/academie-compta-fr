@@ -32,10 +32,10 @@ Chaque niveau = plus de responsabilités… et de revenus.
 
 ## 💬 Ils se sont lancés (parcours types)
 
-> **Tiana, 28 ans — Réviseuse en cabinet d'externalisation (Antananarivo)**
+> **Mbolatiana, 28 ans — Réviseuse en cabinet d'externalisation (Antananarivo)**
 > « Après la formation, j'ai été recrutée comme collaboratrice. En deux ans, je suis passée **réviseuse** : je révise les dossiers, je cadre la TVA, je prépare les bilans. Aujourd'hui je gagne **1 600 000 Ar par mois** — et je continue à monter en compétences. »
 
-> **Hary, 31 ans — Comptable freelance pour cabinets français**
+> **Marc, 31 ans — Comptable freelance pour cabinets français**
 > « J'ai d'abord travaillé en cabinet, puis je me suis lancé en **freelance**. J'ai aujourd'hui **plusieurs clients — des cabinets français** — que je facture **en euros**. Je gagne environ **800 € par mois** en travaillant depuis chez moi, à Tana. La méthode et Pennylane m'ont rendu autonome. »
 
 > *Parcours illustratifs (personnages fictifs), représentatifs des débouchés réels du métier.*
