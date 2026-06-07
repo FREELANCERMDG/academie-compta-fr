@@ -18,7 +18,7 @@ const MACRO = [
       "Réception, classement et nommage des pièces · suivi du dossier",
       "Saisie pratique : achats, ventes, banque, OD · TVA, autoliquidation, intracommunautaire"
     ],
-    files: ['Module-01-Environnement-comptable-francais.md', 'Module-02-Bases-comptabilite-PCG.md', 'Module-03-Organisation-dossier-externalise.md', 'Module-04-Saisie-comptable-pratique.md'],
+    files: ['Module-00-Pourquoi-compta-francaise.md', 'Module-01-Environnement-comptable-francais.md', 'Module-02-Bases-comptabilite-PCG.md', 'Module-03-Organisation-dossier-externalise.md', 'Module-04-Saisie-comptable-pratique.md'],
     quiz: 'm01'
   },
   {

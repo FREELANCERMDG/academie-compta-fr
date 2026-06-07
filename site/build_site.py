@@ -55,6 +55,7 @@ def video_embed(entry):
 MANIFEST = [
     ("site/accueil-cours.md", "accueil", "Présentation", "Bienvenue", None),
 
+    ("modules/Module-00-Pourquoi-compta-francaise.md", "m00", "Module 1 — Fondamentaux de la comptabilité française", "1.0 🚀 Pourquoi la compta française (depuis Madagascar)", None),
     ("modules/Module-01-Environnement-comptable-francais.md", "m01", "Module 1 — Fondamentaux de la comptabilité française", "1.1 Environnement comptable FR", "m01"),
     ("modules/Module-02-Bases-comptabilite-PCG.md", "m02", "Module 1 — Fondamentaux de la comptabilité française", "1.2 Bases de comptabilité (PCG)", "m02"),
     ("modules/Module-03-Organisation-dossier-externalise.md", "m03", "Module 1 — Fondamentaux de la comptabilité française", "1.3 Organisation du dossier", "m03"),
