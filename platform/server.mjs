@@ -153,7 +153,7 @@ function layout(title, body, sess) {
   const nav = u
     ? `<a href="/programme">Programme</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
     : `<a href="/programme">Programme</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
-  const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française (depuis Madagascar). Cours, quiz, cas pratiques, certification.';
+  const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -217,7 +217,7 @@ function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
   const lsoc = cfg.societe || {};
   const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
-    { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": "Madagascar" },
+    { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": [{ "@type": "Country", "name": "Madagascar" }, { "@type": "City", "name": "Antananarivo" }, { "@type": "City", "name": "Tamatave (Toamasina)" }, { "@type": "City", "name": "Antsirabe" }, { "@type": "City", "name": "Majunga (Mahajanga)" }] },
     { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules, logiciel Pennylane, TVA, liasse fiscale, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>

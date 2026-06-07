@@ -1,6 +1,6 @@
 # 1.0 — 🚀 Pourquoi la comptabilité française ? (votre opportunité depuis Madagascar)
 
-Et si, depuis **Antananarivo**, vous travailliez pour des **cabinets comptables français** — recruté par un cabinet d'externalisation, ou en **freelance payé en euros** ? C'est déjà le quotidien de centaines de Malgaches. Voici pourquoi, et comment cette formation vous y mène.
+Et si, **depuis n'importe où à Madagascar** — **Antananarivo, Tamatave, Antsirabe, Majunga** ou ailleurs — vous travailliez pour des **cabinets comptables français** — recruté par un cabinet d'externalisation, ou en **freelance payé en euros** ? C'est déjà le quotidien de centaines de Malgaches. Voici pourquoi, et comment cette formation vous y mène.
 
 ## 🌍 Un marché en pleine croissance
 - Les cabinets français **manquent de collaborateurs** : ils **externalisent** leur production comptable.
