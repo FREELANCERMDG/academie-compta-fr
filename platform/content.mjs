@@ -43,12 +43,16 @@ const MACRO = [
   },
   {
     code: 'mod3', titre: 'Module 3 — Opérations, déclarations & révision',
-    resume: "TVA (CA3/CA12), rapprochement bancaire, lettrage, comptes d'attente, paie, immobilisations, révision par cycle et révision par défilement (classes 1 à 7).",
+    resume: "Toutes les opérations courantes et déclarations : TVA (CA3/CA12), rapprochement bancaire, lettrage, paie, immobilisations et révision par cycle — avec des leçons 100 % pratiques et des simulateurs interactifs pour s'entraîner comme en cabinet.",
     topics: [
-      "TVA française (CA3 / CA12)", "Rapprochement bancaire", "Lettrage clients / fournisseurs",
-      "Comptes d'attente (471) et comptes sensibles", "Paie et écritures sociales",
-      "Immobilisations et amortissements", "Révision comptable continue",
-      "Révision par défilement (classes 1 à 7) : capital/KBIS/PVAGO, réserve légale, immo, emprunts & tableau d'amortissement"
+      "TVA française : déclaration CA3 / CA12 + cadrage",
+      "Rapprochement bancaire & lettrage clients / fournisseurs",
+      "Comptes d'attente (471), paie et écritures sociales",
+      "Immobilisations & amortissements",
+      "Révision comptable : par cycle et par défilement (classes 1 à 7) — capital/KBIS/PVAGO, réserve légale, emprunts & tableau d'amortissement",
+      "🛠️ Pratique métier : le quotidien du collaborateur + justifier les comptes par cycle",
+      "🛠️ Saisir les factures particulières (recette/Z de caisse, note de frais, Uber, consigne/déconsigne…)",
+      "🧮 Simulateurs interactifs : matrice de saisie, traitement de factures (cabinet) et déclaration de TVA"
     ],
     files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md', 'Module-PRAT6-Simulateur.md', 'Module-PRAT7-TVA-CA3.md'],
     quiz: 'm05'

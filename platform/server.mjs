@@ -205,7 +205,12 @@ function apercuModulesSection() {
 }
 function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
-  return layout('Accueil', `
+  const lsoc = cfg.societe || {};
+  const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
+    { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": "Madagascar" },
+    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules, logiciel Pennylane, TVA, liasse fiscale, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
+  ] }).replace(/</g, '\\u003c');
+  return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
   <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification.</p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
