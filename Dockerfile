@@ -4,6 +4,8 @@ WORKDIR /app
 # Contenu de la formation (servi sur /formation) + application
 COPY site ./site
 COPY platform ./platform
+# Leçons sources (.md) lues au runtime pour les aperçus de modules (/apercu, module gratuit)
+COPY modules ./modules
 # Dépendance runtime (génération des QR codes 2FA)
 RUN cd platform && npm install --omit=dev --no-audit --no-fund
 ENV NODE_ENV=production
