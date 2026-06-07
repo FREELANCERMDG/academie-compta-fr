@@ -1,4 +1,4 @@
-# MODULE 4 — Saisie comptable pratique
+# 1.4 — Saisie comptable pratique
 
 **Niveau :** Débutant → Intermédiaire · **Durée estimée :** 14–16 h · **Prérequis :** Modules 2–3
 
@@ -62,7 +62,7 @@ Règle : **512 débité = entrée d'argent**, **512 crédité = sortie**.
 **Ex. 4 — Paiement fournisseur 1 200 €** : 401 D 1 200 / 512 C 1 200
 **Ex. 5 — Encaissement client 2 400 €** : 512 D 2 400 / 411 C 2 400
 **Ex. 6 — Frais bancaires 18 €** : 627 D 18 / 512 C 18
-**Ex. 7 — Virement du compte courant vers le livret (compte interne)** : 580 puis contrepassation (cf. virements internes Module 6).
+**Ex. 7 — Virement du compte courant vers le livret (compte interne)** : 580 puis contrepassation (cf. virements internes Module 3).
 
 ---
 
@@ -77,7 +77,7 @@ Servent aux écritures qui ne passent pas par achats/ventes/banque : **paie, TVA
 
 ---
 
-## 7. La TVA selon les cas (synthèse — détail Module 5)
+## 7. La TVA selon les cas (synthèse — détail Module 3)
 
 | Situation | Traitement |
 |---|---|
@@ -114,7 +114,7 @@ Servent aux écritures qui ne passent pas par achats/ventes/banque : **paie, TVA
 | Location matériel/véhicule | 6135 | 20 % |
 | Assurances | 616 | **Pas de TVA** (exonérée) |
 | Téléphone / Internet | 6262 | 20 % |
-| Carburant essence/gazole | 60622 (ou 6061) | TVA : voir Module 5 (gazole 80 %, essence alignée) |
+| Carburant essence/gazole | 60622 (ou 6061) | TVA : voir Module 3 (gazole 80 %, essence alignée) |
 | Restaurant / repas d'affaires | 6257 | 20 % récupérable si justifié pro |
 | Déplacements (train, avion, péage, hôtel) | 6251 | train/avion exonérés ; hôtel 10 % ; péage 20 % |
 | Honoraires (EC, avocat) | 6226 | 20 % |
@@ -129,15 +129,15 @@ Servent aux écritures qui ne passent pas par achats/ventes/banque : **paie, TVA
 | Publicité | 6231 | 20 % |
 | Entretien et réparations | 615 | 20 % |
 
-> ⚠️ **Véhicules de tourisme (VP)** : TVA sur l'achat et l'entretien **non déductible** ; carburant partiellement déductible. Détail Module 5 et Module 10.
+> ⚠️ **Véhicules de tourisme (VP)** : TVA sur l'achat et l'entretien **non déductible** ; carburant partiellement déductible. Détail Module 3.
 
 ---
 
 ## 9. Cas particuliers fréquents en cabinet
 - **Avoir fournisseur** : écriture inverse de l'achat (401 D / 6xx C + TVA C).
 - **Acompte versé** : 4091 (fournisseur débiteur) avant la facture définitive.
-- **Facture à cheval sur 2 exercices** : rattachement (CCA/FNP, Module 13).
-- **Paiement CB différé** : débit bancaire postérieur (rapprochement, Module 6).
+- **Facture à cheval sur 2 exercices** : rattachement (CCA/FNP, Module 4).
+- **Paiement CB différé** : débit bancaire postérieur (rapprochement, Module 3).
 - **Note de frais salarié** : charges par nature + 425/455 selon remboursement.
 - **Prélèvement sans facture** (abonnement) : passer en 471 ou en charge avec relance pièce.
 
@@ -179,7 +179,7 @@ Saisir (TVA 20 % sauf mention) :
 
 ---
 
-## 📝 Évaluation de fin de module 4
+## 📝 Évaluation de fin de chapitre
 **A — 6 écritures à passer** (mélange achats/ventes/banque, dont 1 autoliquidation et 1 intracom).
 **B — QCM (4 pts) :**
 1. La TVA sur assurance est : a) 20 % b) **non déductible (exonéré)**

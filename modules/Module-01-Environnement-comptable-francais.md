@@ -1,4 +1,4 @@
-# MODULE 1 — Comprendre l'environnement comptable français
+# 1.1 — Comprendre l'environnement comptable français
 
 **Niveau :** Débutant · **Durée estimée :** 6–8 h · **Prérequis :** aucun
 
@@ -174,7 +174,7 @@ Le client envoie par erreur sur votre **WhatsApp personnel** un fichier de paie 
 
 ---
 
-## 📝 Évaluation de fin de module 1 (QCM — 10 questions)
+## 📝 Évaluation de fin de chapitre (QCM — 10 questions)
 
 1. Qui peut signer la liasse fiscale ? a) le collaborateur b) le chef de mission c) **l'expert-comptable**
 2. La « tenue » d'un dossier désigne : a) la révision finale b) **la mise à jour mensuelle** c) le dépôt au greffe

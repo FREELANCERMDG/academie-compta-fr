@@ -1,4 +1,4 @@
-# MODULE 3 — Organisation d'un dossier comptable externalisé
+# 1.3 — Organisation d'un dossier comptable externalisé
 
 **Niveau :** Débutant · **Durée estimée :** 6–8 h · **Prérequis :** Modules 1–2
 
@@ -81,13 +81,13 @@ Une facture française doit comporter : identité et **SIREN** du fournisseur, d
 ---
 
 ## 6. Tickets, notes de frais, relevés bancaires
-- **Tickets restaurant / carburant** : justificatif obligatoire ; TVA récupérable selon nature (cf. Module 5).
+- **Tickets restaurant / carburant** : justificatif obligatoire ; TVA récupérable selon nature (cf. Module 3).
 - **Notes de frais** : rapprocher de la pièce ; salarié remboursé via 425 ou compte associé.
 - **Relevés bancaires** : base du rapprochement ; vérifier que **tous les mois** sont présents et complets (pas de page manquante).
 
 ---
 
-## 7. Outils de collecte (vue rapide — détail Module 14)
+## 7. Outils de collecte (vue rapide — détail Module 6)
 | Outil | Rôle dans la collecte |
 |---|---|
 | **Dext** | Photo/scan + océrisation des factures, export vers l'outil compta |
@@ -140,7 +140,7 @@ Que faire de chacune ?
 
 ---
 
-## 📝 Évaluation de fin de module 3
+## 📝 Évaluation de fin de chapitre
 1. Citez 4 mentions obligatoires d'une facture conforme.
 2. Donnez la règle de nommage d'un fichier et un exemple.
 3. Que faire d'une dépense sans justificatif au rapprochement ?

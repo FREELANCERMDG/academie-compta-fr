@@ -1,6 +1,6 @@
-# MODULE 2 — Bases de comptabilité française (PCG)
+# 1.2 — Bases de la comptabilité française (PCG)
 
-**Niveau :** Débutant · **Durée estimée :** 10–12 h · **Prérequis :** Module 1
+**Niveau :** Débutant · **Durée estimée :** 10–12 h · **Prérequis :** chapitre 1.1
 
 ---
 
@@ -118,7 +118,7 @@ Toute opération est enregistrée **au minimum sur deux comptes** : un au débit
 - **2 Immobilisations** : biens durables (> seuil, en général **500 € HT**), au débit, amortis sur plusieurs années.
 - **164 Emprunts** : crédité lors du déblocage, débité au remboursement du capital (les intérêts vont au 661).
 - **641 Salaires** : salaire brut au débit. **645 Charges sociales** : part patronale au débit.
-- **471 Attente** : utilisé temporairement quand on ne sait pas où classer ; **doit être apuré** (Module 8).
+- **471 Attente** : utilisé temporairement quand on ne sait pas où classer ; **doit être apuré** (Module 3).
 - **455 Associés** : mouvements entre la société et l'associé (apports, retraits).
 - **53 Caisse** : espèces ; ne doit **jamais** être créditrice (solde négatif impossible).
 
@@ -179,7 +179,7 @@ Toute opération est enregistrée **au minimum sur deux comptes** : un au débit
 | 431 | URSSAF | | 900,00 |
 | 437 | Autres organismes (retraite/prévoyance/mutuelle) | | 340,00 |
 
-*(Détail complet en Module 9. Vérifier : 2 800 D = 2 800 C.)*
+*(Détail complet en Module 3. Vérifier : 2 800 D = 2 800 C.)*
 
 ---
 
@@ -214,11 +214,11 @@ Extrait de balance :
 ### ✔️ Correction 2.2
 - **512 créditeur** = découvert : possible, mais à vérifier (souvent une erreur de saisie ou un rapprochement non fait). À justifier.
 - **53 Caisse créditrice** = **impossible** : une caisse ne peut pas être négative → erreur de saisie (dépense en espèces non couverte) à corriger.
-- **471 = 4 300 D non nul** = compte d'attente à **apurer** avant tout bilan (Module 8).
+- **471 = 4 300 D non nul** = compte d'attente à **apurer** avant tout bilan (Module 3).
 
 ---
 
-## 📝 Évaluation de fin de module 2
+## 📝 Évaluation de fin de chapitre
 
 **Partie A — QCM (5 pts)**
 1. Quand l'argent entre en banque, le 512 est : a) **débité** b) crédité
