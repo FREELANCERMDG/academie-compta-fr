@@ -93,6 +93,17 @@ code{background:rgba(255,255,255,.10);padding:2px 6px;border-radius:6px;font-siz
 .gratuit{background:rgba(52,211,153,.18);color:#6ee7b7;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap;font-weight:700}
 .lock{background:rgba(255,255,255,.08);color:#9aa7c4;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap}
 .tarif{background:rgba(232,161,58,.18);color:#f0c486;padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap;font-weight:700}
+/* Accordéon modules (accueil) */
+details.macc{margin:0}
+details.macc>summary{list-style:none;cursor:pointer}
+details.macc>summary::-webkit-details-marker{display:none}
+details.macc>summary::after{content:'▾';margin-left:10px;opacity:.6;transition:transform .2s}
+details.macc[open]>summary::after{transform:rotate(180deg)}
+details.macc[open]>summary{border-color:var(--accent2);background:rgba(255,255,255,.1)}
+.macc-body{background:rgba(255,255,255,.04);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:14px 18px;margin:-4px 2px 2px;animation:maccIn .2s ease}
+.macc-body p{margin:0 0 8px;color:#c4cfe8}
+.macc-body ul{padding-left:20px;margin:8px 0}.macc-body li{margin:4px 0;color:#c4cfe8}
+@keyframes maccIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .lockcard{border-color:rgba(232,161,58,.45);background:rgba(232,161,58,.08)}
 .qr{display:block;margin:10px auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px}
 

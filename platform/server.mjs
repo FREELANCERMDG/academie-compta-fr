@@ -193,17 +193,15 @@ function formateurCard() {
 // --- Pages ---
 // Aperçu du programme : une carte par module avec son résumé + thèmes + lien aperçu
 function apercuModulesSection() {
-  const cards = MODULES.map(m => {
+  const prixMod = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? money(o.prix) : ''; };
+  const rows = MODULES.map(m => {
     const inf = moduleInfo(m.code) || {};
     const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
-    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : '<b class="lock">Aperçu</b>';
-    return `<section class="card${m.gratuit ? '' : ' lockcard'}">
-      <div class="row2" style="border:0;padding:0"><h2 style="margin:0">${esc(m.titre)}</h2>${badge}</div>
-      <p class="muted">${esc(inf.resume || '')}</p>
-      <ul>${topics}</ul>
-      <a class="btn ${m.gratuit ? '' : 'ghost'}" href="/apercu?m=${esc(m.code)}">${m.gratuit ? 'Lire le module (gratuit)' : 'Voir l\'aperçu du programme'}</a></section>`;
+    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : `<b class="tarif">${esc(prixMod(m.code))}</b>`;
+    const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le module (gratuit)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
+    return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}</span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
   }).join('');
-  return `<h2 style="text-align:center;color:var(--navy)">Le programme — aperçu des 6 modules</h2>${cards}`;
+  return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><div class="prog">${rows}</div></section>`;
 }
 function pageAccueil(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
@@ -213,6 +211,9 @@ function pageAccueil(sess) {
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
+  <section class="card" style="text-align:center"><h2 style="margin-top:0">🎬 Découvrez l'Académie Compta FR en vidéo</h2>
+  <video class="illus" controls preload="metadata" playsinline poster="/public/photos/hero.png" src="/public/promo/academie-promo.mp4" style="background:#000"></video>
+  <p><a class="btn" href="/inscription">Créer mon compte (gratuit)</a></p></section>
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
