@@ -226,7 +226,8 @@ function pageAccueil(sess) {
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
   <li>🔐 <b>Connexion sécurisée (double authentification)</b> : avant de vous inscrire, installez l'application gratuite <b>Google Authenticator</b> sur votre téléphone <b>Android</b> (ou iPhone) — elle vous sera demandée pour protéger votre compte.</li></ul></section>
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🔐 Sécurisez votre connexion</h2>
-  <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Téléchargez <b>Google Authenticator</b> (gratuit) depuis le <b>Play Store</b> (Android) ou l'App Store (iPhone) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p></section>
+  <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Installez <b>Google Authenticator</b> (gratuit) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p>
+  <p><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Google Play (Android)</a> <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></section>
   ${apercuModulesSection()}
   <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
   <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`, sess);
@@ -339,6 +340,23 @@ function pageInscription(sess, err, val = {}) {
   return layout('Inscription', `
   <h1>Inscription</h1>
   <p class="muted">Conditions : ${esc(cfg.conditions.diplome_requis)}.</p>
+  <section class="card" style="border-left:4px solid var(--accent)">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div style="font-size:40px;line-height:1">🔐</div>
+      <div style="flex:1;min-width:220px"><h2 style="margin:0">Avant de vous inscrire : installez <b>Google Authenticator</b></h2>
+      <p class="muted" style="margin:4px 0">Votre connexion est protégée par <b>double authentification (2FA)</b>. Cette application <b>gratuite</b> génère votre code de sécurité à 6 chiffres.</p>
+      <p style="margin:6px 0"><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Installer sur Google Play (Android)</a>
+      <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></div>
+    </div>
+    <h3 style="margin:14px 0 6px">Comment faire (≈ 3 minutes) :</h3>
+    <ol style="margin:0;padding-left:20px;line-height:1.7">
+      <li><b>Installez Google Authenticator</b> (gratuit) sur votre téléphone Android (ou iPhone).</li>
+      <li><b>Remplissez le formulaire ci-dessous</b> et validez : votre compte est créé.</li>
+      <li>Un <b>QR code</b> s'affiche à l'écran. Ouvrez Google Authenticator → bouton <b>« + »</b> → <b>« Scanner un code QR »</b> → visez l'écran de votre ordinateur.</li>
+      <li>L'application affiche un <b>code à 6 chiffres</b> : saisissez-le sur le site pour activer la 2FA. C'est fait ✅</li>
+    </ol>
+    <p class="muted" style="font-size:12px;margin-top:10px">💡 Réglez l'<b>heure de votre téléphone en automatique</b> (sinon le code peut être refusé). Aux connexions suivantes, on vous demandera simplement ce code.</p>
+  </section>
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
   <form method="post" action="/inscription" class="card form" autocomplete="off">
     ${sess ? csrfField(sess) : ''}
