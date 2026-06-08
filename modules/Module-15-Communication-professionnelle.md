@@ -1,4 +1,4 @@
-# MODULE 15 — Communication professionnelle avec un cabinet français
+# 6.2 — Communication professionnelle avec un cabinet français
 
 **Niveau :** Transversal · **Durée estimée :** 5–6 h · **Prérequis :** aucun
 
@@ -128,7 +128,7 @@ Vous découvrez un **doublon de facture EDF (240 €)** déjà payée deux fois 
 
 ---
 
-## 📝 Évaluation de fin de module 15
+## 📝 Évaluation de fin de chapitre
 1. Citez 4 règles d'un bon mail professionnel.
 2. Que doit contenir un objet de mail ?
 3. Comment structurer une relance ?

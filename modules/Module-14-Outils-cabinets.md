@@ -1,4 +1,4 @@
-# MODULE 14 — Outils utilisés par les cabinets français
+# 6.1 — Outils utilisés par les cabinets français
 
 **Niveau :** Transversal · **Durée estimée :** 10–14 h (pratique sur outils) · **Prérequis :** Modules 3–7
 
@@ -124,7 +124,7 @@
 
 ---
 
-## 📝 Évaluation de fin de module 14
+## 📝 Évaluation de fin de chapitre
 1. Quel outil sert à l'OCR des factures ?
 2. Quel logiciel de paie est leader en cabinet ?
 3. Que doit-on toujours faire avant de publier une pièce Dext ?

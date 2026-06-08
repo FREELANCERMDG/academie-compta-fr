@@ -1,4 +1,4 @@
-# MODULE 24 — Logiciel : Isacompta (ISAGRI / Isacompta Connect)
+# Logiciel : Isacompta (ISAGRI / Isacompta Connect)
 
 **Niveau :** Intermédiaire → Avancé · **Durée estimée :** 7–9 h (pratique) · **Prérequis :** Modules 4–11
 **Type :** Formation logiciel — production comptable répandue en cabinet (forte présence en agricole/BA, mais aussi BIC/BNC).
@@ -82,7 +82,7 @@ Vous ouvrez un dossier d'exploitant **agricole** au réel. À la révision, vous
 
 ---
 
-## 📝 Évaluation de fin de module 24
+## 📝 Évaluation de fin de chapitre
 1. Qui édite Isacompta et dans quels dossiers est-il très présent ?
 2. Pourquoi vérifier le régime fiscal avant de produire ?
 3. Quels comptes apurer avant une édition « finale » ?

@@ -414,10 +414,10 @@ const NAV=__NAV__;
 const ORDER=__ORDER__;
 const MODID=__MODID__;
 const QUIZ=__QUIZ__;
-const EXOS=__EXOS__;
-const DOSSIERS=__DOSSIERS__;
-const TVASIM=__TVASIM__;
-const AUDITS=__AUDITS__;
+window.EXOS=__EXOS__;
+window.DOSSIERS=__DOSSIERS__;
+window.TVASIM=__TVASIM__;
+window.AUDITS=__AUDITS__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}

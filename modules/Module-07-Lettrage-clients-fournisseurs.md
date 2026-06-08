@@ -1,4 +1,4 @@
-# MODULE 7 — Lettrage clients et fournisseurs
+# 3.3 — Lettrage clients et fournisseurs
 
 **Niveau :** Intermédiaire · **Durée estimée :** 8 h · **Prérequis :** Modules 4 et 6
 
@@ -112,7 +112,7 @@ Un 411 créditeur = le client a **trop payé** (ou a versé un acompte). C'est u
 
 ---
 
-## 📝 Évaluation de fin de module 7
+## 📝 Évaluation de fin de chapitre
 1. À quoi sert le lettrage ?
 2. Que signifie un 401 débiteur ? un 411 créditeur ?
 3. Comment solder un écart de règlement de quelques centimes ?

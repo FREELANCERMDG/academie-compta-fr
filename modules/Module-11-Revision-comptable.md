@@ -1,4 +1,4 @@
-# MODULE 11 — Révision comptable continue
+# 3.7 — Révision comptable continue
 
 **Niveau :** Avancé · **Durée estimée :** 10–12 h · **Prérequis :** Modules 4 à 10
 
@@ -111,7 +111,7 @@ Incohérence : un bail existe mais aucun loyer n'est comptabilisé → **pièces
 
 ---
 
-## 📝 Évaluation de fin de module 11
+## 📝 Évaluation de fin de chapitre
 1. Que signifie « réviser » un compte ?
 2. Citez 4 cycles de révision et 1 compte de chacun.
 3. Citez 4 soldes « anormaux » à repérer.

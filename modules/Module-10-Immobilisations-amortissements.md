@@ -1,4 +1,4 @@
-# MODULE 10 — Immobilisations et amortissements
+# 3.6 — Immobilisations et amortissements
 
 **Niveau :** Intermédiaire · **Durée estimée :** 8 h · **Prérequis :** Modules 4 et 5
 
@@ -137,7 +137,7 @@ Le client achète : (a) une imprimante 90 € HT, (b) un photocopieur 1 500 € 
 
 ---
 
-## 📝 Évaluation de fin de module 10
+## 📝 Évaluation de fin de chapitre
 1. Seuil pratique charge/immo ?
 2. Formule de la dotation linéaire ?
 3. Quand démarre l'amortissement ?

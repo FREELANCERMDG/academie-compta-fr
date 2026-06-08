@@ -1,4 +1,4 @@
-# MODULE 12 — Fiscalité des entreprises françaises
+# 4.1 — Fiscalité des entreprises françaises
 
 **Niveau :** Avancé · **Durée estimée :** 10–12 h · **Prérequis :** Modules 5 et 11
 **Chiffres à jour 2026** (sources : impots.gouv.fr, bofip.impots.gouv.fr, economie.gouv.fr).
@@ -213,7 +213,7 @@ Activité **BNC**. 70 000 € < **83 600 €** → éligible au **micro-BNC** (a
 
 ---
 
-## 📝 Évaluation de fin de module 12
+## 📝 Évaluation de fin de chapitre
 1. Différence IR / IS ?
 2. Déclarations : 2031, 2035, 2065 correspondent à quoi ?
 3. Taux d'IS 2026 (normal et réduit + condition) ?

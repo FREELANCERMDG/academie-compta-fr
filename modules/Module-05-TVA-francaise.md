@@ -1,4 +1,4 @@
-# MODULE 5 — TVA française
+# 3.1 — TVA française
 
 **Niveau :** Intermédiaire · **Durée estimée :** 12–14 h · **Prérequis :** Modules 2 et 4
 **Chiffres à jour 2026** (sources : impots.gouv.fr, economie.gouv.fr, bofip.impots.gouv.fr).
@@ -212,7 +212,7 @@ TVA collectée mars = sur les **encaissements** = 7 000 × 20 % = **1 400 €** 
 
 ---
 
-## 📝 Évaluation de fin de module 5
+## 📝 Évaluation de fin de chapitre
 **A — QCM (5 pts)**
 1. La TVA à décaisser = a) collectée + déductible b) **collectée − déductible**
 2. Les prestations de services sont par défaut taxables : a) sur les débits b) **sur les encaissements**

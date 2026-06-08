@@ -1,4 +1,4 @@
-# MODULE 23 — Logiciel : Quadra (Cegid Quadra / QuadraCOMPTA)
+# Logiciel : Quadra (Cegid Quadra / QuadraCOMPTA)
 
 **Niveau :** Intermédiaire → Avancé · **Durée estimée :** 7–9 h (pratique) · **Prérequis :** Modules 4–11
 **Type :** Formation logiciel — outil de production historique très répandu en cabinet.
@@ -86,7 +86,7 @@ Vous saisissez une facture d'achat de marchandises 1 200 € TTC via le guide «
 
 ---
 
-## 📝 Évaluation de fin de module 23
+## 📝 Évaluation de fin de chapitre
 1. Que vérifier avant toute saisie dans Quadra ?
 2. À quoi sert un guide d'écriture et quel est son risque ?
 3. Comment solder les virements internes ?

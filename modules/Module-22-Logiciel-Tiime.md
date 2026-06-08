@@ -1,4 +1,4 @@
-# MODULE 22 — Logiciel : Tiime (pré-compta TPE & cabinet)
+# Logiciel : Tiime (pré-compta TPE & cabinet)
 
 **Niveau :** Intermédiaire · **Durée estimée :** 5–6 h (pratique) · **Prérequis :** Modules 4–7
 **Type :** Formation logiciel — très utilisé pour les TPE/indépendants suivis par les cabinets.
@@ -85,7 +85,7 @@ Le dirigeant photographie : (a) un repas client 48 € TTC, (b) un plein de carb
 
 ---
 
-## 📝 Évaluation de fin de module 22
+## 📝 Évaluation de fin de chapitre
 1. La pré-catégorisation Tiime est-elle fiable à 100 % ?
 2. Comment traiter une dépense personnelle réglée par le compte pro ?
 3. Où vont les remboursements de notes de frais ?

@@ -1,4 +1,4 @@
-# MODULE 9 — Paie et écritures sociales
+# 3.5 — Paie et écritures sociales
 
 **Niveau :** Intermédiaire · **Durée estimée :** 8–10 h · **Prérequis :** Module 2
 **Chiffres sociaux à jour 2026** (source : urssaf.fr).
@@ -164,7 +164,7 @@ Un **net non versé** : un salarié n'a pas été payé (ou virement en attente)
 
 ---
 
-## 📝 Évaluation de fin de module 9
+## 📝 Évaluation de fin de chapitre
 1. Quels comptes pour : brut / patronales / net / URSSAF / autres organismes ?
 2. Quelle égalité vérifie l'OD de paie ?
 3. Quelles 4 sources rapprocher pour contrôler la paie ?

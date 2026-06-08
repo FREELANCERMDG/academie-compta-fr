@@ -1,4 +1,4 @@
-# MODULE 13 — Bilan et clôture
+# 4.2 — Bilan et clôture
 
 **Niveau :** Avancé · **Durée estimée :** 12 h · **Prérequis :** Modules 10, 11, 12
 
@@ -153,7 +153,7 @@ Stock initial 12 000 €, stock final 15 000 € (marchandises). Passez les écr
 
 ---
 
-## 📝 Évaluation de fin de module 13
+## 📝 Évaluation de fin de chapitre
 1. Que signifient FNP, FAE, CCA, PCA ?
 2. Quel principe justifie le cut-off ?
 3. Écriture d'une CCA ?

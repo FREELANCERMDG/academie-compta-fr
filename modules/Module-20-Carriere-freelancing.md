@@ -1,4 +1,4 @@
-# MODULE 20 — Parcours carrière et freelancing
+# 6.5 — Parcours carrière et freelancing
 
 **Niveau :** Tous · **Durée estimée :** 5–6 h · **Prérequis :** avoir suivi la formation
 
@@ -120,7 +120,7 @@ Parcours type :
 
 ---
 
-## 📝 Évaluation de fin de module 20
+## 📝 Évaluation de fin de chapitre
 1. Quels sont les 3 différenciateurs clés d'un collaborateur offshore ?
 2. Pourquoi ne jamais mettre de données client réelles dans un portfolio ?
 3. Quel KPI prouve le mieux la qualité auprès d'un cabinet ?

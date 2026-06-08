@@ -192,8 +192,7 @@ Dans **Saisie → Transactions bancaires**, chaque ligne a un **statut** :
 
 ---
 
-## 📝 Évaluation de fin de module
-1. Quels sont les statuts d'une transaction bancaire dans Pennylane ?
+## 📝 Évaluation de fin de chapitre. Quels sont les statuts d'une transaction bancaire dans Pennylane ?
 2. Que faut-il toujours faire avant de valider une transaction ?
 3. Comment catégoriser une transaction sans facture ?
 4. Que se passe-t-il pour la TVA sur encaissements quand on rapproche une facture de service ?

@@ -1,4 +1,4 @@
-# MODULE 17 — Qualité, erreurs fréquentes et contrôle interne
+# 6.4 — Qualité, erreurs fréquentes et contrôle interne
 
 **Niveau :** Transversal · **Durée estimée :** 5–6 h · **Prérequis :** Modules 4 à 13
 
@@ -90,7 +90,7 @@ Sur un dossier livré, on observe : 471 = 1 500 D ; TVA déduite sur une facture
 
 ---
 
-## 📝 Évaluation de fin de module 17
+## 📝 Évaluation de fin de chapitre
 1. Citez 5 erreurs fréquentes.
 2. Quels comptes doivent être à 0 avant livraison ?
 3. Que faire d'une charge au nom du dirigeant ?

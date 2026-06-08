@@ -1,4 +1,4 @@
-# MODULE 8 — Comptes d'attente et comptes sensibles
+# 3.4 — Comptes d'attente et comptes sensibles
 
 **Niveau :** Intermédiaire · **Durée estimée :** 6–8 h · **Prérequis :** Modules 4, 6, 7
 
@@ -117,7 +117,7 @@ Un compte courant d'associé **débiteur** dans une SARL/SAS signifie que la soc
 
 ---
 
-## 📝 Évaluation de fin de module 8
+## 📝 Évaluation de fin de chapitre
 1. Le 471 doit-il être nul au bilan ? Pourquoi ?
 2. Que doit-on toujours mettre sur une ligne en 471 ?
 3. À quoi sert le 580 et quel doit être son solde ?

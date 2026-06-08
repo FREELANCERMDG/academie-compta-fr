@@ -1,4 +1,4 @@
-# MODULE 6 — Rapprochement bancaire
+# 3.2 — Rapprochement bancaire
 
 **Niveau :** Intermédiaire · **Durée estimée :** 8–10 h · **Prérequis :** Module 4
 
@@ -136,7 +136,7 @@ Hmm, et solde comptable corrigé = 5 110. Écart de 20 → en pratique, cela ré
 
 ---
 
-## 📝 Évaluation de fin de module 6
+## 📝 Évaluation de fin de chapitre
 1. Quel est l'objectif du rapprochement bancaire ?
 2. Où passe-t-on un virement interne ? (compte)
 3. Citez 3 écarts typiques et leur traitement.
