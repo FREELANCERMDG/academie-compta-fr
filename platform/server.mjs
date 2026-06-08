@@ -549,6 +549,15 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     const note = paid.length ? (exp ? `<br><span class="muted" style="font-size:11px">expire ${esc(exp.slice(0, 10))}</span>` : '<br><span class="muted" style="font-size:11px">sans limite</span>') : '<br><span class="muted" style="font-size:11px">gratuit seul</span>';
     return chips + note;
   }
+  // --- Accès accordés/payés : modifier la durée ou retirer ---
+  const accesMsg2 = acces === 'retire' ? '<p class="ok">✅ Accès retiré.</p>' : acces === 'modif' ? '<p class="ok">✅ Durée d\'accès mise à jour.</p>' : acces === 'noid' ? '<p class="err" style="color:#c0392b">❌ Accès introuvable.</p>' : '';
+  const grants = db.prepare(`SELECT i.id,i.expire_le,u.email,o.titre FROM inscriptions i JOIN users u ON u.id=i.user_id JOIN offres o ON o.code=i.offre_code WHERE i.statut='active' ORDER BY i.cree_le DESC LIMIT 300`).all();
+  const gererAcces = `<section class="card"><h2>✏️ Accès accordés / payés — modifier ou retirer</h2>${accesMsg2}
+  ${grants.length ? `<div class="tbl"><table><tr><th>Email</th><th>Accès</th><th>Expire</th><th>Fixer la durée (jours)</th><th>Retirer</th></tr>
+  ${grants.map(g => `<tr><td>${esc(g.email)}</td><td>${esc(g.titre)}</td><td>${g.expire_le ? esc(g.expire_le.slice(0, 10)) : 'illimité'}</td>
+    <td><form method="post" action="/admin/acces-modifier" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><input name="jours" type="number" min="0" max="3650" value="30" style="width:74px"><button class="btn small">Fixer</button></form></td>
+    <td><form method="post" action="/admin/acces-retirer" class="inline" onsubmit="return confirm('Retirer cet accès ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>
+  <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}</section>`;
   return layout('Admin', `<h1>Administration</h1>
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
@@ -576,6 +585,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="365"></label>
     <button class="btn" type="submit">Accorder l'accès</button></form>
   <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6). Le Module 1 est déjà gratuit pour tous les inscrits. Vous pouvez ré-accorder pour prolonger.</p></section>
+  ${gererAcces}
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
@@ -810,6 +820,8 @@ const server = http.createServer(async (req, res) => {
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
+      if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
+      if (p === '/admin/acces-modifier') return postAdminAccesModifier(req, res, sess, body);
       return send(res, 404, 'not found');
     }
     send(res, 405, 'method not allowed');
@@ -991,6 +1003,30 @@ function postAdminAcces(req, res, sess, body) {
     .run(rid(8), user.id, offre.code, 'active', new Date().toISOString(), expire);
   audit(db, sess.user.id, 'acces_offert', email + ' · ' + offre.code + ' · ' + jours + 'j', ip(req));
   return redirect(res, '/admin?acces=ok&e=' + encodeURIComponent(email) + '&o=' + encodeURIComponent(offre.code) + '&j=' + jours);
+}
+
+// Retirer un accès accordé/payé (révocation immédiate).
+function postAdminAccesRetirer(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const id = (body.id || '').trim();
+  const ins = db.prepare("SELECT id,user_id,offre_code FROM inscriptions WHERE id=? AND statut='active'").get(id);
+  if (!ins) return redirect(res, '/admin?acces=noid');
+  db.prepare("UPDATE inscriptions SET statut='retire' WHERE id=?").run(id);
+  audit(db, sess.user.id, 'acces_retire', ins.offre_code + ' · user ' + ins.user_id, ip(req));
+  return redirect(res, '/admin?acces=retire');
+}
+
+// Modifier la durée d'un accès : expire dans N jours à partir d'aujourd'hui (0 = expire aujourd'hui).
+function postAdminAccesModifier(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const id = (body.id || '').trim();
+  const jours = Math.max(0, Math.min(3650, parseInt(body.jours, 10) || 0));
+  const ins = db.prepare("SELECT id,user_id,offre_code FROM inscriptions WHERE id=? AND statut='active'").get(id);
+  if (!ins) return redirect(res, '/admin?acces=noid');
+  const expire = new Date(Date.now() + jours * 86400000).toISOString();
+  db.prepare("UPDATE inscriptions SET expire_le=? WHERE id=?").run(expire, id);
+  audit(db, sess.user.id, 'acces_modifie', ins.offre_code + ' · user ' + ins.user_id + ' · ' + jours + 'j', ip(req));
+  return redirect(res, '/admin?acces=modif');
 }
 
 function postAdminValider(req, res, sess, body) {
