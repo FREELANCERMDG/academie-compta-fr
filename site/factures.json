@@ -1072,90 +1072,96 @@
  },
  {
   "sens": "fournisseur",
-  "activite": "Restaurant traditionnel (cuisine sur place)",
-  "cas": "Ticket METRO (cash & carry pro) : TVA MULTI-TAUX sur une seule facture (5,5 % denrées · 20 % alcool & non-alimentaire) + reglement comptant par carte. Ventilation par taux et par nature obligatoire.",
+  "activite": "Restaurant traditionnel (cuisine sur place + bar)",
+  "cas": "Facture METRO reelle (cash & carry pro) : TVA MULTI-TAUX lue par SOUS-TOTAUX de rayon (lettre B = 5,5 % comestible · lettre D = 20 % alcool/non-alimentaire), reglee comptant par carte. Ventilation 601 / 607 / 606.",
   "journal": "AC",
-  "enonce": "Comptabilisez le ticket d'achat METRO du restaurant. Ventilez la TVA par taux (5,5 % et 20 %) et imputez chaque nature de depense au bon compte. La facture est reglee par carte au comptoir.",
+  "enonce": "Comptabilisez la facture METRO du restaurant a partir des SOUS-TOTAUX de rayon et du recapitulatif TVA. Lettre B = 5,5 % (restauration) ; lettre D = 20 % (boisson alcoolisee OU non-alimentaire). Ventilez : restaurant 5,5 % en 601, boissons alcoolisees 20 % en 607, non-alimentaire 20 % en 606. Reglee par carte au comptoir.",
   "tuto": [
-   "Particularite METRO (cash & carry pro) : une seule facture melange PLUSIEURS taux de TVA. Il faut donc VENTILER, taux par taux et nature par nature.",
-   "Imputez chaque nature a son compte : denrees alimentaires transformees en cuisine -> 601 (matieres premieres) ; boissons revendues en l'etat (vins, bieres) -> 607 (marchandises) ; vaisselle jetable et produits d'entretien -> 606.",
-   "Calculez la TVA par taux : denrees 800 x 5,5 % = 44 ; alcool + non-alimentaire (300 + 100) x 20 % = 80. Passez 2 lignes de TVA deductible (44566).",
-   "Contrepartie : fournisseur 401 METRO pour le TTC (1 324 EUR). Regle au comptoir par carte -> le 401 METRO sera solde par la banque au rapprochement (ou saisie directe au 512).",
-   "Controlez l'equilibre : total debit = total credit = 1 324 EUR."
+   "1) Le TAUX de TVA est la 1re indication. Lettre B = 5,5 % = comestible (restauration, boissons SANS alcool). Lettre D = 20 % = boissons alcoolisees OU fournitures non revendues (entretien, vaisselle...).",
+   "2) Servez-vous des SOUS-TOTAUX de rayon : spiritueux, cave, epicerie seche/sucree, BOF (beurre-oeufs-fromages), charcuterie, traiteur, boucherie, maree, fruits & legumes, surgeles (tous B = restaurant) ; puis droguerie, brosserie/entretien, arts de la table, consommables (tous D = NON revendus).",
+   "3) Ventilez selon la continuite du dossier : achats restaurant 5,5 % -> 601 ; boissons alcoolisees 20 % (spiritueux + cave, qui SONT revendues) -> 607 ; non-alimentaire 20 % (droguerie, entretien, vaisselle, consommables) -> 606 (JAMAIS en 601/607).",
+   "4) Repere : un achat a 20 % qui n'est PAS une boisson alcoolisee n'est jamais revendu -> il se trouve en debut ou en fin de facture. Detail possible selon l'archive : 602 consommables, 606300 verres/ustensiles/entretien, 606400 fournitures (carnets de commande, rouleaux d'appareil CB).",
+   "5) TVA deductible par TAUX : 5,5 % sur 1052,13 = 57,87 ; 20 % sur 189,33 = 37,87. Contrepartie 401 METRO pour le TTC 1337,20 (regle CB -> solde par la banque au rapprochement). Les consignes de boissons sans TVA iraient en 4096 (souvent regroupees avec les boissons par simplification).",
+   "En cas de doute sur une ligne : DEMANDEZ. C'est ainsi qu'on fait du bon travail et qu'on progresse."
   ],
   "doc": {
-   "emetteur": "METRO Cash & Carry France",
-   "num": "MET-2026-088145",
-   "date": "2026-03-22",
-   "echeance": "Comptant (regle CB au comptoir)",
-   "ville": "Nanterre (92)",
+   "emetteur": "METRO Cash & Carry France — METRO ST MAXIMIN",
+   "num": "0/0(048)0005/013935",
+   "date": "2024-04-13",
+   "echeance": "Comptant — regle CB au comptoir",
+   "ville": "Client : Restaurant (dossier cabinet) · N° client 048 00006668",
    "lignes": [
-    {
-     "designation": "Denrees alimentaires (viandes, legumes, epicerie) - TVA 5,5 %",
-     "qte": 1,
-     "puht": 800
-    },
-    {
-     "designation": "Boissons revendues : vins & bieres - TVA 20 %",
-     "qte": 1,
-     "puht": 300
-    },
-    {
-     "designation": "Vaisselle jetable & produits d'entretien - TVA 20 %",
-     "qte": 1,
-     "puht": 100
-    }
+    { "designation": "SPIRITUEUX (boissons alcoolisees)", "lettre": "D", "qte": 1, "puht": 18.36 },
+    { "designation": "CAVE — vins (boissons alcoolisees)", "lettre": "D", "qte": 1, "puht": 6.90 },
+    { "designation": "EPICERIE SECHE", "lettre": "B", "qte": 1, "puht": 119.03 },
+    { "designation": "EPICERIE SUCREE", "lettre": "B", "qte": 1, "puht": 17.81 },
+    { "designation": "BEURRE OEUFS (BOF)", "lettre": "B", "qte": 1, "puht": 29.90 },
+    { "designation": "FROMAGE", "lettre": "B", "qte": 1, "puht": 15.96 },
+    { "designation": "TRAITEUR", "lettre": "B", "qte": 1, "puht": 32.46 },
+    { "designation": "CHARCUTERIE", "lettre": "B", "qte": 1, "puht": 40.26 },
+    { "designation": "SURGELES", "lettre": "B", "qte": 1, "puht": 212.07 },
+    { "designation": "BOUCHERIE", "lettre": "B", "qte": 1, "puht": 299.79 },
+    { "designation": "MAREE (poissonnerie)", "lettre": "B", "qte": 1, "puht": 95.77 },
+    { "designation": "FRUITS ET LEGUMES", "lettre": "B", "qte": 1, "puht": 189.08 },
+    { "designation": "DROGUERIE (non-alimentaire)", "lettre": "D", "qte": 1, "puht": 33.63 },
+    { "designation": "BROSSERIE ENTRETIEN (non-alimentaire)", "lettre": "D", "qte": 1, "puht": 27.23 },
+    { "designation": "ARTS DE LA TABLE & USTENSILES (non-alim.)", "lettre": "D", "qte": 1, "puht": 20.99 },
+    { "designation": "CONSOMMAB. COMMERCES (non-alimentaire)", "lettre": "D", "qte": 1, "puht": 82.22 }
    ],
-   "ht": 1200,
-   "taux": "5,5 / 20",
-   "tva": 124,
-   "ttc": 1324
+   "ht": 1241.46,
+   "taux": "5,5 (B) + 20 (D)",
+   "tva": 95.74,
+   "ttc": 1337.20,
+   "recap": [
+    { "ht": 1052.13, "lettre": "B", "taux": "5,50 %", "tva": 57.87, "ttc": 1110.00 },
+    { "ht": 189.33, "lettre": "D", "taux": "20,00 %", "tva": 37.87, "ttc": 227.20 }
+   ]
   },
   "lignes": [
    {
     "compte": "601",
     "racine": "601",
-    "libelle": "Achats matieres premieres (denrees 5,5%) - METRO",
-    "debit": 800,
+    "libelle": "Achats restaurant 5,5% (epicerie, BOF, boucherie, maree, F&L, surgeles) - METRO",
+    "debit": 1052.13,
     "credit": 0
    },
    {
     "compte": "607",
     "racine": "607",
-    "libelle": "Achats marchandises (boissons revendues 20%) - METRO",
-    "debit": 300,
+    "libelle": "Achats boissons alcoolisees 20% (spiritueux + cave) - METRO",
+    "debit": 25.26,
     "credit": 0
    },
    {
-    "compte": "60632",
+    "compte": "606300",
     "racine": "606",
-    "libelle": "Produits d'entretien & vaisselle jetable (20%) - METRO",
-    "debit": 100,
+    "libelle": "Consommables, entretien & arts de la table 20% (non revendus) - METRO",
+    "debit": 164.07,
     "credit": 0
    },
    {
     "compte": "445661",
     "racine": "44566",
-    "libelle": "TVA deductible 5,5% s/ denrees (800 x 5,5%)",
-    "debit": 44,
+    "libelle": "TVA deductible 5,5% (1052,13 x 5,5%)",
+    "debit": 57.87,
     "credit": 0
    },
    {
     "compte": "445662",
     "racine": "44566",
-    "libelle": "TVA deductible 20% s/ alcool + non-alimentaire (400 x 20%)",
-    "debit": 80,
+    "libelle": "TVA deductible 20% (189,33 x 20%)",
+    "debit": 37.87,
     "credit": 0
    },
    {
     "compte": "401METRO",
     "racine": "401",
-    "libelle": "Fournisseur METRO - ticket MET-2026-088145 (regle CB)",
+    "libelle": "Fournisseur METRO ST MAXIMIN - fact. 0005/013935 (regle CB)",
     "debit": 0,
-    "credit": 1324
+    "credit": 1337.20
    }
   ],
-  "astuce": "Le ticket METRO est l'exemple type de la facture A TVA MULTI-TAUX : il faut VENTILER. Denrees de base = 5,5 % (800 x 5,5% = 44) ; alcool et non-alimentaire = 20 % ((300+100) x 20% = 80) -> TVA totale 124. Cote charges : ingredients cuisines en 601, boissons revendues en l'etat en 607, entretien/vaisselle en 606. Regle au comptoir par carte : le 401 METRO est solde par la banque au rapprochement (certains cabinets saisissent directement la contrepartie en 512). Equilibre : 800+300+100+44+80 = 1 324.",
+  "astuce": "Methode METRO / Promocash : le TAUX donne la nature. B = 5,5 % (comestible/restauration) -> 601. D = 20 % -> soit boissons alcoolisees (spiritueux 18,36 + cave 6,90 = 25,26) qui SONT revendues -> 607, soit non-alimentaire (droguerie 33,63 + brosserie 27,23 + arts de la table 20,99 + consommables 82,22 = 164,07) qui n'est JAMAIS revendu -> 606. TVA par taux : 1052,13 x 5,5 % = 57,87 ; 189,33 x 20 % = 37,87. Regle CB au comptoir -> 401 METRO solde par la banque. Equilibre : 1052,13 + 25,26 + 164,07 + 57,87 + 37,87 = 1337,20. (Consignes sans TVA -> 4096, souvent regroupees avec les boissons.)",
   "id": "F20MET"
  },
  {

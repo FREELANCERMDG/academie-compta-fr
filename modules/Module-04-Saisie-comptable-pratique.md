@@ -184,7 +184,41 @@ Place‑toi comme en cabinet : à **gauche la pièce** (facture, reçu…), à *
 
 **Série « factures fournisseurs » — la pile du mois en cabinet (dont le ticket METRO multi‑taux).** Pour chaque facture, l'**activité de la société** dont vous êtes le comptable est indiquée. Saisissez l'écriture, cliquez **« Vérifier »** → si elle est juste, la **facture suivante s'affiche automatiquement**. Besoin d'un compte ? Cliquez **📖 Plan comptable** (ou sur l'intitulé sous un compte saisi).
 
-> 🧾 **Cas METRO (cash & carry pro)** : une **seule facture à plusieurs taux de TVA** (5,5 % sur les denrées · 20 % sur l'alcool et le non‑alimentaire), réglée par carte au comptoir. Il faut **ventiler** la TVA par taux et imputer chaque nature au bon compte (601 ingrédients · 607 boissons revendues · 606 entretien/vaisselle).
+### 🧾 Mémo cabinet — Saisir une facture **METRO / Promocash** (cash & carry pro)
+
+Ces factures sont **multi‑taux** (une seule facture, plusieurs taux de TVA) et se lisent par **sous‑totaux de rayon**. Méthode utilisée en cabinet :
+
+**1) Le taux de TVA est la première indication**
+- **5,50 %** → **comestible** (restauration, boissons **sans** alcool).
+- **20 %** → **boissons alcoolisées** OU **fournitures non revendues** (consommables, entretien — comptes 6063…).
+
+**2) La lettre en bout de ligne donne le taux**
+
+| Lettre | Taux | Nature |
+|---|---|---|
+| **B** | 5,50 % | Achats comestibles (restauration / boissons sans alcool) |
+| **D** | 20 % | Boissons alcoolisées **ou** non‑alimentaire non revendu |
+| (sans TVA) | — | **Consignes** de boissons → en principe **4096**, souvent regroupées avec les achats boissons par simplification |
+
+**3) Servez‑vous des sous‑totaux** : *spiritueux, cave, épicerie sèche, épicerie sucrée, BOF (beurre‑œufs‑fromages), charcuterie, traiteur, boucherie, marée, fruits & légumes, surgelés* (tous **B** = restaurant) ; *droguerie, brosserie/entretien, arts de la table, consommables* (tous **D** = non revendus).
+
+**4) Ventilez selon la continuité du dossier** (on garde toujours la méthode de l'archive). Trois niveaux possibles :
+- **Simple** : achats **boissons → 607**, achats **restaurant → 601**.
+- **Par taux** : achats **5,50 %** (restaurant + boissons sans alcool) / achats **20 %**.
+- **Idéal (recommandé)** : *boissons 5,50 %* · *boissons 20 %* · *restaurant 5,50 %*.
+
+> ⚠️ **On ne doit pas avoir d'achats de restaurant à 20 %** (exceptionnellement une barre chocolatée) **ni à 10 %** (plats cuisinés / sandwiches, généralement **pas revendus**). **Tout achat à 20 % qui n'est pas une boisson alcoolisée n'est pas revendu** → **jamais en 601 ni 607**. On les repère facilement : ils sont **en début ou en fin de facture**.
+
+**5) Le non‑alimentaire (20 %) se ventile ainsi :**
+- **602** consommables — si un sous‑total « consommables » existe et que le compte existe.
+- **606300** — verres, ustensiles de cuisine, tout ce qui **ne se mange pas**, et les produits d'entretien (sauf compte séparé, en général **606310**).
+- **606400** — fournitures : carnets de prise de commande / notes clients, rouleaux d'appareil à cartes bancaires.
+
+**6) Règlement** : METRO/Promocash se règle **comptant par carte au comptoir**. La contrepartie est le **fournisseur 401 METRO**, **soldé par la banque** au rapprochement (parfois on rencontre des **paiements sans facture** à régulariser — réclamer la pièce, sinon **TVA non récupérable**).
+
+> 💡 **En cas de doute sur une ligne : demandez.** C'est ainsi qu'on fait du bon travail et qu'on progresse.
+
+👉 **Exemple réel à saisir** dans la pile de factures ci‑dessous (ticket METRO d'un restaurant, TTC 1 337,20 €).
 
 <div class="saisie" data-serie="fournisseur"></div>
 

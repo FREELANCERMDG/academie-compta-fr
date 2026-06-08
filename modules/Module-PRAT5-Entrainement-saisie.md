@@ -11,6 +11,8 @@ Comme en cabinet : une **pile de factures** à traiter, chacune avec l'**activit
 
 ### 📥 Factures FOURNISSEURS (achats — dont le ticket METRO multi‑taux)
 
+> 🧾 **Ticket METRO / Promocash** : facture **multi‑taux** lue par **sous‑totaux de rayon**. **Lettre B = 5,5 %** (comestible/restauration → **601**) · **Lettre D = 20 %** (boissons alcoolisées revendues → **607** ; non‑alimentaire non revendu → **606**). Un achat à 20 % qui n'est pas une boisson alcoolisée n'est **jamais** en 601/607. Le tutoriel complet est intégré sur le ticket lui‑même.
+
 <div class="saisie" data-serie="fournisseur"></div>
 
 ### 📤 Factures de VENTE

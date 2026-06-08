@@ -38,6 +38,16 @@
     ".sx-fac th{background:#16307a;color:#fff;text-align:left;padding:5px 7px}.sx-fac td{border-bottom:1px solid #eef2f8;padding:5px 7px}",
     ".sx-fac .tot{text-align:right;margin-top:6px}.sx-fac .tot b{display:inline-block;min-width:90px;text-align:right;font-variant-numeric:tabular-nums}",
     ".sx-fac .tot.ttc{font-weight:800;color:#16307a}",
+    ".sx-recap{margin:9px 0;border:1px solid #dde6f2;border-radius:8px;overflow:hidden}",
+    ".sx-recap .rc-cap{background:#16307a;color:#fff;font-weight:700;padding:4px 9px;font-size:11.5px}",
+    ".sx-recap table{width:100%;border-collapse:collapse;font-size:11.5px;margin:0}",
+    ".sx-recap th{background:#eef3fb;color:#16307a;padding:3px 8px;text-align:right;font-variant-numeric:tabular-nums}",
+    ".sx-recap th:nth-child(2){text-align:left}",
+    ".sx-recap td{border-top:1px solid #eef2f8;padding:3px 8px;text-align:right;font-variant-numeric:tabular-nums}",
+    ".sx-recap td:nth-child(2){text-align:left;font-weight:700;color:#16307a}",
+    ".sx-recap .rc-leg{padding:5px 9px;color:#5a6b80;font-size:10.5px;background:#fbfdff;line-height:1.4}",
+    ".sx-fac td .let{display:inline-block;min-width:18px;text-align:center;font-weight:800;border-radius:4px;padding:0 4px}",
+    ".sx-fac td .let.B{background:#e4f6ea;color:#0a6b46}.sx-fac td .let.D{background:#fdefe0;color:#9a5b00}",
     ".sx-mat .cap{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#16307a;margin:12px 16px 4px}",
     ".sx-tbl{width:100%;border-collapse:collapse}",
     ".sx-tbl th{background:#eef3fb;color:#16307a;text-align:left;padding:6px 8px;font-size:12px}",
@@ -132,14 +142,30 @@
   /* ---------- Pièce (facture) ---------- */
   function facHtml(d) {
     if (!d) return "";
-    var lignes = (d.lignes || []).map(function (l) { return "<tr><td>" + esc(l.designation) + "</td><td style='text-align:right'>" + (l.qte || 1) + "</td><td style='text-align:right'>" + fmt(l.puht) + " €</td></tr>"; }).join("");
+    var hasLet = (d.lignes || []).some(function (l) { return l.lettre; });
+    var lignes = (d.lignes || []).map(function (l) {
+      return "<tr><td>" + esc(l.designation) + "</td>" +
+        (hasLet ? "<td style='text-align:center'>" + (l.lettre ? "<span class='let " + esc(l.lettre) + "'>" + esc(l.lettre) + "</span>" : "") + "</td>" : "") +
+        "<td style='text-align:right'>" + (l.qte || 1) + "</td>" +
+        "<td style='text-align:right'>" + fmt(l.puht) + " €</td></tr>";
+    }).join("");
+    var head = "<tr><th>" + (hasLet ? "Rayon / désignation" : "Désignation") + "</th>" +
+      (hasLet ? "<th style='text-align:center'>TVA</th>" : "") +
+      "<th style='text-align:right'>Qté</th><th style='text-align:right'>" + (hasLet ? "Montant HT" : "PU HT") + "</th></tr>";
+    var recap = "";
+    if (d.recap && d.recap.length) {
+      recap = "<div class='sx-recap'><div class='rc-cap'>🧮 Récapitulatif TVA (par taux)</div><table><thead><tr><th>Base HT</th><th>Taux</th><th>TVA</th><th>TTC</th></tr></thead><tbody>" +
+        d.recap.map(function (r) { return "<tr><td>" + fmt(r.ht) + "</td><td>" + esc((r.lettre ? r.lettre + " = " : "") + r.taux) + "</td><td>" + fmt(r.tva) + "</td><td>" + fmt(r.ttc) + "</td></tr>"; }).join("") +
+        "</tbody></table><div class='rc-leg'><b>B</b> = 5,5 % (comestible / restauration) · <b>D</b> = 20 % (boisson alcoolisée OU non‑alimentaire non revendu)</div></div>";
+    }
     return "<p class='cap'>📄 Pièce justificative</p><div class='sx-fac'>" +
       (d.sens ? "<span class='sens'>" + esc(d.sens) + "</span>" : "") +
       "<div class='em'>" + esc(d.emetteur) + "</div>" + (d.ville ? "<div class='meta'>" + esc(d.ville) + "</div>" : "") +
       "<div class='meta'>Facture n° <b>" + esc(d.num) + "</b>" + (d.date ? " · " + esc(d.date) : "") + (d.echeance ? " · Éch. " + esc(d.echeance) : "") + "</div>" +
-      (lignes ? "<table><thead><tr><th>Désignation</th><th style='text-align:right'>Qté</th><th style='text-align:right'>PU HT</th></tr></thead><tbody>" + lignes + "</tbody></table>" : "") +
+      (lignes ? "<table><thead>" + head + "</thead><tbody>" + lignes + "</tbody></table>" : "") +
       "<div class='tot'>Total HT : <b>" + fmt(d.ht) + " €</b></div>" +
-      "<div class='tot'>TVA (" + (d.taux || 0) + " %) : <b>" + fmt(d.tva) + " €</b></div>" +
+      (d.recap && d.recap.length ? "" : "<div class='tot'>TVA (" + (d.taux || 0) + " %) : <b>" + fmt(d.tva) + " €</b></div>") +
+      recap +
       "<div class='tot ttc'>Total TTC : <b>" + fmt(d.ttc) + " €</b></div></div>";
   }
 

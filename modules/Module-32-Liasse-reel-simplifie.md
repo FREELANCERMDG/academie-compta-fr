@@ -31,6 +31,11 @@
 
 > **Exemple.** Résultat comptable 18 000 €. Réintégrations : amendes 300 + TVS 900 = **+1 200**. Déductions : 0. **Résultat fiscal = 19 200 €**.
 
+### 🛠️ Simulateur interactif — 2033-B (réel simplifié)
+À partir du dossier (à gauche), complétez le **2033-B** : réintégrations, déductions, **résultat fiscal = comptable + réintégrations − déductions**. Tutoriel en tête, puis **Vérifier**.
+
+<div class="simdoc" data-sim="liasse" data-tab="rs"></div>
+
 ---
 
 ## 3) Différences clés RSI vs réel normal

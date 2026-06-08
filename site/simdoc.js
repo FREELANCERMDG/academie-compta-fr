@@ -262,6 +262,83 @@
     return h+"</div>";
   }
 
+  /* ===== LIASSE — Réel simplifié (2033-B) — BIC ===== */
+  var RS={ ex:"2024", denom:"SARL PETIT NÉGOCE", siret:"81234567800099", cloture:"31/12/2024", comptable:35000,
+    reint:[{lib:"Charges non déductibles (amendes, TVS…)",v:2000},{lib:"Amortissement excédentaire VP",v:1000}],
+    deduc:[{lib:"Quote-part de +values long terme",v:1000}] };
+  RS.totReint=RS.reint.reduce(function(s,x){return s+x.v;},0); RS.totDeduc=RS.deduc.reduce(function(s,x){return s+x.v;},0); RS.fiscal=RS.comptable+RS.totReint-RS.totDeduc;
+  function srcRS(){ var r=RS;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Exercice</span><span class='v'>01/01/"+esc(r.ex)+" → "+esc(r.cloture)+"</span></div>"
+      +"<div class='row'><span class='k'>Entreprise</span><span class='v'>"+esc(r.denom)+"</span></div>"
+      +"<div class='sec'>Résultat & retraitements</div>"
+      +"<div class='row'><span class='k'><b>Résultat comptable</b></span><span class='v'>"+eur(r.comptable)+"</span></div>"
+      +"<div class='row'><span class='k'><b>Réintégrations (+)</b></span><span class='v'>"+eur(r.totReint)+"</span></div>"
+      +r.reint.map(function(x){return "<div class='row'><span class='k'>↳ "+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("")
+      +"<div class='row'><span class='k'><b>Déductions (−)</b></span><span class='v'>"+eur(r.totDeduc)+"</span></div>"
+      +r.deduc.map(function(x){return "<div class='row'><span class='k'>↳ "+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("")
+      +"</div><p class='sd-note'>💡 Réel simplifié : un seul tableau (2033-B) regroupe résultat comptable et passage au fiscal.</p>";
+  }
+  function formRS(){ var r=RS, h="<div class='cf'>";
+    h+=marianne("RÉSULTAT FISCAL — RÉGIME RÉEL SIMPLIFIÉ","Liasse 2033-A à 2033-G","N° 2033-B");
+    h+="<div class='cf-sec'><div class='cf-st'>Détermination du résultat fiscal</div><div class='cf-body'>"
+      +lineRO("Résultat comptable (bénéfice/déficit)","",r.comptable)
+      +lineFill("Réintégrations (+)","","rsreint",r.totReint,{ph:"…"})
+      +lineFill("Déductions (−)","","rsded",r.totDeduc,{ph:"…"})
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>RÉSULTAT FISCAL</b></span>"+eurIn(fill("rsfiscal",r.fiscal,{ph:"= comptable + réint − déduc"}))+"</div>"
+      +"</div></div>";
+    return h+"</div>";
+  }
+
+  /* ===== LIASSE — Agricole (2139) — BA ===== */
+  var BA={ ex:"2024", denom:"EARL DU VAL FLEURI", cloture:"31/12/2024",
+    prod:[{lib:"Ventes de récoltes / animaux",v:110000},{lib:"Aides PAC (subventions)",v:10000}],
+    chg:[{lib:"Achats (semences, aliments, engrais…)",v:60000},{lib:"Charges externes (carburant, entretien…)",v:20000},{lib:"Charges de personnel",v:8000},{lib:"Dotations aux amortissements",v:7000}] };
+  BA.totProd=BA.prod.reduce(function(s,x){return s+x.v;},0); BA.totChg=BA.chg.reduce(function(s,x){return s+x.v;},0); BA.fiscal=BA.totProd-BA.totChg;
+  function srcBA(){ var b=BA;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Exploitation</span><span class='v'>"+esc(b.denom)+"</span></div>"
+      +"<div class='row'><span class='k'>Exercice clos</span><span class='v'>"+esc(b.cloture)+"</span></div>"
+      +"<div class='sec'>Produits</div>"+b.prod.map(function(x){return "<div class='row'><span class='k'>"+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("")
+      +"<div class='sec'>Charges</div>"+b.chg.map(function(x){return "<div class='row'><span class='k'>"+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("")
+      +"</div><p class='sd-note'>💡 Bénéfices agricoles (réel simplifié) : produits − charges = résultat fiscal BA (imposé à l'IR, ou IS si société).</p>";
+  }
+  function formBA(){ var b=BA, h="<div class='cf'>";
+    h+=marianne("BÉNÉFICES AGRICOLES — RÉEL SIMPLIFIÉ","Liasse agricole 2139-A / 2139-B","N° 2139");
+    h+="<div class='cf-cols'>"
+      +"<div class='cf-col'><div class='cf-st'>Produits</div><div class='cf-body'>"
+        +b.prod.map(function(x){return lineRO(x.lib,"",x.v);}).join("")
+        +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TOTAL PRODUITS</b></span>"+eurIn(fill("baprod",b.totProd,{ph:"…"}))+"</div></div></div>"
+      +"<div class='cf-col'><div class='cf-st'>Charges</div><div class='cf-body'>"
+        +b.chg.map(function(x){return lineRO(x.lib,"",x.v);}).join("")
+        +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TOTAL CHARGES</b></span>"+eurIn(fill("bachg",b.totChg,{ph:"…"}))+"</div></div></div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>Résultat</div><div class='cf-body'><div class='cf-line'><span class='cf-lab'><b>RÉSULTAT FISCAL BA (produits − charges)</b></span>"+eurIn(fill("bafiscal",b.fiscal,{ph:"…"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
+  /* ===== SCI à l'IR — revenus fonciers (2072) ===== */
+  var SCI={ ex:"2024", denom:"SCI LES TILLEULS", cloture:"31/12/2024", loyers:24000,
+    chg:[{lib:"Intérêts d'emprunt",v:5000},{lib:"Travaux d'entretien & réparation",v:2500},{lib:"Taxe foncière",v:1500}], associes:2 };
+  SCI.totChg=SCI.chg.reduce(function(s,x){return s+x.v;},0); SCI.resultat=SCI.loyers-SCI.totChg; SCI.quote=Math.round(SCI.resultat/SCI.associes);
+  function srcSCI(){ var s=SCI;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Société</span><span class='v'>"+esc(s.denom)+" (SCI à l'IR)</span></div>"
+      +"<div class='row'><span class='k'>Exercice</span><span class='v'>"+esc(s.cloture)+"</span></div>"
+      +"<div class='row'><span class='k'>Associés</span><span class='v'>"+s.associes+" (50 / 50)</span></div>"
+      +"<div class='sec'>Recettes</div><div class='row'><span class='k'><b>Loyers nus encaissés</b></span><span class='v'>"+eur(s.loyers)+"</span></div>"
+      +"<div class='sec'>Charges déductibles</div>"+s.chg.map(function(x){return "<div class='row'><span class='k'>"+esc(x.lib)+"</span><span class='v'>"+eur(x.v)+"</span></div>";}).join("")
+      +"</div><p class='sd-note'>💡 SCI à l'IR : résultat foncier = loyers − charges (pas d'amortissement). Imposé chez chaque associé (report sur sa 2044).</p>";
+  }
+  function formSCI(){ var s=SCI, h="<div class='cf'>";
+    h+=marianne("SCI NON SOUMISE À L'IS — REVENUS FONCIERS","Déclaration des sociétés immobilières","N° 2072");
+    h+="<div class='cf-sec'><div class='cf-st'>Détermination du résultat foncier</div><div class='cf-body'>"
+      +lineRO("Loyers bruts encaissés","",s.loyers)
+      +lineFill("Total des charges déductibles","","scichg",s.totChg,{ph:"…"})
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>RÉSULTAT FONCIER (loyers − charges)</b></span>"+eurIn(fill("scires",s.resultat,{ph:"…"}))+"</div></div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>Répartition entre associés</div><div class='cf-body'><div class='cf-line'><span class='cf-lab'><b>Quote-part par associé (→ 2044)</b></span>"+eurIn(fill("sciquote",s.quote,{ph:"…"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
     das2: {
@@ -276,7 +353,7 @@
     },
     liasse: {
       titre:"Module 5 — Simulateur des liasses fiscales", sous:"La théorie d'abord, puis on remplit la liasse selon le régime du dossier.",
-      tabs:[{id:"rn",label:"Réel normal",sub:"2050 → 2059"},{id:"rs",label:"Réel simplifié",sub:"2033-A→G",soon:true},{id:"bnc",label:"BNC 2035",sub:"déclaration contrôlée"},{id:"ba",label:"Agricole",sub:"2139/2143",soon:true},{id:"sci",label:"SCI / foncier",sub:"2072/2044",soon:true}],
+      tabs:[{id:"rn",label:"Réel normal",sub:"2050 → 2059"},{id:"rs",label:"Réel simplifié",sub:"2033-A→G"},{id:"bnc",label:"BNC 2035",sub:"déclaration contrôlée"},{id:"ba",label:"Agricole",sub:"2139/2143"},{id:"sci",label:"SCI / foncier",sub:"2072/2044"}],
       active:"rn",
       panes:{ rn:{ srcCap:"Données comptables source", src:srcRN, wide:true, formCap:"Liasse — 2058-A (réel normal)", form:formRN,
         tuto:["<b>Reportez le résultat comptable</b> (case <b>WA</b>) — c'est le point de départ.",
@@ -291,7 +368,13 @@
                 "Additionnez les <b>charges par nature</b> (AE → AK) → <b>total des charges</b> (AL).",
                 "Calculez le <b>bénéfice</b> : AO = AD − AL ; reportez le <b>résultat fiscal</b> (AQ).",
                 "Cliquez <b>Vérifier ma déclaration</b>."],
-          lien:"BNC : recettes encaissées − dépenses payées = résultat fiscal (imposé à l'IR)." } }
+          lien:"BNC : recettes encaissées − dépenses payées = résultat fiscal (imposé à l'IR)." },
+        rs:{ srcCap:"Données comptables source", src:srcRS, wide:true, formCap:"Liasse — 2033-B (réel simplifié)", form:formRS,
+          tuto:["Reportez le <b>résultat comptable</b>.","Additionnez les <b>réintégrations (+)</b> puis les <b>déductions (−)</b>.","<b>Résultat fiscal = comptable + réintégrations − déductions</b>, puis <b>Vérifier</b>."] },
+        ba:{ srcCap:"Données du dossier (agricole)", src:srcBA, wide:true, formCap:"Liasse — 2139 (bénéfices agricoles)", form:formBA,
+          tuto:["Additionnez les <b>produits</b> (ventes + aides PAC).","Additionnez les <b>charges</b> par nature.","<b>Résultat fiscal BA = produits − charges</b>, puis <b>Vérifier</b>."] },
+        sci:{ srcCap:"Données du dossier (SCI)", src:srcSCI, wide:true, formCap:"Déclaration — 2072 (SCI à l'IR)", form:formSCI,
+          tuto:["Reportez les <b>loyers encaissés</b>.","Additionnez les <b>charges déductibles</b> (intérêts, travaux, taxe foncière).","<b>Résultat foncier = loyers − charges</b> ; répartissez la <b>quote-part</b> par associé, puis <b>Vérifier</b>."] } }
     }
   };
 

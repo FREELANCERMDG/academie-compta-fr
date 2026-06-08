@@ -23,6 +23,11 @@
 
 > **Exemple (réel simplifié).** Recettes 180 000, charges 150 000, variation de stock vivant +5 000 → résultat **35 000 €** sur la **2139‑B** ; DPA pratiquée −8 000 → résultat fiscal **27 000 €**.
 
+### 🛠️ Simulateur interactif — 2139 (bénéfices agricoles)
+À partir du dossier d'une exploitation (à gauche), complétez la **2139** : total produits, total charges, **résultat fiscal BA = produits − charges**. Tutoriel en tête, puis **Vérifier**.
+
+<div class="simdoc" data-sim="liasse" data-tab="ba"></div>
+
 ---
 
 ## B) Revenus fonciers & SCI à l'IR
@@ -42,6 +47,11 @@
 > **Rappel :** **SCI à l'IS** = autre monde → liasse **2065 + 2033/2050** (amortissement de l'immeuble, mais plus‑value professionnelle à la revente). Voir la leçon « Spécificités par activité ».
 
 > **Exemple (SCI IR).** Loyers nus 24 000 − charges 9 000 (dont intérêts 4 000) = **15 000 €** de revenu foncier sur la **2072**, réparti entre 2 associés à 50 % → **7 500 € chacun** reportés sur leur **2044**.
+
+### 🛠️ Simulateur interactif — 2072 (SCI à l'IR)
+À partir du dossier d'une SCI (à gauche), complétez la **2072** : total des charges, **résultat foncier = loyers − charges**, puis la **quote-part par associé**. Tutoriel en tête, puis **Vérifier**.
+
+<div class="simdoc" data-sim="liasse" data-tab="sci"></div>
 
 ---
 
