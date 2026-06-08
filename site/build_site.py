@@ -97,6 +97,10 @@ MANIFEST = [
     ("modules/Module-27-Specificites-par-activite.md", "m27", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.4 Spécificités par activité (BNC, LMNP, SCI, TABAC…)", None),
     ("modules/Module-29-Dossier-batiment.md", "m29", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.5 Dossier bâtiment (BTP) : fiscal, compta & saisie", None),
     ("modules/Module-PRAT3-Cloture-cas-fil-rouge.md", "pr3", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.6 🛠️ Clôture pas à pas — dossier fil rouge (pratique)", None),
+    ("modules/Module-35-LMNP.md", "m35", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.7 LMNP — meublé non pro", None),
+    ("modules/Module-36-LMP.md", "m36", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.8 LMP — meublé pro", None),
+    ("modules/Module-37-SCI.md", "m37", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.9 SCI — IR ou IS", None),
+    ("modules/Module-38-SAP.md", "m38", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.10 SAP — services à la personne", None),
 
     ("modules/Module-30-Liasse-vue-ensemble.md", "m30", "Module 5 — Liasse fiscale & déclarations par régime", "5.1 Vue d'ensemble & quel régime dépose quoi", None),
     ("modules/Module-31-Liasse-reel-normal.md", "m31", "Module 5 — Liasse fiscale & déclarations par régime", "5.2 Réel normal (2050 → 2059)", None),

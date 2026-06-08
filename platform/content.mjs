@@ -68,7 +68,7 @@ const MACRO = [
       "Cas particuliers comptables et fiscaux : véhicules VP/VU, autoliquidation, retenue de garantie, situations de travaux, créances douteuses, régularisations et retraitements spécifiques",
       "Dossier Bâtiment / BTP : TVA sur travaux, autoliquidation, factures d'avancement, situations de travaux, retenues de garantie et contrôle des factures fournisseurs/clients"
     ],
-    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-PRAT3-Cloture-cas-fil-rouge.md'],
+    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-PRAT3-Cloture-cas-fil-rouge.md', 'Module-35-LMNP.md', 'Module-36-LMP.md', 'Module-37-SCI.md', 'Module-38-SAP.md'],
     quiz: 'm12'
   },
   {
