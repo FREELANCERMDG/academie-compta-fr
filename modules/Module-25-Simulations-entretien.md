@@ -1,4 +1,4 @@
-# MODULE — Simulations d'entretien d'embauche (offshore Madagascar → cabinets français)
+# 6.8 — Simulations d'entretien d'embauche (offshore Madagascar → cabinets français)
 
 **Mis à jour 2026** · aligné sur le programme : **Pennylane, CERFA interactifs, liasse par régime, BTP, spécificités par activité, révision par défilement**.
 **Objectif :** s'entraîner aux **entretiens** pour 4 postes : **Collaborateur externalisé**, **Réviseur**, **Chef de mission**, **Superviseur** — avec questions réelles, **réponses modèles**, mises en situation, et un **test technique express**.

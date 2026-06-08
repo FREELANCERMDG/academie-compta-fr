@@ -1,4 +1,4 @@
-# MODULE — Logiciel Pennylane (prise en main complète)
+# Logiciel Pennylane (prise en main complète)
 
 **Niveau :** Intermédiaire · **Durée estimée :** 10–12 h (pratique) · **Prérequis :** Modules 1 (Fondamentaux)
 **Type :** Formation logiciel — plateforme n°1 des cabinets français modernes.

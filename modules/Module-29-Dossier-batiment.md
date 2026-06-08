@@ -1,4 +1,4 @@
-# MODULE — Dossier BÂTIMENT (BTP) : fiscal, comptable & saisie des factures
+# 4.5 — Dossier BÂTIMENT (BTP) : fiscal, comptable & saisie des factures
 
 **Niveau :** Avancé · **Durée :** 8–10 h · **Prérequis :** Modules 1 à 4 + leçon « Spécificités & cas particuliers »
 > Le BTP est le **secteur n°1 de redressement** : TVA à taux multiples, **autoliquidation**, **retenue de garantie**, **situations de travaux**. Cette leçon couvre **tout** : aspects fiscaux, traitement comptable et **saisie des factures pas à pas**.

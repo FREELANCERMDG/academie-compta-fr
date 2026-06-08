@@ -1,4 +1,4 @@
-# MODULE — Pennylane : la pratique, opération par opération (par module)
+# Pennylane : la pratique, opération par opération (par module)
 
 **Niveau :** Intermédiaire · **Durée :** 8–10 h (sur dossier réel anonymisé) · **Prérequis :** « Pennylane — prise en main »
 > Pour **chaque thème de la formation**, voici **comment le faire concrètement dans Pennylane**, étape par étape (interface **Comptabilité**). *Les libellés exacts peuvent varier selon les mises à jour ; le principe reste le même.*

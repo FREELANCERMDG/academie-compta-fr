@@ -1,4 +1,4 @@
-# MODULE — Spécificités & cas particuliers du cabinet
+# 4.3 — Spécificités & cas particuliers du cabinet
 
 **Niveau :** Avancé · **Durée :** 8–10 h · **Prérequis :** Modules 1 à 4
 > Sujets « experts » fréquents en cabinet français, souvent sources de redressement. *(Aligné sur les documents internes du cabinet.)*

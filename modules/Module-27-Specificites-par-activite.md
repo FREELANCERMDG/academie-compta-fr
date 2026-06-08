@@ -1,4 +1,4 @@
-# MODULE — Spécificités comptables & fiscales **par activité**
+# 4.4 — Spécificités comptables & fiscales **par activité**
 
 **Niveau :** Avancé · **Durée :** 8–10 h · **Prérequis :** Modules 1 à 4
 > Chaque **activité / forme juridique** a ses réflexes. **Avant de saisir**, on identifie : forme (Kbis/statuts), **régime fiscal** (IR/IS), **régime TVA**, et secteur. *(Paramètres chiffrés : voir la page « Paramètres fiscaux » — référence à jour.)*

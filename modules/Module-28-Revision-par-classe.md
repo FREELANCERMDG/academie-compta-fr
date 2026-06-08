@@ -1,4 +1,4 @@
-# MODULE — Révision « par défilement » : classes 1 à 7
+# 3.8 — Révision « par défilement » : classes 1 à 7
 
 **Niveau :** Avancé · **Durée :** 10–12 h · **Prérequis :** Module 11 (révision comptable)
 > La révision **par défilement** = dérouler la **balance** du **compte 1 au compte 7**, et pour **chaque solde** se poser 3 questions : **est‑il juste ? est‑il justifié (pièce/tableau) ? est‑il normal ?**
