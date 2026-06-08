@@ -294,6 +294,18 @@ try:
 except Exception:
     AUDITS = {}
 
+# Base de factures (mode serie : 20 achats + 20 ventes) + Plan comptable (lookup)
+try:
+    with open(os.path.join(BASE, "factures.json"), "r", encoding="utf-8") as f:
+        FACTURES = json.load(f)
+except Exception:
+    FACTURES = []
+try:
+    with open(os.path.join(BASE, "pcg.json"), "r", encoding="utf-8") as f:
+        PCG = json.load(f)
+except Exception:
+    PCG = []
+
 # ----------------- Template HTML -----------------
 TPL = r"""<!DOCTYPE html>
 <html lang="fr">
@@ -430,6 +442,8 @@ window.EXOS=__EXOS__;
 window.DOSSIERS=__DOSSIERS__;
 window.TVASIM=__TVASIM__;
 window.AUDITS=__AUDITS__;
+window.FACTURES=__FACTURES__;
+window.PCG=__PCG__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}
@@ -533,7 +547,9 @@ html_out = (TPL
     .replace("__EXOS__", json.dumps(EXOS, ensure_ascii=False))
     .replace("__DOSSIERS__", json.dumps(DOSSIERS, ensure_ascii=False))
     .replace("__TVASIM__", json.dumps(TVASIM, ensure_ascii=False))
-    .replace("__AUDITS__", json.dumps(AUDITS, ensure_ascii=False)))
+    .replace("__AUDITS__", json.dumps(AUDITS, ensure_ascii=False))
+    .replace("__FACTURES__", json.dumps(FACTURES, ensure_ascii=False))
+    .replace("__PCG__", json.dumps(PCG, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----
 name = (BR.get("cabinet_name") or "").strip()
