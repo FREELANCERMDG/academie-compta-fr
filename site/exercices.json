@@ -5,6 +5,13 @@
     "journal": "AC",
     "enonce": "Facture fournisseur : marchandises 1 000 € HT, TVA 20 %. Saisissez l'écriture complète.",
     "astuce": "Charge HT + TVA déductible au débit, fournisseur (TTC) au crédit.",
+    "doc": { "sens": "Facture fournisseur", "emetteur": "FOURNITURES INDUSTRIELLES", "ville": "25 rue de la Paix, 75002 Paris", "num": "F2024-0487", "date": "15/05/2024", "echeance": "14/06/2024", "lignes": [ { "designation": "Marchandises (papier, classeurs, stylos…)", "qte": 1, "puht": 1000 } ], "ht": 1000, "taux": 20, "tva": 200, "ttc": 1200 },
+    "tuto": [
+      "Type de pièce : <b>facture d'achat</b> → journal <b>AC</b>.",
+      "Au <b>débit</b> : la charge HT (compte <b>607</b> Achats) + la <b>TVA déductible</b> (compte <b>44566</b>).",
+      "Au <b>crédit</b> : le <b>fournisseur</b> (compte <b>401</b>) pour le montant <b>TTC</b>.",
+      "Contrôlez l'<b>équilibre</b> (total débit = total crédit), puis « Vérifier »."
+    ],
     "lignes": [
       { "compte": "607000", "racine": "607", "libelle": "Achats de marchandises", "debit": 1000, "credit": 0 },
       { "compte": "445660", "racine": "4456", "libelle": "TVA déductible 20 %", "debit": 200, "credit": 0 },
