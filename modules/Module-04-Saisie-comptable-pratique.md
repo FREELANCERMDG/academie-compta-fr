@@ -182,7 +182,9 @@ Saisir (TVA 20 % sauf mention) :
 ## 🧮 Entraînement interactif — matrice de saisie (pièce → écriture)
 Place‑toi comme en cabinet : à **gauche la pièce** (facture, reçu…), à **droite l'écriture** à saisir. Le système vérifie l'**équilibre** (débit = crédit) et l'**imputation**. Suis le **tutoriel** en tête, puis « Vérifier ».
 
-**Série « factures fournisseurs » — 20 pièces, comme la pile du mois en cabinet.** Pour chaque facture, l'**activité de la société** dont vous êtes le comptable est indiquée. Saisissez l'écriture, cliquez **« Vérifier »** → si elle est juste, la **facture suivante s'affiche automatiquement**. Besoin d'un compte ? Cliquez **📖 Plan comptable** (ou sur l'intitulé sous un compte saisi).
+**Série « factures fournisseurs » — la pile du mois en cabinet (dont le ticket METRO multi‑taux).** Pour chaque facture, l'**activité de la société** dont vous êtes le comptable est indiquée. Saisissez l'écriture, cliquez **« Vérifier »** → si elle est juste, la **facture suivante s'affiche automatiquement**. Besoin d'un compte ? Cliquez **📖 Plan comptable** (ou sur l'intitulé sous un compte saisi).
+
+> 🧾 **Cas METRO (cash & carry pro)** : une **seule facture à plusieurs taux de TVA** (5,5 % sur les denrées · 20 % sur l'alcool et le non‑alimentaire), réglée par carte au comptoir. Il faut **ventiler** la TVA par taux et imputer chaque nature au bon compte (601 ingrédients · 607 boissons revendues · 606 entretien/vaisselle).
 
 <div class="saisie" data-serie="fournisseur"></div>
 

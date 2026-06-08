@@ -527,6 +527,28 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${vPays.length ? `<h3>🌍 D'où viennent les visiteurs</h3><div class="tbl"><table><tr><th>Pays</th><th>Visites</th><th>Part</th></tr>
   ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
+  // --- Modules accessibles par apprenant (inscriptions actives) ---
+  const _nowISO = new Date().toISOString();
+  const _insAll = db.prepare("SELECT user_id, offre_code, expire_le FROM inscriptions WHERE statut='active' AND (expire_le IS NULL OR expire_le > ?)").all(_nowISO);
+  const _insByUser = {};
+  for (const r of _insAll) { (_insByUser[r.user_id] || (_insByUser[r.user_id] = [])).push(r); }
+  const _chip = c => { const free = FREE_MODS.has(c); return `<span style="display:inline-block;padding:1px 7px;margin:1px;border-radius:8px;font-size:11px;font-weight:700;${free ? 'background:#fff3df;color:#9a5b00;border:1px solid #f0d9b5' : 'background:#e7ecff;color:#16307a;border:1px solid #c5d2f5'}" title="${free ? 'Module 1 — gratuit' : 'Accès payé ou accordé par l’admin'}">${esc(c.replace('mod', 'M'))}</span>`; };
+  function modulesCell(u) {
+    const set = new Set(FREE_MODS);
+    const codes = [];
+    let exp = null, visio = false;
+    for (const r of (_insByUser[u.id] || [])) {
+      const mods = offerModules(r.offre_code);
+      if (mods.length === 0) visio = true;
+      for (const c of mods) set.add(c);
+      if (r.expire_le && (!exp || r.expire_le < exp)) exp = r.expire_le;
+    }
+    for (const m of MODULES) if (set.has(m.code)) codes.push(m.code);
+    const paid = codes.filter(c => !FREE_MODS.has(c));
+    const chips = codes.map(_chip).join(' ') + (visio ? ` <span style="display:inline-block;padding:1px 7px;margin:1px;border-radius:8px;font-size:11px;font-weight:700;background:#e9f7ef;color:#1e7d46;border:1px solid #bfe6cd">Visio</span>` : '');
+    const note = paid.length ? (exp ? `<br><span class="muted" style="font-size:11px">expire ${esc(exp.slice(0, 10))}</span>` : '<br><span class="muted" style="font-size:11px">sans limite</span>') : '<br><span class="muted" style="font-size:11px">gratuit seul</span>';
+    return chips + note;
+  }
   return layout('Admin', `<h1>Administration</h1>
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
@@ -561,8 +583,9 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${dem.length ? dem.map(d => `<div class="row2"><span><b>${esc(d.email)}</b> — ${esc(d.sujet)}<br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></span>
     <form method="post" action="/admin/demande-traitee" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small">Marquer traitée</button></form></div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
-  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>2FA</th><th>Inscrit le</th></tr>
-  ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
+  <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
+  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th></tr>
+  ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
 }
 
 // --- Service de fichiers statiques sécurisé ---

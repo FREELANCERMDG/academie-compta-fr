@@ -6,14 +6,14 @@
 
 ---
 
-## 🗂️ Mode « pile de factures » — 20 achats + 20 ventes (auto‑passage)
-Comme en cabinet : une **pile de factures** à traiter, chacune avec l'**activité** de la société dont vous êtes comptable et un **cas particulier** réel (autoliquidation, intracommunautaire, import, immobilisation, consigne, note de frais, escompte, export…). Validez une écriture → la **facture suivante s'affiche automatiquement**. Un doute sur un compte ? **📖 Plan comptable** intégré.
+## 🗂️ Mode « pile de factures » — achats + ventes (auto‑passage)
+Comme en cabinet : une **pile de factures** à traiter, chacune avec l'**activité** de la société dont vous êtes comptable et un **cas particulier** réel (autoliquidation, intracommunautaire, import, immobilisation, consigne, note de frais, escompte, export, **ticket METRO multi‑taux**…). Validez une écriture → la **facture suivante s'affiche automatiquement**. Un doute sur un compte ? **📖 Plan comptable** intégré.
 
-### 📥 20 factures FOURNISSEURS (achats)
+### 📥 Factures FOURNISSEURS (achats — dont le ticket METRO multi‑taux)
 
 <div class="saisie" data-serie="fournisseur"></div>
 
-### 📤 20 factures de VENTE
+### 📤 Factures de VENTE
 
 <div class="saisie" data-serie="vente"></div>
 

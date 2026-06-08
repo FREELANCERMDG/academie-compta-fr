@@ -1071,6 +1071,94 @@
   "id": "F20"
  },
  {
+  "sens": "fournisseur",
+  "activite": "Restaurant traditionnel (cuisine sur place)",
+  "cas": "Ticket METRO (cash & carry pro) : TVA MULTI-TAUX sur une seule facture (5,5 % denrées · 20 % alcool & non-alimentaire) + reglement comptant par carte. Ventilation par taux et par nature obligatoire.",
+  "journal": "AC",
+  "enonce": "Comptabilisez le ticket d'achat METRO du restaurant. Ventilez la TVA par taux (5,5 % et 20 %) et imputez chaque nature de depense au bon compte. La facture est reglee par carte au comptoir.",
+  "tuto": [
+   "Particularite METRO (cash & carry pro) : une seule facture melange PLUSIEURS taux de TVA. Il faut donc VENTILER, taux par taux et nature par nature.",
+   "Imputez chaque nature a son compte : denrees alimentaires transformees en cuisine -> 601 (matieres premieres) ; boissons revendues en l'etat (vins, bieres) -> 607 (marchandises) ; vaisselle jetable et produits d'entretien -> 606.",
+   "Calculez la TVA par taux : denrees 800 x 5,5 % = 44 ; alcool + non-alimentaire (300 + 100) x 20 % = 80. Passez 2 lignes de TVA deductible (44566).",
+   "Contrepartie : fournisseur 401 METRO pour le TTC (1 324 EUR). Regle au comptoir par carte -> le 401 METRO sera solde par la banque au rapprochement (ou saisie directe au 512).",
+   "Controlez l'equilibre : total debit = total credit = 1 324 EUR."
+  ],
+  "doc": {
+   "emetteur": "METRO Cash & Carry France",
+   "num": "MET-2026-088145",
+   "date": "2026-03-22",
+   "echeance": "Comptant (regle CB au comptoir)",
+   "ville": "Nanterre (92)",
+   "lignes": [
+    {
+     "designation": "Denrees alimentaires (viandes, legumes, epicerie) - TVA 5,5 %",
+     "qte": 1,
+     "puht": 800
+    },
+    {
+     "designation": "Boissons revendues : vins & bieres - TVA 20 %",
+     "qte": 1,
+     "puht": 300
+    },
+    {
+     "designation": "Vaisselle jetable & produits d'entretien - TVA 20 %",
+     "qte": 1,
+     "puht": 100
+    }
+   ],
+   "ht": 1200,
+   "taux": "5,5 / 20",
+   "tva": 124,
+   "ttc": 1324
+  },
+  "lignes": [
+   {
+    "compte": "601",
+    "racine": "601",
+    "libelle": "Achats matieres premieres (denrees 5,5%) - METRO",
+    "debit": 800,
+    "credit": 0
+   },
+   {
+    "compte": "607",
+    "racine": "607",
+    "libelle": "Achats marchandises (boissons revendues 20%) - METRO",
+    "debit": 300,
+    "credit": 0
+   },
+   {
+    "compte": "60632",
+    "racine": "606",
+    "libelle": "Produits d'entretien & vaisselle jetable (20%) - METRO",
+    "debit": 100,
+    "credit": 0
+   },
+   {
+    "compte": "445661",
+    "racine": "44566",
+    "libelle": "TVA deductible 5,5% s/ denrees (800 x 5,5%)",
+    "debit": 44,
+    "credit": 0
+   },
+   {
+    "compte": "445662",
+    "racine": "44566",
+    "libelle": "TVA deductible 20% s/ alcool + non-alimentaire (400 x 20%)",
+    "debit": 80,
+    "credit": 0
+   },
+   {
+    "compte": "401METRO",
+    "racine": "401",
+    "libelle": "Fournisseur METRO - ticket MET-2026-088145 (regle CB)",
+    "debit": 0,
+    "credit": 1324
+   }
+  ],
+  "astuce": "Le ticket METRO est l'exemple type de la facture A TVA MULTI-TAUX : il faut VENTILER. Denrees de base = 5,5 % (800 x 5,5% = 44) ; alcool et non-alimentaire = 20 % ((300+100) x 20% = 80) -> TVA totale 124. Cote charges : ingredients cuisines en 601, boissons revendues en l'etat en 607, entretien/vaisselle en 606. Regle au comptoir par carte : le 401 METRO est solde par la banque au rapprochement (certains cabinets saisissent directement la contrepartie en 512). Equilibre : 800+300+100+44+80 = 1 324.",
+  "id": "F20MET"
+ },
+ {
   "sens": "vente",
   "activite": "Négoce de matériel informatique (grossiste)",
   "cas": "Vente de marchandises à un client professionnel, TVA 20%",
