@@ -351,14 +351,26 @@ header .grow{flex:1}
 .content tbody tr:nth-child(even){background:#f7fafd}
 /* Écriture comptable illustrée (style logiciel) */
 .content table.ecr{border:1px solid #cfe8dc;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(20,40,70,.08);margin:18px 0}
-.content table.ecr caption{caption-side:top;text-align:left;background:#e8f7ef;color:#0a7a4f;font-weight:700;padding:10px 14px;border-bottom:1px solid #cfe8dc;border-radius:12px 12px 0 0}
-.content table.ecr th{background:#0a8f5b;color:#fff;border:none}
-.content table.ecr td{border:none;border-bottom:1px solid #eef3f1;vertical-align:middle}
-.content table.ecr td:first-child{font-weight:700;color:#0a3d2c;font-variant-numeric:tabular-nums}
+.content table.ecr caption{caption-side:top;text-align:left;background:#eef3fb;color:#16307a;font-weight:700;padding:10px 14px;border-bottom:1px solid #d4def0;border-radius:12px 12px 0 0}
+.content table.ecr th{background:#16307a;color:#fff;border:none}
+.content table.ecr td{border:none;border-bottom:1px solid #eef2f8;vertical-align:middle}
+.content table.ecr td:first-child{font-weight:700;color:#16307a;font-variant-numeric:tabular-nums}
 .content table.ecr th.d,.content table.ecr td.d{text-align:right;color:#1554b8;font-variant-numeric:tabular-nums}
-.content table.ecr th.c,.content table.ecr td.c{text-align:right;color:#0a7a4f;font-variant-numeric:tabular-nums}
-.content table.ecr tbody tr:nth-child(even){background:#fafdfb}
-.content table.ecr tr.tot td{background:#f1f8f4;font-weight:800;border-top:2px solid #0a8f5b;border-bottom:none}
+.content table.ecr th.c,.content table.ecr td.c{text-align:right;color:#9a5b00;font-variant-numeric:tabular-nums}
+.content table.ecr tbody tr:nth-child(even){background:#fafbfe}
+.content table.ecr tr.tot td{background:#f7faf9;font-weight:800;border-top:2px solid #16307a;border-bottom:none}
+.content .docrow{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin:18px 0}
+.content .docrow>.pj{flex:0 0 250px}
+.content .docrow>table.ecr{flex:1;margin:0;min-width:300px}
+@media(max-width:760px){.content .docrow>.pj,.content .docrow>table.ecr{flex:1 1 100%}}
+.content .pj{border:1px solid #d4def0;border-radius:10px;background:#fff;padding:12px 13px;font-size:12px;box-shadow:0 2px 8px rgba(20,40,70,.06);color:#27384a}
+.content .pj .pj-tag{display:inline-block;background:#eef3fb;color:#16307a;font-weight:800;font-size:10px;letter-spacing:.4px;padding:2px 8px;border-radius:5px;margin-bottom:7px}
+.content .pj .pj-h{font-weight:800;color:#16307a;font-size:13px}
+.content .pj .pj-m{color:#5a6b80;font-size:11px;margin:2px 0 7px}
+.content .pj .pj-r{display:flex;justify-content:space-between;gap:8px;padding:2px 0;border-bottom:1px dashed #eef2f8}
+.content .pj .pj-r:last-child{border-bottom:none}
+.content .pj .pj-r b{font-variant-numeric:tabular-nums}
+.content .pj .pj-tot{border-top:1px solid #cfd8e3;margin-top:5px;padding-top:6px;font-weight:800;color:#16307a}
 .pagebar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0;padding-top:16px;border-top:1px solid var(--bd)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(20,40,70,.05)}
 /* Video */

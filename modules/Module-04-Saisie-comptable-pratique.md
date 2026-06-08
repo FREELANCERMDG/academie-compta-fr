@@ -183,15 +183,19 @@ Saisir (TVA 20 % sauf mention) :
 Place‑toi comme en cabinet : à **gauche la pièce** (facture, reçu…), à **droite l'écriture** à saisir. Le système vérifie l'**équilibre** (débit = crédit) et l'**imputation**. Suis le **tutoriel** en tête, puis « Vérifier ».
 
 **Achat fournisseur (facture)**
+
 <div class="saisie" data-ex="ex1"></div>
 
 **Vente de prestation (facture client)**
+
 <div class="saisie" data-ex="ex2"></div>
 
 **Course Uber — piège TVA (reçu, payé en CB)**
+
 <div class="saisie" data-ex="ex3"></div>
 
 **Encaissement d'un client (virement)**
+
 <div class="saisie" data-ex="ex4"></div>
 
 ---

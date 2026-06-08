@@ -7,7 +7,7 @@ Les écritures « classiques » sont faciles. Le métier se joue sur les **cas p
 ## 1) 🧾 Recette journalière (Z de caisse) — ventilation par taux
 **Pièce :** ticket Z d'une boulangerie. Pain **5,5 %** : 1 000 € HT (TVA 55) · Autres **20 %** : 500 € HT (TVA 100). Encaissé : **CB 1 200 €**, **espèces 455 €**. Total **1 655 € TTC**.
 
-<table class="ecr"><caption>Journal CA · 31/01 · Recette du jour (Z de caisse)</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>511500</td><td>Cartes bancaires à l'encaissement (CB)</td><td class="d">1 200,00</td><td class="c"></td></tr><tr><td>531000</td><td>Caisse (espèces)</td><td class="d">455,00</td><td class="c"></td></tr><tr><td>707000</td><td>Ventes de marchandises</td><td class="d"></td><td class="c">1 500,00</td></tr><tr><td>445715</td><td>TVA collectée 5,5 %</td><td class="d"></td><td class="c">55,00</td></tr><tr><td>445720</td><td>TVA collectée 20 %</td><td class="d"></td><td class="c">100,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">1 655,00</td><td class="c">1 655,00</td></tr></tbody></table>
+<div class="docrow"><div class="pj"><span class="pj-tag">TICKET Z · 31/01</span><div class="pj-h">🥖 Boulangerie du Centre</div><div class="pj-m">Clôture journalière · caisse certifiée NF525</div><div class="pj-r"><span>Pain &amp; alimentaire (5,5 %)</span><b>1 055,00</b></div><div class="pj-r"><span>Autres produits (20 %)</span><b>600,00</b></div><div class="pj-r pj-tot"><span>Total encaissé TTC</span><b>1 655,00</b></div><div class="pj-r" style="margin-top:6px"><span>💳 dont CB</span><b>1 200,00</b></div><div class="pj-r"><span>💶 dont espèces</span><b>455,00</b></div></div><table class="ecr"><caption>Journal CA · 31/01 · Recette du jour (Z de caisse)</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>511500</td><td>Cartes bancaires à l'encaissement (CB)</td><td class="d">1 200,00</td><td class="c"></td></tr><tr><td>531000</td><td>Caisse (espèces)</td><td class="d">455,00</td><td class="c"></td></tr><tr><td>707000</td><td>Ventes de marchandises</td><td class="d"></td><td class="c">1 500,00</td></tr><tr><td>445713</td><td>TVA collectée 5,5 %</td><td class="d"></td><td class="c">55,00</td></tr><tr><td>445711</td><td>TVA collectée 20 %</td><td class="d"></td><td class="c">100,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">1 655,00</td><td class="c">1 655,00</td></tr></tbody></table></div>
 
 > 🇫🇷 **Particularité :** une recette se **ventile par taux de TVA**, le **Z de caisse** est la pièce justificative, et on distingue les **modes d'encaissement**. Les **encaissements par carte** transitent par le **511 (cartes bancaires à l'encaissement)** : ils seront soldés vers le **512 (banque)** quand l'opérateur crédite le compte (souvent J+1, parfois net de commission). Les **espèces** vont en **531 (caisse)** — qui ne doit **jamais être créditrice**.
 
@@ -29,6 +29,20 @@ Les écritures « classiques » sont faciles. Le métier se joue sur les **cas p
 
 > 🇫🇷 **Particularité :** **Uber / VTC / taxi = transport de personnes → TVA NON déductible.** On enregistre **tout le TTC** en charge (pas de ligne 44566).
 > ⚠️ **À ne pas confondre :** une facture **Uber Eats** (repas livré) = **restauration**, TVA **déductible** → `625700 HT` + `445660 TVA`.
+
+### 🧭 TVA sur les déplacements — ce qui est déductible (et ce qui ne l'est pas)
+La vraie distinction n'est **pas** « privé / public » : un train (public) et un taxi/VTC (privé) sont **tous deux non déductibles**. Ce qui compte, c'est la **nature de la dépense** :
+
+| Dépense | TVA déductible ? | Comptabilisation |
+|---|---|---|
+| **Transport de personnes** : taxi, VTC, Uber, train, avion, bus *(public **ou** privé)* | ❌ **NON** | tout le **TTC** en charge (**6251**) |
+| **Carburant** (déplacement avec **son propre véhicule**) : gazole & essence **80 %** déductibles pour un véhicule de **tourisme**, **100 %** pour un **utilitaire** | ✅ **OUI (partiel)** | **60622** HT + **44566** TVA |
+| **Péage / parking** | ✅ **OUI** | 6251/6155 + **44566** |
+| **Restauration** (repas, **Uber Eats**) | ✅ **OUI** | **625700** HT + **44566** |
+| **Hébergement** (hôtel) du dirigeant/salarié | ❌ **NON** | tout le **TTC** en charge (**6251**) |
+
+> ⚠️ Le **motif professionnel** d'un taxi/train ne crée **aucun** droit à déduction. Seule exception (rare) : un **contrat permanent de navette domicile‑travail du personnel**.
+> *Sources : CGI annexe II, art. 206 IV‑2‑5° ; BOFIP BOI‑TVA‑DED‑30‑30‑30 et BOI‑TVA‑DED‑30‑30‑20.*
 
 ---
 
