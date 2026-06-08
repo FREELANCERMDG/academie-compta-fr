@@ -208,7 +208,7 @@ function apercuModulesSection() {
     const inf = moduleInfo(m.code) || {};
     const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
     const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : `<b class="tarif">${esc(prixMod(m.code))}</b>`;
-    const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le module (gratuit)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
+    const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le Module 1 (inscription gratuite)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
     return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}</span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
   }).join('');
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><div class="prog">${rows}</div></section>`;
@@ -267,7 +267,7 @@ function pageDecouverte(sess) {
   <li>🏅 <b>Attestation</b> de fin de formation · 💬 <b>demande de rendez-vous</b> intégrée</li>
   <li>⏱️ Accès : <b>${esc(duree)}</b> · 1 appareil · contenu protégé (filigrane personnalisé)</li></ul></section>
   <section class="card"><h2>On commence ?</h2>
-  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/tableau-de-bord">Mon espace</a></p></section>`, sess);
+  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (inscription gratuite)</a> <a class="btn ghost" href="/tableau-de-bord">Mon espace</a></p></section>`, sess);
 }
 
 function pageMentions(sess) {
@@ -312,7 +312,7 @@ function pageProgramme(sess) {
   <section class="hero"><h1>Programme de la formation</h1>
   <p class="lead">Découvrez le contenu <b>gratuitement</b>. Seul le <b>Module 1</b> est offert en intégralité ; les modules 2, 3 et 4 sont consultables en aperçu (objectifs).</p>
   <img class="illus" src="/public/photos/programme.png" alt="Formation en comptabilité française — PCG, écritures, clôture, fiscalité, cas pratiques" width="1536" height="1024" loading="lazy">
-  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (gratuit)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}${fiscaliteBadge()}</section>
+  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (inscription gratuite)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}${fiscaliteBadge()}</section>
   ${formateurCard()}
   ${modulesSection}
   <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs et cas pratiques corrigés</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
@@ -325,15 +325,24 @@ function pageApercu(sess, code) {
   const inf = moduleInfo(code);
   if (!inf) return layout('Aperçu', '<h1>Module introuvable</h1><p><a class="btn" href="/programme">← Programme</a></p>', sess);
   if (inf.gratuit) {
+    // Le Module 1 est gratuit MAIS réservé aux inscrits : il faut créer un compte pour lire le cours complet.
+    if (!authed0(sess)) {
+      return layout('Module 1 gratuit — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module 100 % gratuit</b></p>
+      <h1>${esc(moduleTitre(code))}</h1>
+      <article class="prose">${teaserHtml(code)}</article>
+      <section class="card lockcard"><h2>🎁 Module 1 offert — créez votre compte gratuit pour le lire</h2>
+      <p>Le cours complet du Module 1 (leçons détaillées, cas pratiques et quiz) est <b>100 % gratuit</b>. Il vous suffit de <b>créer votre compte</b> (2 minutes, sans engagement) pour y accéder.</p>
+      <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/connexion">J'ai déjà un compte</a></p></section>`, sess);
+    }
     const q = quizFor(code);
-    const quizHtml = q ? `<section class="card"><h2>📝 Quiz du module (démo gratuite)</h2>
-    <p class="muted">Testez-vous — résultat non enregistré. Créez un compte pour suivre votre score sur tous les modules.</p>
+    const quizHtml = q ? `<section class="card"><h2>📝 Quiz du module</h2>
+    <p class="muted">Testez-vous sur le Module 1.</p>
     <script type="application/json" id="quizdata">${JSON.stringify(q).replace(/</g, '\\u003c')}</script>
     <div id="quiz"></div><script src="/public/quiz.js"></script></section>` : '';
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de 30 000 Ar / module</b>.</p><a class="btn" href="/inscription">S'inscrire (gratuit)</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de 30 000 Ar / module</b>.</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
