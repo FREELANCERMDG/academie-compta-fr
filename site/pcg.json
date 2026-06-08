@@ -1,0 +1,728 @@
+[
+ {
+  "num": "101",
+  "nom": "Capital",
+  "classe": "1",
+  "usage": "Capital social ou individuel"
+ },
+ {
+  "num": "106",
+  "nom": "Réserves",
+  "classe": "1",
+  "usage": "Réserve légale, statutaire, facultative"
+ },
+ {
+  "num": "1061",
+  "nom": "Réserve légale",
+  "classe": "1",
+  "usage": "Affectation obligatoire du résultat"
+ },
+ {
+  "num": "1068",
+  "nom": "Autres réserves",
+  "classe": "1",
+  "usage": "Réserves facultatives"
+ },
+ {
+  "num": "110",
+  "nom": "Report à nouveau (solde créditeur)",
+  "classe": "1",
+  "usage": "Bénéfices antérieurs non affectés"
+ },
+ {
+  "num": "119",
+  "nom": "Report à nouveau (solde débiteur)",
+  "classe": "1",
+  "usage": "Pertes antérieures reportées"
+ },
+ {
+  "num": "120",
+  "nom": "Résultat de l'exercice (bénéfice)",
+  "classe": "1",
+  "usage": "Bénéfice de l'exercice"
+ },
+ {
+  "num": "129",
+  "nom": "Résultat de l'exercice (perte)",
+  "classe": "1",
+  "usage": "Perte de l'exercice"
+ },
+ {
+  "num": "164",
+  "nom": "Emprunts auprès des établissements de crédit",
+  "classe": "1",
+  "usage": "Capital restant dû des emprunts bancaires"
+ },
+ {
+  "num": "1688",
+  "nom": "Intérêts courus",
+  "classe": "1",
+  "usage": "Intérêts courus sur emprunts (rattachement)"
+ },
+ {
+  "num": "201",
+  "nom": "Frais d'établissement",
+  "classe": "2",
+  "usage": "Frais de constitution (immobilisation incorporelle)"
+ },
+ {
+  "num": "205",
+  "nom": "Concessions et droits similaires, brevets, licences, marques, procédés, logiciels, droits et valeurs similaires",
+  "classe": "2",
+  "usage": "Logiciels, brevets, licences"
+ },
+ {
+  "num": "207",
+  "nom": "Fonds commercial",
+  "classe": "2",
+  "usage": "Fonds de commerce acquis"
+ },
+ {
+  "num": "211",
+  "nom": "Terrains",
+  "classe": "2",
+  "usage": "Terrains"
+ },
+ {
+  "num": "213",
+  "nom": "Constructions",
+  "classe": "2",
+  "usage": "Bâtiments"
+ },
+ {
+  "num": "215",
+  "nom": "Installations techniques, matériels et outillage industriels",
+  "classe": "2",
+  "usage": "Compte racine matériel industriel"
+ },
+ {
+  "num": "2154",
+  "nom": "Matériel industriel",
+  "classe": "2",
+  "usage": "Machines et matériel de production"
+ },
+ {
+  "num": "2182",
+  "nom": "Matériel de transport",
+  "classe": "2",
+  "usage": "Véhicules"
+ },
+ {
+  "num": "2183",
+  "nom": "Matériel de bureau et matériel informatique",
+  "classe": "2",
+  "usage": "Ordinateurs, matériel de bureau"
+ },
+ {
+  "num": "2184",
+  "nom": "Mobilier",
+  "classe": "2",
+  "usage": "Mobilier de bureau"
+ },
+ {
+  "num": "275",
+  "nom": "Dépôts et cautionnements versés",
+  "classe": "2",
+  "usage": "Dépôts de garantie (loyers, etc.)"
+ },
+ {
+  "num": "2805",
+  "nom": "Amortissements des concessions et droits similaires, brevets, licences, marques, procédés, logiciels, droits et valeurs similaires",
+  "classe": "2",
+  "usage": "Amortissement des logiciels (205)"
+ },
+ {
+  "num": "2813",
+  "nom": "Amortissements des constructions",
+  "classe": "2",
+  "usage": "Amortissement des bâtiments (213)"
+ },
+ {
+  "num": "28154",
+  "nom": "Amortissements du matériel industriel",
+  "classe": "2",
+  "usage": "Amortissement du 2154"
+ },
+ {
+  "num": "28182",
+  "nom": "Amortissements du matériel de transport",
+  "classe": "2",
+  "usage": "Amortissement des véhicules (2182)"
+ },
+ {
+  "num": "28183",
+  "nom": "Amortissements du matériel de bureau et matériel informatique",
+  "classe": "2",
+  "usage": "Amortissement du 2183"
+ },
+ {
+  "num": "28184",
+  "nom": "Amortissements du mobilier",
+  "classe": "2",
+  "usage": "Amortissement du mobilier (2184)"
+ },
+ {
+  "num": "310",
+  "nom": "Matières premières (et fournitures)",
+  "classe": "3",
+  "usage": "Stock de matières premières"
+ },
+ {
+  "num": "355",
+  "nom": "Produits finis",
+  "classe": "3",
+  "usage": "Stock de produits finis"
+ },
+ {
+  "num": "370",
+  "nom": "Stocks de marchandises",
+  "classe": "3",
+  "usage": "Stock de marchandises"
+ },
+ {
+  "num": "401",
+  "nom": "Fournisseurs",
+  "classe": "4",
+  "usage": "Dettes fournisseurs (compte racine)"
+ },
+ {
+  "num": "4011",
+  "nom": "Fournisseurs - Achats de biens et prestations de services",
+  "classe": "4",
+  "usage": "Dettes fournisseurs d'exploitation"
+ },
+ {
+  "num": "4017",
+  "nom": "Fournisseurs - Retenues de garantie et oppositions",
+  "classe": "4",
+  "usage": "Retenues de garantie sur fournisseurs"
+ },
+ {
+  "num": "403",
+  "nom": "Fournisseurs - Effets à payer",
+  "classe": "4",
+  "usage": "Effets de commerce à payer"
+ },
+ {
+  "num": "404",
+  "nom": "Fournisseurs d'immobilisations",
+  "classe": "4",
+  "usage": "Dettes sur achats d'immobilisations"
+ },
+ {
+  "num": "408",
+  "nom": "Fournisseurs - Factures non parvenues",
+  "classe": "4",
+  "usage": "FNP - charges à rattacher à l'exercice"
+ },
+ {
+  "num": "4091",
+  "nom": "Fournisseurs - Avances et acomptes versés sur commandes",
+  "classe": "4",
+  "usage": "Acomptes versés aux fournisseurs"
+ },
+ {
+  "num": "4096",
+  "nom": "Fournisseurs - Créances pour emballages et matériel à rendre",
+  "classe": "4",
+  "usage": "Emballages consignés à rendre"
+ },
+ {
+  "num": "4097",
+  "nom": "Fournisseurs - Autres avoirs",
+  "classe": "4",
+  "usage": "Avoirs fournisseurs à recevoir"
+ },
+ {
+  "num": "411",
+  "nom": "Clients",
+  "classe": "4",
+  "usage": "Créances clients (compte racine)"
+ },
+ {
+  "num": "4111",
+  "nom": "Clients - Ventes de biens ou de prestations de services",
+  "classe": "4",
+  "usage": "Créances clients d'exploitation"
+ },
+ {
+  "num": "413",
+  "nom": "Clients - Effets à recevoir",
+  "classe": "4",
+  "usage": "Effets de commerce à recevoir"
+ },
+ {
+  "num": "416",
+  "nom": "Clients douteux ou litigieux",
+  "classe": "4",
+  "usage": "Créances clients douteuses"
+ },
+ {
+  "num": "418",
+  "nom": "Clients - Produits non encore facturés",
+  "classe": "4",
+  "usage": "FAE - factures à établir"
+ },
+ {
+  "num": "4191",
+  "nom": "Clients - Avances et acomptes reçus sur commandes",
+  "classe": "4",
+  "usage": "Acomptes reçus des clients"
+ },
+ {
+  "num": "4196",
+  "nom": "Clients - Dettes sur emballages et matériels consignés",
+  "classe": "4",
+  "usage": "Emballages consignés aux clients"
+ },
+ {
+  "num": "4197",
+  "nom": "Clients - Autres avoirs",
+  "classe": "4",
+  "usage": "Avoirs clients à établir"
+ },
+ {
+  "num": "421",
+  "nom": "Personnel - Rémunérations dues",
+  "classe": "4",
+  "usage": "Salaires nets à payer"
+ },
+ {
+  "num": "425",
+  "nom": "Personnel - Avances et acomptes",
+  "classe": "4",
+  "usage": "Avances et acomptes au personnel"
+ },
+ {
+  "num": "427",
+  "nom": "Personnel - Oppositions",
+  "classe": "4",
+  "usage": "Saisies-arrêts sur salaires"
+ },
+ {
+  "num": "431",
+  "nom": "Sécurité sociale",
+  "classe": "4",
+  "usage": "Cotisations URSSAF"
+ },
+ {
+  "num": "4371",
+  "nom": "Autres organismes sociaux",
+  "classe": "4",
+  "usage": "Caisses de retraite, prévoyance"
+ },
+ {
+  "num": "4421",
+  "nom": "Prélèvements à la source (PAS)",
+  "classe": "4",
+  "usage": "PAS retenu sur salaires à reverser"
+ },
+ {
+  "num": "444",
+  "nom": "État - Impôts sur les bénéfices",
+  "classe": "4",
+  "usage": "IS dû / acomptes IS"
+ },
+ {
+  "num": "4452",
+  "nom": "T.V.A. due intracommunautaire",
+  "classe": "4",
+  "usage": "TVA auto-liquidée sur acquisitions UE"
+ },
+ {
+  "num": "44551",
+  "nom": "T.V.A. à décaisser",
+  "classe": "4",
+  "usage": "TVA nette à payer (collectée - déductible)"
+ },
+ {
+  "num": "44562",
+  "nom": "T.V.A. déductible sur immobilisations",
+  "classe": "4",
+  "usage": "TVA déductible sur achats d'immobilisations"
+ },
+ {
+  "num": "44566",
+  "nom": "T.V.A. déductible sur autres biens et services",
+  "classe": "4",
+  "usage": "TVA déductible sur achats et charges"
+ },
+ {
+  "num": "445662",
+  "nom": "T.V.A. déductible sur autres biens et services - taux intermédiaire/à 20%",
+  "classe": "4",
+  "usage": "Subdivision de TVA déductible par taux (à paramétrer)"
+ },
+ {
+  "num": "44567",
+  "nom": "Crédit de T.V.A. à reporter",
+  "classe": "4",
+  "usage": "Crédit de TVA reportable"
+ },
+ {
+  "num": "44571",
+  "nom": "T.V.A. collectée",
+  "classe": "4",
+  "usage": "TVA collectée sur ventes (compte racine)"
+ },
+ {
+  "num": "445711",
+  "nom": "T.V.A. collectée au taux normal (20 %)",
+  "classe": "4",
+  "usage": "TVA collectée taux normal (subdivision)"
+ },
+ {
+  "num": "445713",
+  "nom": "T.V.A. collectée au taux réduit (5,5 %)",
+  "classe": "4",
+  "usage": "TVA collectée taux réduit (subdivision)"
+ },
+ {
+  "num": "44581",
+  "nom": "Acomptes - Régime simplifié d'imposition",
+  "classe": "4",
+  "usage": "Acomptes de TVA (régime RSI)"
+ },
+ {
+  "num": "4458",
+  "nom": "Taxes sur le chiffre d'affaires à régulariser ou en attente",
+  "classe": "4",
+  "usage": "TVA à régulariser (compte racine)"
+ },
+ {
+  "num": "447",
+  "nom": "Autres impôts, taxes et versements assimilés",
+  "classe": "4",
+  "usage": "CFE, CVAE, taxes diverses à payer"
+ },
+ {
+  "num": "455",
+  "nom": "Associés - Comptes courants",
+  "classe": "4",
+  "usage": "Compte courant d'associé"
+ },
+ {
+  "num": "4551",
+  "nom": "Associés - Comptes courants - Principal",
+  "classe": "4",
+  "usage": "Apports/retraits en compte courant"
+ },
+ {
+  "num": "4561",
+  "nom": "Associés - Comptes d'apport en société",
+  "classe": "4",
+  "usage": "Apports en cours de constitution"
+ },
+ {
+  "num": "457",
+  "nom": "Associés - Dividendes à payer",
+  "classe": "4",
+  "usage": "Dividendes mis en distribution"
+ },
+ {
+  "num": "467",
+  "nom": "Autres comptes débiteurs ou créditeurs",
+  "classe": "4",
+  "usage": "Comptes de tiers divers (attente)"
+ },
+ {
+  "num": "471",
+  "nom": "Comptes d'attente",
+  "classe": "4",
+  "usage": "Opérations à imputer en attente"
+ },
+ {
+  "num": "486",
+  "nom": "Charges constatées d'avance",
+  "classe": "4",
+  "usage": "CCA - charges rattachées à l'exercice suivant"
+ },
+ {
+  "num": "487",
+  "nom": "Produits constatés d'avance",
+  "classe": "4",
+  "usage": "PCA - produits rattachés à l'exercice suivant"
+ },
+ {
+  "num": "491",
+  "nom": "Dépréciations des comptes de clients",
+  "classe": "4",
+  "usage": "Provision pour créances douteuses"
+ },
+ {
+  "num": "512",
+  "nom": "Banques",
+  "classe": "5",
+  "usage": "Compte courant bancaire"
+ },
+ {
+  "num": "5112",
+  "nom": "Chèques à encaisser",
+  "classe": "5",
+  "usage": "Chèques reçus en attente d'encaissement"
+ },
+ {
+  "num": "5115",
+  "nom": "Cartes bancaires à encaisser",
+  "classe": "5",
+  "usage": "Encaissements CB en attente de remise"
+ },
+ {
+  "num": "514",
+  "nom": "Chèques postaux",
+  "classe": "5",
+  "usage": "Compte postal (CCP)"
+ },
+ {
+  "num": "517",
+  "nom": "Autres organismes financiers",
+  "classe": "5",
+  "usage": "Encaissements via prestataires (Stripe, PayPal...)"
+ },
+ {
+  "num": "519",
+  "nom": "Concours bancaires courants",
+  "classe": "5",
+  "usage": "Découverts, soldes créditeurs de banque"
+ },
+ {
+  "num": "530",
+  "nom": "Caisse",
+  "classe": "5",
+  "usage": "Compte racine caisse"
+ },
+ {
+  "num": "531",
+  "nom": "Caisse",
+  "classe": "5",
+  "usage": "Espèces en caisse"
+ },
+ {
+  "num": "580",
+  "nom": "Virements internes",
+  "classe": "5",
+  "usage": "Virements de compte à compte (transferts)"
+ },
+ {
+  "num": "606",
+  "nom": "Achats non stockés de matières et fournitures",
+  "classe": "6",
+  "usage": "Compte racine achats non stockés"
+ },
+ {
+  "num": "6061",
+  "nom": "Fournitures non stockables (eau, énergie...)",
+  "classe": "6",
+  "usage": "Eau, gaz, électricité"
+ },
+ {
+  "num": "60622",
+  "nom": "Carburants",
+  "classe": "6",
+  "usage": "Carburants des véhicules"
+ },
+ {
+  "num": "6063",
+  "nom": "Fournitures d'entretien et de petit équipement",
+  "classe": "6",
+  "usage": "Petit matériel et fournitures d'entretien"
+ },
+ {
+  "num": "6064",
+  "nom": "Fournitures administratives",
+  "classe": "6",
+  "usage": "Fournitures de bureau"
+ },
+ {
+  "num": "607",
+  "nom": "Achats de marchandises",
+  "classe": "6",
+  "usage": "Achats de marchandises destinées à la revente"
+ },
+ {
+  "num": "6091",
+  "nom": "Rabais, remises et ristournes obtenus sur achats",
+  "classe": "6",
+  "usage": "RRR obtenus (en moins des achats)"
+ },
+ {
+  "num": "611",
+  "nom": "Sous-traitance générale",
+  "classe": "6",
+  "usage": "Sous-traitance"
+ },
+ {
+  "num": "613",
+  "nom": "Locations",
+  "classe": "6",
+  "usage": "Compte racine locations"
+ },
+ {
+  "num": "6132",
+  "nom": "Locations immobilières",
+  "classe": "6",
+  "usage": "Loyers des locaux"
+ },
+ {
+  "num": "6135",
+  "nom": "Locations mobilières",
+  "classe": "6",
+  "usage": "Location de matériel"
+ },
+ {
+  "num": "6155",
+  "nom": "Entretien et réparations sur biens mobiliers",
+  "classe": "6",
+  "usage": "Réparations matériel et mobilier"
+ },
+ {
+  "num": "616",
+  "nom": "Primes d'assurances",
+  "classe": "6",
+  "usage": "Assurances de l'entreprise"
+ },
+ {
+  "num": "618",
+  "nom": "Divers (documentation, frais de colloques...)",
+  "classe": "6",
+  "usage": "Documentation, séminaires"
+ },
+ {
+  "num": "6226",
+  "nom": "Honoraires",
+  "classe": "6",
+  "usage": "Honoraires (expert-comptable, avocat...)"
+ },
+ {
+  "num": "6227",
+  "nom": "Frais d'actes et de contentieux",
+  "classe": "6",
+  "usage": "Frais juridiques, actes"
+ },
+ {
+  "num": "6231",
+  "nom": "Annonces et insertions",
+  "classe": "6",
+  "usage": "Publicité, annonces"
+ },
+ {
+  "num": "6251",
+  "nom": "Voyages et déplacements",
+  "classe": "6",
+  "usage": "Frais de déplacement"
+ },
+ {
+  "num": "6257",
+  "nom": "Réceptions",
+  "classe": "6",
+  "usage": "Frais de réception, restaurant"
+ },
+ {
+  "num": "626",
+  "nom": "Frais postaux et de télécommunications",
+  "classe": "6",
+  "usage": "Téléphone, internet, affranchissement"
+ },
+ {
+  "num": "627",
+  "nom": "Services bancaires et assimilés",
+  "classe": "6",
+  "usage": "Frais et commissions bancaires"
+ },
+ {
+  "num": "6311",
+  "nom": "Taxe sur les salaires",
+  "classe": "6",
+  "usage": "Taxe sur les salaires"
+ },
+ {
+  "num": "635",
+  "nom": "Autres impôts, taxes et versements assimilés (administrations des impôts)",
+  "classe": "6",
+  "usage": "CFE, CVAE, taxes diverses"
+ },
+ {
+  "num": "641",
+  "nom": "Rémunérations du personnel",
+  "classe": "6",
+  "usage": "Salaires bruts"
+ },
+ {
+  "num": "645",
+  "nom": "Charges de sécurité sociale et de prévoyance",
+  "classe": "6",
+  "usage": "Cotisations sociales patronales"
+ },
+ {
+  "num": "661",
+  "nom": "Charges d'intérêts",
+  "classe": "6",
+  "usage": "Intérêts des emprunts et découverts"
+ },
+ {
+  "num": "6811",
+  "nom": "Dotations aux amortissements sur immobilisations incorporelles et corporelles",
+  "classe": "6",
+  "usage": "Dotation aux amortissements de l'exercice"
+ },
+ {
+  "num": "675",
+  "nom": "Valeurs comptables des éléments d'actif cédés",
+  "classe": "6",
+  "usage": "VNC des immobilisations cédées (résultat exceptionnel)"
+ },
+ {
+  "num": "701",
+  "nom": "Ventes de produits finis",
+  "classe": "7",
+  "usage": "Chiffre d'affaires - produits finis"
+ },
+ {
+  "num": "706",
+  "nom": "Prestations de services",
+  "classe": "7",
+  "usage": "Chiffre d'affaires - prestations de services"
+ },
+ {
+  "num": "707",
+  "nom": "Ventes de marchandises",
+  "classe": "7",
+  "usage": "Chiffre d'affaires - marchandises"
+ },
+ {
+  "num": "708",
+  "nom": "Produits des activités annexes",
+  "classe": "7",
+  "usage": "Compte racine produits annexes"
+ },
+ {
+  "num": "7085",
+  "nom": "Ports et frais accessoires facturés",
+  "classe": "7",
+  "usage": "Frais de port refacturés aux clients"
+ },
+ {
+  "num": "709",
+  "nom": "Rabais, remises et ristournes accordés par l'entreprise",
+  "classe": "7",
+  "usage": "RRR accordés (en moins du CA)"
+ },
+ {
+  "num": "758",
+  "nom": "Produits divers de gestion courante",
+  "classe": "7",
+  "usage": "Produits de gestion courante divers"
+ },
+ {
+  "num": "775",
+  "nom": "Produits des cessions d'éléments d'actif",
+  "classe": "7",
+  "usage": "Prix de cession des immobilisations (résultat exceptionnel)"
+ },
+ {
+  "num": "7815",
+  "nom": "Reprises sur amortissements et provisions (à inscrire dans les produits d'exploitation)",
+  "classe": "7",
+  "usage": "Reprises de provisions d'exploitation"
+ }
+]

@@ -1,0 +1,2209 @@
+[
+ {
+  "sens": "fournisseur",
+  "activite": "Négoce de matériel informatique (revente B2B)",
+  "cas": "Achat de marchandises destinées à la revente — TVA 20% déductible. Comptes 607 + 44566.",
+  "journal": "AC",
+  "enonce": "Comptabilisez la facture d'achat de marchandises reçue du grossiste. Vérifiez l'équilibre débit/crédit.",
+  "doc": {
+   "emetteur": "TechDistrib Grossiste SAS",
+   "num": "FA-2026-04187",
+   "date": "2026-03-12",
+   "echeance": "2026-04-11",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Ordinateur portable 15\" i5 16Go",
+     "qte": 10,
+     "puht": 540
+    },
+    {
+     "designation": "Souris sans fil ergonomique",
+     "qte": 25,
+     "puht": 14
+    }
+   ],
+   "ht": 5750,
+   "taux": 20,
+   "tva": 1150,
+   "ttc": 6900
+  },
+  "lignes": [
+   {
+    "compte": "607",
+    "racine": "607",
+    "libelle": "Achats de marchandises - TechDistrib FA-2026-04187",
+    "debit": 5750,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA déductible 20% s/ achat marchandises",
+    "debit": 1150,
+    "credit": 0
+   },
+   {
+    "compte": "401TECHDISTRIB",
+    "racine": "401",
+    "libelle": "Fournisseur TechDistrib - FA-2026-04187",
+    "debit": 0,
+    "credit": 6900
+   }
+  ],
+  "astuce": "Marchandises destinées à la revente = compte 607 (et non 601/602). TVA au taux normal 20% pleinement déductible : 5750 x 20% = 1150. Équilibre : 5750 + 1150 = 6900.",
+  "id": "F01"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Cabinet de conseil (prestations intellectuelles)",
+  "cas": "Achat de petit équipement / fourniture de valeur unitaire < 500 € HT — passé en charges 6063 (et non immobilisé). TVA 20% déductible.",
+  "journal": "AC",
+  "enonce": "Comptabilisez l'achat de petit matériel de bureau. Justifiez le choix charge vs immobilisation.",
+  "doc": {
+   "emetteur": "Bureau & Co Fournitures",
+   "num": "F-2026-1042",
+   "date": "2026-03-18",
+   "echeance": "2026-03-18",
+   "ville": "Paris",
+   "lignes": [
+    {
+     "designation": "Fauteuil de bureau ergonomique",
+     "qte": 1,
+     "puht": 285
+    },
+    {
+     "designation": "Lampe de bureau LED",
+     "qte": 2,
+     "puht": 45
+    },
+    {
+     "designation": "Ramettes papier A4 (carton de 5)",
+     "qte": 4,
+     "puht": 22.5
+    }
+   ],
+   "ht": 465,
+   "taux": 20,
+   "tva": 93,
+   "ttc": 558
+  },
+  "lignes": [
+   {
+    "compte": "6063",
+    "racine": "606",
+    "libelle": "Fournitures petit équipement - Bureau & Co F-2026-1042",
+    "debit": 465,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA déductible 20% s/ petit équipement",
+    "debit": 93,
+    "credit": 0
+   },
+   {
+    "compte": "401BUREAUCO",
+    "racine": "401",
+    "libelle": "Fournisseur Bureau & Co - F-2026-1042",
+    "debit": 0,
+    "credit": 558
+   }
+  ],
+  "astuce": "Aucun bien n'atteint le seuil de 500 € HT par unité (fauteuil 285 €) : tolérance fiscale = comptabilisation directe en charges (6063), pas d'immobilisation ni d'amortissement. TVA déductible 465 x 20% = 93.",
+  "id": "F02"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Restaurant (restauration traditionnelle)",
+  "cas": "Loyer du local commercial soumis à TVA (bailleur ayant opté) — charge 6132, TVA 20% déductible. À ne pas confondre avec un loyer non soumis à TVA.",
+  "journal": "AC",
+  "enonce": "Comptabilisez la quittance de loyer du local (bailleur assujetti à la TVA).",
+  "doc": {
+   "emetteur": "SCI Les Tilleuls",
+   "num": "QUIT-2026-03",
+   "date": "2026-03-01",
+   "echeance": "2026-03-05",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Loyer local commercial mars 2026",
+     "qte": 1,
+     "puht": 2200
+    },
+    {
+     "designation": "Provision charges locatives mars 2026",
+     "qte": 1,
+     "puht": 180
+    }
+   ],
+   "ht": 2380,
+   "taux": 20,
+   "tva": 476,
+   "ttc": 2856
+  },
+  "lignes": [
+   {
+    "compte": "6132",
+    "racine": "613",
+    "libelle": "Loyer local commercial mars 2026 - SCI Les Tilleuls",
+    "debit": 2380,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA déductible 20% s/ loyer",
+    "debit": 476,
+    "credit": 0
+   },
+   {
+    "compte": "401SCITILLEULS",
+    "racine": "401",
+    "libelle": "Bailleur SCI Les Tilleuls - QUIT-2026-03",
+    "debit": 0,
+    "credit": 2856
+   }
+  ],
+  "astuce": "Loyer de local professionnel = compte 6132 (locations immobilières). La TVA n'est déductible que si le bailleur a opté pour la TVA et l'a facturée : ici elle figure sur la quittance, donc récupérable. 2380 x 20% = 476. Les charges locatives suivent le même régime que le loyer principal.",
+  "id": "F03"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Entreprise du BTP (travaux de gros œuvre)",
+  "cas": "Prime d'assurance multirisque pro — opération EXONÉRÉE de TVA (art. 261 C CGI). La TSCA est intégrée à la charge, AUCUNE TVA déductible.",
+  "journal": "AC",
+  "enonce": "Comptabilisez l'avis d'échéance d'assurance. Attention au piège de la TVA.",
+  "doc": {
+   "emetteur": "Assurances Méridien (Courtage)",
+   "num": "ECH-2026-77120",
+   "date": "2026-03-20",
+   "echeance": "2026-04-01",
+   "ville": "Marseille",
+   "lignes": [
+    {
+     "designation": "Prime annuelle multirisque pro + RC décennale (TSCA incluse)",
+     "qte": 1,
+     "puht": 3420
+    }
+   ],
+   "ht": 3420,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 3420
+  },
+  "lignes": [
+   {
+    "compte": "616",
+    "racine": "616",
+    "libelle": "Prime assurance multirisque/décennale - Méridien ECH-2026-77120",
+    "debit": 3420,
+    "credit": 0
+   },
+   {
+    "compte": "401MERIDIEN",
+    "racine": "401",
+    "libelle": "Assureur Méridien - ECH-2026-77120",
+    "debit": 0,
+    "credit": 3420
+   }
+  ],
+  "astuce": "Les opérations d'assurance sont exonérées de TVA : pas de 44566. La taxe sur les conventions d'assurance (TSCA) supportée n'est pas récupérable et reste incluse dans la charge au compte 616. Écriture sans ligne de TVA : 3420 = 3420.",
+  "id": "F04"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "E-commerce de cosmétiques (vente en ligne)",
+  "cas": "Abonnement télécom/internet + hébergement — charge 626, TVA 20% déductible. Inclut l'hébergement du site web (relève bien du 626).",
+  "journal": "AC",
+  "enonce": "Comptabilisez la facture d'abonnement internet/téléphonie et hébergement du site.",
+  "doc": {
+   "emetteur": "NetPro Télécom SAS",
+   "num": "FT-2026-0359",
+   "date": "2026-03-31",
+   "echeance": "2026-04-15",
+   "ville": "Lille",
+   "lignes": [
+    {
+     "designation": "Abonnement fibre pro + ligne mobile (mars 2026)",
+     "qte": 1,
+     "puht": 89
+    },
+    {
+     "designation": "Hébergement site e-commerce + nom de domaine",
+     "qte": 1,
+     "puht": 61
+    }
+   ],
+   "ht": 150,
+   "taux": 20,
+   "tva": 30,
+   "ttc": 180
+  },
+  "lignes": [
+   {
+    "compte": "626",
+    "racine": "626",
+    "libelle": "Télécom/internet + hébergement - NetPro FT-2026-0359",
+    "debit": 150,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA déductible 20% s/ frais télécom",
+    "debit": 30,
+    "credit": 0
+   },
+   {
+    "compte": "401NETPRO",
+    "racine": "401",
+    "libelle": "Fournisseur NetPro - FT-2026-0359",
+    "debit": 0,
+    "credit": 180
+   }
+  ],
+  "astuce": "Abonnements télécom, internet ET hébergement de site web relèvent tous du compte 626. TVA au taux normal 20% déductible : 150 x 20% = 30. À distinguer des affranchissements/timbres (non soumis à TVA).",
+  "id": "F05"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Épicerie fine et négoce de produits alimentaires",
+  "cas": "Achat de marchandises alimentaires conditionnées au taux réduit de 5,5% (TVA 100% déductible)",
+  "journal": "AC",
+  "enonce": "Comptabilisez la facture d'achat de marchandises alimentaires. Identifiez le taux de TVA applicable et le compte de charge approprié.",
+  "doc": {
+   "emetteur": "Conserverie du Sud-Ouest SAS",
+   "num": "FA-2026-04127",
+   "date": "2026-06-03",
+   "echeance": "2026-07-03",
+   "ville": "Agen",
+   "lignes": [
+    {
+     "designation": "Bocaux confit de canard 750g",
+     "qte": 120,
+     "puht": 9.5
+    },
+    {
+     "designation": "Terrines de campagne 180g (cartons de 12)",
+     "qte": 40,
+     "puht": 21
+    }
+   ],
+   "ht": 1980,
+   "taux": 5.5,
+   "tva": 108.9,
+   "ttc": 2088.9
+  },
+  "lignes": [
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achat marchandises alimentaires",
+    "debit": 1980,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA déductible 5,5%",
+    "debit": 108.9,
+    "credit": 0
+   },
+   {
+    "compte": "401CONS",
+    "racine": "401",
+    "libelle": "Fournisseur Conserverie du Sud-Ouest",
+    "debit": 0,
+    "credit": 2088.9
+   }
+  ],
+  "astuce": "Les produits alimentaires conditionnés pour conservation et consommation différée relèvent du taux réduit de 5,5%. La TVA est intégralement déductible (achat lié à l'activité).",
+  "id": "F06"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Agence de conseil en marketing digital",
+  "cas": "Repas d'affaires au restaurant au taux de 10% — TVA déductible (restauration = exception aux frais de réception)",
+  "journal": "BQ",
+  "enonce": "Comptabilisez la note de restaurant réglée par carte bancaire pour un déjeuner d'affaires avec un client. Précisez si la TVA est récupérable.",
+  "doc": {
+   "emetteur": "Brasserie Le Comptoir",
+   "num": "TICKET-8842",
+   "date": "2026-06-05",
+   "echeance": "2026-06-05",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Menus déjeuner d'affaires (3 couverts)",
+     "qte": 3,
+     "puht": 28
+    },
+    {
+     "designation": "Boissons non alcoolisées",
+     "qte": 3,
+     "puht": 4
+    }
+   ],
+   "ht": 96,
+   "taux": 10,
+   "tva": 9.6,
+   "ttc": 105.6
+  },
+  "lignes": [
+   {
+    "compte": "625700",
+    "racine": "6257",
+    "libelle": "Réceptions - repas d'affaires",
+    "debit": 96,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA déductible sur restauration 10%",
+    "debit": 9.6,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque (paiement CB)",
+    "debit": 0,
+    "credit": 105.6
+   }
+  ],
+  "astuce": "Contrairement à l'hébergement des dirigeants/salariés, la TVA sur la restauration (repas) EST déductible si la dépense est engagée dans l'intérêt de l'entreprise. Taux 10% (consommation immédiate sur place).",
+  "id": "F07"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Bureau d'études techniques (BTP)",
+  "cas": "Plein de gazole pour un véhicule de tourisme — TVA déductible à 80% seulement",
+  "journal": "BQ",
+  "enonce": "Comptabilisez la facture de carburant (gazole) pour le véhicule de tourisme de l'entreprise, réglée par carte carburant. Appliquez le coefficient de déduction correct.",
+  "doc": {
+   "emetteur": "PÉTROVA Energies Marketing France",
+   "num": "CARB-2026-77310",
+   "date": "2026-06-06",
+   "echeance": "2026-06-06",
+   "ville": "Nantes",
+   "lignes": [
+    {
+     "designation": "Gazole B7 - 150 litres (véhicule de tourisme)",
+     "qte": 150,
+     "puht": 1.4
+    }
+   ],
+   "ht": 210,
+   "taux": 20,
+   "tva": 42,
+   "ttc": 252
+  },
+  "lignes": [
+   {
+    "compte": "606150",
+    "racine": "6061",
+    "libelle": "Carburant gazole véhicule tourisme",
+    "debit": 218.4,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA déductible 80% sur gazole",
+    "debit": 33.6,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque (carte carburant)",
+    "debit": 0,
+    "credit": 252
+   }
+  ],
+  "astuce": "Pour un véhicule de tourisme, le gazole n'ouvre droit à déduction qu'à 80% (33,60 = 42 x 80%). Les 20% non déductibles (8,40) sont réintégrés en charge sur le compte 606.",
+  "id": "F08"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Cabinet d'architecte (BNC)",
+  "cas": "Location courte durée d'un véhicule de tourisme — TVA totalement NON déductible",
+  "journal": "AC",
+  "enonce": "Comptabilisez la facture de location d'un véhicule de tourisme pour un déplacement professionnel. La TVA est-elle récupérable ?",
+  "doc": {
+   "emetteur": "LOCAUTO Location France SAS",
+   "num": "LOC-2026-558902",
+   "date": "2026-06-04",
+   "echeance": "2026-07-04",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Location berline catégorie C - 5 jours",
+     "qte": 5,
+     "puht": 62
+    },
+    {
+     "designation": "Assurance complémentaire",
+     "qte": 1,
+     "puht": 40
+    }
+   ],
+   "ht": 350,
+   "taux": 20,
+   "tva": 70,
+   "ttc": 420
+  },
+  "lignes": [
+   {
+    "compte": "613000",
+    "racine": "613",
+    "libelle": "Location véhicule tourisme (TVA non déduct.)",
+    "debit": 420,
+    "credit": 0
+   },
+   {
+    "compte": "401LOC",
+    "racine": "401",
+    "libelle": "Fournisseur Europcar",
+    "debit": 0,
+    "credit": 420
+   }
+  ],
+  "astuce": "La TVA sur la location d'un véhicule de tourisme suit le sort du véhicule lui-même : elle est exclue du droit à déduction. On enregistre donc le montant TTC (420) en charge, sans compte 44566.",
+  "id": "F09"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "E-commerce de cosmétiques",
+  "cas": "Nuit d'hôtel du dirigeant en déplacement — TVA sur hébergement NON déductible",
+  "journal": "AC",
+  "enonce": "Comptabilisez la facture d'hôtel engagée pour le dirigeant lors d'un salon professionnel. Déterminez le traitement de la TVA sur l'hébergement.",
+  "doc": {
+   "emetteur": "Hôtel Hôtel LE CENTRAL Centre",
+   "num": "H-2026-19044",
+   "date": "2026-06-02",
+   "echeance": "2026-07-02",
+   "ville": "Paris",
+   "lignes": [
+    {
+     "designation": "Nuitée chambre simple (dirigeant)",
+     "qte": 2,
+     "puht": 110
+    }
+   ],
+   "ht": 220,
+   "taux": 10,
+   "tva": 22,
+   "ttc": 242
+  },
+  "lignes": [
+   {
+    "compte": "625100",
+    "racine": "6251",
+    "libelle": "Frais hébergement dirigeant (TVA non déduct.)",
+    "debit": 242,
+    "credit": 0
+   },
+   {
+    "compte": "401HOT",
+    "racine": "401",
+    "libelle": "Fournisseur Hôtel Mercure",
+    "debit": 0,
+    "credit": 242
+   }
+  ],
+  "astuce": "La TVA sur l'hébergement (hôtel) des dirigeants et salariés de l'entreprise est exclue du droit à déduction. On comptabilise le TTC (242) en charge. Attention : la restauration, elle, reste déductible (cf. facture restaurant).",
+  "id": "F10"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Entreprise générale du BTP (gros œuvre)",
+  "cas": "Sous-traitance BTP : autoliquidation de la TVA par le preneur (donneur d'ordre). Facture du sous-traitant SANS TVA, mention 'Autoliquidation'.",
+  "journal": "AC",
+  "enonce": "Vous êtes comptable de l'entreprise générale BatiSol (preneur). Comptabilisez la facture du sous-traitant, en autoliquidant la TVA.",
+  "doc": {
+   "emetteur": "SARL Maçonnerie Durand (sous-traitant)",
+   "num": "ST-2026-0147",
+   "date": "2026-03-12",
+   "echeance": "2026-04-11",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Travaux de maçonnerie chantier résidence Les Tilleuls (sous-traitance BTP - autoliquidation par le preneur, art. 283-2 nonies CGI)",
+     "qte": 1,
+     "puht": 18000
+    }
+   ],
+   "ht": 18000,
+   "taux": 20,
+   "tva": 0,
+   "ttc": 18000
+  },
+  "lignes": [
+   {
+    "compte": "611",
+    "racine": "611",
+    "libelle": "Sous-traitance BTP - Maçonnerie Durand",
+    "debit": 18000,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "4456",
+    "libelle": "TVA déductible autoliquidée (sous-traitance)",
+    "debit": 3600,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur Maçonnerie Durand (HT, facture sans TVA)",
+    "debit": 0,
+    "credit": 18000
+   },
+   {
+    "compte": "44571",
+    "racine": "4457",
+    "libelle": "TVA collectée autoliquidée (sous-traitance)",
+    "debit": 0,
+    "credit": 3600
+   }
+  ],
+  "astuce": "Le sous-traitant facture HT sans TVA avec mention 'Autoliquidation'. Le preneur (entreprise principale) collecte (44571) ET déduit (44566) la TVA : opération neutre en trésorerie. Le 401 n'est crédité que du montant HT réellement dû au fournisseur.",
+  "id": "F11"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Négoce de matériel informatique",
+  "cas": "Acquisition intracommunautaire de biens : autoliquidation. TVA due intracom (4452) + TVA déductible intracom (445662). Fournisseur UE facture HT.",
+  "journal": "AC",
+  "enonce": "Vous êtes comptable de la société InfoStock (FR). Comptabilisez l'achat de marchandises auprès d'un fournisseur allemand identifié à la TVA, en autoliquidant la TVA intracommunautaire.",
+  "doc": {
+   "emetteur": "EuroTech Handel GmbH (Allemagne, n° TVA DE123456789)",
+   "num": "RE-2026-8842",
+   "date": "2026-03-05",
+   "echeance": "2026-04-04",
+   "ville": "München",
+   "lignes": [
+    {
+     "designation": "Ordinateurs portables 14\" (livraison intracommunautaire exonérée - autoliquidation par l'acquéreur, art. 283-2 bis CGI)",
+     "qte": 20,
+     "puht": 600
+    }
+   ],
+   "ht": 12000,
+   "taux": 20,
+   "tva": 0,
+   "ttc": 12000
+  },
+  "lignes": [
+   {
+    "compte": "607",
+    "racine": "607",
+    "libelle": "Achat marchandises - TechHandel GmbH (AIC)",
+    "debit": 12000,
+    "credit": 0
+   },
+   {
+    "compte": "445662",
+    "racine": "44566",
+    "libelle": "TVA déductible sur AIC",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur TechHandel GmbH (HT)",
+    "debit": 0,
+    "credit": 12000
+   },
+   {
+    "compte": "4452",
+    "racine": "4452",
+    "libelle": "TVA due intracommunautaire (AIC)",
+    "debit": 0,
+    "credit": 2400
+   }
+  ],
+  "astuce": "Le fournisseur UE facture HT (livraison intracom exonérée). L'acquéreur autoliquide : 4452 (TVA due intracom) en crédit et 445662 (TVA déductible intracom) en débit. Sur la CA3 : base ligne 03, TVA due ligne 17, TVA déductible ligne 20. Effet neutre en trésorerie.",
+  "id": "F12"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "E-commerce de cosmétiques",
+  "cas": "Importation de biens hors UE : autoliquidation obligatoire de la TVA à l'import depuis le 01/01/2022 (gérée sur la CA3, plus en douane).",
+  "journal": "AC",
+  "enonce": "Vous êtes comptable de la société BelleNature (FR). Comptabilisez la facture du fournisseur chinois pour un import hors UE, en autoliquidant la TVA à l'importation.",
+  "doc": {
+   "emetteur": "Asia Beauty Trading Co. Ltd (Chine)",
+   "num": "INV-CN-2026-3310",
+   "date": "2026-02-18",
+   "echeance": "2026-03-20",
+   "ville": "Shenzhen",
+   "lignes": [
+    {
+     "designation": "Flacons et packaging cosmétiques (importation hors UE - autoliquidation TVA import sur CA3 depuis 2022)",
+     "qte": 5000,
+     "puht": 1.5
+    }
+   ],
+   "ht": 7500,
+   "taux": 20,
+   "tva": 0,
+   "ttc": 7500
+  },
+  "lignes": [
+   {
+    "compte": "601",
+    "racine": "601",
+    "libelle": "Achat matières/fournitures importées - Shenzhen Beauty",
+    "debit": 7500,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "4456",
+    "libelle": "TVA déductible sur importation (autoliquidée)",
+    "debit": 1500,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur Shenzhen Beauty Co. (HT)",
+    "debit": 0,
+    "credit": 7500
+   },
+   {
+    "compte": "4452",
+    "racine": "4452",
+    "libelle": "TVA due sur importation (autoliquidée)",
+    "debit": 0,
+    "credit": 1500
+   }
+  ],
+  "astuce": "Depuis 2022, la TVA à l'import est autoliquidée sur la CA3 (préremplie le 14 du mois à partir des données douane), plus payée en douane. On collecte la TVA import (4452) et on la déduit (44566). Base sur ligne I1, déductible ligne 24. Attention : la base TVA inclut droits de douane éventuels.",
+  "id": "F13"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Cabinet d'architecte (BNC)",
+  "cas": "Achat d'une immobilisation : TVA déductible sur immobilisation au compte 44562 (et non 44566). Comptabilisation en compte 21x.",
+  "journal": "AC",
+  "enonce": "Vous êtes comptable du cabinet ArchiPlan. Comptabilisez l'acquisition d'un traceur grand format (immobilisation), avec la TVA déductible sur immobilisation.",
+  "doc": {
+   "emetteur": "Reprographie Pro SAS",
+   "num": "F2026-0521",
+   "date": "2026-04-02",
+   "echeance": "2026-05-02",
+   "ville": "Nantes",
+   "lignes": [
+    {
+     "designation": "Traceur traceur/imprimante grand format A0 (immobilisation corporelle - matériel de bureau)",
+     "qte": 1,
+     "puht": 4500
+    }
+   ],
+   "ht": 4500,
+   "taux": 20,
+   "tva": 900,
+   "ttc": 5400
+  },
+  "lignes": [
+   {
+    "compte": "2183",
+    "racine": "218",
+    "libelle": "Matériel de bureau et informatique - Traceur A0",
+    "debit": 4500,
+    "credit": 0
+   },
+   {
+    "compte": "44562",
+    "racine": "44562",
+    "libelle": "TVA déductible sur immobilisations",
+    "debit": 900,
+    "credit": 0
+   },
+   {
+    "compte": "404",
+    "racine": "404",
+    "libelle": "Fournisseur d'immobilisations - Reprographie Pro",
+    "debit": 0,
+    "credit": 5400
+   }
+  ],
+  "astuce": "Pour une immobilisation : compte 21x (ici 2183 matériel informatique/bureau), TVA déductible au compte 44562 (sur immobilisations, distinct du 44566 sur ABS), et le fournisseur va au 404 (fournisseur d'immobilisations) et non au 401. Le bien sera amorti.",
+  "id": "F14"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Restaurant",
+  "cas": "Honoraires d'expertise : compte 6226, TVA déductible 44566, montant à reporter sur la DAS2 (seuil 2 400 € TTC/bénéficiaire depuis 2025).",
+  "journal": "AC",
+  "enonce": "Vous êtes comptable du restaurant Le Gourmet. Comptabilisez la facture d'honoraires de l'expert-comptable, à suivre pour la DAS2.",
+  "doc": {
+   "emetteur": "Cabinet Expertise & Conseil (expert-comptable)",
+   "num": "HON-2026-1009",
+   "date": "2026-03-31",
+   "echeance": "2026-04-30",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Honoraires d'expertise comptable - mission présentation comptes annuels 2025",
+     "qte": 1,
+     "puht": 3000
+    }
+   ],
+   "ht": 3000,
+   "taux": 20,
+   "tva": 600,
+   "ttc": 3600
+  },
+  "lignes": [
+   {
+    "compte": "6226",
+    "racine": "6226",
+    "libelle": "Honoraires expert-comptable (DAS2)",
+    "debit": 3000,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "4456",
+    "libelle": "TVA déductible sur ABS",
+    "debit": 600,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur Cabinet Expertise & Conseil",
+    "debit": 0,
+    "credit": 3600
+   }
+  ],
+  "astuce": "Les honoraires vont au 6226. Comme le total TTC versé au bénéficiaire (3 600 €) dépasse le seuil DAS2 (2 400 € TTC depuis 2025, ex-1 200 €), il faut le déclarer en DAS2 : montant TTC, avec nom, SIRET et profession du bénéficiaire. Astuce : utiliser un compte/bénéficiaire identifié 'DAS2' facilite la déclaration annuelle.",
+  "id": "F15"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Brasserie / Restaurant (distribution de boissons)",
+  "cas": "Facture d'achat avec consigne d'emballages (fûts) - compte 4096",
+  "journal": "AC",
+  "enonce": "Le restaurant La Tablee recoit la facture de son fournisseur de bieres : 40 futs de biere blonde + consigne sur les futs. La consigne n'est pas soumise a TVA (depot de garantie). Comptabilisez la facture d'achat.",
+  "doc": {
+   "emetteur": "Brasserie Houblon Distribution SAS",
+   "num": "FA-2026-0488",
+   "date": "2026-06-03",
+   "echeance": "2026-07-03",
+   "ville": "Lille",
+   "lignes": [
+    {
+     "designation": "Fut biere blonde 30L",
+     "qte": 40,
+     "puht": 75
+    },
+    {
+     "designation": "Consigne fut metallique (hors TVA)",
+     "qte": 40,
+     "puht": 30
+    }
+   ],
+   "ht": 3000,
+   "taux": 20,
+   "tva": 600,
+   "ttc": 4800
+  },
+  "lignes": [
+   {
+    "compte": "60711",
+    "racine": "607",
+    "libelle": "Achat futs de biere (marchandises)",
+    "debit": 3000,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA deductible sur ABS (20% sur 3000)",
+    "debit": 600,
+    "credit": 0
+   },
+   {
+    "compte": "4096",
+    "racine": "4096",
+    "libelle": "Fournisseurs - creances pour emballages a rendre (consigne)",
+    "debit": 1200,
+    "credit": 0
+   },
+   {
+    "compte": "401HOUBLON",
+    "racine": "401",
+    "libelle": "Fournisseur Houblon Distribution - net a payer",
+    "debit": 0,
+    "credit": 4800
+   }
+  ],
+  "id": "F16"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Cabinet d'architecte (BNC)",
+  "cas": "Note de frais d'un salarie remboursee (deplacement + repas)",
+  "journal": "OD",
+  "enonce": "Une collaboratrice du cabinet avance ses frais lors d'un deplacement chantier : peage (TVA 20%) et repas au restaurant (TVA 10%). Enregistrez la note de frais a rembourser au salarie.",
+  "doc": {
+   "emetteur": "Note de frais - Mme Leroy (salariee)",
+   "num": "NDF-2026-06-14",
+   "date": "2026-06-05",
+   "echeance": "2026-06-10",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Peage autoroute A10 (HT)",
+     "qte": 1,
+     "puht": 40
+    },
+    {
+     "designation": "Repas restaurant client (HT)",
+     "qte": 1,
+     "puht": 50
+    }
+   ],
+   "ht": 90,
+   "taux": 20,
+   "tva": 13,
+   "ttc": 103
+  },
+  "lignes": [
+   {
+    "compte": "6251",
+    "racine": "6251",
+    "libelle": "Voyages et deplacements (peage HT)",
+    "debit": 40,
+    "credit": 0
+   },
+   {
+    "compte": "6256",
+    "racine": "6256",
+    "libelle": "Missions - repas en deplacement (HT)",
+    "debit": 50,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA deductible (8 sur peage 20% + 5 sur repas 10%)",
+    "debit": 13,
+    "credit": 0
+   },
+   {
+    "compte": "421",
+    "racine": "421",
+    "libelle": "Personnel - remunerations dues (note de frais a rembourser)",
+    "debit": 0,
+    "credit": 103
+   }
+  ],
+  "id": "F17"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Entreprise du BTP (gros oeuvre)",
+  "cas": "Acompte verse a un fournisseur a la commande - compte 4091 (TVA exigible des l'acompte)",
+  "journal": "BQ",
+  "enonce": "L'entreprise de BTP verse un acompte de 30% a la commande d'une centrale a beton aupres de son fournisseur de materiaux. Depuis 2023, la TVA est exigible des l'encaissement de l'acompte : enregistrez le reglement de la facture d'acompte par banque.",
+  "doc": {
+   "emetteur": "Materiaux Pro Sud SARL",
+   "num": "ACPT-2026-0157",
+   "date": "2026-06-02",
+   "echeance": "2026-06-02",
+   "ville": "Toulouse",
+   "lignes": [
+    {
+     "designation": "Acompte 30% commande beton et agregats (HT)",
+     "qte": 1,
+     "puht": 5000
+    }
+   ],
+   "ht": 5000,
+   "taux": 20,
+   "tva": 1000,
+   "ttc": 6000
+  },
+  "lignes": [
+   {
+    "compte": "4091",
+    "racine": "4091",
+    "libelle": "Fournisseurs - avances et acomptes verses sur commande",
+    "debit": 5000,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA deductible sur acompte (exigible des le versement)",
+    "debit": 1000,
+    "credit": 0
+   },
+   {
+    "compte": "512",
+    "racine": "512",
+    "libelle": "Banque - reglement acompte fournisseur",
+    "debit": 0,
+    "credit": 6000
+   }
+  ],
+  "id": "F18"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "Negoce de materiel informatique",
+  "cas": "Avoir fournisseur pour RRR (ristourne) obtenu apres facturation - compte 609",
+  "journal": "AC",
+  "enonce": "Le grossiste informatique obtient de son fournisseur une ristourne de fin de trimestre de 5% sur ses achats d'ordinateurs portables, materialisee par une note d'avoir. Comptabilisez l'avoir (RRR obtenu) avec regularisation de la TVA.",
+  "doc": {
+   "emetteur": "TechGrossiste Distribution SAS",
+   "num": "AV-2026-0342",
+   "date": "2026-06-04",
+   "echeance": "2026-06-04",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Avoir - Ristourne 5% sur achats portables T2 (HT)",
+     "qte": 1,
+     "puht": 2400
+    }
+   ],
+   "ht": 2400,
+   "taux": 20,
+   "tva": 480,
+   "ttc": 2880
+  },
+  "lignes": [
+   {
+    "compte": "401TECH",
+    "racine": "401",
+    "libelle": "Fournisseur TechGrossiste - avoir (diminue la dette)",
+    "debit": 2880,
+    "credit": 0
+   },
+   {
+    "compte": "6097",
+    "racine": "609",
+    "libelle": "RRR obtenus sur achats de marchandises",
+    "debit": 0,
+    "credit": 2400
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA deductible regularisee (diminution) sur RRR",
+    "debit": 0,
+    "credit": 480
+   }
+  ],
+  "id": "F19"
+ },
+ {
+  "sens": "fournisseur",
+  "activite": "E-commerce de cosmetiques",
+  "cas": "Facture d'achat (prestation transport) avec escompte de reglement obtenu - compte 765, TVA sur net financier",
+  "journal": "AC",
+  "enonce": "Le e-commerce de cosmetiques recoit la facture de son transporteur avec un escompte de 2% pour paiement comptant, deduit en pied de facture. L'escompte se calcule apres remises et avant TVA : la TVA porte sur le net financier. Comptabilisez la facture.",
+  "doc": {
+   "emetteur": "RapidColis Logistique SAS",
+   "num": "TR-2026-1184",
+   "date": "2026-06-06",
+   "echeance": "2026-06-06",
+   "ville": "Nantes",
+   "lignes": [
+    {
+     "designation": "Transport et livraison commandes mai (net commercial HT)",
+     "qte": 1,
+     "puht": 2000
+    },
+    {
+     "designation": "Escompte 2% pour paiement comptant (-)",
+     "qte": 1,
+     "puht": -40
+    }
+   ],
+   "ht": 1960,
+   "taux": 20,
+   "tva": 392,
+   "ttc": 2352
+  },
+  "lignes": [
+   {
+    "compte": "6241",
+    "racine": "6241",
+    "libelle": "Transports sur achats (net commercial HT 2000)",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "44566",
+    "racine": "44566",
+    "libelle": "TVA deductible (20% sur net financier 1960)",
+    "debit": 392,
+    "credit": 0
+   },
+   {
+    "compte": "765",
+    "racine": "765",
+    "libelle": "Escomptes obtenus (produit financier 2%)",
+    "debit": 0,
+    "credit": 40
+   },
+   {
+    "compte": "401RAPIDCOLIS",
+    "racine": "401",
+    "libelle": "Fournisseur RapidColis - net a payer",
+    "debit": 0,
+    "credit": 2352
+   }
+  ],
+  "id": "F20"
+ },
+ {
+  "sens": "vente",
+  "activite": "Négoce de matériel informatique (grossiste)",
+  "cas": "Vente de marchandises à un client professionnel, TVA 20%",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture de vente de marchandises émise au client professionnel BUREAUTIC SARL.",
+  "doc": {
+   "emetteur": "INFODIS GROSSISTE SAS",
+   "num": "FV2026-0412",
+   "date": "2026-06-03",
+   "echeance": "2026-07-03",
+   "ville": "Lyon",
+   "sens": "vente",
+   "lignes": [
+    {
+     "designation": "Ordinateur portable Pro 14\" i7",
+     "qte": 10,
+     "puht": 820
+    },
+    {
+     "designation": "Station d'accueil USB-C",
+     "qte": 10,
+     "puht": 95
+    }
+   ],
+   "ht": 9150,
+   "taux": 20,
+   "tva": 1830,
+   "ttc": 10980
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client BUREAUTIC SARL - FV2026-0412",
+    "debit": 10980,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Ventes de marchandises",
+    "debit": 0,
+    "credit": 9150
+   },
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectée 20%",
+    "debit": 0,
+    "credit": 1830
+   }
+  ],
+  "astuce": "Vente de marchandises (achetées pour être revendues en l'état) = compte 707, et non 706. TVA collectée 20% au 44571.",
+  "id": "F21"
+ },
+ {
+  "sens": "vente",
+  "activite": "Cabinet d'architecte (BNC, prestation de conception)",
+  "cas": "Prestation de services intellectuels, compte 706, TVA 20%",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture d'honoraires de maîtrise d'œuvre adressée au client SCI LES TILLEULS.",
+  "doc": {
+   "emetteur": "ATELIER MERIDIEN ARCHITECTURE",
+   "num": "2026-058",
+   "date": "2026-06-05",
+   "echeance": "2026-07-05",
+   "ville": "Bordeaux",
+   "sens": "vente",
+   "lignes": [
+    {
+     "designation": "Mission de maîtrise d'œuvre - phase APD",
+     "qte": 1,
+     "puht": 4500
+    },
+    {
+     "designation": "Établissement permis de construire",
+     "qte": 1,
+     "puht": 1800
+    }
+   ],
+   "ht": 6300,
+   "taux": 20,
+   "tva": 1260,
+   "ttc": 7560
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client SCI LES TILLEULS - Fact 2026-058",
+    "debit": 7560,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services - honoraires MOE",
+    "debit": 0,
+    "credit": 6300
+   },
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectée 20%",
+    "debit": 0,
+    "credit": 1260
+   }
+  ],
+  "astuce": "Une prestation de services se comptabilise en 706 (et non 707). Pour une prestation, la TVA est en principe exigible à l'encaissement, mais la collecte s'enregistre au 44571 dès la facturation (sauf option débit).",
+  "id": "F22"
+ },
+ {
+  "sens": "vente",
+  "activite": "Agence d'édition / presse (vente de livres et revues)",
+  "cas": "Vente de biens au taux réduit de 5,5% (livres)",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture de vente de livres à la librairie cliente PAGES & CO.",
+  "doc": {
+   "emetteur": "EDITIONS HORIZON SARL",
+   "num": "VTE-2026-1187",
+   "date": "2026-06-04",
+   "echeance": "2026-07-04",
+   "ville": "Nantes",
+   "sens": "vente",
+   "lignes": [
+    {
+     "designation": "Ouvrage \"Histoire de l'art moderne\"",
+     "qte": 120,
+     "puht": 18
+    },
+    {
+     "designation": "Ouvrage \"Atlas géographique 2026\"",
+     "qte": 60,
+     "puht": 24
+    }
+   ],
+   "ht": 3600,
+   "taux": 5.5,
+   "tva": 198,
+   "ttc": 3798
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client PAGES & CO - VTE-2026-1187",
+    "debit": 3798,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Ventes de marchandises (livres) 5,5%",
+    "debit": 0,
+    "credit": 3600
+   },
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectée 5,5%",
+    "debit": 0,
+    "credit": 198
+   }
+  ],
+  "astuce": "Les livres relèvent du taux réduit de 5,5%. Penser à un sous-compte de TVA collectée dédié par taux (44571x) pour faciliter la déclaration CA3.",
+  "id": "F23"
+ },
+ {
+  "sens": "vente",
+  "activite": "Entreprise de travaux de rénovation de logements (BTP)",
+  "cas": "Travaux de rénovation d'un logement de plus de 2 ans, TVA 10%",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture de travaux de rénovation chez un particulier (attestation taux réduit fournie).",
+  "doc": {
+   "emetteur": "RENOV'HABITAT SARL",
+   "num": "F2026-0339",
+   "date": "2026-06-06",
+   "echeance": "2026-07-21",
+   "ville": "Toulouse",
+   "sens": "vente",
+   "lignes": [
+    {
+     "designation": "Remplacement menuiseries (logement > 2 ans)",
+     "qte": 1,
+     "puht": 5200
+    },
+    {
+     "designation": "Pose et main d'œuvre",
+     "qte": 1,
+     "puht": 2300
+    }
+   ],
+   "ht": 7500,
+   "taux": 10,
+   "tva": 750,
+   "ttc": 8250
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client M. DURAND - F2026-0339",
+    "debit": 8250,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services - travaux rénovation",
+    "debit": 0,
+    "credit": 7500
+   },
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectée 10%",
+    "debit": 0,
+    "credit": 750
+   }
+  ],
+  "astuce": "Travaux d'amélioration/rénovation d'un logement achevé depuis plus de 2 ans = TVA à 10% (5,5% pour rénovation énergétique), sous réserve de l'attestation client. Prestation = compte 706.",
+  "id": "F24"
+ },
+ {
+  "sens": "vente",
+  "activite": "Boulangerie-pâtisserie (commerce de détail)",
+  "cas": "Recette journalière (ticket Z) encaissée espèces + CB, ventilation par taux 5,5% / 10% / 20%",
+  "journal": "BQ",
+  "enonce": "Comptabilisez la recette journalière du ticket Z : pain et viennoiseries à emporter (5,5%), restauration/sandwichs consommation immédiate (10%), boissons alcoolisées (20%). Encaissement espèces et CB.",
+  "doc": {
+   "emetteur": "BOULANGERIE LE FOURNIL DORE",
+   "num": "Z-2026-06-06",
+   "date": "2026-06-06",
+   "echeance": "2026-06-06",
+   "ville": "Paris",
+   "sens": "vente",
+   "lignes": [
+    {
+     "designation": "Ventes alimentaires à emporter 5,5% (HT)",
+     "qte": 1,
+     "puht": 600
+    },
+    {
+     "designation": "Ventes consommation immédiate / restauration 10% (HT)",
+     "qte": 1,
+     "puht": 300
+    },
+    {
+     "designation": "Ventes boissons alcoolisées 20% (HT)",
+     "qte": 1,
+     "puht": 100
+    }
+   ],
+   "ht": 1000,
+   "taux": 0,
+   "tva": 83,
+   "ttc": 1083
+  },
+  "lignes": [
+   {
+    "compte": "531000",
+    "racine": "531",
+    "libelle": "Caisse - especes (ticket Z)",
+    "debit": 483,
+    "credit": 0
+   },
+   {
+    "compte": "511500",
+    "racine": "511",
+    "libelle": "Cartes bancaires a l encaissement (CB)",
+    "debit": 600,
+    "credit": 0
+   },
+   {
+    "compte": "707100",
+    "racine": "707",
+    "libelle": "Ventes alimentaires 5,5%",
+    "debit": 0,
+    "credit": 600
+   },
+   {
+    "compte": "707200",
+    "racine": "707",
+    "libelle": "Ventes restauration sur place 10%",
+    "debit": 0,
+    "credit": 300
+   },
+   {
+    "compte": "707300",
+    "racine": "707",
+    "libelle": "Ventes boissons 20%",
+    "debit": 0,
+    "credit": 100
+   },
+   {
+    "compte": "445713",
+    "racine": "44571",
+    "libelle": "TVA collectee 5,5%",
+    "debit": 0,
+    "credit": 33
+   },
+   {
+    "compte": "445712",
+    "racine": "44571",
+    "libelle": "TVA collectee 10%",
+    "debit": 0,
+    "credit": 30
+   },
+   {
+    "compte": "445711",
+    "racine": "44571",
+    "libelle": "TVA collectee 20%",
+    "debit": 0,
+    "credit": 20
+   }
+  ],
+  "astuce": "Recette Z : ventiler par taux. CB en 511 (cartes a l encaissement), especes en 531. TVA collectee par taux : 5,5%=445713, 10%=445712, 20%=445711.",
+  "id": "F25"
+ },
+ {
+  "sens": "vente",
+  "activite": "Négoce de matériel informatique (grossiste)",
+  "cas": "Livraison intracommunautaire de biens exonérée (art. 262 ter I CGI) - client UE assujetti avec n° TVA intracom valide",
+  "journal": "VT",
+  "enonce": "Comptabilisez cette facture de vente de marchandises à un client allemand assujetti, livrées en Allemagne, avec n° de TVA intracommunautaire communiqué.",
+  "doc": {
+   "emetteur": "INFOTRADE DISTRIBUTION SAS",
+   "num": "FV-2026-0451",
+   "date": "2026-06-08",
+   "echeance": "2026-07-08",
+   "ville": "Strasbourg",
+   "lignes": [
+    {
+     "designation": "Ordinateurs portables 14\" pro (réf. NB-14P)",
+     "qte": 40,
+     "puht": 620
+    },
+    {
+     "designation": "Stations d'accueil USB-C (réf. DOCK-USBC)",
+     "qte": 40,
+     "puht": 85
+    }
+   ],
+   "ht": 28200,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 28200
+  },
+  "astuce": "Vente exonérée de TVA (art. 262 ter I CGI) car bien expédié vers un autre État membre à un acquéreur identifié à la TVA dans l'UE ayant communiqué son n° intracom. Mention obligatoire « Exonération de TVA, art. 262 ter I du CGI ». Écriture à 2 lignes : 411 au débit / 707 au crédit, sans aucun compte de TVA. À déclarer en EMEBI (ex-DEB) et état récapitulatif TVA.",
+  "lignes": [
+   {
+    "compte": "411DEU",
+    "racine": "411",
+    "libelle": "Client TechWelt GmbH - FV-2026-0451",
+    "debit": 28200,
+    "credit": 0
+   },
+   {
+    "compte": "707",
+    "racine": "707",
+    "libelle": "Vente marchandises - LIC exonérée art. 262 ter I",
+    "debit": 0,
+    "credit": 28200
+   }
+  ],
+  "id": "F26"
+ },
+ {
+  "sens": "vente",
+  "activite": "Fabricant de cosmétiques bio (vente B2B)",
+  "cas": "Exportation de biens hors UE exonérée (art. 262 I CGI) - client suisse, livraison hors Union européenne",
+  "journal": "VT",
+  "enonce": "Comptabilisez cette facture de vente de produits cosmétiques exportés vers un client suisse (hors UE), justificatif douanier d'exportation à l'appui.",
+  "doc": {
+   "emetteur": "NATURACOS PRODUCTION SARL",
+   "num": "FE-2026-118",
+   "date": "2026-06-05",
+   "echeance": "2026-08-04",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Crème hydratante bio 50ml (carton de 24)",
+     "qte": 30,
+     "puht": 144
+    },
+    {
+     "designation": "Sérum visage bio 30ml (carton de 24)",
+     "qte": 20,
+     "puht": 216
+    }
+   ],
+   "ht": 8640,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 8640
+  },
+  "astuce": "Exportation de biens hors UE exonérée de TVA (art. 262 I 1° CGI). La Suisse n'est pas dans l'UE : ce n'est PAS une LIC mais un export, justifié par la déclaration douanière d'exportation (DAU/visa électronique). Mention « Exonération de TVA, art. 262 I du CGI ». Écriture à 2 lignes : 411 / 707, sans TVA. Pas d'EMEBI (réservé à l'intra-UE).",
+  "lignes": [
+   {
+    "compte": "411CHE",
+    "racine": "411",
+    "libelle": "Client Helvetia Beauty AG - FE-2026-118",
+    "debit": 8640,
+    "credit": 0
+   },
+   {
+    "compte": "707",
+    "racine": "707",
+    "libelle": "Vente marchandises - Export hors UE exonéré art. 262 I",
+    "debit": 0,
+    "credit": 8640
+   }
+  ],
+  "id": "F27"
+ },
+ {
+  "sens": "vente",
+  "activite": "Cabinet d'architecte / bureau d'études (prestations intellectuelles)",
+  "cas": "Prestation de services B2B à un preneur assujetti UE - hors champ TVA FR, autoliquidation par le preneur (art. 259-1 / 283-2 CGI)",
+  "journal": "VT",
+  "enonce": "Comptabilisez cette facture d'honoraires d'études adressée à une société italienne assujettie (preneur identifié à la TVA en Italie).",
+  "doc": {
+   "emetteur": "ATELIER FORMA ARCHITECTURE SARL",
+   "num": "H-2026-073",
+   "date": "2026-06-03",
+   "echeance": "2026-07-03",
+   "ville": "Marseille",
+   "lignes": [
+    {
+     "designation": "Mission de conception architecturale - projet siège Milan",
+     "qte": 1,
+     "puht": 14500
+    },
+    {
+     "designation": "Études techniques et plans d'exécution",
+     "qte": 1,
+     "puht": 6200
+    }
+   ],
+   "ht": 20700,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 20700
+  },
+  "astuce": "Prestation de services B2B : le lieu d'imposition est chez le preneur (art. 259-1° CGI). La TVA est due par le preneur italien (autoliquidation). Le prestataire français facture HORS TAXE, mention « Autoliquidation - TVA due par le preneur, art. 283-2 CGI ». Côté vendeur : pas de TVA collectée, écriture 411 / 706 (prestations de services). À déclarer en DES (Déclaration Européenne de Services).",
+  "lignes": [
+   {
+    "compte": "411ITA",
+    "racine": "411",
+    "libelle": "Client Studio Rossi Srl - H-2026-073",
+    "debit": 20700,
+    "credit": 0
+   },
+   {
+    "compte": "706",
+    "racine": "706",
+    "libelle": "Prestations services UE - autoliquidation preneur art. 283-2",
+    "debit": 0,
+    "credit": 20700
+   }
+  ],
+  "id": "F28"
+ },
+ {
+  "sens": "vente",
+  "activite": "E-commerce de pièces détachées automobiles (négoce)",
+  "cas": "Vente nationale avec frais de port refacturés - le port suit le sort de la vente principale (compte 7085, TVA 20%)",
+  "journal": "VT",
+  "enonce": "Comptabilisez cette facture de vente à un garage français, comprenant des marchandises et des frais de livraison refacturés au client.",
+  "doc": {
+   "emetteur": "AUTOPARTS EXPRESS SAS",
+   "num": "FA-2026-2087",
+   "date": "2026-06-07",
+   "echeance": "2026-07-07",
+   "ville": "Lille",
+   "lignes": [
+    {
+     "designation": "Plaquettes de frein (jeu réf. BP-2204)",
+     "qte": 50,
+     "puht": 38
+    },
+    {
+     "designation": "Disques de frein ventilés (réf. DV-330)",
+     "qte": 20,
+     "puht": 62
+    },
+    {
+     "designation": "Frais de port et de livraison",
+     "qte": 1,
+     "puht": 90
+    }
+   ],
+   "ht": 3230,
+   "taux": 20,
+   "tva": 646,
+   "ttc": 3876
+  },
+  "astuce": "Les frais de port refacturés au client constituent un accessoire de la vente : ils suivent le régime de TVA du bien vendu (ici 20%) et entrent dans la base imposable. Comptabilisation distincte au compte 7085 « Ports et frais accessoires facturés » (90 € HT), le reste en 707 (3 140 € HT). TVA collectée 44571 sur le total HT (3 230 € x 20% = 646 €). Détail des lignes : 411 = 3 876 (D) ; 707 = 3 140 (C) ; 7085 = 90 (C) ; 44571 = 646 (C).",
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client Garage Dubois - FA-2026-2087",
+    "debit": 3876,
+    "credit": 0
+   },
+   {
+    "compte": "707",
+    "racine": "707",
+    "libelle": "Vente marchandises (pièces freinage)",
+    "debit": 0,
+    "credit": 3140
+   },
+   {
+    "compte": "7085",
+    "racine": "7085",
+    "libelle": "Ports et frais accessoires facturés",
+    "debit": 0,
+    "credit": 90
+   },
+   {
+    "compte": "44571",
+    "racine": "44571",
+    "libelle": "TVA collectée 20% sur vente + port",
+    "debit": 0,
+    "credit": 646
+   }
+  ],
+  "id": "F29"
+ },
+ {
+  "sens": "vente",
+  "activite": "Fabricant de mobilier design (industrie, vente B2B)",
+  "cas": "Livraison intracommunautaire de produits finis (262 ter I) avec frais de transport refacturés inclus dans la base exonérée",
+  "journal": "VT",
+  "enonce": "Comptabilisez cette facture de vente de mobilier à un client espagnol assujetti (livré en Espagne), avec frais de transport refacturés.",
+  "doc": {
+   "emetteur": "LIGNE & BOIS MANUFACTURE SAS",
+   "num": "FV-2026-0892",
+   "date": "2026-06-06",
+   "echeance": "2026-07-21",
+   "ville": "Nantes",
+   "lignes": [
+    {
+     "designation": "Bureaux design chêne massif (réf. BUR-OAK)",
+     "qte": 15,
+     "puht": 540
+    },
+    {
+     "designation": "Fauteuils ergonomiques cuir (réf. FAUT-ERG)",
+     "qte": 15,
+     "puht": 320
+    },
+    {
+     "designation": "Frais de transport jusqu'à Madrid",
+     "qte": 1,
+     "puht": 750
+    }
+   ],
+   "ht": 13650,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 13650
+  },
+  "astuce": "Double cas : LIC de produits finis (art. 262 ter I CGI, TVA 0) + frais de transport refacturés. Les frais accessoires suivent le sort de l'opération principale : comme la LIC est exonérée, le transport refacturé est lui aussi exonéré (TVA 0). On utilise 701 (Ventes de produits finis, car fabricant) pour le mobilier et 7085 pour le port, les deux sans TVA. Écriture : 411 = 13 650 (D) ; 701 = 12 900 (C) ; 7085 = 750 (C). Mention « Exonération de TVA, art. 262 ter I du CGI » + EMEBI/DEB.",
+  "lignes": [
+   {
+    "compte": "411ESP",
+    "racine": "411",
+    "libelle": "Client Muebles Iberia SL - FV-2026-0892",
+    "debit": 13650,
+    "credit": 0
+   },
+   {
+    "compte": "701",
+    "racine": "701",
+    "libelle": "Vente produits finis - LIC exonérée art. 262 ter I",
+    "debit": 0,
+    "credit": 12900
+   },
+   {
+    "compte": "7085",
+    "racine": "7085",
+    "libelle": "Ports et frais accessoires facturés - LIC exonérée",
+    "debit": 0,
+    "credit": 750
+   }
+  ],
+  "id": "F30"
+ },
+ {
+  "sens": "vente",
+  "activite": "Menuiserie / Agencement sur mesure",
+  "cas": "Acompte reçu d'un client à la commande (TVA exigible immédiatement)",
+  "journal": "BQ",
+  "enonce": "La société 'Atelier Boisrond' reçoit un acompte de 30% à la commande d'une cuisine sur mesure. Comptabilisez l'encaissement de cette facture d'acompte (paiement par virement le jour même).",
+  "doc": {
+   "emetteur": "Atelier Boisrond SARL",
+   "num": "FA-AC-2026-014",
+   "date": "2026-03-12",
+   "echeance": "2026-03-12",
+   "ville": "Annecy",
+   "lignes": [
+    {
+     "designation": "Acompte 30% sur commande cuisine sur mesure réf. CUI-220",
+     "qte": 1,
+     "puht": 4500
+    }
+   ],
+   "ht": 4500,
+   "taux": 20,
+   "tva": 900,
+   "ttc": 5400
+  },
+  "lignes": [
+   {
+    "compte": "512",
+    "racine": "512",
+    "libelle": "Encaissement acompte client - virement",
+    "debit": 5400,
+    "credit": 0
+   },
+   {
+    "compte": "4191",
+    "racine": "4191",
+    "libelle": "Clients - avances et acomptes reçus sur commandes",
+    "debit": 0,
+    "credit": 4500
+   },
+   {
+    "compte": "44571",
+    "racine": "44571",
+    "libelle": "TVA collectée sur acompte (exigible à l'encaissement)",
+    "debit": 0,
+    "credit": 900
+   }
+  ],
+  "astuce": "Sur un acompte, la TVA est exigible dès l'encaissement : on crédite 4191 (HT) ET 44571 (TVA). Au compte 4191 NE figure que le HT, jamais le TTC. À la facture finale, on soldera 4191 par 411.",
+  "id": "F31"
+ },
+ {
+  "sens": "vente",
+  "activite": "Négoce de matériel informatique",
+  "cas": "Avoir client pour RRR (ristourne) accordée hors escompte",
+  "journal": "VT",
+  "enonce": "La société 'InfoPro Distribution' accorde à son client une ristourne de fin d'année de 5% sur les achats, et lui adresse un avoir. Comptabilisez cet avoir client.",
+  "doc": {
+   "emetteur": "InfoPro Distribution SAS",
+   "num": "AV-2026-031",
+   "date": "2026-01-31",
+   "echeance": "2026-01-31",
+   "ville": "Lyon",
+   "lignes": [
+    {
+     "designation": "Ristourne annuelle 5% sur CA 2025 (avoir)",
+     "qte": 1,
+     "puht": -1200
+    }
+   ],
+   "ht": -1200,
+   "taux": 20,
+   "tva": -240,
+   "ttc": -1440
+  },
+  "lignes": [
+   {
+    "compte": "709",
+    "racine": "709",
+    "libelle": "RRR accordés par l'entreprise (ristourne)",
+    "debit": 1200,
+    "credit": 0
+   },
+   {
+    "compte": "44571",
+    "racine": "44571",
+    "libelle": "TVA collectée annulée sur avoir",
+    "debit": 240,
+    "credit": 0
+   },
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Créance client diminuée de l'avoir",
+    "debit": 0,
+    "credit": 1440
+   }
+  ],
+  "astuce": "Un avoir pour RRR est l'inverse d'une vente : le 709 (réduction commerciale) se DÉBITE, et la TVA collectée du 44571 se DÉBITE aussi (on l'annule). Le 411 est crédité car la créance baisse. Ne jamais minorer directement le 707 : on isole en 709.",
+  "id": "F32"
+ },
+ {
+  "sens": "vente",
+  "activite": "Grossiste en fournitures de bureau",
+  "cas": "Escompte de règlement accordé à un client pour paiement anticipé",
+  "journal": "VT",
+  "enonce": "La société 'BuroStock' accorde un escompte de règlement de 2% à un client qui paie comptant au lieu de 60 jours. L'escompte figure sur la facture. Comptabilisez la vente nette d'escompte (1 ligne de marchandises 5 000 € HT, escompte 2%).",
+  "doc": {
+   "emetteur": "BuroStock SARL",
+   "num": "F-2026-0457",
+   "date": "2026-02-18",
+   "echeance": "2026-02-18",
+   "ville": "Roubaix",
+   "lignes": [
+    {
+     "designation": "Fournitures de bureau (cartons papier, consommables)",
+     "qte": 1,
+     "puht": 5000
+    },
+    {
+     "designation": "Escompte de règlement 2% (paiement comptant)",
+     "qte": 1,
+     "puht": -100
+    }
+   ],
+   "ht": 4900,
+   "taux": 20,
+   "tva": 980,
+   "ttc": 5880
+  },
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client - vente nette d'escompte",
+    "debit": 5880,
+    "credit": 0
+   },
+   {
+    "compte": "665",
+    "racine": "665",
+    "libelle": "Escompte de règlement accordé au client",
+    "debit": 100,
+    "credit": 0
+   },
+   {
+    "compte": "707",
+    "racine": "707",
+    "libelle": "Ventes de marchandises (montant brut)",
+    "debit": 0,
+    "credit": 5000
+   },
+   {
+    "compte": "44571",
+    "racine": "44571",
+    "libelle": "TVA collectée sur base nette d'escompte (4 900 x 20%)",
+    "debit": 0,
+    "credit": 980
+   }
+  ],
+  "astuce": "L'escompte est une charge FINANCIÈRE (665), pas une réduction commerciale (709). La base TVA est calculée APRÈS escompte (art. 267 CGI) : TVA sur 4 900 € et non 5 000 €. Le 707 reste au montant brut, le 665 porte l'escompte HT.",
+  "id": "F33"
+ },
+ {
+  "sens": "vente",
+  "activite": "Entreprise du BTP (sous-traitant - travaux de plâtrerie)",
+  "cas": "Facture d'un sous-traitant BTP : autoliquidation, pas de TVA collectée",
+  "journal": "VT",
+  "enonce": "La société 'PlâtroSol', sous-traitante, facture des travaux de plâtrerie à l'entreprise principale (donneur d'ordre). Régime d'autoliquidation. Comptabilisez la facture de vente du sous-traitant (HT pur, mention 'Autoliquidation art. 283-2 nonies CGI').",
+  "doc": {
+   "emetteur": "PlâtroSol SARL",
+   "num": "ST-2026-088",
+   "date": "2026-04-05",
+   "echeance": "2026-05-05",
+   "ville": "Toulouse",
+   "lignes": [
+    {
+     "designation": "Travaux de plâtrerie - chantier résidence Les Tilleuls (sous-traitance) - Autoliquidation art. 283-2 nonies CGI",
+     "qte": 1,
+     "puht": 8000
+    }
+   ],
+   "ht": 8000,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 8000
+  },
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client donneur d'ordre - travaux sous-traités HT",
+    "debit": 8000,
+    "credit": 0
+   },
+   {
+    "compte": "706",
+    "racine": "706",
+    "libelle": "Prestations de services (travaux) - sous-traitance autoliquidée",
+    "debit": 0,
+    "credit": 8000
+   }
+  ],
+  "astuce": "En sous-traitance BTP, le sous-traitant facture HT SANS TVA collectée (mention 'Autoliquidation'). Écriture à 2 lignes : 411 = 706 (pas de 44571). C'est le donneur d'ordre qui autoliquide (44571 + 44566 en neutre chez lui).",
+  "id": "F34"
+ },
+ {
+  "sens": "vente",
+  "activite": "Cabinet d'architecte (BNC)",
+  "cas": "Refacturation de débours engagés au nom du client (hors TVA, mandat)",
+  "journal": "VT",
+  "enonce": "Le cabinet 'Atelier d'Architecture Léa Marin' refacture à son client des honoraires de prestation et des débours (taxe d'aménagement / frais de permis payés au nom du client en vertu d'un mandat). Comptabilisez la facture mixte : honoraires soumis à TVA + débours hors TVA.",
+  "doc": {
+   "emetteur": "Atelier d'Architecture Léa Marin",
+   "num": "FACT-2026-072",
+   "date": "2026-05-20",
+   "echeance": "2026-06-19",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Honoraires de maîtrise d'œuvre - phase APD",
+     "qte": 1,
+     "puht": 3000
+    },
+    {
+     "designation": "Débours - frais de dépôt permis de construire avancés au nom du client (hors TVA, mandat)",
+     "qte": 1,
+     "puht": 450
+    }
+   ],
+   "ht": 3000,
+   "taux": 20,
+   "tva": 600,
+   "ttc": 4050
+  },
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client - facture honoraires + débours",
+    "debit": 4050,
+    "credit": 0
+   },
+   {
+    "compte": "706",
+    "racine": "706",
+    "libelle": "Honoraires (prestation soumise à TVA)",
+    "debit": 0,
+    "credit": 3000
+   },
+   {
+    "compte": "44571",
+    "racine": "44571",
+    "libelle": "TVA collectée sur honoraires uniquement (3 000 x 20%)",
+    "debit": 0,
+    "credit": 600
+   },
+   {
+    "compte": "467",
+    "racine": "467",
+    "libelle": "Remboursement débours engagés au nom du client (hors TVA)",
+    "debit": 0,
+    "credit": 450
+   }
+  ],
+  "astuce": "Un débours (mandat + facture au nom du client + remboursement à l'euro près) n'est PAS du CA et n'est PAS soumis à TVA : il transite par le 467, pas par un compte de produit. La TVA collectée ne porte QUE sur les honoraires (3 000 €), pas sur les 450 € de débours.",
+  "id": "F35"
+ },
+ {
+  "sens": "vente",
+  "activite": "Imprimerie offset (PME industrielle)",
+  "cas": "Cession d'une immobilisation (machine) avec plus-value - PCG 2025 : sortie 2154/28154 + 657 VNC + 757 prix de cession",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture de cession d'une presse offset (immobilisation) ET la sortie de l'actif. Valeur d'origine 40 000 EUR HT, amortissements pratiqués 34 000 EUR. Vente 9 000 EUR HT, TVA 20%. PCG applicable au 08/06/2026.",
+  "doc": {
+   "emetteur": "IMPRIMERIE LE CARACTERE SARL",
+   "num": "FC-2026-0142",
+   "date": "2026-06-08",
+   "echeance": "2026-07-08",
+   "ville": "Tours",
+   "lignes": [
+    {
+     "designation": "Cession presse offset Heidelberg SM52 (immobilisation - bien d'occasion)",
+     "qte": 1,
+     "puht": 9000
+    }
+   ],
+   "ht": 9000,
+   "taux": 20,
+   "tva": 1800,
+   "ttc": 10800
+  },
+  "lignes": [
+   {
+    "compte": "462",
+    "racine": "462",
+    "libelle": "Créance sur cession d'immobilisation - FC-2026-0142",
+    "debit": 10800,
+    "credit": 0
+   },
+   {
+    "compte": "757",
+    "racine": "757",
+    "libelle": "Produit de cession presse offset (ex-775, PCG 2025)",
+    "debit": 0,
+    "credit": 9000
+   },
+   {
+    "compte": "44571",
+    "racine": "4457",
+    "libelle": "TVA collectée 20% sur cession",
+    "debit": 0,
+    "credit": 1800
+   },
+   {
+    "compte": "281540",
+    "racine": "281",
+    "libelle": "Amortissements matériel industriel - sortie presse offset",
+    "debit": 34000,
+    "credit": 0
+   },
+   {
+    "compte": "657",
+    "racine": "657",
+    "libelle": "VNC de l'immobilisation cédée (ex-675, PCG 2025) = 40000 - 34000",
+    "debit": 6000,
+    "credit": 0
+   },
+   {
+    "compte": "215400",
+    "racine": "215",
+    "libelle": "Sortie matériel industriel - presse offset (valeur d'origine)",
+    "debit": 0,
+    "credit": 40000
+   }
+  ],
+  "id": "F36"
+ },
+ {
+  "sens": "vente",
+  "activite": "Brasserie artisanale (production et négoce de bière)",
+  "cas": "Vente de marchandises avec consignation d'emballages (fûts) - compte 4196, hors champ TVA sur la consigne",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture : vente de bière en fûts à un bar, AVEC consignation des fûts. La consigne n'est PAS soumise à TVA. Distinguez le HT marchandises (avec TVA) de la consigne (sans TVA).",
+  "doc": {
+   "emetteur": "BRASSERIE DU HOUBLON SAS",
+   "num": "F2026-0518",
+   "date": "2026-06-08",
+   "echeance": "2026-07-08",
+   "ville": "Lille",
+   "lignes": [
+    {
+     "designation": "Bière blonde artisanale - fût 30L",
+     "qte": 20,
+     "puht": 75
+    },
+    {
+     "designation": "Consigne fût inox 30L (récupérable, non soumise à TVA)",
+     "qte": 20,
+     "puht": 30
+    }
+   ],
+   "ht": 1500,
+   "taux": 20,
+   "tva": 300,
+   "ttc": 1800
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client Bar Le Comptoir - F2026-0518",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Vente de marchandises - bière en fûts",
+    "debit": 0,
+    "credit": 1500
+   },
+   {
+    "compte": "44571",
+    "racine": "4457",
+    "libelle": "TVA collectée 20% sur les marchandises uniquement",
+    "debit": 0,
+    "credit": 300
+   },
+   {
+    "compte": "4196",
+    "racine": "4196",
+    "libelle": "Clients - dettes sur emballages consignés (20 fûts x 30 EUR, hors TVA)",
+    "debit": 0,
+    "credit": 600
+   }
+  ],
+  "id": "F37"
+ },
+ {
+  "sens": "vente",
+  "activite": "Cabinet d'architecte (profession libérale BNC)",
+  "cas": "Facturation d'honoraires - TVA sur encaissement : à la facturation TVA en attente 44587, transfert en 44571 seulement à l'encaissement",
+  "journal": "VT",
+  "enonce": "Comptabilisez la facture d'honoraires de l'architecte (BNC, TVA sur les encaissements). À la DATE DE FACTURE, la TVA n'est PAS encore exigible : elle reste en attente (44587) tant que le client n'a pas payé.",
+  "doc": {
+   "emetteur": "ATELIER D'ARCHITECTURE M. DUBOIS",
+   "num": "HONO-2026-077",
+   "date": "2026-06-08",
+   "echeance": "2026-07-08",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Mission de maîtrise d'œuvre - phase APS/APD villa Caudéran",
+     "qte": 1,
+     "puht": 8000
+    }
+   ],
+   "ht": 8000,
+   "taux": 20,
+   "tva": 1600,
+   "ttc": 9600
+  },
+  "lignes": [
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client M. et Mme Martin - HONO-2026-077",
+    "debit": 9600,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services - honoraires de maîtrise d'œuvre",
+    "debit": 0,
+    "credit": 8000
+   },
+   {
+    "compte": "44587",
+    "racine": "4458",
+    "libelle": "TVA sur factures à établir / non encaissée (en attente, TVA sur encaissement)",
+    "debit": 0,
+    "credit": 1600
+   }
+  ],
+  "id": "F38"
+ },
+ {
+  "sens": "vente",
+  "activite": "Cabinet d'architecte (profession libérale BNC)",
+  "cas": "Encaissement de la facture d'honoraires - exigibilité de la TVA : transfert 44587 vers 44571 lors du règlement client",
+  "journal": "BQ",
+  "enonce": "Suite de la facture HONO-2026-077 : le client paie par virement le 08/06/2026. Comptabilisez l'encaissement ET le transfert de la TVA en attente (44587) vers la TVA collectée exigible (44571). C'est à ce moment que la TVA devient due à l'État.",
+  "doc": {
+   "emetteur": "ATELIER D'ARCHITECTURE M. DUBOIS",
+   "num": "ENC-HONO-2026-077",
+   "date": "2026-06-08",
+   "echeance": "2026-06-08",
+   "ville": "Bordeaux",
+   "lignes": [
+    {
+     "designation": "Encaissement virement règlement facture HONO-2026-077 (honoraires TTC)",
+     "qte": 1,
+     "puht": 9600
+    }
+   ],
+   "ht": 8000,
+   "taux": 20,
+   "tva": 1600,
+   "ttc": 9600
+  },
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque - virement client règlement HONO-2026-077",
+    "debit": 9600,
+    "credit": 0
+   },
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client M. et Mme Martin - solde HONO-2026-077",
+    "debit": 0,
+    "credit": 9600
+   },
+   {
+    "compte": "44587",
+    "racine": "4458",
+    "libelle": "Annulation TVA en attente sur encaissement (transfert)",
+    "debit": 1600,
+    "credit": 0
+   },
+   {
+    "compte": "44571",
+    "racine": "4457",
+    "libelle": "TVA collectée exigible à l'encaissement",
+    "debit": 0,
+    "credit": 1600
+   }
+  ],
+  "id": "F39"
+ },
+ {
+  "sens": "vente",
+  "activite": "Exploitation maraîchère bio (entreprise agricole)",
+  "cas": "Subvention d'exploitation (compte 741 PCG 2025) - aide à la production hors champ TVA, contrepartie 441 État subventions à recevoir",
+  "journal": "OD",
+  "enonce": "Comptabilisez l'octroi d'une subvention d'exploitation notifiée par la Région pour soutenir la conversion bio. Aide sans lien direct avec le prix : HORS CHAMP TVA. Comptabilisation dès la notification (et non au paiement).",
+  "doc": {
+   "emetteur": "GAEC LES JARDINS DE LA VALLEE",
+   "num": "SUBV-2026-03",
+   "date": "2026-06-08",
+   "echeance": "2026-06-08",
+   "ville": "Avignon",
+   "lignes": [
+    {
+     "designation": "Subvention d'exploitation Région PACA - aide à la conversion agriculture biologique (notification du 08/06/2026)",
+     "qte": 1,
+     "puht": 12000
+    }
+   ],
+   "ht": 12000,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 12000
+  },
+  "lignes": [
+   {
+    "compte": "441000",
+    "racine": "441",
+    "libelle": "État - subventions à recevoir - notification Région PACA",
+    "debit": 12000,
+    "credit": 0
+   },
+   {
+    "compte": "741000",
+    "racine": "74",
+    "libelle": "Subventions d'exploitation (PCG 2025) - aide conversion bio, hors champ TVA",
+    "debit": 0,
+    "credit": 12000
+   }
+  ],
+  "id": "F40"
+ }
+]

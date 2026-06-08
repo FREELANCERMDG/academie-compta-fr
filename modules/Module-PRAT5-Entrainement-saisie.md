@@ -4,6 +4,21 @@
 
 > 💡 Astuces : utilisez **« ➕ Ajouter une ligne »** si besoin · les montants s'écrivent `1 200` ou `1200,00` · le compte peut être saisi en abrégé (ex. `607`, `401`, `44566`).
 
+---
+
+## 🗂️ Mode « pile de factures » — 20 achats + 20 ventes (auto‑passage)
+Comme en cabinet : une **pile de factures** à traiter, chacune avec l'**activité** de la société dont vous êtes comptable et un **cas particulier** réel (autoliquidation, intracommunautaire, import, immobilisation, consigne, note de frais, escompte, export…). Validez une écriture → la **facture suivante s'affiche automatiquement**. Un doute sur un compte ? **📖 Plan comptable** intégré.
+
+### 📥 20 factures FOURNISSEURS (achats)
+
+<div class="saisie" data-serie="fournisseur"></div>
+
+### 📤 20 factures de VENTE
+
+<div class="saisie" data-serie="vente"></div>
+
+---
+
 ## Exercice 1 — Achat de marchandises
 <div class="saisie" data-ex="ex1"></div>
 

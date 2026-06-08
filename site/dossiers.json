@@ -5,17 +5,17 @@
     "intro": "Vous êtes collaborateur. Voici la pile de pièces du mois à traiter pour ce client. Pour chaque facture : choisissez le type de tiers, le compte d'imputation, les montants et le taux de TVA, puis Validez.",
     "pieces": [
       {
-        "doc": { "sens": "Facture fournisseur", "emetteur": "SEARE — Expertise comptable", "ville": "75116 Paris", "num": "F-2026-0412", "date": "03/04/2026", "echeance": "03/05/2026", "lignes": [{ "designation": "Honoraires comptables — avril", "qte": 1, "puht": 250 }], "ht": 250, "tva": 50, "ttc": 300, "taux": 20 },
+        "doc": { "sens": "Facture fournisseur", "emetteur": "Cabinet FANILO — Expertise comptable", "ville": "75116 Paris", "num": "F-2026-0412", "date": "03/04/2026", "echeance": "03/05/2026", "lignes": [{ "designation": "Honoraires comptables — avril", "qte": 1, "puht": 250 }], "ht": 250, "tva": 50, "ttc": 300, "taux": 20 },
         "attendu": { "tiers": "fournisseur", "compte": "6226", "racine": "6226", "ht": 250, "tva": 50, "ttc": 300, "taux": 20, "cutoff": "" },
         "astuce": "Honoraires d'expert-comptable / avocat → compte 6226."
       },
       {
-        "doc": { "sens": "Facture fournisseur", "emetteur": "EDF Entreprises", "ville": "92000 Nanterre", "num": "EL-77231", "date": "05/04/2026", "echeance": "20/04/2026", "lignes": [{ "designation": "Électricité atelier — mars", "qte": 1, "puht": 200 }], "ht": 200, "tva": 40, "ttc": 240, "taux": 20 },
+        "doc": { "sens": "Facture fournisseur", "emetteur": "ÉLECTRA Énergie", "ville": "92000 Nanterre", "num": "EL-77231", "date": "05/04/2026", "echeance": "20/04/2026", "lignes": [{ "designation": "Électricité atelier — mars", "qte": 1, "puht": 200 }], "ht": 200, "tva": 40, "ttc": 240, "taux": 20 },
         "attendu": { "tiers": "fournisseur", "compte": "6061", "racine": "6061", "ht": 200, "tva": 40, "ttc": 240, "taux": 20, "cutoff": "" },
         "astuce": "Électricité / énergie → 60611 (racine 6061)."
       },
       {
-        "doc": { "sens": "Facture fournisseur", "emetteur": "Bureau Vallée", "ville": "75011 Paris", "num": "BV-9981", "date": "08/04/2026", "echeance": "08/04/2026", "lignes": [{ "designation": "Fournitures de bureau (ramettes, encre)", "qte": 1, "puht": 80 }], "ht": 80, "tva": 16, "ttc": 96, "taux": 20 },
+        "doc": { "sens": "Facture fournisseur", "emetteur": "BUROMAX", "ville": "75011 Paris", "num": "BV-9981", "date": "08/04/2026", "echeance": "08/04/2026", "lignes": [{ "designation": "Fournitures de bureau (ramettes, encre)", "qte": 1, "puht": 80 }], "ht": 80, "tva": 16, "ttc": 96, "taux": 20 },
         "attendu": { "tiers": "fournisseur", "compte": "6064", "racine": "6064", "ht": 80, "tva": 16, "ttc": 96, "taux": 20, "cutoff": "" },
         "astuce": "Fournitures de bureau → 6064."
       },
@@ -25,7 +25,7 @@
         "astuce": "Vente de prestation de services → 706. Le client est au débit (411), le produit + TVA collectée au crédit."
       },
       {
-        "doc": { "sens": "Facture fournisseur", "emetteur": "AXA Assurances", "ville": "75008 Paris", "num": "AX-2026-114", "date": "15/04/2026", "echeance": "30/04/2026", "lignes": [{ "designation": "Assurance responsabilité civile pro", "qte": 1, "puht": 600 }], "ht": 600, "tva": 0, "ttc": 600, "taux": 0 },
+        "doc": { "sens": "Facture fournisseur", "emetteur": "ASSURIS Assurances", "ville": "75008 Paris", "num": "AX-2026-114", "date": "15/04/2026", "echeance": "30/04/2026", "lignes": [{ "designation": "Assurance responsabilité civile pro", "qte": 1, "puht": 600 }], "ht": 600, "tva": 0, "ttc": 600, "taux": 0 },
         "attendu": { "tiers": "fournisseur", "compte": "616", "racine": "616", "ht": 600, "tva": 0, "ttc": 600, "taux": 0, "cutoff": "" },
         "astuce": "Piège : l'assurance est EXONÉRÉE de TVA → pas de TVA déductible, HT = TTC, compte 616."
       },
