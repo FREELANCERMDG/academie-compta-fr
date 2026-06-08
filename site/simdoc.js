@@ -339,17 +339,125 @@
     return h+"</div>";
   }
 
+  /* ===== MODULE 4 — Liquidation de l'IS ===== */
+  var IS={ denom:"SAS ATLAS INDUSTRIE", fiscal:90200, seuil:42500 };
+  IS.base15=Math.min(IS.fiscal,IS.seuil); IS.base25=Math.max(0,IS.fiscal-IS.seuil);
+  IS.is15=Math.round(IS.base15*0.15); IS.is25=Math.round(IS.base25*0.25); IS.isTot=IS.is15+IS.is25;
+  function srcIS(){ var r=IS;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Société</span><span class='v'>"+esc(r.denom)+" (IS)</span></div>"
+      +"<div class='row'><span class='k'><b>Résultat fiscal</b> (issu de la liasse)</span><span class='v'>"+eur(r.fiscal)+"</span></div>"
+      +"<div class='sec'>Conditions du taux réduit (PME)</div>"
+      +"<div class='row'><span class='k'>CA HT &lt; 10 M€</span><span class='v'>✅</span></div>"
+      +"<div class='row'><span class='k'>Capital entièrement libéré</span><span class='v'>✅</span></div>"
+      +"<div class='row'><span class='k'>Détenu ≥ 75 % par des personnes physiques</span><span class='v'>✅</span></div>"
+      +"</div><p class='sd-note'>💡 IS 2026 : <b>15 %</b> jusqu'à <b>42 500 €</b> (PME éligible), puis <b>25 %</b> au-delà.</p>";
+  }
+  function formIS(){ var r=IS, h="<div class='cf'>";
+    h+=marianne("LIQUIDATION DE L'IMPÔT SUR LES SOCIÉTÉS","Taux 2026 : 15 % jusqu'à 42 500 € (PME), 25 % au-delà","N° 2065 / 2572");
+    h+="<div class='cf-sec'><div class='cf-st'>Détermination de l'IS</div><div class='cf-body'>"
+      +lineRO("Résultat fiscal imposable","",r.fiscal)
+      +lineFill("Base au taux réduit 15 % (≤ 42 500 €)","","is_b15",r.base15,{ph:"…"})
+      +lineFill("Base au taux normal 25 % (au-delà)","","is_b25",r.base25,{ph:"…"})
+      +lineFill("IS à 15 % (base × 15 %)","","is_15",r.is15,{ph:"…"})
+      +lineFill("IS à 25 % (base × 25 %)","","is_25",r.is25,{ph:"…"})
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>IS TOTAL</b></span>"+eurIn(fill("is_tot",r.isTot,{ph:"= 15 % + 25 %"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
+  /* ===== MODULE 4 — Acomptes d'IS (2571) ===== */
+  var AC={ isN1:18300, isN2:12000 };
+  AC.a1=Math.round(AC.isN2*0.25); AC.a2=Math.round(AC.isN1*0.5-AC.a1); AC.a3=Math.round(AC.isN1*0.25); AC.a4=AC.a3;
+  function srcAC(){ var r=AC;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'><b>IS de l'exercice N-1</b> (connu en mai)</span><span class='v'>"+eur(r.isN1)+"</span></div>"
+      +"<div class='row'><span class='k'><b>IS de l'exercice N-2</b></span><span class='v'>"+eur(r.isN2)+"</span></div>"
+      +"<div class='sec'>Échéances des acomptes</div>"
+      +"<div class='row'><span class='k'>1er acompte</span><span class='v'>15/03</span></div>"
+      +"<div class='row'><span class='k'>2e acompte</span><span class='v'>15/06</span></div>"
+      +"<div class='row'><span class='k'>3e acompte</span><span class='v'>15/09</span></div>"
+      +"<div class='row'><span class='k'>4e acompte</span><span class='v'>15/12</span></div>"
+      +"</div><p class='sd-note'>💡 Au 15/03, l'IS N-1 n'est pas encore connu → 1er acompte calculé sur <b>N-2</b>. Au 15/06 on <b>régularise</b>.</p>";
+  }
+  function formAC(){ var r=AC, h="<div class='cf'>";
+    h+=marianne("ACOMPTE D'IMPÔT SUR LES SOCIÉTÉS","Relevé d'acompte — 4 échéances","N° 2571");
+    h+="<div class='cf-sec'><div class='cf-st'>Calcul des 4 acomptes</div><div class='cf-body'>"
+      +lineFill("1er acompte (15/03) = IS N-2 × 25 %","","ac_1",r.a1,{ph:"…"})
+      +lineFill("2e acompte (15/06) = (IS N-1 × 2/4) − 1er acompte","","ac_2",r.a2,{ph:"régularisation"})
+      +lineFill("3e acompte (15/09) = IS N-1 × 25 %","","ac_3",r.a3,{ph:"…"})
+      +lineFill("4e acompte (15/12) = IS N-1 × 25 %","","ac_4",r.a4,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>";
+  }
+
+  /* ===== MODULE 4 — CFE ===== */
+  var CFE2={ denom:"SARL PETIT NÉGOCE", vl:12000, taux:25 };
+  CFE2.due=Math.round(CFE2.vl*CFE2.taux/100);
+  function srcCFE(){ var r=CFE2;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Entreprise</span><span class='v'>"+esc(r.denom)+"</span></div>"
+      +"<div class='row'><span class='k'><b>Valeur locative des locaux</b> (N-2)</span><span class='v'>"+eur(r.vl)+"</span></div>"
+      +"<div class='row'><span class='k'>Taux voté par la commune</span><span class='v'>"+r.taux+" %</span></div>"
+      +"</div><p class='sd-note'>💡 CFE = valeur locative × taux communal. <b>1re année : exonérée</b> ; avis en ligne, paiement le 15/12. La CVAE est supprimée progressivement (extinction prévue 2027).</p>";
+  }
+  function formCFE(){ var r=CFE2, h="<div class='cf'>";
+    h+=marianne("COTISATION FONCIÈRE DES ENTREPRISES","Base = valeur locative · taux communal","N° 1447-C / 1447-M");
+    h+="<div class='cf-sec'><div class='cf-st'>Calcul de la CFE</div><div class='cf-body'>"
+      +lineRO("Valeur locative (base)","",r.vl)
+      +"<div class='cf-line'><span class='cf-lab'>Taux communal</span>"+ro(r.taux+" %")+"</div>"
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>CFE DUE (base × taux)</b></span>"+eurIn(fill("cfe_due",r.due,{ph:"…"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
+  /* ===== MODULE 4 — Crédit d'impôt formation du dirigeant ===== */
+  var CIF={ heures:40, plafond:40, smic:12 };
+  CIF.ret=Math.min(CIF.heures,CIF.plafond); CIF.credit=CIF.ret*CIF.smic;
+  function srcCIF(){ var r=CIF;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Heures de formation du dirigeant</span><span class='v'>"+r.heures+" h</span></div>"
+      +"<div class='row'><span class='k'>Plafond annuel</span><span class='v'>"+r.plafond+" h</span></div>"
+      +"<div class='row'><span class='k'>SMIC horaire (à actualiser)</span><span class='v'>"+r.smic.toLocaleString('fr-FR',{minimumFractionDigits:2})+" €</span></div>"
+      +"</div><p class='sd-note'>⚠️ Dispositif <b>clos au 31/12/2024</b> (heures réalisées jusqu'à cette date) — à vérifier selon l'exercice. Méthode : <b>heures (plafond 40) × SMIC horaire</b>.</p>";
+  }
+  function formCIF(){ var r=CIF, h="<div class='cf'>";
+    h+=marianne("CRÉDIT D'IMPÔT — FORMATION DU DIRIGEANT","Heures de formation × SMIC horaire (plafond 40 h)","Annexe 2069-RCI");
+    h+="<div class='cf-sec'><div class='cf-st'>Calcul du crédit d'impôt</div><div class='cf-body'>"
+      +"<div class='cf-line'><span class='cf-lab'>Heures de formation</span>"+ro(r.heures+" h")+"<span class='cf-lab'>Plafond</span>"+ro(r.plafond+" h")+"</div>"
+      +lineFill("Heures retenues (min heures / plafond)","","cif_ret",r.ret,{ph:"h"})
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>CRÉDIT D'IMPÔT (heures × SMIC horaire)</b></span>"+eurIn(fill("cif_cr",r.credit,{ph:"…"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
     das2: {
       titre:"Pratique — Simulateur interactif", sous:"Fiscalité : remplir un formulaire officiel à partir du dossier.",
-      tabs:[{id:"das2",label:"DAS2",sub:"En cours"},{id:"iris",label:"IR / IS",soon:true},{id:"acis",label:"Acompte IS",soon:true},{id:"cfe",label:"CFE / CVAE",soon:true},{id:"cif",label:"Crédit formation",soon:true}],
+      tabs:[{id:"das2",label:"DAS2",sub:"honoraires"},{id:"iris",label:"IS",sub:"2065 / 2572"},{id:"acis",label:"Acompte IS",sub:"2571"},{id:"cfe",label:"CFE",sub:"1447"},{id:"cif",label:"Crédit formation",sub:"dirigeant"}],
       active:"das2",
       panes:{ das2:{ srcCap:"Données source", src:srcDAS2, formCap:"Formulaire officiel — DAS2 (simulation)", form:formDAS2,
         tuto:["Repérez les bénéficiaires ayant reçu <b>2 400 € ou plus</b> sur l'année (seuil DAS2).",
               "Comptez-les → renseignez le <b>nombre de bénéficiaires</b> (cadre C).",
               "Additionnez leurs montants TTC → <b>montant total versé</b>.",
-              "Cliquez <b>Vérifier</b> (ou <b>Voir le corrigé</b>)."] } }
+              "Cliquez <b>Vérifier</b> (ou <b>Voir le corrigé</b>)."] },
+        iris:{ srcCap:"Données source", src:srcIS, wide:true, formCap:"Liquidation de l'IS (2065 / 2572)", form:formIS,
+          tuto:["Partez du <b>résultat fiscal</b> (issu de la liasse).",
+                "Découpez la base : <b>15 %</b> jusqu'à <b>42 500 €</b>, <b>25 %</b> au-delà (PME éligible).",
+                "Calculez l'IS de chaque tranche, puis l'<b>IS total</b>, et <b>Vérifier</b>."],
+          lien:"Taux IS 2026 : 15 % (PME, ≤ 42 500 €) puis 25 %." },
+        acis:{ srcCap:"Données source", src:srcAC, wide:true, formCap:"Acompte d'IS (2571)", form:formAC,
+          tuto:["1er acompte (15/03) = <b>IS N-2 × 25 %</b> (l'IS N-1 n'est pas encore connu).",
+                "2e acompte (15/06, régularisé) = <b>(IS N-1 × 2/4) − 1er acompte</b>.",
+                "3e et 4e acomptes = <b>IS N-1 × 25 %</b> chacun. Puis <b>Vérifier</b>."],
+          lien:"4 acomptes (2571), solde au 2572 le 15/05." },
+        cfe:{ srcCap:"Données source", src:srcCFE, wide:true, formCap:"CFE (1447-C / 1447-M)", form:formCFE,
+          tuto:["La CFE = <b>valeur locative × taux communal</b>.",
+                "1re année : <b>exonérée</b>. Calculez la CFE due, puis <b>Vérifier</b>."],
+          lien:"CFE : avis en ligne, paiement le 15/12. CVAE en extinction (2027)." },
+        cif:{ srcCap:"Données source", src:srcCIF, wide:true, formCap:"Crédit d'impôt formation du dirigeant", form:formCIF,
+          tuto:["Heures de formation du dirigeant, <b>plafonnées à 40 h/an</b>.",
+                "Crédit = <b>heures retenues × SMIC horaire</b>. Puis <b>Vérifier</b>.",
+                "⚠️ Dispositif clos au 31/12/2024 — vérifier l'applicabilité selon l'exercice."],
+          lien:"Crédit d'impôt formation dirigeant : 40 h max × SMIC horaire." } }
     },
     liasse: {
       titre:"Module 5 — Simulateur des liasses fiscales", sous:"La théorie d'abord, puis on remplit la liasse selon le régime du dossier.",
