@@ -508,8 +508,11 @@ const COUNTRY_NAMES = { FR: 'France', MG: 'Madagascar', BE: 'Belgique', CH: 'Sui
 const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
-function pageAdmin(sess, notif) {
+function pageAdmin(sess, notif, acces, accesEmail) {
   const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
+  const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0);
+  const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -542,6 +545,15 @@ function pageAdmin(sess, notif) {
   <p class="muted">Accès complet (admin), sans paiement.</p>
   <p><a class="btn" href="/formation">Ouvrir la formation (tous les modules)</a></p>
   <ul>${MODULES.map(m => `<li>${esc(m.titre)}</li>`).join('')}</ul></section>
+  <section class="card"><h2>🎁 Donner un accès (gratuit, sans paiement)</h2>
+  <p class="muted">Accorde l'accès à un module (ou au pack complet) à un email <b>déjà inscrit</b>, immédiatement et sans paiement, pour la durée choisie.</p>
+  ${accesMsg}
+  <form method="post" action="/admin/acces" class="form">${csrfField(sess)}
+    <label>Email de l'inscrit<input name="email" type="email" placeholder="prenom@exemple.com" required></label>
+    <label>Accès à<select name="offre">${offresOpts}</select></label>
+    <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="365"></label>
+    <button class="btn" type="submit">Accorder l'accès</button></form>
+  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6). Le Module 1 est déjà gratuit pour tous les inscrits. Vous pouvez ré-accorder pour prolonger.</p></section>
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
@@ -738,7 +750,7 @@ const server = http.createServer(async (req, res) => {
         if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
         return serveAttestation(res, sess);
       }
-      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'))); }
+      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'))); }
       if (p === '/paiement') {
         if (!authed(sess)) return redirect(res, '/connexion');
         const ins = insOf(url.searchParams.get('ins'), sess.user.id); if (!ins) return send(res, 404, layout('404', '<h1>Introuvable</h1>', sess));
@@ -774,6 +786,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
+      if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       return send(res, 404, 'not found');
     }
     send(res, 405, 'method not allowed');
@@ -938,6 +951,23 @@ async function paiementRetour(req, res, sess, url) {
     else setStatutPaiement(db, pay.id, st === 'FAILED' ? 'echec' : 'en_cours');
   } catch { }
   return redirect(res, '/tableau-de-bord');
+}
+
+// Accès offert (admin) : accorde un module / un pack à un email inscrit, sans paiement, pour N jours.
+function postAdminAcces(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const email = (body.email || '').trim().toLowerCase();
+  const code = (body.offre || '').trim();
+  const jours = Math.max(1, Math.min(3650, parseInt(body.jours, 10) || 365));
+  const user = db.prepare('SELECT id FROM users WHERE email=?').get(email);
+  if (!user) return redirect(res, '/admin?acces=nouser');
+  const offre = (cfg.offres || []).find(o => o.code === code && Array.isArray(o.modules) && o.modules.length > 0);
+  if (!offre) return redirect(res, '/admin?acces=err');
+  const expire = new Date(Date.now() + jours * 86400000).toISOString();
+  db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)')
+    .run(rid(8), user.id, offre.code, 'active', new Date().toISOString(), expire);
+  audit(db, sess.user.id, 'acces_offert', email + ' · ' + offre.code + ' · ' + jours + 'j', ip(req));
+  return redirect(res, '/admin?acces=ok&e=' + encodeURIComponent(email) + '&o=' + encodeURIComponent(offre.code) + '&j=' + jours);
 }
 
 function postAdminValider(req, res, sess, body) {
