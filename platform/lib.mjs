@@ -64,6 +64,8 @@ export function openDB() {
   try { db.exec("CREATE TABLE IF NOT EXISTS annonces(id TEXT PRIMARY KEY, message TEXT, actif INTEGER DEFAULT 1, cree_le TEXT)"); } catch { }
   // table : communauté (mur de discussion partagé entre apprenants, modéré par l'admin)
   try { db.exec("CREATE TABLE IF NOT EXISTS forum(id TEXT PRIMARY KEY, user_id TEXT, message TEXT, cree_le TEXT, supprime INTEGER DEFAULT 0)"); } catch { }
+  // migration : présence "en ligne" (dernier passage de l'utilisateur)
+  try { db.exec('ALTER TABLE users ADD COLUMN vu_le TEXT'); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');

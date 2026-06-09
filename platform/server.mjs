@@ -72,6 +72,16 @@ function rateLimited(key, max, windowMs) {
 }
 try { setInterval(() => { const now = Date.now(); for (const [k, e] of _rl) if (e.reset < now) _rl.delete(k); }, 60000).unref(); } catch {}
 
+// --- Présence "en ligne" : on note le dernier passage de l'utilisateur (au plus 1 écriture/min/user) ---
+const _seen = new Map(); // uid -> ts dernier write
+function touchSeen(uid) {
+  if (!uid) return;
+  const now = Date.now();
+  if (now - (_seen.get(uid) || 0) < 60000) return;
+  _seen.set(uid, now);
+  try { db.prepare('UPDATE users SET vu_le=? WHERE id=?').run(new Date().toISOString(), uid); } catch {}
+}
+
 // --- Suivi des visites (agrégé par jour + pays, sans donnée personnelle) ---
 const VISIT_PAGES = new Set(['/', '/programme', '/emploi', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
 function trackVisit(req, p) {
@@ -569,7 +579,10 @@ const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
 function pageAdmin(sess, notif, acces, accesEmail) {
-  const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
+  const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le,u.vu_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
+  const _cut5 = new Date(Date.now() - 5 * 60000).toISOString(), _cut30 = new Date(Date.now() - 30 * 60000).toISOString();
+  const enLigne = users.filter(u => u.vu_le && u.vu_le > _cut5);
+  const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
   const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : '';
@@ -709,11 +722,15 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     </form>
     <form method="post" action="/admin/demande-traitee" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small ghost" type="submit">Marquer traitée (sans réponse écrite)</button></form>
   </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
+  <section class="card"><h2>🟢 En ligne maintenant (${enLigne.length})</h2>
+  ${enLigne.length ? `<div class="prog">${enLigne.map(u => `<div class="pitem"><span>🟢 ${esc(u.prenom)} ${esc((u.nom || '').slice(0, 1))}. <span class="muted" style="font-size:11px">${esc(u.email)}</span></span><b class="gratuit">${esc(dateMG(u.vu_le).slice(11))}</b></div>`).join('')}</div>` : '<p class="muted">Personne en ligne à l\'instant.</p>'}
+  ${vusRecent.length ? `<p class="muted" style="font-size:12px;margin-top:8px">🕒 Vus il y a moins de 30 min : ${vusRecent.map(u => esc(u.prenom) + ' ' + esc((u.nom || '').slice(0, 1)) + '.').join(' · ')}</p>` : ''}
+  <p class="muted" style="font-size:11px">« En ligne » = activité dans les 5 dernières minutes (heure de Madagascar). Actualisez la page pour mettre à jour.</p></section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
   ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
-  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th></tr>
-  ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
+  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th><th>Dernier vu</th></tr>
+  ${users.map(u => `<tr><td>${(u.vu_le && u.vu_le > _cut5) ? '🟢 ' : ''}${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc(dateMG(u.vu_le)) : '—'}</td></tr>`).join('')}</table></section>`, sess);
 }
 
 // --- Service de fichiers statiques sécurisé ---
@@ -998,6 +1015,7 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://x');
     const p = url.pathname;
     const sess = getSession(req);
+    if (sess && sess.user && !sess.row.pending_2fa) touchSeen(sess.user.id); // présence "en ligne"
 
     if (req.method === 'GET') {
       trackVisit(req, p);
