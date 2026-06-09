@@ -2,11 +2,13 @@
 
 > **Référence transversale à TOUTE la formation.** Gardez ce chapitre sous la main : c'est votre « antisèche » de collaborateur — les chiffres, taux, seuils, comptes et échéances que vous utilisez tous les jours, regroupés en un seul endroit.
 >
-> 🏆 **La référence métier** des cabinets français est le **Mémento Comptable** et le **Mémento Fiscal** (Éditions Francis Lefebvre) — mais c'est une publication **payante**.
+> 🏆 **La référence de MÉTHODE** des cabinets français est le **Mémento Comptable** (Éditions Francis Lefebvre) — **dernière édition : 2025**. Cette formation s'y réfère pour la **méthode comptable** (écritures, évaluation, clôture, PCG / règlement ANC à jour au 1ᵉʳ janvier 2025).
 >
-> 📕 **Bonne nouvelle : le « mémento » officiel GRATUIT existe.** C'est le **Recueil des normes comptables françaises** publié par l'**ANC** (Autorité des Normes Comptables) : un **PDF téléchargeable, une version par année (2020 → 2026)**, qui contient tout le référentiel comptable français à jour. 👉 **À télécharger et garder** : [anc.gouv.fr — Recueils des normes comptables](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables) (lien complet en bas de page).
+> ⚠️ **Méthode 2025, mais CHIFFRES à jour.** Les **seuils, taux et barèmes** (TVA, micro, IS, social…) suivent l'**année en cours (2026)** : la **méthode** vient du Mémento, les **montants** suivent la dernière loi de finances et les derniers barèmes URSSAF.
 >
-> Ce chapitre est une **synthèse libre et originale** construite à partir des **sources officielles** (PCG/ANC, BOFiP, urssaf.fr, impots.gouv.fr). En cas de doute sur un cas précis, on **vérifie toujours la source officielle de l'année**.
+> 📗 **L'équivalent officiel et GRATUIT** = le **Recueil des normes comptables françaises** de l'**ANC**, **édition 2025** (dernière version de référence) : 👉 [Recueil ANC 2025 — PDF](https://www.anc.gouv.fr/files/anc/files/1_Normes_fran%C3%A7aises/Reglements/Recueils/PCG_Janvier2025/Recueil-NF-Janvier-2025.pdf) · [toutes les versions](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables).
+>
+> Ce chapitre est une **synthèse libre et originale** construite à partir des **sources officielles** (PCG/ANC 2025, BOFiP, urssaf.fr, impots.gouv.fr). En cas de doute, on **vérifie toujours la source officielle**.
 >
 > ⚠️ **Chiffres indicatifs 2025-2026.** Plusieurs seuils sont revalorisés chaque année (ou tous les 3 ans). **Contrôlez l'année applicable** avant d'appliquer.
 
@@ -155,7 +157,8 @@ Le format = **code pays (2 lettres) + bloc national**. La **liste complète des 
 - **Doctrine fiscale** : [BOFiP — bofip.impots.gouv.fr](https://bofip.impots.gouv.fr/) · **impots.gouv.fr/professionnel**
 - **Social / barèmes** : [urssaf.fr](https://www.urssaf.fr/) · [service-public.fr (pro)](https://entreprendre.service-public.fr/)
 - **TVA intracom (VIES)** : [ec.europa.eu/taxation_customs/vies](https://ec.europa.eu/taxation_customs/vies/)
-- **📕 Le « mémento » officiel GRATUIT** : **Recueil des normes comptables françaises** (ANC) — PDF par année **2020 → 2026** : [anc.gouv.fr — Recueils des normes comptables](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables) · ex. [Recueil 2024 (PDF)](https://www.anc.gouv.fr/files/anc/files/1_Normes_fran%C3%A7aises/Reglements/Recueils/Recueil%20comptable%20entreprises/2024/Recueil_normes-comptables2024.pdf). C'est l'équivalent **officiel et gratuit** du Mémento.
-- **Référence cabinet (payante)** : *Mémento Comptable* & *Mémento Fiscal* — Éditions Francis Lefebvre (édition de l'année).
+- **📕 Référence de méthode (dernière édition)** : ***Mémento Comptable 2025*** — Éditions Francis Lefebvre (publication payante).
+- **📗 Équivalent officiel GRATUIT** : **Recueil des normes comptables françaises — édition 2025** (ANC, à jour au 1ᵉʳ janvier 2025) : [Recueil ANC 2025 — PDF](https://www.anc.gouv.fr/files/anc/files/1_Normes_fran%C3%A7aises/Reglements/Recueils/PCG_Janvier2025/Recueil-NF-Janvier-2025.pdf) · [toutes les versions ANC](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables).
+- **Chiffres à jour** : les seuils, taux et barèmes suivent l'**année en cours (2026)** — loi de finances, BOFiP, URSSAF.
 
 > 🧭 Ce référentiel ne remplace pas le conseil d'un expert-comptable inscrit à l'Ordre : il **outille le collaborateur** pour produire vite et juste, puis **faire valider** par le chef de mission / l'EC signataire.
