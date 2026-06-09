@@ -161,8 +161,11 @@ const checkCsrf = (sess, body) => sess && body._csrf && safeEqual(sess.row.csrf,
 
 // --- Promo de lancement (annonce « bientôt gratuit ») ---
 function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
-function promoAccesLibre() { return promoActive() && !!(cfg.promo && cfg.promo.acces_libre); }
-function promoBadgeHtml(prix) { const p = cfg.promo || {}; const ref = (prix != null && prix !== '') ? `<s style="opacity:.6;font-weight:600;margin-right:5px">${esc(money(prix))}</s>` : ''; return `${ref}<b class="gratuit">${esc(p.label || 'Gratuit')}</b>`; }
+function promoLive() { const p = cfg.promo; if (!promoActive() || !p || !p.acces_libre) return false; if (p.debut_libre) { const d = Date.parse(p.debut_libre); if (!isNaN(d) && Date.now() < d) return false; } return true; }
+function promoAccesLibre() { return promoLive(); }
+function promoLabel() { return promoLive() ? '🎁 GRATUIT 3 mois' : '🎁 Bientôt gratuit'; }
+function promoBanText() { const p = cfg.promo || {}; return promoLive() ? (p.banniere_live || p.banniere || '') : (p.banniere || ''); }
+function promoBadgeHtml(prix) { const ref = (prix != null && prix !== '') ? `<s style="opacity:.6;font-weight:600;margin-right:5px">${esc(money(prix))}</s>` : ''; return `${ref}<b class="gratuit">${esc(promoLabel())}</b>`; }
 function prixAffiche(prix) { return promoActive() ? promoBadgeHtml(prix) : money(prix); }
 
 // --- Gabarit ---
@@ -178,7 +181,7 @@ function layout(title, body, sess) {
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
-  const promoBan = promoActive() ? `<div style="background:linear-gradient(90deg,#E8A13A,#f6c172);color:#3a2600;text-align:center;padding:8px 14px;font-weight:700;font-size:13.5px;line-height:1.45">${esc((cfg.promo && cfg.promo.banniere) || '')}${u ? '' : ' <a href="/inscription" style="color:#16307a;font-weight:800;text-decoration:underline">S\'inscrire →</a>'}</div>` : '';
+  const promoBan = promoActive() ? `<div style="background:linear-gradient(90deg,#E8A13A,#f6c172);color:#3a2600;text-align:center;padding:8px 14px;font-weight:700;font-size:13.5px;line-height:1.45">${esc(promoBanText())}${u ? '' : ' <a href="/inscription" style="color:#16307a;font-weight:800;text-decoration:underline">S\'inscrire →</a>'}</div>` : '';
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(cfg.site.nom_plateforme)}</title>
 <meta name="description" content="${esc(desc)}">
