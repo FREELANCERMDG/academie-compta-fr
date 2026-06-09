@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" font-family="Segoe UI, Roboto, Arial, sans-serif" role="img" aria-label="Aperçu des simulateurs interactifs de la formation : rapprochement bancaire, CERFA et calculateurs">
+  <defs>
+    <linearGradient id="snav" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#16307a"/><stop offset="1" stop-color="#2f6aa6"/></linearGradient>
+  </defs>
+  <rect width="1000" height="540" rx="14" fill="#eef2f8"/>
+
+  <!-- ===== Fenêtre principale : simulateur de rapprochement ===== -->
+  <rect x="34" y="52" width="562" height="448" rx="16" fill="#ffffff" stroke="#d6deea"/>
+  <rect x="34" y="52" width="562" height="34" rx="16" fill="#e7edf6"/>
+  <circle cx="58" cy="69" r="5" fill="#e0626a"/><circle cx="76" cy="69" r="5" fill="#e8a13a"/><circle cx="94" cy="69" r="5" fill="#4cc38a"/>
+  <text x="120" y="73" font-size="12" fill="#7d8aa0">academie-compta-fr.mg — Simulateur</text>
+
+  <rect x="50" y="100" width="530" height="40" rx="9" fill="url(#snav)"/>
+  <text x="66" y="125" font-size="15" font-weight="800" fill="#ffffff">🏦 Rapprochement bancaire — Compte courant</text>
+
+  <!-- 3 stats -->
+  <g>
+    <rect x="50" y="152" width="170" height="64" rx="9" fill="#f4f8fd" stroke="#e2e9f3"/>
+    <text x="135" y="174" text-anchor="middle" font-size="10.5" fill="#6a7889">COMPTABILITÉ (512)</text>
+    <text x="135" y="200" text-anchor="middle" font-size="19" font-weight="800" fill="#16307a">9 250,00 €</text>
+    <rect x="230" y="152" width="170" height="64" rx="9" fill="#f4f8fd" stroke="#e2e9f3"/>
+    <text x="315" y="174" text-anchor="middle" font-size="10.5" fill="#6a7889">RELEVÉ BANCAIRE</text>
+    <text x="315" y="200" text-anchor="middle" font-size="19" font-weight="800" fill="#16307a">10 775,00 €</text>
+    <rect x="410" y="152" width="170" height="64" rx="9" fill="#eafaf1" stroke="#bfe6cd"/>
+    <text x="495" y="174" text-anchor="middle" font-size="10.5" fill="#1f8a4c">ÉCART</text>
+    <text x="495" y="200" text-anchor="middle" font-size="19" font-weight="800" fill="#1f8a4c">0,00 €</text>
+  </g>
+
+  <!-- lignes -->
+  <g font-size="12.5">
+    <rect x="50" y="232" width="530" height="40" rx="8" fill="#fbfdff" stroke="#eef2f8"/>
+    <text x="64" y="257" fill="#33455c">12/03 · Encaissement client BÊTA</text>
+    <text x="566" y="257" text-anchor="end" font-weight="800" fill="#1f8a4c">+2 300,00 €</text>
+    <rect x="50" y="278" width="530" height="40" rx="8" fill="#fbfdff" stroke="#eef2f8"/>
+    <text x="64" y="303" fill="#33455c">31/03 · Frais de tenue de compte</text>
+    <rect x="392" y="287" width="92" height="22" rx="6" fill="#e7eefb" stroke="#16307a"/><text x="438" y="302" text-anchor="middle" font-size="11" font-weight="700" fill="#16307a">🧾 Comptabiliser</text>
+    <text x="566" y="303" text-anchor="end" font-weight="800" fill="#c0392b">−25,00 €</text>
+    <rect x="50" y="324" width="530" height="40" rx="8" fill="#fbfdff" stroke="#eef2f8"/>
+    <text x="64" y="349" fill="#33455c">28/03 · Chèque n°4521 émis</text>
+    <rect x="372" y="333" width="112" height="22" rx="6" fill="#fff5e6" stroke="#E8A13A"/><text x="428" y="348" text-anchor="middle" font-size="11" font-weight="700" fill="#9a5b00">⏳ En rapprochement</text>
+    <text x="566" y="349" text-anchor="end" font-weight="800" fill="#c0392b">−800,00 €</text>
+  </g>
+  <rect x="50" y="386" width="180" height="34" rx="9" fill="#E8A13A"/><text x="140" y="408" text-anchor="middle" font-size="13" font-weight="800" fill="#3a2600">Vérifier</text>
+  <text x="250" y="408" font-size="12.5" fill="#1f8a4c" font-weight="700">✅ Rapprochement équilibré</text>
+  <text x="50" y="452" font-size="12" fill="#6a7889">+ matrice de saisie, TVA (CA3/CA12), liasse, immobilisations…</text>
+  <text x="50" y="476" font-size="12" fill="#6a7889">Pointer · Comptabiliser · En rapprochement → écart 0</text>
+
+  <!-- ===== Carte CERFA ===== -->
+  <rect x="616" y="92" width="350" height="186" rx="14" fill="#ffffff" stroke="#d6deea"/>
+  <rect x="616" y="92" width="350" height="34" rx="14" fill="url(#snav)"/>
+  <text x="634" y="114" font-size="13" font-weight="800" fill="#fff">🧾 CERFA réels — 2058‑A / DAS2 / 2035</text>
+  <g font-size="11.5" fill="#33455c">
+    <rect x="634" y="140" width="314" height="26" rx="5" fill="#f4f8fd" stroke="#e2e9f3"/><text x="644" y="157">Bénéfice comptable</text><text x="940" y="157" text-anchor="end" font-weight="700" fill="#16307a">105 000</text>
+    <rect x="634" y="172" width="314" height="26" rx="5" fill="#f4f8fd" stroke="#e2e9f3"/><text x="644" y="189">+ Réintégrations (WQ)</text><text x="940" y="189" text-anchor="end" font-weight="700" fill="#16307a">8 000</text>
+    <rect x="634" y="204" width="314" height="26" rx="5" fill="#f4f8fd" stroke="#e2e9f3"/><text x="644" y="221">− Déductions (WU)</text><text x="940" y="221" text-anchor="end" font-weight="700" fill="#16307a">3 000</text>
+    <rect x="634" y="236" width="314" height="28" rx="5" fill="#eef3fb" stroke="#cfdcee"/><text x="644" y="254" font-weight="800" fill="#16307a">= Résultat fiscal (XN)</text><text x="940" y="254" text-anchor="end" font-weight="800" fill="#16307a">110 000</text>
+  </g>
+
+  <!-- ===== Carte calculateur ===== -->
+  <rect x="616" y="292" width="350" height="208" rx="14" fill="#ffffff" stroke="#d6deea"/>
+  <rect x="616" y="292" width="350" height="34" rx="14" fill="url(#snav)"/>
+  <text x="634" y="314" font-size="13" font-weight="800" fill="#fff">🧮 Calculateurs (IS, TVA, cotisations…)</text>
+  <g font-size="11.5">
+    <text x="634" y="350" fill="#6a7889">Rémunération</text><rect x="760" y="338" width="190" height="22" rx="5" fill="#fff" stroke="#cdd9e7"/><text x="942" y="353" text-anchor="end" fill="#22303f">40 000 €</text>
+    <text x="634" y="382" fill="#6a7889">Dividendes</text><rect x="760" y="370" width="190" height="22" rx="5" fill="#fff" stroke="#cdd9e7"/><text x="942" y="385" text-anchor="end" fill="#22303f">20 000 €</text>
+  </g>
+  <rect x="634" y="404" width="150" height="32" rx="9" fill="#E8A13A"/><text x="709" y="425" text-anchor="middle" font-size="13" font-weight="800" fill="#3a2600">Calculer</text>
+  <rect x="634" y="446" width="314" height="40" rx="8" fill="#fff7ec" stroke="#f0d9b5"/>
+  <text x="646" y="471" font-size="12" fill="#33455c">Statut le moins coûteux :</text><text x="940" y="471" text-anchor="end" font-size="13" font-weight="800" fill="#b9740a">TNS</text>
+</svg>

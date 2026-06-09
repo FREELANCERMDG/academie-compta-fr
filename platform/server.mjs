@@ -366,8 +366,16 @@ function pageProgramme(sess) {
   ${modulesSection}
   <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs et cas pratiques corrigés</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
   ${tHtml}
-  <section class="card"><h2>Tarifs</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
-  <p><a class="btn" href="/inscription">Créer mon compte</a></p></section>`, sess);
+  <section class="card"><h2>🧮 Notre système : des simulateurs interactifs</h2>
+  <p class="muted">Ici, pas de théorie sèche : vous vous entraînez sur des <b>simulateurs intégrés</b>, exactement comme dans un vrai cabinet d'externalisation — rapprochement bancaire, CERFA réels, calculateurs fiscaux &amp; sociaux et matrice de saisie.</p>
+  <img src="/public/img/simulateurs-systeme.svg?v=${ASSET_V}" alt="Aperçu de nos simulateurs : rapprochement bancaire, CERFA réels et calculateurs" loading="lazy" style="width:100%;height:auto;display:block;border-radius:14px;border:1px solid rgba(255,255,255,.12);margin:6px 0 16px">
+  <div class="grid">
+    <div class="offre"><h3>🏦 Rapprochement bancaire</h3><p class="muted">Pointer · comptabiliser · en rapprochement → écart 0, comme sur Pennylane.</p></div>
+    <div class="offre"><h3>🧾 CERFA réels</h3><p class="muted">2031 · 2058‑A · 2035 · DAS2 remplis pas à pas, case par case.</p></div>
+    <div class="offre"><h3>🧮 12 calculateurs</h3><p class="muted">TVA, IS, cotisations dirigeant, IK, TVS, LMNP, provisions…</p></div>
+    <div class="offre"><h3>⌨️ Matrice de saisie</h3><p class="muted">Écritures débit/crédit auto-vérifiées (équilibre en direct).</p></div>
+  </div>
+  <p><a class="btn" href="/inscription">Créer mon compte${promoLive() ? ' gratuit' : ''} →</a></p></section>`, sess);
 }
 
 function pageApercu(sess, code) {
