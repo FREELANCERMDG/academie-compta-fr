@@ -672,6 +672,9 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <p class="muted" style="font-size:12px">Envoie un e-mail à tous les inscrits.</p></section>` : ''}
   ${visitesHtml}
   ${partageHtml}
+  <section class="card"><h2>💾 Sauvegarde des données</h2>
+  <p class="muted" style="font-size:13px">Téléchargez une copie complète et cohérente de la base (comptes, accès, progression, offres d'emploi). À faire <b>régulièrement</b> et à conserver <b>hors du serveur</b> (Google Drive, disque…).</p>
+  <p><a class="btn" href="/admin/backup">💾 Télécharger une sauvegarde (.db)</a></p></section>
   <section class="card"><h2>📚 Supports &amp; guides</h2>
   <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
   <p><a class="btn" href="/public/supports/index.html" target="_blank" rel="noopener">Ouvrir tous les supports</a>
@@ -1028,6 +1031,22 @@ const server = http.createServer(async (req, res) => {
         return serveAttestation(res, sess);
       }
       if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'))); }
+      if (p === '/admin/backup') {
+        if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess));
+        try {
+          const dir = process.env.DATA_DIR || DIR;
+          const tmp = path.join(dir, '_backup_tmp.db');
+          try { fs.unlinkSync(tmp); } catch { }
+          db.exec("VACUUM INTO '" + tmp.replace(/'/g, "''") + "'");
+          const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+          res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Disposition': 'attachment; filename="academie-backup-' + stamp + '.db"', 'Cache-Control': 'no-store' });
+          const stream = fs.createReadStream(tmp);
+          stream.pipe(res);
+          stream.on('close', () => { try { fs.unlinkSync(tmp); } catch { } });
+          audit(db, sess.user.id, 'backup_db', '', ip(req));
+        } catch (e) { return send(res, 500, layout('Erreur', '<h1>Sauvegarde impossible</h1><p>' + esc(String(e && e.message || e)) + '</p><a class="btn" href="/admin">Retour</a>', sess)); }
+        return;
+      }
       if (p === '/paiement') {
         if (!authed(sess)) return redirect(res, '/connexion');
         const ins = insOf(url.searchParams.get('ins'), sess.user.id); if (!ins) return send(res, 404, layout('404', '<h1>Introuvable</h1>', sess));
