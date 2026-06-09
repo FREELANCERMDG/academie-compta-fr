@@ -51,6 +51,8 @@ export function openDB() {
   `);
   // migration : colonne d'expiration d'accès
   try { db.exec('ALTER TABLE inscriptions ADD COLUMN expire_le TEXT'); } catch { }
+  // table : offres d'emploi internes (mini-bourse, gérée en admin)
+  try { db.exec("CREATE TABLE IF NOT EXISTS offres_emploi(id TEXT PRIMARY KEY, titre TEXT, entreprise TEXT, lieu TEXT, contrat TEXT, description TEXT, lien TEXT, cree_le TEXT)"); } catch { }
   // migration : parrainage (code perso + parrain + flag récompense)
   try { db.exec('ALTER TABLE users ADD COLUMN code_parrain TEXT'); } catch { }
   try { db.exec('ALTER TABLE users ADD COLUMN parrain_id TEXT'); } catch { }

@@ -91,6 +91,18 @@
     "banniere_live": "🎉 C'EST PARTI ! TOUS les modules sont DÉBLOQUÉS gratuitement pendant 3 mois (jusqu'au 09/09/2026) — attestation à la clé. Inscrivez-vous et commencez maintenant !",
     "_note": "actif=true : affiche la bannière + remplace les prix par 'label'. acces_libre=true ET maintenant >= debut_libre (ISO UTC) : l'accès gratuit à TOUS les modules s'ouvre automatiquement, jusqu'à jusqu_au (AAAA-MM-JJ, fin de journée). Avant debut_libre : 'Bientôt gratuit', accès normal (Module 1 gratuit). 16:00Z = 19h00 Antananarivo (UTC+3). banniere_live = texte affiché une fois l'offre ouverte."
   },
+  "emploi": {
+    "actif": true,
+    "liens": [
+      { "nom": "PortalJob — Comptabilité / Finance", "url": "https://www.portaljob-madagascar.com/emploi/liste/secteur/gestion-comptabilite-finance" },
+      { "nom": "Asako.mg — Comptabilité", "url": "https://www.asako.mg/emploi/s-gestion-comptabilite-finance" },
+      { "nom": "LinkedIn — Comptable (Madagascar)", "url": "https://www.linkedin.com/jobs/search/?keywords=comptable&location=Madagascar" },
+      { "nom": "MadaJob", "url": "https://www.madajob.mg/" },
+      { "nom": "JobMada", "url": "https://www.jobmada.mg/" }
+    ],
+    "flux_rss": [],
+    "_note": "liens = recherches deja filtrees 'comptabilite' (curees, sans risque). flux_rss = URLs de flux RSS a agreger (laisser vide tant qu'aucun flux fiable). Les offres internes (mini-bourse partenaires) se gerent depuis l'admin."
+  },
   "formateur": {
     "nom": "M. RANDRIAMANANTSOA Heriniaina Anthony",
     "photo": "/public/formateur.png",

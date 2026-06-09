@@ -72,7 +72,7 @@ function rateLimited(key, max, windowMs) {
 try { setInterval(() => { const now = Date.now(); for (const [k, e] of _rl) if (e.reset < now) _rl.delete(k); }, 60000).unref(); } catch {}
 
 // --- Suivi des visites (agrégé par jour + pays, sans donnée personnelle) ---
-const VISIT_PAGES = new Set(['/', '/programme', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
+const VISIT_PAGES = new Set(['/', '/programme', '/emploi', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
 function trackVisit(req, p) {
   try {
     if (!VISIT_PAGES.has(p)) return;
@@ -176,8 +176,8 @@ function layout(title, body, sess) {
   const wa = (soc.whatsapp || '').replace(/\D/g, '');
   const waBtn = wa ? `<a class="wa" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite des informations sur la formation en comptabilité française externalisée.')}" target="_blank" rel="noopener" title="Contact WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.02zm-7.01 15.22h-.004a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>` : '';
   const nav = u
-    ? `<a href="/programme">Programme</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
-    : `<a href="/programme">Programme</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
+    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
+    : `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
@@ -641,6 +641,21 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <p class="muted" style="font-size:13px">Bonus : <b>+${_bj} j</b> d'accès au parrain dès qu'un filleul débloque un accès payant. Chaque inscrit a un code (visible dans son espace).</p>
   ${parr.length ? `<div class="tbl"><table><tr><th>Parrain</th><th>Code</th><th>Filleuls</th><th>Accès payants validés</th><th>Jours offerts</th></tr>
   ${parr.map(r => `<tr><td>${esc(r.email)}</td><td><code>${esc(r.code_parrain || '')}</code></td><td>${r.nf}</td><td>${r.nr}</td><td><b>${r.nr * _bj} j</b></td></tr>`).join('')}</table></div>` : '<p class="muted">Aucun parrainage pour le moment.</p>'}</section>` : '';
+  // --- Offres d'emploi (admin) ---
+  let _emp = []; try { _emp = db.prepare('SELECT * FROM offres_emploi ORDER BY cree_le DESC LIMIT 100').all(); } catch { }
+  const emploiHtml = `<section class="card"><h2>💼 Offres d'emploi (mini-bourse)</h2>
+  <form method="post" action="/admin/emploi-ajouter" class="form">${csrfField(sess)}
+    <div class="row"><label>Titre du poste<input name="titre" required placeholder="Collaborateur comptable"></label>
+    <label>Entreprise<input name="entreprise" placeholder="Cabinet X"></label></div>
+    <div class="row"><label>Lieu<input name="lieu" placeholder="Antananarivo / télétravail"></label>
+    <label>Contrat<input name="contrat" placeholder="CDI / Freelance / Stage"></label></div>
+    <label>Description<textarea name="description" rows="3" placeholder="Missions, profil recherché…"></textarea></label>
+    <label>Lien pour postuler (https://…)<input name="lien" type="url" placeholder="https://…"></label>
+    <button class="btn" type="submit">Publier l'offre</button></form>
+  ${_emp.length ? `<div class="tbl"><table><tr><th>Poste</th><th>Entreprise</th><th>Publiée</th><th>Retirer</th></tr>
+  ${_emp.map(o => `<tr><td>${esc(o.titre)}</td><td>${esc(o.entreprise || '')}</td><td>${esc((o.cree_le || '').slice(0, 10))}</td>
+    <td><form method="post" action="/admin/emploi-retirer" class="inline" onsubmit="return confirm('Retirer cette offre ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(o.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune offre publiée.</p>'}
+  <p class="muted" style="font-size:12px">Les offres apparaissent sur la page publique <b>/emploi</b>.</p></section>`;
   return layout('Admin', `<h1>Administration</h1>
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
@@ -671,6 +686,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6). Le Module 1 est déjà gratuit pour tous les inscrits. Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
   ${parrainageHtml}
+  ${emploiHtml}
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
@@ -892,6 +908,66 @@ async function postApiChat(req, res, body) {
   } catch (e) { return J({ error: true }); }
 }
 
+// --- Offres d'emploi : mini-bourse interne + liens curés + agrégation RSS (optionnelle) ---
+const _httpUrl = u => typeof u === 'string' && /^https?:\/\//i.test(u);
+let _rssJobs = [];
+function _stripTags(s) { return (s || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim(); }
+async function refreshRssJobs() {
+  try {
+    const flux = (cfg.emploi && cfg.emploi.flux_rss) || [];
+    if (!flux.length || typeof fetch !== 'function') { _rssJobs = []; return; }
+    const kw = /(comptab|compta|financ|fiscal|paie|audit|gestion)/i; const out = [];
+    for (const url of flux) {
+      try {
+        const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 12000);
+        const r = await fetch(url, { signal: ctl.signal, headers: { 'User-Agent': 'AcademieComptaFR/1.0' } }); clearTimeout(to);
+        if (!r.ok) continue;
+        const xml = await r.text();
+        for (const it of xml.split(/<item[ >]/i).slice(1, 31)) {
+          const t = _stripTags((it.match(/<title>([\s\S]*?)<\/title>/i) || [])[1]);
+          const lk = _stripTags((it.match(/<link>([\s\S]*?)<\/link>/i) || [])[1]);
+          const ds = _stripTags((it.match(/<description>([\s\S]*?)<\/description>/i) || [])[1]).slice(0, 160);
+          if (t && _httpUrl(lk) && (kw.test(t) || kw.test(ds))) out.push({ titre: t, lien: lk, desc: ds, source: ((url.match(/\/\/([^/]+)/) || [])[1] || '').replace(/^www\./, '') });
+        }
+      } catch { }
+    }
+    _rssJobs = out.slice(0, 30);
+  } catch { _rssJobs = []; }
+}
+try { if (cfg.emploi && ((cfg.emploi.flux_rss) || []).length) { refreshRssJobs(); setInterval(refreshRssJobs, 30 * 60000).unref(); } } catch { }
+
+function pageEmploi(sess) {
+  const e = cfg.emploi || {};
+  let internes = []; try { internes = db.prepare('SELECT * FROM offres_emploi ORDER BY cree_le DESC LIMIT 100').all(); } catch { }
+  const intHtml = internes.length
+    ? `<div class="grid">${internes.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="muted" style="margin:2px 0">${esc(o.entreprise || '')}${o.lieu ? ' · ' + esc(o.lieu) : ''}${o.contrat ? ' · <b>' + esc(o.contrat) + '</b>' : ''}</p>${o.description ? `<p style="font-size:13.5px">${esc(o.description)}</p>` : ''}${_httpUrl(o.lien) ? `<p><a class="btn small" href="${esc(o.lien)}" target="_blank" rel="noopener">Postuler / en savoir plus →</a></p>` : ''}</div>`).join('')}</div>`
+    : '<p class="muted">Aucune offre partenaire publiée pour le moment — consultez les portails ci-dessous, ou revenez bientôt.</p>';
+  const rssHtml = _rssJobs.length
+    ? `<section class="card"><h2>🌐 Offres récentes (portails)</h2><div class="tbl"><table><tr><th>Offre</th><th>Source</th></tr>${_rssJobs.map(j => `<tr><td><a href="${esc(j.lien)}" target="_blank" rel="noopener">${esc(j.titre)}</a></td><td class="muted">${esc(j.source)}</td></tr>`).join('')}</table></div></section>`
+    : '';
+  const liens = (e.liens || []).filter(l => _httpUrl(l.url)).map(l => `<a class="btn ghost" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.nom)} →</a>`).join(' ');
+  return layout('Offres d\'emploi', `
+  <section class="hero"><h1>💼 Offres d'emploi — comptabilité</h1>
+  <p class="lead">Trouvez un poste en <b>cabinet d'externalisation à Madagascar</b> ou une <b>mission freelance</b> pour des cabinets français. Formez-vous, puis décrochez votre emploi.</p></section>
+  <section class="card"><h2>🤝 Offres de nos partenaires</h2>${intHtml}</section>
+  ${rssHtml}
+  <section class="card"><h2>🔎 Chercher sur les portails (déjà filtrés « comptabilité »)</h2>
+  <p>${liens || '<span class="muted">—</span>'}</p>
+  <p class="muted" style="font-size:12px">Liens externes vers des sites partenaires (PortalJob, Asako, LinkedIn…). L'Académie Compta FR n'est pas responsable du contenu de ces sites.</p></section>`, sess);
+}
+function postEmploiAjouter(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const t = (body.titre || '').trim().slice(0, 120); if (t.length < 2) return redirect(res, '/admin');
+  db.prepare('INSERT INTO offres_emploi(id,titre,entreprise,lieu,contrat,description,lien,cree_le) VALUES(?,?,?,?,?,?,?,?)')
+    .run(rid(8), t, (body.entreprise || '').trim().slice(0, 100), (body.lieu || '').trim().slice(0, 80), (body.contrat || '').trim().slice(0, 40), (body.description || '').trim().slice(0, 1000), (body.lien || '').trim().slice(0, 300), new Date().toISOString());
+  audit(db, sess.user.id, 'emploi_ajout', t, ip(req)); return redirect(res, '/admin');
+}
+function postEmploiRetirer(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  db.prepare('DELETE FROM offres_emploi WHERE id=?').run((body.id || '').trim());
+  return redirect(res, '/admin');
+}
+
 // --- Routeur ---
 const server = http.createServer(async (req, res) => {
   try {
@@ -904,7 +980,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
-        const urls = ['/', '/programme', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
+        const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
         const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
         res.writeHead(200, { 'Content-Type': 'application/xml; charset=utf-8' }); return res.end(xml);
       }
@@ -915,6 +991,7 @@ const server = http.createServer(async (req, res) => {
       }
       if (p === '/') return send(res, 200, pageAccueil(sess));
       if (p === '/programme') return send(res, 200, pageProgramme(sess));
+      if (p === '/emploi') return send(res, 200, pageEmploi(sess));
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
       if (p === '/apercu') { const code = url.searchParams.get('m') || 'm01'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
@@ -979,6 +1056,8 @@ const server = http.createServer(async (req, res) => {
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
       if (p === '/admin/acces-modifier') return postAdminAccesModifier(req, res, sess, body);
+      if (p === '/admin/emploi-ajouter') return postEmploiAjouter(req, res, sess, body);
+      if (p === '/admin/emploi-retirer') return postEmploiRetirer(req, res, sess, body);
       return send(res, 404, 'not found');
     }
     send(res, 405, 'method not allowed');
