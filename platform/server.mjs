@@ -1333,11 +1333,17 @@ function postAnnonceOff(req, res, sess, body) {
 }
 // --- Communauté : mur de discussion partagé (modéré par l'admin) ---
 function forumNom(prenom, nom, role) { return role === 'admin' ? '👨‍🏫 Formateur' : (esc(prenom || '') + ' ' + esc((nom || '').slice(0, 1)) + '.'); }
+// Heure de Madagascar (UTC+3, pas de changement d'heure) à partir d'un horodatage ISO UTC -> "AAAA-MM-JJ HH:MM"
+function dateMG(iso) {
+  if (!iso) return '';
+  const d = new Date(iso); if (isNaN(d.getTime())) return String(iso).slice(0, 16).replace('T', ' ');
+  return new Date(d.getTime() + 3 * 3600000).toISOString().slice(0, 16).replace('T', ' ');
+}
 function forumMsgsSince(since) {
   return db.prepare("SELECT f.id,f.message,f.cree_le,u.prenom,u.nom,u.role FROM forum f JOIN users u ON u.id=f.user_id WHERE f.supprime=0 AND f.cree_le > ? ORDER BY f.cree_le ASC LIMIT 100").all(since || '');
 }
 function forumMsgJSON(m) {
-  return { id: m.id, auteur: m.role === 'admin' ? '👨‍🏫 Formateur' : (((m.prenom || '') + ' ' + (m.nom || '').slice(0, 1) + '.').trim()), role: m.role, message: m.message, t: (m.cree_le || '').slice(0, 16).replace('T', ' '), cree_le: m.cree_le };
+  return { id: m.id, auteur: m.role === 'admin' ? '👨‍🏫 Formateur' : (((m.prenom || '') + ' ' + (m.nom || '').slice(0, 1) + '.').trim()), role: m.role, message: m.message, t: dateMG(m.cree_le), cree_le: m.cree_le };
 }
 function pageForum(sess) {
   if (!forumAccess(sess)) {
@@ -1349,8 +1355,8 @@ function pageForum(sess) {
   const isAdmin = sess.user.role === 'admin';
   const rows = db.prepare("SELECT f.id,f.message,f.cree_le,u.prenom,u.nom,u.role FROM forum f JOIN users u ON u.id=f.user_id WHERE f.supprime=0 ORDER BY f.cree_le DESC LIMIT 50").all().reverse();
   const last = rows.length ? rows[rows.length - 1].cree_le : '';
-  const item = m => `<div class="offre" id="m-${esc(m.id)}" style="margin-bottom:8px${m.role === 'admin' ? ';border-left:3px solid var(--accent)' : ''}"><p style="margin:0 0 4px">${isAdmin ? `<form method="post" action="/communaute/supprimer" class="inline" style="margin:0;float:right">${csrfField(sess)}<input type="hidden" name="id" value="${esc(m.id)}"><button class="btn small ghost" type="submit" title="Supprimer">🗑</button></form>` : ''}<b>${forumNom(m.prenom, m.nom, m.role)}</b> <span class="muted" style="font-size:11px">${esc((m.cree_le || '').slice(0, 16).replace('T', ' '))}</span></p><p style="margin:0;white-space:pre-wrap">${esc(m.message)}</p></div>`;
-  return layout('Communauté', `<h1>💬 Communauté des apprenants <span class="muted" style="font-size:13px;font-weight:400">· 🟢 en direct</span></h1>
+  const item = m => `<div class="offre" id="m-${esc(m.id)}" style="margin-bottom:8px${m.role === 'admin' ? ';border-left:3px solid var(--accent)' : ''}"><p style="margin:0 0 4px">${isAdmin ? `<form method="post" action="/communaute/supprimer" class="inline" style="margin:0;float:right">${csrfField(sess)}<input type="hidden" name="id" value="${esc(m.id)}"><button class="btn small ghost" type="submit" title="Supprimer">🗑</button></form>` : ''}<b>${forumNom(m.prenom, m.nom, m.role)}</b> <span class="muted" style="font-size:11px">${esc(dateMG(m.cree_le))}</span></p><p style="margin:0;white-space:pre-wrap">${esc(m.message)}</p></div>`;
+  return layout('Communauté', `<h1>💬 Communauté des apprenants <span class="muted" style="font-size:13px;font-weight:400">· 🟢 en direct · 🕒 heure de Madagascar</span></h1>
   <p class="muted">Échangez entre apprenants : questions, astuces, entraide. Le formateur participe aussi. <b>Charte :</b> restez courtois ; <b>pas</b> de partage du contenu de la formation, ni de coordonnées commerciales. Tout abus peut être supprimé.</p>
   <section class="card" id="forum-box" data-admin="${isAdmin ? '1' : '0'}" data-last="${esc(last)}">
     <div id="forum-list" style="max-height:55vh;overflow-y:auto;padding-right:4px">${rows.map(item).join('') || '<p class="muted" id="forum-empty">Aucun message — lancez la discussion !</p>'}</div>
