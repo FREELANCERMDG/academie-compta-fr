@@ -495,6 +495,7 @@ function pageDashboard(sess) {
   const ent = entitledModules(u);
   const offres = db.prepare('SELECT * FROM offres').all();
   const ins = db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.user_id=? ORDER BY i.cree_le DESC').all(u.id);
+  const mesDem = db.prepare('SELECT * FROM demandes WHERE user_id=? ORDER BY cree_le DESC').all(u.id);
   const active = u.role === 'admin' || hasActive(u.id);
   const fmtDate = s => s ? esc(String(s).slice(0, 10)) : '';
   const expActive = (ins.find(i => i.statut === 'active') || {}).expire_le;
@@ -545,6 +546,10 @@ function pageDashboard(sess) {
     <label>Sujet<input name="sujet" required maxlength="120" placeholder="Ex. Question sur le Module 3, demande de rendez-vous…"></label>
     <label>Votre message<textarea name="message" required rows="4" maxlength="2000" placeholder="Décrivez votre question…"></textarea></label>
     <button class="btn" type="submit">Envoyer ma demande</button></form></section>
+  <section class="card"><h2>📨 Mes demandes &amp; réponses</h2>
+  ${mesDem.length ? mesDem.map(d => `<div class="offre" style="margin-bottom:10px"><b>${esc(d.sujet)}</b> <span class="muted" style="font-size:12px">(${esc((d.cree_le || '').slice(0, 10))})</span>
+    <p class="muted" style="margin:4px 0;font-size:13px;white-space:pre-wrap">${esc(d.message)}</p>
+    ${d.reponse ? `<div style="border-left:3px solid var(--accent);background:rgba(255,255,255,.05);padding:8px 11px;border-radius:0 8px 8px 0;margin-top:6px"><b style="color:var(--accent)">↳ Réponse du formateur</b> <span class="muted" style="font-size:11px">${esc((d.repondu_le || '').slice(0, 10))}</span><p style="margin:5px 0 0;white-space:pre-wrap">${esc(d.reponse)}</p></div>` : '<p class="muted" style="font-size:12px;margin:4px 0 0">⏳ En attente de réponse du formateur.</p>'}</div>`).join('') : '<p class="muted">Vous n\'avez pas encore posé de question.</p>'}</section>
   <section class="card"><h2>Mes inscriptions</h2>
   ${ins.length ? `<table><tr><th>Offre</th><th>Montant</th><th>Statut</th><th>Accès jusqu'au</th></tr>${ins.map(i => `<tr><td>${esc(i.titre)}</td><td>${money(i.prix)}</td><td>${esc(i.statut)}</td><td>${i.statut === 'active' ? (i.expire_le ? fmtDate(i.expire_le) : 'illimité') : '—'}</td></tr>`).join('')}</table>` : '<p class="muted">Aucune inscription.</p>'}</section>`, sess);
 }
@@ -586,7 +591,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
   const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
-  const dem = db.prepare(`SELECT d.*, u.email FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
+  const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
   const _jour = new Date().toISOString().slice(0, 10);
   const _j7 = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
@@ -708,8 +713,14 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
   <section class="card"><h2>Demandes / questions des apprenants (${dem.length})</h2>
-  ${dem.length ? dem.map(d => `<div class="row2"><span><b>${esc(d.email)}</b> — ${esc(d.sujet)}<br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></span>
-    <form method="post" action="/admin/demande-traitee" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small">Marquer traitée</button></form></div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
+  ${dem.length ? dem.map(d => `<div class="row2" style="flex-direction:column;align-items:stretch;gap:8px">
+    <div><b>${esc(d.email)}</b>${d.tel ? ` · <span class="muted">${esc(d.tel)}</span>` : ''} — <b>${esc(d.sujet)}</b><br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></div>
+    <form method="post" action="/admin/demande-repondre" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}">
+      <textarea name="reponse" rows="3" required maxlength="3000" placeholder="Votre réponse à l'apprenant (s'affichera dans son espace)…" style="width:100%"></textarea>
+      <div class="inline" style="margin-top:6px;gap:8px;flex-wrap:wrap"><button class="btn small" type="submit">✉️ Répondre</button>${d.tel ? `<a class="btn small ghost" target="_blank" rel="noopener" href="https://wa.me/${esc(String(d.tel).replace(/[^0-9]/g, ''))}?text=${encodeURIComponent('Bonjour, au sujet de votre question « ' + (d.sujet || '') + ' » : ')}">WhatsApp l'apprenant</a>` : ''}</div>
+    </form>
+    <form method="post" action="/admin/demande-traitee" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small ghost" type="submit">Marquer traitée (sans réponse écrite)</button></form>
+  </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
   <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th></tr>
@@ -1092,6 +1103,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/progression') return postProgression(req, res, sess, body);
       if (p === '/demande') return postDemande(req, res, sess, body);
       if (p === '/admin/demande-traitee') return postDemandeTraitee(req, res, sess, body);
+      if (p === '/admin/demande-repondre') return postDemandeRepondre(req, res, sess, body);
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
@@ -1259,6 +1271,14 @@ function postDemande(req, res, sess, body) {
 function postDemandeTraitee(req, res, sess, body) {
   if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
   db.prepare("UPDATE demandes SET statut='traitee' WHERE id=?").run(body.id);
+  return redirect(res, '/admin');
+}
+function postDemandeRepondre(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const reponse = String(body.reponse || '').trim().slice(0, 3000);
+  if (!body.id || reponse.length < 2) return redirect(res, '/admin');
+  db.prepare("UPDATE demandes SET reponse=?, repondu_le=?, statut='traitee' WHERE id=?").run(reponse, new Date().toISOString(), body.id);
+  audit(db, sess.user.id, 'demande_reponse', String(body.id), ip(req));
   return redirect(res, '/admin');
 }
 function postManuel(req, res, sess, body) {

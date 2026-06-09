@@ -57,6 +57,9 @@ export function openDB() {
   try { db.exec('ALTER TABLE users ADD COLUMN code_parrain TEXT'); } catch { }
   try { db.exec('ALTER TABLE users ADD COLUMN parrain_id TEXT'); } catch { }
   try { db.exec('ALTER TABLE users ADD COLUMN parrain_recompense INTEGER DEFAULT 0'); } catch { }
+  // migration : réponse du formateur aux demandes des apprenants
+  try { db.exec('ALTER TABLE demandes ADD COLUMN reponse TEXT'); } catch { }
+  try { db.exec('ALTER TABLE demandes ADD COLUMN repondu_le TEXT'); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');
