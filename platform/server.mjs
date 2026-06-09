@@ -805,6 +805,65 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   res.end(html);
 }
 
+// --- Assistant IA (agent Claude) : base de connaissance + route /api/chat ---
+function chatSystemPrompt() {
+  const s = cfg.societe || {}, wa = s.whatsapp || '';
+  const off = (cfg.offres || []).map(o => `- ${o.titre} : ${o.prix ? money(o.prix) : 'inclus'}`).join('\n');
+  const acc = cfg.acces || {};
+  const bonus = (cfg.parrainage && cfg.parrainage.bonus_jours) || 30;
+  const dipl = (cfg.conditions && cfg.conditions.diplome_requis) || 'BAC+2 en comptabilité';
+  return [
+    "Tu es l'assistant virtuel d'« Académie Compta FR », une formation en ligne qui prépare des Malgaches à devenir collaborateurs / réviseurs comptables pour des cabinets français (comptabilité externalisée), en cabinet à Madagascar ou en freelance payé en euros.",
+    "RÔLE : répondre aux DEMANDES D'INFORMATION des visiteurs (prospects) sur la formation, l'inscription, l'accès, le paiement et le parrainage.",
+    "LANGUE : réponds dans la langue du visiteur (français par défaut, malgache s'il écrit en malgache). Ton chaleureux, CONCIS (2 à 5 phrases), concret.",
+    "PÉRIMÈTRE STRICT : tu parles UNIQUEMENT de cette formation et de son fonctionnement. Pour toute question hors sujet (actualité, code informatique, devoirs, conseil fiscal/juridique PERSONNALISÉ d'un dossier...), refuse poliment et propose de contacter un conseiller sur WhatsApp " + wa + ". Ne donne JAMAIS de conseil fiscal ou juridique personnalisé.",
+    "N'INVENTE JAMAIS de prix ni de chiffres : utilise uniquement les informations ci-dessous. Si tu ne sais pas, dis-le simplement et renvoie vers WhatsApp " + wa + " ou la page Programme.",
+    "INFORMATIONS OFFICIELLES :",
+    "- 6 modules. Le Module 1 (Fondamentaux) est 100 % GRATUIT après une inscription gratuite.",
+    "- Offres payantes :",
+    off,
+    "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement. Le Module 1 reste gratuit.",
+    "- Sécurité : double authentification obligatoire (Google Authenticator) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
+    "- Parrainage : chaque inscrit a un code ; quand un filleul débloque un accès payant, le parrain gagne " + bonus + " jours d'accès offerts.",
+    "- Paiement : Orange Money ou carte bancaire ; l'accès est activé après validation.",
+    "- Prérequis : " + dipl + " (attestation sur l'honneur).",
+    "- 100 % pratique : simulateurs interactifs type logiciel (interface inspirée de Pennylane, recolorée), CERFA réels à remplir, cas pratiques de cabinet. Attestation de fin de formation après l'évaluation finale (sur 100).",
+    "- Contact humain : WhatsApp " + wa + ".",
+    "FORMAT : texte simple (pas de markdown lourd, pas de tableaux). Termine si utile par une invitation à s'inscrire ou à contacter sur WhatsApp."
+  ].join('\n');
+}
+
+async function postApiChat(req, res, body) {
+  const J = (obj, code) => { try { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(obj)); } catch { } };
+  try {
+    const KEY = process.env.LLM_API_KEY || '';
+    if (!KEY || typeof fetch !== 'function') return J({ disabled: true });
+    if (rateLimited('chat:' + ip(req), 25, 10 * 60000)) return J({ reply: "Vous avez envoyé beaucoup de messages 🙂 Patientez quelques minutes, ou écrivez-nous sur WhatsApp." });
+    const q = (body.q || '').toString().slice(0, 1000).trim();
+    if (!q) return J({ reply: "Posez votre question 🙂" });
+    let hist = []; try { hist = JSON.parse(body.hist || '[]'); } catch { }
+    if (!Array.isArray(hist)) hist = [];
+    const msgs = hist.filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+      .slice(-6).map(m => ({ role: m.role, content: m.content.slice(0, 800) }));
+    msgs.push({ role: 'user', content: q });
+    const model = process.env.LLM_MODEL || 'claude-3-5-haiku-latest';
+    const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 20000);
+    let r;
+    try {
+      r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'x-api-key': KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+        body: JSON.stringify({ model, max_tokens: 400, system: chatSystemPrompt(), messages: msgs }),
+        signal: ctl.signal
+      });
+    } finally { clearTimeout(to); }
+    if (!r.ok) { try { audit(db, null, 'chat_api_err', 'http ' + r.status, ip(req)); } catch { } return J({ error: true }); }
+    const data = await r.json();
+    const text = (data && Array.isArray(data.content) && data.content[0] && data.content[0].text) ? data.content[0].text.trim() : '';
+    return text ? J({ reply: text }) : J({ error: true });
+  } catch (e) { return J({ error: true }); }
+}
+
 // --- Routeur ---
 const server = http.createServer(async (req, res) => {
   try {
@@ -872,6 +931,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'POST') {
       const body = await readBody(req);
+      if (p === '/api/chat') return postApiChat(req, res, body);
       // CSRF obligatoire (sauf création de session initiale gérée plus bas)
       if (p === '/inscription') return postInscription(req, res, sess, body);
       if (p === '/connexion') return postConnexion(req, res, sess, body);

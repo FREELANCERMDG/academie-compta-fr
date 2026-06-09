@@ -65,7 +65,9 @@
     '#acfc-i{flex:1;border:1px solid #cdd9e7;border-radius:10px;padding:9px 10px;font-size:13.5px;font-family:inherit}',
     '#acfc-i:focus{outline:none;border-color:#E8A13A;box-shadow:0 0 0 3px rgba(232,161,58,.2)}',
     '#acfc-s{background:#E8A13A;color:#3a2600;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;font-size:15px}',
-    '#acfc-foot{font-size:10.5px;color:#8a97a6;text-align:center;padding:0 0 7px;background:#fff}'
+    '#acfc-foot{font-size:10.5px;color:#8a97a6;text-align:center;padding:0 0 7px;background:#fff}',
+    '.acfc-typ{letter-spacing:2px;opacity:.55;animation:acfcblink 1.1s infinite}',
+    '@keyframes acfcblink{0%,100%{opacity:.25}50%{opacity:.7}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
 
@@ -83,9 +85,26 @@
   document.body.appendChild(launcher); document.body.appendChild(panel);
 
   var msgs = panel.querySelector('#acfc-m'), chips = panel.querySelector('#acfc-chips'), input = panel.querySelector('#acfc-i');
-  function add(html, who) { var d = document.createElement('div'); d.className = 'acfc-b ' + (who === 'me' ? 'acfc-me' : 'acfc-bot'); d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; }
-  function renderChips() { chips.innerHTML = ''; FAQ.forEach(function (f) { var b = document.createElement('button'); b.textContent = f.chip; b.onclick = function () { add(f.chip, 'me'); setTimeout(function () { add(f.a, 'bot'); }, 180); }; chips.appendChild(b); }); }
-  function send() { var v = input.value.trim(); if (!v) return; add(v.replace(/</g, '&lt;'), 'me'); input.value = ''; setTimeout(function () { add(answer(v), 'bot'); }, 200); }
+  var history = [];
+  function add(html, who) { var d = document.createElement('div'); d.className = 'acfc-b ' + (who === 'me' ? 'acfc-me' : 'acfc-bot'); d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; }
+  function escH(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function stripH(s) { var t = document.createElement('div'); t.innerHTML = s; return (t.textContent || '').trim(); }
+  function addTyping() { var d = add('<span class="acfc-typ">●●●</span>', 'bot'); return d; }
+  function renderChips() { chips.innerHTML = ''; FAQ.forEach(function (f) { var b = document.createElement('button'); b.textContent = f.chip; b.onclick = function () { add(f.chip, 'me'); history.push({ role: 'user', content: stripH(f.chip) }); setTimeout(function () { add(f.a, 'bot'); history.push({ role: 'assistant', content: stripH(f.a) }); }, 160); }; chips.appendChild(b); }); }
+  function send() {
+    var v = input.value.trim(); if (!v) return;
+    add(escH(v), 'me'); history.push({ role: 'user', content: v }); input.value = '';
+    var typ = addTyping();
+    var form = 'q=' + encodeURIComponent(v) + '&hist=' + encodeURIComponent(JSON.stringify(history.slice(-6)));
+    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: form })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (typ && typ.parentNode) typ.parentNode.removeChild(typ);
+        if (d && d.reply) { add(escH(d.reply).replace(/\n/g, '<br>'), 'bot'); history.push({ role: 'assistant', content: d.reply }); }
+        else { var a = answer(v); add(a, 'bot'); history.push({ role: 'assistant', content: stripH(a) }); }
+      })
+      .catch(function () { if (typ && typ.parentNode) typ.parentNode.removeChild(typ); add(answer(v), 'bot'); });
+  }
 
   var greeted = false;
   function open() {
