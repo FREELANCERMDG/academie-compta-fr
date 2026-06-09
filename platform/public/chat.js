@@ -28,7 +28,9 @@
     { key: 'attestation', chip: '🏅 Attestation', kw: ['attestation', 'certificat', 'diplome', 'diplôme', 'certification', 'reconnu'],
       a: 'Une <b>attestation de fin de formation</b> est délivrée après l\'<b>évaluation finale</b> (notée sur 100). C\'est une attestation interne (sans valeur de diplôme d\'État) qui atteste votre niveau opérationnel.' },
     { key: 'debouches', chip: '📈 Débouchés', kw: ['debouch', 'débouch', 'emploi', 'travail', 'salaire', 'freelance', 'cabinet', 'metier', 'métier', 'embauche'],
-      a: 'La formation prépare à devenir <b>collaborateur, réviseur ou chef de mission</b> pour des cabinets français, en <b>cabinet d\'externalisation</b> à Madagascar ou en <b>freelance payé en euros</b>. Détails sur la <a href="/programme">page Programme</a>.' }
+      a: 'La formation prépare à devenir <b>collaborateur, réviseur ou chef de mission</b> pour des cabinets français, en <b>cabinet d\'externalisation</b> à Madagascar ou en <b>freelance payé en euros</b>. Détails sur la <a href="/programme">page Programme</a>.' },
+    { key: 'contact', chip: '📞 Contact', kw: ['contact', 'whatsapp', 'parler', 'humain', 'conseiller', 'telephone', 'téléphone', 'appeler', 'joindre', 'mail', 'email'],
+      a: 'Vous pouvez parler à un conseiller sur <a href="' + waUrl('Bonjour, je souhaite des informations sur la formation.') + '" target="_blank" rel="noopener"><b>WhatsApp</b></a>, ou demander un rendez-vous depuis votre espace après inscription. Nous répondons rapidement 🙂' }
   ];
 
   function answer(text) {
@@ -67,7 +69,14 @@
     '#acfc-s{background:#E8A13A;color:#3a2600;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;font-size:15px}',
     '#acfc-foot{font-size:10.5px;color:#8a97a6;text-align:center;padding:0 0 7px;background:#fff}',
     '.acfc-typ{letter-spacing:2px;opacity:.55;animation:acfcblink 1.1s infinite}',
-    '@keyframes acfcblink{0%,100%{opacity:.25}50%{opacity:.7}}'
+    '@keyframes acfcblink{0%,100%{opacity:.25}50%{opacity:.7}}',
+    '#acfc-l{animation:acfcpulse 2.6s infinite}',
+    '@keyframes acfcpulse{0%{box-shadow:0 6px 20px rgba(20,40,70,.35),0 0 0 0 rgba(46,108,164,.45)}70%{box-shadow:0 6px 20px rgba(20,40,70,.35),0 0 0 13px rgba(46,108,164,0)}100%{box-shadow:0 6px 20px rgba(20,40,70,.35),0 0 0 0 rgba(46,108,164,0)}}',
+    '#acfc-p.open{animation:acfcin .22s ease}',
+    '@keyframes acfcin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
+    '.acfc-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#46d17a;margin-right:5px;vertical-align:middle;animation:acfcblip 1.9s infinite}',
+    '@keyframes acfcblip{0%{box-shadow:0 0 0 0 rgba(70,209,122,.6)}70%{box-shadow:0 0 0 6px rgba(70,209,122,0)}100%{box-shadow:0 0 0 0 rgba(70,209,122,0)}}',
+    '@media(prefers-reduced-motion:reduce){#acfc-l,.acfc-dot,.acfc-typ{animation:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
 
@@ -77,7 +86,7 @@
   var panel = document.createElement('div');
   panel.id = 'acfc-p'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Assistant d\'information');
   panel.innerHTML =
-    '<div id="acfc-h"><div class="av">🎓</div><div><div class="ti">Assistant Académie Compta FR</div><div class="su">Réponses immédiates · gratuit</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
+    '<div id="acfc-h"><div class="av">🎓</div><div><div class="ti">Assistant Académie Compta FR</div><div class="su"><span class="acfc-dot"></span>En ligne · réponses immédiates</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
     '<div id="acfc-m" aria-live="polite"></div>' +
     '<div id="acfc-chips"></div>' +
     '<div id="acfc-f"><input id="acfc-i" placeholder="Votre question…" autocomplete="off"><button id="acfc-s" aria-label="Envoyer">➤</button></div>' +
@@ -90,7 +99,12 @@
   function escH(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function stripH(s) { var t = document.createElement('div'); t.innerHTML = s; return (t.textContent || '').trim(); }
   function addTyping() { var d = add('<span class="acfc-typ">●●●</span>', 'bot'); return d; }
-  function renderChips() { chips.innerHTML = ''; FAQ.forEach(function (f) { var b = document.createElement('button'); b.textContent = f.chip; b.onclick = function () { add(f.chip, 'me'); history.push({ role: 'user', content: stripH(f.chip) }); setTimeout(function () { add(f.a, 'bot'); history.push({ role: 'assistant', content: stripH(f.a) }); }, 160); }; chips.appendChild(b); }); }
+  function renderChips() {
+    chips.innerHTML = '';
+    var order = ['prix', 'inscription', 'module1', 'parrainage', '2fa', 'contact'];
+    var pick = order.map(function (k) { for (var i = 0; i < FAQ.length; i++) if (FAQ[i].key === k) return FAQ[i]; return null; }).filter(Boolean);
+    pick.forEach(function (f) { var b = document.createElement('button'); b.textContent = f.chip; b.onclick = function () { add(f.chip, 'me'); history.push({ role: 'user', content: stripH(f.chip) }); setTimeout(function () { add(f.a, 'bot'); history.push({ role: 'assistant', content: stripH(f.a) }); }, 150); }; chips.appendChild(b); });
+  }
   function send() {
     var v = input.value.trim(); if (!v) return;
     add(escH(v), 'me'); history.push({ role: 'user', content: v }); input.value = '';
@@ -109,7 +123,7 @@
   var greeted = false;
   function open() {
     panel.classList.add('open'); launcher.style.display = 'none';
-    if (!greeted) { greeted = true; add('Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>. Posez votre question ou choisissez un sujet ci-dessous.', 'bot'); renderChips(); }
+    if (!greeted) { greeted = true; add('Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>Posez votre question (prix, inscription, accès…) ou choisissez un sujet ci-dessous. 🎁 <b>Le Module 1 est gratuit&nbsp;!</b>', 'bot'); renderChips(); }
     setTimeout(function () { input.focus(); }, 100);
   }
   function close() { panel.classList.remove('open'); launcher.style.display = 'flex'; }
