@@ -81,6 +81,22 @@ function trackVisit(req, p) {
     db.prepare('INSERT INTO visites(jour,pays,n) VALUES(?,?,1) ON CONFLICT(jour,pays) DO UPDATE SET n=n+1').run(jour, pays);
   } catch {}
 }
+// Totaux de visites (réutilisés en page d'accueil + admin)
+function visitesTotaux() {
+  const _jour = new Date().toISOString().slice(0, 10);
+  const _j7 = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
+  const vTot = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites').get().t;
+  const vToday = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour=?').get(_jour).t;
+  const v7 = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour>=?').get(_j7).t;
+  return { vTot, vToday, v7 };
+}
+// Carte publique « Visites du site » (page d'accueil, visible par tous)
+function visitesPublicCard() {
+  const { vTot, vToday, v7 } = visitesTotaux();
+  return `<section class="card"><h2>📊 Visites du site</h2>
+  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD).</p></section>`;
+}
 
 // --- Progression carrière (niveau calculé côté serveur, autoritatif) ---
 const NIVEAUX = ['Recrue', 'Collaborateur', 'Collaborateur confirmé', 'Réviseur', 'Chef de mission'];
@@ -226,6 +242,7 @@ function pageAccueil(sess) {
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
+  ${visitesPublicCard()}
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
@@ -533,6 +550,19 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${vPays.length ? `<h3>🌍 D'où viennent les visiteurs</h3><div class="tbl"><table><tr><th>Pays</th><th>Visites</th><th>Part</th></tr>
   ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
+  // --- Sécurité : détection de partage de compte (IP distinctes / 30 jours) ---
+  const _j30 = new Date(Date.now() - 30 * 86400000).toISOString();
+  const partage = db.prepare(`SELECT u.email, COUNT(DISTINCT j.ip) AS nip, COUNT(*) AS nlog, MAX(j.ts) AS last
+    FROM journal j JOIN users u ON u.id=j.user_id
+    WHERE j.action IN ('login_complet','login_ok_2fa') AND j.ip IS NOT NULL AND j.ip!='' AND j.ts >= ? AND u.role='apprenant'
+    GROUP BY j.user_id HAVING nip >= 2 ORDER BY nip DESC, nlog DESC LIMIT 50`).all(_j30);
+  const _seul = !!(cfg.acces && cfg.acces.un_seul_appareil);
+  const partageHtml = `<section class="card"><h2>🛡️ Sécurité — partage de compte (anti-duplication)</h2>
+  <p class="muted" style="font-size:13px">Protection active : <b>${_seul ? '✅ 1 seul appareil à la fois' : '⚠️ multi-appareils autorisés'}</b> · <b>${twofaRequired() ? '✅ 2FA obligatoire' : '⚠️ 2FA facultative'}</b>. <span title="L'IP change souvent sur les réseaux mobiles malgaches : un blocage par IP déconnecterait les vrais apprenants.">On ne bloque pas par adresse IP (trop instable sur mobile).</span></p>
+  ${partage.length ? `<p>Comptes vus depuis <b>plusieurs adresses IP</b> sur 30 jours (à surveiller) :</p>
+  <div class="tbl"><table><tr><th>Email</th><th>IP distinctes</th><th>Connexions</th><th>Dernière</th></tr>
+  ${partage.map(r => { const col = r.nip >= 4 ? '#c0392b' : '#E8A13A'; return `<tr><td>${esc(r.email)}</td><td><b style="color:${col}">${r.nip}</b></td><td>${r.nlog}</td><td>${esc((r.last || '').slice(0, 10))}</td></tr>`; }).join('')}</table></div>
+  <p class="muted" style="font-size:12px">Plusieurs IP ≠ fraude (mobile + bureau, 4G changeante). Un nombre élevé (≥ 4) sur peu de jours peut signaler un <b>partage d'identifiants</b> : retirez l'accès ci-dessous ou demandez une réinitialisation du compte.</p>` : '<p class="muted">✅ Aucun compte suspect : pas de connexion multi-IP anormale sur 30 jours.</p>'}</section>`;
   // --- Modules accessibles par apprenant (inscriptions actives) ---
   const _nowISO = new Date().toISOString();
   const _insAll = db.prepare("SELECT user_id, offre_code, expire_le FROM inscriptions WHERE statut='active' AND (expire_le IS NULL OR expire_le > ?)").all(_nowISO);
@@ -574,6 +604,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     <button class="btn" type="submit">Envoyer la notification à tous les apprenants</button></form>
   <p class="muted" style="font-size:12px">Envoie un e-mail à tous les inscrits.</p></section>` : ''}
   ${visitesHtml}
+  ${partageHtml}
   <section class="card"><h2>📚 Supports &amp; guides</h2>
   <p class="muted">Tous les guides (diffusion, charte, intégrer vidéos, vidéo promo, réseaux sociaux, checklist, mise en ligne, lois de finances…) — version lisible.</p>
   <p><a class="btn" href="/public/supports/index.html" target="_blank" rel="noopener">Ouvrir tous les supports</a>
