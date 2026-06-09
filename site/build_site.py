@@ -649,6 +649,16 @@ html_out = html_out.replace(
     '<div class="logo">Comptabilite FR externalisee<span>Formation en ligne &middot; Madagascar &middot; 2026</span></div>', header)
 html_out = html_out.replace("--navy:#1F4E78", "--navy:" + BR["primary"]).replace("--accent:#E8A13A", "--accent:" + BR["accent"])
 
+# Cache-busting des composants JS : ?v=<hash du fichier> (rafraîchit le cache navigateur à chaque changement)
+import hashlib
+for _js in ["cerfa.js", "saisie.js", "sim.js", "pro.js", "simdoc.js", "calc.js", "rappro.js"]:
+    _p = os.path.join(BASE, _js)
+    try:
+        _h = hashlib.md5(open(_p, "rb").read()).hexdigest()[:8]
+    except Exception:
+        _h = "1"
+    html_out = html_out.replace('/formation/%s"' % _js, '/formation/%s?v=%s"' % (_js, _h))
+
 with open(os.path.join(BASE, "index.html"), "w", encoding="utf-8") as f:
     f.write(html_out)
 print("pages:", len(CONTENT), "| quizzes:", len(QUIZ), "| charte:", BR["primary"], BR["accent"], "| cabinet:", name or "(generique)")

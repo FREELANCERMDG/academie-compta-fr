@@ -74,7 +74,7 @@
       "<div class='rb-st ec'><div class='l'>Écart</div><div class='v' data-k='e'>" + eur(ex.soldeReleve - ex.soldeCompta) + "</div></div></div>" +
       (ex.intro ? "<div class='rb-intro'>" + ex.intro + "</div>" : "") +
       "<div class='rb-bd'>" + lines + "</div>" +
-      "<div class='rb-act2'><button class='rb-btn verif'>Vérifier le rapprochement</button><button class='rb-btn g sol'>Voir la correction</button></div>" +
+      "<div class='rb-act2'><button class='rb-btn verif'>Vérifier le rapprochement</button><button class='rb-btn g sol'>Voir la correction</button><button class='rb-btn g reset'>↺ Réinitialiser</button></div>" +
       "<div class='rb-fb'></div><div class='rb-recap'></div>";
     if (isDone(id)) el.querySelector(".ok").style.display = "inline-block";
 
@@ -143,6 +143,18 @@
       recompute();
       fb.className = "rb-fb k"; fb.innerHTML = "📝 <b>Correction affichée.</b> Pointer = présent des 2 côtés ; Comptabiliser = écriture manquante en compta ; En rapprochement = pas encore passé en banque.";
       showRecap(ex);
+    });
+    el.querySelector(".reset").addEventListener("click", function () {
+      choice = {};
+      el.querySelectorAll(".rb-act button").forEach(function (x) { x.classList.remove("sel"); });
+      el.querySelectorAll(".rb-line").forEach(function (row) {
+        row.classList.remove("good", "bad");
+        var t = row.querySelector(".rb-tip"); t.classList.remove("show"); t.textContent = "";
+        row.querySelector(".rb-ecr").classList.remove("show");
+      });
+      fb.className = "rb-fb"; fb.innerHTML = "";
+      recap.classList.remove("show"); recap.innerHTML = "";
+      recompute();
     });
   }
 
