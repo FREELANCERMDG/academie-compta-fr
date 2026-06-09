@@ -258,7 +258,6 @@ function pageAccueil(sess) {
   <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification. <b>Passez les étapes d'évaluation et obtenez votre attestation de fin de formation.</b></p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
-  ${(function () { try { const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0); return n > 0 ? `<p style="font-weight:700;color:#1f8a4c;margin:8px 0">👥 Déjà <b>${n}</b> inscrit${n > 1 ? 's' : ''}${promoLive() ? ' profitent des 3 mois gratuits — rejoignez-les !' : ' — rejoignez-les !'}</p>` : ''; } catch { return ''; } })()}
   ${fiscaliteBadge()}</section>
   ${visitesPublicCard()}
   ${formateurCard()}
