@@ -62,6 +62,7 @@ MANIFEST = [
     ("modules/Module-04-Saisie-comptable-pratique.md", "m04", "Module 1 — Fondamentaux de la comptabilité française", "1.4 Saisie comptable pratique", "m04"),
     ("modules/Module-1P-Principes-particularites.md", "m1pr", "Module 1 — Fondamentaux de la comptabilité française", "1.5 Principes & particularités de la compta FR", None),
     ("modules/Module-1F-Externalisation-FacturX.md", "m1fx", "Module 1 — Fondamentaux de la comptabilité française", "1.6 Externalisation à Madagascar & Factur-X", None),
+    ("modules/Module-MEMENTO-Reference.md", "mref", "Module 1 — Fondamentaux de la comptabilité française", "1.7 📚 Mémento Compta FR (référentiel 2025-2026)", None),
 
     ("modules/Module-PL1-Saisie.md", "m21", "Module 2 — Prise en main du logiciel Pennylane", "2.1 Saisie comptable (vidéo)", "m21"),
     ("modules/Module-PL2-Categorisation.md", "m21b", "Module 2 — Prise en main du logiciel Pennylane", "2.2 Règles de catégorisation (vidéo)", None),

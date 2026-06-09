@@ -70,5 +70,61 @@
       { "compte": "681120", "racine": "6811", "libelle": "Dotation aux amortissements", "debit": 2400, "credit": 0 },
       { "compte": "281540", "racine": "2815", "libelle": "Amortissement du matériel", "debit": 0, "credit": 2400 }
     ]
+  },
+  "techpro-a": {
+    "titre": "Vente de bien à une entreprise de l'UE (exonérée)",
+    "journal": "VT",
+    "enonce": "SARL TechPro vend 5 000 € HT de serveurs à une entreprise allemande (n° de TVA valide). La vente est exonérée : 0 € de TVA. Saisissez la facture de vente.",
+    "astuce": "Vente de bien à une entreprise de l'UE = exonérée (art. 262 ter I), donc pas de TVA. Au débit : le client (411) ; au crédit : la vente (707) ; même montant : 5 000 €.",
+    "doc": { "sens": "Facture de vente — client UE (entreprise)", "emetteur": "SARL TECHPRO (vendeur)", "ville": "Vente vers l'Allemagne · mention « Exonération de TVA, art. 262 ter I du CGI »", "num": "VT2026-031", "date": "10/03/2026", "lignes": [ { "designation": "Serveurs informatiques", "qte": 1, "puht": 5000 } ], "ht": 5000, "taux": 0, "tva": 0, "ttc": 5000 },
+    "tuto": [
+      "C'est une <b>vente</b> → journal <b>VT</b>.",
+      "Le client est une entreprise de l'UE avec un <b>n° de TVA valide</b> → la vente est <b>exonérée</b> : <b>0 € de TVA</b>.",
+      "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 5 000 € (il nous doit l'argent).",
+      "Au <b>crédit</b> : la <b>vente</b> (compte <b>707</b>) pour 5 000 € (notre produit).",
+      "Aucune ligne de TVA. Total débit = total crédit = 5 000 € → « Vérifier »."
+    ],
+    "lignes": [
+      { "compte": "411", "racine": "411", "libelle": "Client Allemagne", "debit": 5000, "credit": 0 },
+      { "compte": "707000", "racine": "707", "libelle": "Ventes de marchandises (UE)", "debit": 0, "credit": 5000 }
+    ]
+  },
+  "techpro-b": {
+    "titre": "Achat à une entreprise de l'UE (autoliquidation TVA)",
+    "journal": "AC",
+    "enonce": "SARL TechPro achète 3 000 € HT de composants à un fournisseur italien (facture sans TVA). La TVA est autoliquidée : on l'écrit en « à payer » ET en « à récupérer » (20 % = 600 €). Saisissez l'écriture (4 lignes).",
+    "astuce": "Autoliquidation : on inscrit la TVA DUE (4452, au crédit) ET la TVA DÉDUCTIBLE (445662, au débit) → impact net = 0. Achat 607 au débit (3 000) ; fournisseur 401 au crédit (3 000, car facture sans TVA).",
+    "doc": { "sens": "Facture d'achat — fournisseur UE (entreprise)", "emetteur": "COMPONENTI SRL (Italie)", "ville": "Achat intracommunautaire · facture HT, sans TVA italienne", "num": "IT-2026-558", "date": "12/03/2026", "lignes": [ { "designation": "Composants informatiques", "qte": 1, "puht": 3000 } ], "ht": 3000, "taux": 0, "tva": 0, "ttc": 3000 },
+    "tuto": [
+      "C'est un <b>achat</b> → journal <b>AC</b>. La facture italienne est <b>HT, sans TVA</b>.",
+      "On calcule la TVA française nous-mêmes : 3 000 × 20 % = <b>600 €</b>.",
+      "Au <b>débit</b> : l'achat <b>607</b> (3 000) + la <b>TVA déductible intracom 445662</b> (600).",
+      "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (600) + le <b>fournisseur 401</b> (3 000).",
+      "La TVA due (600) et la TVA déductible (600) <b>s'annulent</b> → impact net = 0. Total débit = total crédit = 3 600 €."
+    ],
+    "lignes": [
+      { "compte": "607000", "racine": "607", "libelle": "Achats de marchandises (UE)", "debit": 3000, "credit": 0 },
+      { "compte": "445662", "racine": "445662", "libelle": "TVA déductible intracom", "debit": 600, "credit": 0 },
+      { "compte": "445200", "racine": "4452", "libelle": "TVA due intracom (autoliquidée)", "debit": 0, "credit": 600 },
+      { "compte": "401", "racine": "401", "libelle": "Fournisseur Italie", "debit": 0, "credit": 3000 }
+    ]
+  },
+  "techpro-c": {
+    "titre": "Vente de service à une entreprise de l'UE (autoliquidation)",
+    "journal": "VT",
+    "enonce": "SARL TechPro facture une installation à distance, 2 000 € HT, à son client allemand (entreprise). Service B2B intra-UE : 0 € de TVA, c'est le client qui autoliquide. Saisissez la facture.",
+    "astuce": "Service vendu à une entreprise de l'UE : autoliquidé par le client (art. 259-1°). Chez nous : 0 € de TVA, mention « Autoliquidation ». Au débit : client (411) ; au crédit : prestation (706) ; 2 000 €.",
+    "doc": { "sens": "Facture de vente — service UE (entreprise)", "emetteur": "SARL TECHPRO (prestataire)", "ville": "Service vers l'Allemagne · mention « Autoliquidation » (DES à déposer)", "num": "VT2026-032", "date": "15/03/2026", "lignes": [ { "designation": "Installation à distance", "qte": 1, "puht": 2000 } ], "ht": 2000, "taux": 0, "tva": 0, "ttc": 2000 },
+    "tuto": [
+      "C'est une <b>vente de service</b> → journal <b>VT</b>.",
+      "Le client est une entreprise de l'UE → <b>autoliquidation par le client</b> : <b>0 € de TVA</b> sur notre facture.",
+      "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 2 000 €.",
+      "Au <b>crédit</b> : la <b>prestation de services</b> (compte <b>706</b>) pour 2 000 €.",
+      "Aucune TVA. On déposera ensuite une <b>DES</b> (déclaration européenne de services)."
+    ],
+    "lignes": [
+      { "compte": "411", "racine": "411", "libelle": "Client Allemagne", "debit": 2000, "credit": 0 },
+      { "compte": "706000", "racine": "706", "libelle": "Prestations de services (UE)", "debit": 0, "credit": 2000 }
+    ]
   }
 }

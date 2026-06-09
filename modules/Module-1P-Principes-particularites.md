@@ -134,41 +134,58 @@ Vente de biens à des **particuliers** d'autres pays UE (e-commerce). Règle dep
 | Bien B2C UE < 10 000 € | TVA FR (20 %…) | TVA FR normale | L. 01 | — |
 | Bien B2C UE > 10 000 € | TVA pays destination | TVA locale | hors CA3 | OSS (trimestriel) |
 
-### 🧮 EXEMPLE CHIFFRÉ DÉTAILLÉ
+### 🧮 EXEMPLE CONCRET — à saisir vous-même dans le journal
 
-Le cabinet gère **SARL TechPro** (négoce de matériel informatique, France). En mars 2026, quatre opérations :
+> 🇲🇬 **À lire d'abord.** Avant, on vous donnait l'écriture toute faite. Maintenant **c'est vous qui la saisissez** dans le **journal interactif** (comme dans le vrai logiciel), puis vous cliquez sur **« ✓ Vérifier l'écriture »**. Bloqué ? Ouvrez le **tutoriel 📘** ou cliquez sur **« 👁 Corrigé »**. On apprend en faisant.
 
-**Opération A — Vente de 5 000 € HT de serveurs à un client allemand assujetti (n° intra DE valide).**
-→ **LIC exonérée** (262 ter I). Facture : 5 000 € HT, **0 € de TVA**, mention « Exonération de TVA, art. 262 ter, I du CGI ».
-- Écriture : **411 Client DE** 5 000 D / **707** 5 000 C.
-- CA3 ligne 06 = 5 000 €. État récapitulatif TVA à déposer avant le 10e jour ouvrable d'avril.
+Le cabinet s'occupe de **SARL TechPro**, une entreprise française qui **vend du matériel informatique**. En mars 2026, il y a **4 opérations**. On va saisir les 3 premières.
 
-**Opération B — Achat de 3 000 € HT de composants à un fournisseur italien (n° intra FR communiqué).**
-→ **AIC autoliquidée**. TVA = 3 000 × 20 % = **600 €**.
-- Écriture : **607** 3 000 D / **445662** 600 D / **4452** 600 C / **401 Frs IT** 3 000 C.
-- CA3 : ligne 03 base 3 000 € → ligne 17 (collectée) +600 € et ligne 20 (déductible) +600 €. **Impact net = 0 €**.
+#### 🅰️ Opération A — Vendre un bien à une entreprise d'Allemagne
 
-**Opération C — Prestation d'installation à distance, 2 000 € HT, pour le client allemand (B2B).**
-→ **Service B2B intra** : preneur redevable (259-1°). Facture 2 000 € HT, **0 € TVA**, mention « Autoliquidation ».
-- Écriture : **411** 2 000 D / **706** 2 000 C.
-- CA3 ligne 05 = 2 000 €. **DES** à déposer avant le 10e jour ouvrable d'avril.
+**En mots simples :** TechPro vend des serveurs (**5 000 €**) à une **entreprise** allemande qui a un **numéro de TVA valide**.
+👉 **Règle :** quand on **vend un bien à une entreprise d'un autre pays de l'UE**, on **ne met pas de TVA** sur la facture (on dit que c'est **exonéré**). C'est le client allemand qui paiera la TVA chez lui.
 
-**Opération D — Ventes en ligne de claviers à des particuliers belges et espagnols : 12 000 € HT cumulés sur l'année (seuil 10 000 € dépassé).**
-→ **Ventes à distance B2C > seuil** : TVA **du pays de destination** via **OSS**. Ex. pour 1 000 € HT vendus en Belgique (taux 21 %) : TVA belge = **210 €**, déclarée via l'OSS (pas sur la CA3 française).
+<div class="saisie" data-ex="techpro-a"></div>
 
-**Synthèse CA3 de mars 2026 pour ces opérations :**
+#### 🅱️ Opération B — Acheter à un fournisseur d'Italie (autoliquidation)
+
+**En mots simples :** TechPro achète des composants (**3 000 €**) à un fournisseur italien. La facture italienne est **sans TVA**.
+👉 **Règle :** l'État français veut quand même « voir » la TVA. On la calcule nous-mêmes (**3 000 × 20 % = 600 €**) et on l'écrit **deux fois** : une fois **« à payer »** et une fois **« à récupérer »**. Les deux **s'annulent** → **on ne paie rien de plus**. Ce mécanisme s'appelle l'**autoliquidation**.
+
+<div class="saisie" data-ex="techpro-b"></div>
+
+#### 🅲 Opération C — Vendre un service à l'entreprise allemande
+
+**En mots simples :** TechPro facture une **installation à distance** (**2 000 €**) à l'entreprise allemande.
+👉 **Règle :** pour un **service vendu à une entreprise de l'UE**, c'est comme pour un bien : **0 € de TVA** sur notre facture (mention « Autoliquidation »). Le client s'en occupe chez lui.
+
+<div class="saisie" data-ex="techpro-c"></div>
+
+#### 🅳 Opération D — Vendre à des particuliers (pas une entreprise)
+
+**En mots simples :** TechPro vend des claviers en ligne à des **particuliers** (des gens, pas des entreprises) en Belgique et en Espagne : **12 000 €** sur l'année.
+👉 **Règle :** dès qu'on dépasse **10 000 € / an** de ventes vers des particuliers de l'UE, on applique **la TVA du pays du client** (ex. Belgique = 21 %) et on la déclare dans un guichet spécial, l'**OSS**. *(Pas d'écriture à saisir ici : ce flux se déclare à part, pas sur la CA3 française.)*
+
+---
+
+**🧾 Et sur la déclaration de TVA (CA3) du mois, ça donne quoi ?**
 
 | Ligne CA3 | Opération | Base HT | TVA |
 |---|---|---|---|
-| 06 | LIC (A) | 5 000 € | — |
-| 05 | Service B2B intra (C) | 2 000 € | — |
-| 03 | AIC (B) | 3 000 € | — |
-| 17 | TVA collectée intra (B) | | 600 € |
-| 20 | TVA déductible intra (B) | | 600 € |
+| 06 | Vente de bien à une entreprise UE (A) | 5 000 € | — |
+| 05 | Service vendu à une entreprise UE (C) | 2 000 € | — |
+| 03 | Achat à une entreprise UE (B) | 3 000 € | — |
+| 17 | TVA « à payer » sur l'achat UE (B) | | 600 € |
+| 20 | TVA « à récupérer » sur l'achat UE (B) | | 600 € |
 
-→ **TVA nette due au titre de ces 4 opérations = 0 €** (l'AIC s'autoliquide, le reste est exonéré ou hors CA3). La TVA OSS belge (210 €) est payée **séparément** via le guichet unique. Tout l'enjeu pour le collaborateur : **classer correctement** chaque flux et **déposer les déclarations annexes** (état récap., DES, OSS) dans les délais.
+→ **TVA à payer pour ces opérations = 0 €** (l'achat UE s'autoliquide ; les ventes UE sont exonérées). La TVA belge des particuliers (≈ 210 € pour 1 000 € vendus) se paie **à part**, via l'**OSS**.
 
-> ✅ **À retenir** : 1 question = nature, client, destination, montant → 1 régime. B2B intra = exonéré côté vendeur + autoliquidation côté client (état récap. biens / DES services). Export = exonéré 262 I + preuve de sortie. B2C UE = seuil 10 000 € puis OSS au taux du pays d'arrivée. **L'AIC et l'achat de service intra sont neutres en CA3** mais doivent y figurer.
+> ✅ **À retenir — 3 questions simples** avant de choisir le traitement :
+> 1. **QUI** est le client ? → une **entreprise** (avec n° de TVA) ou un **particulier** ?
+> 2. **QUOI** ? → un **bien** ou un **service** ?
+> 3. **OÙ** est-il ? → en **France**, dans l'**UE**, ou **hors UE** ?
+>
+> 👉 Entreprise UE (bien **ou** service) = **0 € de TVA** chez nous (le client autoliquide). · Particulier UE = TVA du **pays d'arrivée** via **OSS** (après 10 000 €/an). · Hors UE = **export exonéré** (avec preuve de sortie).
 
 <div class="calc" data-calc="tva-terr"></div>
 
