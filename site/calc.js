@@ -408,6 +408,43 @@
     },
     exemple: "Rém. 40 000 €, capital 10 000 €, dividendes 20 000 € → TNS ≈ 29 282 € vs SAS ≈ 32 800 € : TNS plus avantageux ici.",
     source: "Comparaison gérant majoritaire (TNS) vs président assimilé salarié (SAS/SASU) ; dividendes TNS > 10 % du capital soumis à cotisations ; PFU 30 %. Taux indicatifs (d'après le simulateur dirigeant)."
+  },
+
+  // ---------- 10) Passage résultat comptable -> fiscal & IS ----------
+  "is": {
+    titre: "Du résultat comptable au résultat fiscal & IS",
+    intro: "Calcule le résultat fiscal (réintégrations − déductions), impute les déficits (plafond 1 M€ + 50 %) et l'IS 2026 (15 % / 25 %).",
+    inputs: [
+      { key: "rc", label: "Résultat comptable avant impôt", type: "number", unit: "€" },
+      { key: "reint", label: "Total des réintégrations (+)", type: "number", unit: "€", def: "0" },
+      { key: "deduc", label: "Total des déductions (−)", type: "number", unit: "€", def: "0" },
+      { key: "defAnt", label: "Déficits antérieurs reportables", type: "number", unit: "€", def: "0" },
+      { key: "reduit", label: "Éligible au taux réduit 15 % ?", type: "select", def: "oui", options: [
+        { val: "oui", lab: "Oui (CA < 10 M€, capital libéré, ≥75 % PP)" }, { val: "non", lab: "Non" }] }
+    ],
+    compute: function (v, h) {
+      var rf = v.rc + v.reint - v.deduc, defAnt = Math.max(v.defAnt, 0);
+      var imput = 0, base = 0, IS = 0, defRest = defAnt;
+      if (rf <= 0) { defRest = defAnt + (-rf); }
+      else {
+        var plaf = 1000000 + 0.5 * Math.max(rf - 1000000, 0);
+        imput = Math.min(defAnt, plaf, rf); base = rf - imput; defRest = defAnt - imput;
+        if (v.reduit === "oui") { var t15 = Math.min(base, 42500); IS = t15 * 0.15 + Math.max(base - 42500, 0) * 0.25; }
+        else IS = base * 0.25;
+      }
+      return {
+        rows: [
+          { l: "Résultat fiscal (avant déficits)", v: h.eur(rf), w: rf < 0 },
+          { l: "Déficits imputés", v: h.eur(imput) },
+          { l: "Base imposable", v: h.eur(base) },
+          { l: "IS dû", v: h.eur(IS), b: true },
+          { l: "Déficit reportable restant", v: h.eur(defRest), w: defRest > 0 }
+        ],
+        extra: "<b>Résultat fiscal</b> = résultat comptable + réintégrations (amendes, IS, TVS, amort. VP excédentaire, provisions non déductibles…) − déductions (mère‑fille, reprises de provisions déjà réintégrées…). <br><b>IS 2026 :</b> 15 % jusqu'à 42 500 € (si éligible), 25 % au‑delà. <b>Déficits :</b> report en avant illimité mais plafonné à <b>1 M€ + 50 %</b> du bénéfice au‑delà ; option carry‑back (2039). <br><b>Comptabilisation :</b> Débit <code>6951</code> IS / Crédit <code>444</code> État, impôt sur les bénéfices."
+      };
+    },
+    exemple: "RC 100 000 € ; réintégrations 8 000 ; déductions 3 000 → résultat fiscal 105 000 €. Éligible 15 % → 42 500 × 15 % + 62 500 × 25 % = <b>22 000 €</b> d'IS.",
+    source: "CGI art. 219 (taux IS), art. 209 (déficits). Taux réduit 15 % sur 42 500 € sous conditions ; 25 % standard 2026."
   }
 
   };

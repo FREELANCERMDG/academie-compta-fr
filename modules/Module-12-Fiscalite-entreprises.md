@@ -281,6 +281,43 @@ Le crédit s'impute sur l'**IS 2024** (relevé de solde **2572**). Si l'IS dû <
 
 <div class="calc" data-calc="cifd"></div>
 
+## 🔄 Du résultat comptable au résultat fiscal (réintégrations / déductions)
+**C'est l'acte central de la liasse** : le **résultat comptable ≠ résultat fiscal**. On part du résultat comptable et on l'ajuste **extra‑comptablement** (tableau **2058‑A** au réel normal, **2033‑B** au réel simplifié) :
+> **Résultat fiscal = Résultat comptable + Réintégrations − Déductions**
+
+### ➕ Principales RÉINTÉGRATIONS (charges comptabilisées mais NON déductibles)
+| Poste | Pourquoi |
+|---|---|
+| **Amendes et pénalités** | Jamais déductibles (art. 39,2 CGI) |
+| **Impôt sur les sociétés (IS)** | L'impôt lui‑même n'est pas une charge déductible |
+| **Taxe sur les véhicules (ex‑TVS)** | Non déductible à l'IS |
+| **Amortissement des VP au‑delà du plafond** | Fraction excédentaire (plafond selon CO2) |
+| **Charges somptuaires** (chasse, pêche, yacht…) | Non déductibles |
+| **Provisions non déductibles** (IFC/retraite…) | À réintégrer |
+| **Intérêts de comptes courants d'associés** | Fraction au‑delà du taux maximal |
+
+### ➖ Principales DÉDUCTIONS (produits comptabilisés mais non imposables / déjà taxés)
+| Poste | Pourquoi |
+|---|---|
+| **Quote‑part de dividendes** (régime mère‑fille) | Exonérée (sauf quote‑part de frais 5 %) |
+| **Reprises de provisions** antérieurement réintégrées | Éviter une double imposition |
+| **Plus‑values à régime particulier** (LT…) | Taxées séparément |
+
+### 🧮 Le calcul de l'IS (2026)
+- **15 %** sur les **42 500 € premiers** de bénéfice **si** : CA HT < 10 M€, capital **entièrement libéré**, détenu **≥ 75 % par des personnes physiques**.
+- **25 %** au‑delà (et pour les sociétés non éligibles). Contribution sociale de 3,3 % si IS > 763 000 € (rare).
+- Comptabilisation : Débit **6951** / Crédit **444**.
+
+### 📉 Les déficits
+- **Report en avant** : illimité dans le temps, **plafonné à 1 000 000 € + 50 %** de la fraction du bénéfice dépassant 1 M€.
+- **Report en arrière (carry‑back, imprimé 2039)** : sur le seul bénéfice de l'exercice précédent (plafond 1 M€) → **créance** sur l'État.
+
+> **Exemple.** Résultat comptable **100 000 €** ; réintégrations **8 000** (amendes + TVS) ; déductions **3 000** (reprise de provision) → **résultat fiscal 105 000 €**. Société éligible → IS = 42 500 × 15 % + 62 500 × 25 % = **22 000 €**.
+
+Passez du résultat comptable à l'IS (avec imputation des déficits) :
+
+<div class="calc" data-calc="is"></div>
+
 ## 💼 Cotisations du dirigeant : SAS (assimilé salarié) vs TNS
 Le **choix du statut du dirigeant** pèse lourd sur le coût social. En simplifié :
 - **Gérant majoritaire (EURL/SARL) = TNS** : cotisations **~45 %** de la rémunération ; la fraction de **dividendes > 10 % du capital** est soumise aux cotisations sociales.
