@@ -5,12 +5,15 @@
   if (window.__ACF_CHAT_INIT__) return; window.__ACF_CHAT_INIT__ = true;
   var SC = document.currentScript || document.querySelector('script[src*="chat.js"]');
   var WA = ((SC && SC.getAttribute('data-wa')) || (window.ACF_CHAT && window.ACF_CHAT.wa) || '').replace(/\D/g, '');
+  var PROMO = !!(SC && SC.getAttribute('data-promo') === '1');
   var waUrl = function (t) { return WA ? ('https://wa.me/' + WA + '?text=' + encodeURIComponent(t || 'Bonjour, je souhaite des informations sur la formation.')) : '/programme'; };
 
   // ----- Base de connaissances (intentions) -----
   var FAQ = [
     { key: 'prix', chip: '💰 Prix & offres', kw: ['prix', 'tarif', 'coute', 'coût', 'cout', 'combien', 'offre', 'pack', 'cher', 'ariary', 'ar '],
-      a: 'Le <b>Module 1 est 100&nbsp;% gratuit</b> (après inscription). Les autres modules sont <b>payants à partir de 30&nbsp;000&nbsp;Ar</b>, et il existe un <b>pack complet</b> avantageux. Détail et aperçu de chaque module : <a href="/programme">page Programme</a>.' },
+      a: (PROMO
+        ? '🎁 <b>Offre de lancement : TOUS les modules sont GRATUITS pendant 3 mois&nbsp;!</b> Inscrivez-vous et accédez à toute la formation (+ attestation). <a href="/programme">Voir le programme</a>.'
+        : 'Le <b>Module 1 est 100&nbsp;% gratuit</b> (après inscription). Les autres modules sont <b>payants à partir de 30&nbsp;000&nbsp;Ar</b>, et il existe un <b>pack complet</b> avantageux. Détail et aperçu de chaque module : <a href="/programme">page Programme</a>.') },
     { key: 'inscription', chip: '🎓 S\'inscrire', kw: ['inscri', 'compte', 'creer', 'créer', 's\'inscrire', 'rejoindre', 'commencer'],
       a: 'Cliquez sur <a href="/inscription"><b>S\'inscrire</b></a>, remplissez le formulaire (prérequis&nbsp;: <b>BAC+2 en comptabilité</b>, attestation sur l\'honneur) et installez <b>Google&nbsp;Authenticator</b> (2FA). Vous pourrez ensuite lire le <b>Module&nbsp;1 gratuitement</b>.' },
     { key: 'module1', chip: '🎁 Module 1 gratuit', kw: ['gratuit', 'module 1', 'module1', 'essai', 'tester', 'découvrir', 'decouvrir'],
@@ -123,7 +126,14 @@
   var greeted = false;
   function open() {
     panel.classList.add('open'); launcher.style.display = 'none';
-    if (!greeted) { greeted = true; add('Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>Posez votre question (prix, inscription, accès…) ou choisissez un sujet ci-dessous. 🎁 <b>Le Module 1 est gratuit&nbsp;!</b>', 'bot'); renderChips(); }
+    if (!greeted) {
+      greeted = true;
+      add(PROMO
+        ? 'Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>🎁 <b>Offre de lancement : TOUS les modules sont GRATUITS pendant 3 mois&nbsp;!</b> Profitez-en. Une question ou besoin d\'aide (inscription, accès, modules, attestation…) ? Je suis là 😊'
+        : 'Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>Posez votre question (prix, inscription, accès…) ou choisissez un sujet ci-dessous. 🎁 <b>Le Module 1 est gratuit&nbsp;!</b>',
+        'bot');
+      renderChips();
+    }
     setTimeout(function () { input.focus(); }, 100);
   }
   function close() { panel.classList.remove('open'); launcher.style.display = 'flex'; }
