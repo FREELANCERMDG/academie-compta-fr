@@ -88,7 +88,7 @@
     "prix_ref": "100 000 Ar",
     "places_max": 0,
     "banniere": "🎁 Ailleurs : jusqu'à 100 000 Ar par module. Ici : 100 % GRATUIT à partir d'aujourd'hui 09/06/2026 à 19h, et pendant 3 MOIS — tous les modules + ATTESTATION à la clé ! Inscrivez-vous maintenant.",
-    "banniere_live": "🎉 C'EST PARTI ! Accès 100 % GRATUIT à TOUS les modules pendant 3 mois — attestation à la clé. Inscrivez-vous et commencez maintenant !",
+    "banniere_live": "🎉 C'EST PARTI ! TOUS les modules sont DÉBLOQUÉS gratuitement pendant 3 mois (jusqu'au 09/09/2026) — attestation à la clé. Inscrivez-vous et commencez maintenant !",
     "_note": "actif=true : affiche la bannière + remplace les prix par 'label'. acces_libre=true ET maintenant >= debut_libre (ISO UTC) : l'accès gratuit à TOUS les modules s'ouvre automatiquement, jusqu'à jusqu_au (AAAA-MM-JJ, fin de journée). Avant debut_libre : 'Bientôt gratuit', accès normal (Module 1 gratuit). 16:00Z = 19h00 Antananarivo (UTC+3). banniere_live = texte affiché une fois l'offre ouverte."
   },
   "formateur": {
