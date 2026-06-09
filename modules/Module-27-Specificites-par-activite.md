@@ -136,6 +136,64 @@ Le buraliste est **préposé de l'administration** pour la vente de tabac (monop
 
 ---
 
+## 12) 🚗 VTC / chauffeur (plateformes Uber, Bolt, Heetch, FreeNow)
+
+Le chauffeur VTC travaille via des **plateformes**. Le passager paie **la plateforme** ; celle‑ci **prélève sa commission** et **reverse le net** au chauffeur. Pour comptabiliser juste, il faut **connaître la commission de chaque plateforme** : le **chiffre d'affaires du chauffeur = le montant BRUT** des courses (pas le net reçu !), et **la commission = une charge**.
+
+### 💸 Commissions des principales plateformes (France, 2025 — indicatif)
+| Plateforme | Commission | Société → TVA sur la commission |
+|---|---|---|
+| **Uber** | ~**25 %** | Uber B.V. (**Pays‑Bas**) → service **UE** : **autoliquidation** |
+| **FreeNow** | ~**20 %** | FREE NOW (**Allemagne**) → service **UE** : **autoliquidation** |
+| **Bolt** | ~**19 %** | Bolt (**Estonie**) → service **UE** : **autoliquidation** |
+| **Heetch** | ~**15–18 %** (surtout la nuit) | société **française** → **TVA française 20 %**, déductible directement |
+
+> ⚠️ Les taux évoluent : **vérifiez toujours le relevé de la plateforme** — il détaille **brut, commission, TVA et net**.
+
+### 🧾 Les 2 règles à retenir
+1. **CA = montant BRUT des courses** (compte **706** transport de personnes), **TVA collectée à 10 %** (transport de voyageurs). ⚠️ Le **net reçu n'est PAS** le chiffre d'affaires.
+2. **Commission plateforme = charge** (compte **622** commissions et courtages). Pour **Uber / Bolt / FreeNow** (sociétés **UE**) : facture **sans TVA** → **autoliquidation** (TVA due 20 % + TVA déductible 20 % = neutre), exactement comme un **achat de service intracom**.
+
+### ✍️ Exemple chiffré du mois (plateforme Uber)
+- Courses encaissées par Uber : **1 000 € TTC** (transport 10 % → HT 909,09 · TVA 90,91)
+- Commission Uber **25 % = 250 € HT** (facture Uber B.V. sans TVA → autoliquidation 20 % = 50 €)
+- Net viré au chauffeur : 1 000 − 250 = **750 €**
+
+**① Recettes du mois (via la plateforme)**
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| 467 | Plateforme Uber (compte de tiers) | 1 000,00 | |
+| 706 | Transport de personnes | | 909,09 |
+| 44571 | TVA collectée 10 % | | 90,91 |
+
+**② Commission Uber — autoliquidée (service UE)**
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| 622 | Commission plateforme | 250,00 | |
+| 445662 | TVA déductible intracom | 50,00 | |
+| 4452 | TVA due intracom (autoliquidée) | | 50,00 |
+| 467 | Plateforme Uber | | 250,00 |
+
+**③ Reversement du net par la plateforme**
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| 512 | Banque | 750,00 | |
+| 467 | Plateforme Uber | | 750,00 |
+
+> ✅ **Contrôle :** le compte **467 « Plateforme »** doit être **soldé** (1 000 au débit = 250 + 750 au crédit) → on **rapproche le relevé de la plateforme** avec la banque.
+>
+> 🔁 **Heetch (société française)** : même logique, mais la commission porte une **TVA française à 20 %** → on passe **622 (HT) + 44566 (TVA déductible)**, **sans** autoliquidation.
+>
+> 🇲🇬 **En mots simples :** la plateforme est un **intermédiaire** — elle encaisse pour le chauffeur, garde sa part (la **commission**), et reverse le reste. En compta : **toute la course = recette**, **la commission = dépense**, et **ce qui reste** arrive en banque.
+
+### Régime & TVA
+- Souvent **micro‑BIC** (services) ou **réel**. En **franchise en base de TVA** : pas de TVA collectée ni d'autoliquidation, mais on suit bien le **brut** des courses.
+- **TVA transport de personnes = 10 %** · **commission plateforme = 20 %**.
+
+> **Réflexe :** ne jamais comptabiliser **seulement le net** reçu → on **perd le CA réel et la TVA**. Toujours partir du **relevé plateforme** (brut → commission → net).
+
+---
+
 ## 📊 Tableau récapitulatif
 
 | Activité | Catégorie | TVA | Réflexe clé |
@@ -152,6 +210,7 @@ Le buraliste est **préposé de l'administration** pour la vente de tabac (monop
 | **Association 1901** | non lucratif | exonérée (sauf lucratif) | gestion désintéressée · fonds dédiés · ANC 2018‑06 |
 | **Agricole (BA)** | BA | RSA / forfait · CA12A | stocks vivants · aides PAC · MSA |
 | **Pharmacie** | BIC | **2,1 / 10 / 20 %** | ventilation taux · tiers payant (CPAM/mutuelles) |
+| **VTC / chauffeur** | BIC/services | course **10 %** · commission **20 %** | CA = **brut** · commission en charge · **autoliquidation** (Uber/Bolt/FreeNow UE) |
 
 ---
 
@@ -162,6 +221,7 @@ Le buraliste est **préposé de l'administration** pour la vente de tabac (monop
 - [ ] SNC → associés **commerçants**, rémunération **réintégrée** (IR)
 - [ ] SAP → **taux de TVA** correct + **attestation** annuelle
 - [ ] Tabac → **sectorisation** exonéré/taxable + **prorata**
+- [ ] VTC → CA au **brut** (relevé plateforme), commission en **charge** + **autoliquidation** si plateforme **UE** (Uber/Bolt/FreeNow)
 
 ---
 

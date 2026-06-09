@@ -2,7 +2,11 @@
 
 > **Référence transversale à TOUTE la formation.** Gardez ce chapitre sous la main : c'est votre « antisèche » de collaborateur — les chiffres, taux, seuils, comptes et échéances que vous utilisez tous les jours, regroupés en un seul endroit.
 >
-> 🏆 **La référence métier** des cabinets français est le **Mémento Comptable** et le **Mémento Fiscal** (Éditions Francis Lefebvre), mis à jour chaque année. Ce chapitre en est une **synthèse libre et originale**, construite à partir des **sources officielles** (PCG/ANC, BOFiP, urssaf.fr, impots.gouv.fr). En cas de doute sur un cas précis, on **vérifie toujours la source officielle de l'année** et, en cabinet, le Mémento.
+> 🏆 **La référence métier** des cabinets français est le **Mémento Comptable** et le **Mémento Fiscal** (Éditions Francis Lefebvre) — mais c'est une publication **payante**.
+>
+> 📕 **Bonne nouvelle : le « mémento » officiel GRATUIT existe.** C'est le **Recueil des normes comptables françaises** publié par l'**ANC** (Autorité des Normes Comptables) : un **PDF téléchargeable, une version par année (2020 → 2026)**, qui contient tout le référentiel comptable français à jour. 👉 **À télécharger et garder** : [anc.gouv.fr — Recueils des normes comptables](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables) (lien complet en bas de page).
+>
+> Ce chapitre est une **synthèse libre et originale** construite à partir des **sources officielles** (PCG/ANC, BOFiP, urssaf.fr, impots.gouv.fr). En cas de doute sur un cas précis, on **vérifie toujours la source officielle de l'année**.
 >
 > ⚠️ **Chiffres indicatifs 2025-2026.** Plusieurs seuils sont revalorisés chaque année (ou tous les 3 ans). **Contrôlez l'année applicable** avant d'appliquer.
 
@@ -151,6 +155,7 @@ Le format = **code pays (2 lettres) + bloc national**. La **liste complète des 
 - **Doctrine fiscale** : [BOFiP — bofip.impots.gouv.fr](https://bofip.impots.gouv.fr/) · **impots.gouv.fr/professionnel**
 - **Social / barèmes** : [urssaf.fr](https://www.urssaf.fr/) · [service-public.fr (pro)](https://entreprendre.service-public.fr/)
 - **TVA intracom (VIES)** : [ec.europa.eu/taxation_customs/vies](https://ec.europa.eu/taxation_customs/vies/)
-- **Référence cabinet** : *Mémento Comptable* & *Mémento Fiscal* — Éditions Francis Lefebvre (édition de l'année).
+- **📕 Le « mémento » officiel GRATUIT** : **Recueil des normes comptables françaises** (ANC) — PDF par année **2020 → 2026** : [anc.gouv.fr — Recueils des normes comptables](https://www.anc.gouv.fr/normes-comptables-francaises/recueils-des-normes-comptables) · ex. [Recueil 2024 (PDF)](https://www.anc.gouv.fr/files/anc/files/1_Normes_fran%C3%A7aises/Reglements/Recueils/Recueil%20comptable%20entreprises/2024/Recueil_normes-comptables2024.pdf). C'est l'équivalent **officiel et gratuit** du Mémento.
+- **Référence cabinet (payante)** : *Mémento Comptable* & *Mémento Fiscal* — Éditions Francis Lefebvre (édition de l'année).
 
 > 🧭 Ce référentiel ne remplace pas le conseil d'un expert-comptable inscrit à l'Ordre : il **outille le collaborateur** pour produire vite et juste, puis **faire valider** par le chef de mission / l'EC signataire.
