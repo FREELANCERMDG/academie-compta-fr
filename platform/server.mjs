@@ -725,7 +725,18 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   <p class="sub">Formation complète en comptabilité française externalisée depuis Madagascar</p>
   <p>Je soussigné <b>${esc(formateur)}</b>, formateur agissant pour la société <b>${esc(s.nom || '')}</b>, atteste que :</p>
   <p class="name">${nom}</p>
-  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules), couvrant la saisie, la TVA, le rapprochement, le lettrage, la paie, les immobilisations, la révision, la fiscalité, le bilan et la liasse.</p>
+  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules).</p>
+  <div style="max-width:660px;margin:14px auto 4px;background:#f4f7fb;border:1px solid #dbe4ee;border-radius:8px;padding:14px 20px">
+    <p style="margin:0 0 6px;text-align:center;color:#1F4E78;font-weight:bold;font-size:15px">Compétences maîtrisées (résumé)</p>
+    <ul style="margin:0;padding-left:20px;line-height:1.55;font-size:14px">
+      <li>Tenue d'un dossier client : saisie achats, ventes, banque, OD selon le <b>PCG</b>.</li>
+      <li><b>TVA</b> française : régimes, déclarations <b>CA3 / CA12</b>, rapprochement et lettrage.</li>
+      <li>Logiciel <b>Pennylane</b> : saisie, import FEC, TVA et préparation de la liasse.</li>
+      <li>Travaux de <b>révision</b> : immobilisations, paie, comptes d'attente, clôture.</li>
+      <li><b>Fiscalité &amp; liasse</b> : IS/IR, BIC/BNC, CFE, bilan et liasse par régime.</li>
+      <li>Posture <b>cabinet offshore</b> : justification des comptes, qualité, relation client.</li>
+    </ul>
+  </div>
   <div class="grid">
     <div class="box"><div class="lbl">Date d'inscription</div><div class="val">${fmt(u.cree_le)}</div></div>
     <div class="box"><div class="lbl">Résultat à l'évaluation finale</div><div class="val" id="result">…</div></div>
