@@ -23,7 +23,7 @@ const MACRO = [
   },
   {
     code: 'mod2', titre: 'Module 2 — Prise en main du logiciel Pennylane',
-    resume: "Pennylane en vidéo (lecteur intégré) : la saisie comptable, les règles de catégorisation des transactions, l'import d'un FEC et la reprise des immobilisations — chaque vidéo est expliquée pas à pas.",
+    resume: "Formation 100 % pratique sur Pennylane, le logiciel phare des cabinets français aujourd'hui : saisie comptable, règles de catégorisation, import d'un FEC et reprise des immobilisations — chaque vidéo expliquée pas à pas.",
     topics: [
       "🎥 Saisie comptable sur Pennylane (vidéo + explication)",
       "🎥 Créer des règles de catégorisation des transactions (vidéo + explication)",
