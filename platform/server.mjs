@@ -195,7 +195,8 @@ function layout(title, body, sess) {
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><nav>${nav}</nav></header>
 ${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🔐 Installez Google Authenticator (gratuit) pour sécuriser votre connexion (2FA)&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🔐 Installez Google Authenticator (gratuit) pour sécuriser votre connexion (2FA)&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
-${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer></body></html>`;
+${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
+<script>window.ACF_CHAT=${JSON.stringify({ wa })};</script><script src="/public/chat.js?v=${ASSET_V}" defer></script></body></html>`;
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
 const money = n => Number(n).toLocaleString('fr-FR') + ' ' + esc(cfg.site.devise);
