@@ -351,7 +351,7 @@ function pageProgramme(sess) {
   const offres = db.prepare('SELECT * FROM offres').all();
   const modulesSection = apercuModulesSection();
   const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0);
-  const compteur = (cfg.afficher_compteur_inscrits && n > 0) ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''}</span></div>` : '';
+  const compteur = (cfg.afficher_compteur_inscrits && n > 0 && sess && sess.user && sess.user.role === 'admin') ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''} <em style="font-size:10px;opacity:.7">(admin)</em></span></div>` : '';
   const f = cfg.formateur || {};
   const fstats = (f.annees ? `<div class="stat"><b>${esc(String(f.annees))} ans</b><span>d'expérience</span></div>` : '') + (f.formes ? `<div class="stat"><b>${esc(String(f.formes))}+</b><span>personnes formées</span></div>` : '');
   const stats = `<div class="stats">${fstats}<div class="stat"><b>6</b><span>modules</span></div><div class="stat"><b>100+</b><span>questions de quiz</span></div><div class="stat"><b>10</b><span>cas pratiques</span></div><div class="stat"><b>✓</b><span>attestation</span></div>${compteur}</div>`;
@@ -586,8 +586,9 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vToday = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour=?').get(_jour).t;
   const v7 = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour>=?').get(_j7).t;
   const vPays = db.prepare('SELECT pays, SUM(n) AS t FROM visites GROUP BY pays ORDER BY t DESC LIMIT 20').all();
-  const visitesHtml = `<section class="card"><h2>📊 Visites du site</h2>
-  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
+  const nInscr = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c;
+  const visitesHtml = `<section class="card"><h2>📊 Visites du site &amp; inscrits</h2>
+  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div><div class="stat"><b>${nInscr}</b><span>apprenants inscrits</span></div></div>
   ${vPays.length ? `<h3>🌍 D'où viennent les visiteurs</h3><div class="tbl"><table><tr><th>Pays</th><th>Visites</th><th>Part</th></tr>
   ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
