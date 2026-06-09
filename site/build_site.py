@@ -91,6 +91,7 @@ MANIFEST = [
     ("modules/Module-PRAT5-Entrainement-saisie.md", "pr5", "Module 3 — Opérations & révision", "3.12 🧮 Entraînement : matrice de saisie (interactif)", None),
     ("modules/Module-PRAT6-Simulateur.md", "pr6", "Module 3 — Opérations & révision", "3.13 🏢 Simulateur Cabinet : traiter les factures (interactif)", None),
     ("modules/Module-PRAT7-TVA-CA3.md", "pr7", "Module 3 — Opérations & révision", "3.14 🧾 Déclarer la TVA (CA3) — simulateur", None),
+    ("modules/Module-EXOS-Banque.md", "exbank", "Module 3 — Opérations & révision", "3.15 🧮 Banque d'exercices : tous les cas de saisie", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),

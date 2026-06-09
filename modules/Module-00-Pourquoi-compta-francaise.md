@@ -34,6 +34,15 @@ Chaque niveau = plus de responsabilités… et de revenus.
 - Des **simulateurs** pour s'entraîner **comme en cabinet** (factures, TVA, révision).
 - Un **parcours progressif** : de *Recrue* à *Chef de mission*, avec niveaux et badges.
 
+## 🧭 Dans quel ordre suivre les modules ?
+**Parcours conseillé : 1 → 2 → 3 → 4 → 5 → 6** (chaque module s'appuie sur le précédent).
+- **Module 1** = les **fondamentaux** (PCG, TVA, saisie) → à faire **en premier**.
+- **Module 2** = le logiciel **Pennylane** (l'outil quotidien).
+- **Modules 3 à 6** = opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification.
+
+**« Suis-je obligé de passer par les Modules 1, 2, 3 ? Puis-je commencer par le Module 4 ? »**
+👉 **Oui, c'est possible** si vous **maîtrisez déjà les bases** : les modules sont **autonomes** et chacun rappelle l'essentiel. **Mais si vous débutez, commencez par le Module 1** — sans les fondamentaux (débit/crédit, PCG, TVA), les modules fiscalité/liasse seront difficiles à suivre. **En cas de doute :** faites le **quiz du Module 1** ; si vous le réussissez (≥ 70 %), vous pouvez accélérer vers le module qui vous intéresse.
+
 ## 💬 Ils se sont lancés (parcours types)
 
 > **Mbolatiana, 28 ans — Réviseuse en cabinet d'externalisation (Antananarivo)**

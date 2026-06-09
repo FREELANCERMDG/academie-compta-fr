@@ -1,238 +1,1179 @@
 {
-  "_aide": "Exercices de saisie interactifs. racine = préfixe de compte accepté pour la correction (souple). Montants en nombres.",
-  "ex1": {
-    "titre": "Achat de marchandises",
-    "journal": "AC",
-    "enonce": "Facture fournisseur : marchandises 1 000 € HT, TVA 20 %. Saisissez l'écriture complète.",
-    "astuce": "Charge HT + TVA déductible au débit, fournisseur (TTC) au crédit.",
-    "doc": { "sens": "Facture fournisseur", "emetteur": "FOURNITURES INDUSTRIELLES", "ville": "25 rue de la Paix, 75002 Paris", "num": "F2024-0487", "date": "15/05/2024", "echeance": "14/06/2024", "lignes": [ { "designation": "Marchandises (papier, classeurs, stylos…)", "qte": 1, "puht": 1000 } ], "ht": 1000, "taux": 20, "tva": 200, "ttc": 1200 },
-    "tuto": [
-      "Type de pièce : <b>facture d'achat</b> → journal <b>AC</b>.",
-      "Au <b>débit</b> : la charge HT (compte <b>607</b> Achats) + la <b>TVA déductible</b> (compte <b>44566</b>).",
-      "Au <b>crédit</b> : le <b>fournisseur</b> (compte <b>401</b>) pour le montant <b>TTC</b>.",
-      "Contrôlez l'<b>équilibre</b> (total débit = total crédit), puis « Vérifier »."
-    ],
-    "lignes": [
-      { "compte": "607000", "racine": "607", "libelle": "Achats de marchandises", "debit": 1000, "credit": 0 },
-      { "compte": "445660", "racine": "4456", "libelle": "TVA déductible 20 %", "debit": 200, "credit": 0 },
-      { "compte": "401", "racine": "401", "libelle": "Fournisseur", "debit": 0, "credit": 1200 }
-    ]
+ "_aide": "Exercices de saisie interactifs. racine = préfixe de compte accepté pour la correction (souple). Montants en nombres.",
+ "ex1": {
+  "titre": "Achat de marchandises",
+  "journal": "AC",
+  "enonce": "Facture fournisseur : marchandises 1 000 € HT, TVA 20 %. Saisissez l'écriture complète.",
+  "astuce": "Charge HT + TVA déductible au débit, fournisseur (TTC) au crédit.",
+  "doc": {
+   "sens": "Facture fournisseur",
+   "emetteur": "FOURNITURES INDUSTRIELLES",
+   "ville": "25 rue de la Paix, 75002 Paris",
+   "num": "F2024-0487",
+   "date": "15/05/2024",
+   "echeance": "14/06/2024",
+   "lignes": [
+    {
+     "designation": "Marchandises (papier, classeurs, stylos…)",
+     "qte": 1,
+     "puht": 1000
+    }
+   ],
+   "ht": 1000,
+   "taux": 20,
+   "tva": 200,
+   "ttc": 1200
   },
-  "ex2": {
-    "titre": "Vente de prestation",
-    "journal": "VT",
-    "enonce": "Facture client : prestation 2 000 € HT, TVA 20 %. Saisissez l'écriture.",
-    "astuce": "Client (TTC) au débit ; produit HT + TVA collectée au crédit.",
-    "lignes": [
-      { "compte": "411", "racine": "411", "libelle": "Client", "debit": 2400, "credit": 0 },
-      { "compte": "706000", "racine": "706", "libelle": "Prestations de services", "debit": 0, "credit": 2000 },
-      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 20 %", "debit": 0, "credit": 400 }
-    ]
+  "tuto": [
+   "Type de pièce : <b>facture d'achat</b> → journal <b>AC</b>.",
+   "Au <b>débit</b> : la charge HT (compte <b>607</b> Achats) + la <b>TVA déductible</b> (compte <b>44566</b>).",
+   "Au <b>crédit</b> : le <b>fournisseur</b> (compte <b>401</b>) pour le montant <b>TTC</b>.",
+   "Contrôlez l'<b>équilibre</b> (total débit = total crédit), puis « Vérifier »."
+  ],
+  "lignes": [
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achats de marchandises",
+    "debit": 1000,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "4456",
+    "libelle": "TVA déductible 20 %",
+    "debit": 200,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur",
+    "debit": 0,
+    "credit": 1200
+   }
+  ]
+ },
+ "ex2": {
+  "titre": "Vente de prestation",
+  "journal": "VT",
+  "enonce": "Facture client : prestation 2 000 € HT, TVA 20 %. Saisissez l'écriture.",
+  "astuce": "Client (TTC) au débit ; produit HT + TVA collectée au crédit.",
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services",
+    "debit": 0,
+    "credit": 2000
+   },
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectée 20 %",
+    "debit": 0,
+    "credit": 400
+   }
+  ]
+ },
+ "ex3": {
+  "titre": "Course Uber (VTC)",
+  "journal": "BQ",
+  "enonce": "Reçu Uber : course 30 € TTC, payée par carte bancaire. Attention à la TVA !",
+  "astuce": "VTC = transport de personnes → TVA NON déductible : tout le TTC passe en charge (pas de ligne de TVA).",
+  "lignes": [
+   {
+    "compte": "625100",
+    "racine": "6251",
+    "libelle": "Voyages et déplacements",
+    "debit": 30,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 30
+   }
+  ]
+ },
+ "ex4": {
+  "titre": "Encaissement d'un client",
+  "journal": "BQ",
+  "enonce": "Le client règle 2 400 € par virement bancaire. Saisissez l'encaissement.",
+  "astuce": "Banque au débit (l'argent entre), client au crédit (la créance s'éteint). On lettrera ensuite avec la facture.",
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client",
+    "debit": 0,
+    "credit": 2400
+   }
+  ]
+ },
+ "ex5": {
+  "titre": "Recette du jour (2 taux de TVA)",
+  "journal": "CA",
+  "enonce": "Z de caisse : ventes à 5,5 % = 1 000 € HT (TVA 55 €) et à 20 % = 500 € HT (TVA 100 €). Tout encaissé par carte bancaire (1 655 € TTC, en attente de versement).",
+  "astuce": "On ventile par taux. L'encaissement CB passe par le 511 (cartes bancaires à l'encaissement) au débit (1 655) ; ventes 1 500 + TVA 55 + TVA 100 au crédit. Le 511 sera soldé vers 512 au versement.",
+  "lignes": [
+   {
+    "compte": "511500",
+    "racine": "511",
+    "libelle": "Cartes bancaires à l'encaissement",
+    "debit": 1655,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Ventes de marchandises",
+    "debit": 0,
+    "credit": 1500
+   },
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectée 5,5 %",
+    "debit": 0,
+    "credit": 55
+   },
+   {
+    "compte": "445720",
+    "racine": "4457",
+    "libelle": "TVA collectée 20 %",
+    "debit": 0,
+    "credit": 100
+   }
+  ]
+ },
+ "ex6": {
+  "titre": "Dotation aux amortissements (clôture)",
+  "journal": "OD",
+  "enonce": "À la clôture : une machine de 12 000 € est amortie sur 5 ans en linéaire. Passez la dotation de l'exercice.",
+  "astuce": "12 000 / 5 = 2 400. Dotation (charge 6811) au débit, amortissement (28) au crédit.",
+  "lignes": [
+   {
+    "compte": "681120",
+    "racine": "6811",
+    "libelle": "Dotation aux amortissements",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "281540",
+    "racine": "2815",
+    "libelle": "Amortissement du matériel",
+    "debit": 0,
+    "credit": 2400
+   }
+  ]
+ },
+ "techpro-a": {
+  "titre": "Vente de bien à une entreprise de l'UE (exonérée)",
+  "journal": "VT",
+  "enonce": "SARL TechPro vend 5 000 € HT de serveurs à une entreprise allemande (n° de TVA valide). La vente est exonérée : 0 € de TVA. Saisissez la facture de vente.",
+  "astuce": "Vente de bien à une entreprise de l'UE = exonérée (art. 262 ter I), donc pas de TVA. Au débit : le client (411) ; au crédit : la vente (707) ; même montant : 5 000 €.",
+  "doc": {
+   "sens": "Facture de vente — client UE (entreprise)",
+   "emetteur": "SARL TECHPRO (vendeur)",
+   "ville": "Vente vers l'Allemagne · mention « Exonération de TVA, art. 262 ter I du CGI »",
+   "num": "VT2026-031",
+   "date": "10/03/2026",
+   "lignes": [
+    {
+     "designation": "Serveurs informatiques",
+     "qte": 1,
+     "puht": 5000
+    }
+   ],
+   "ht": 5000,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 5000
   },
-  "ex3": {
-    "titre": "Course Uber (VTC)",
-    "journal": "BQ",
-    "enonce": "Reçu Uber : course 30 € TTC, payée par carte bancaire. Attention à la TVA !",
-    "astuce": "VTC = transport de personnes → TVA NON déductible : tout le TTC passe en charge (pas de ligne de TVA).",
-    "lignes": [
-      { "compte": "625100", "racine": "6251", "libelle": "Voyages et déplacements", "debit": 30, "credit": 0 },
-      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 0, "credit": 30 }
-    ]
+  "tuto": [
+   "C'est une <b>vente</b> → journal <b>VT</b>.",
+   "Le client est une entreprise de l'UE avec un <b>n° de TVA valide</b> → la vente est <b>exonérée</b> : <b>0 € de TVA</b>.",
+   "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 5 000 € (il nous doit l'argent).",
+   "Au <b>crédit</b> : la <b>vente</b> (compte <b>707</b>) pour 5 000 € (notre produit).",
+   "Aucune ligne de TVA. Total débit = total crédit = 5 000 € → « Vérifier »."
+  ],
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client Allemagne",
+    "debit": 5000,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Ventes de marchandises (UE)",
+    "debit": 0,
+    "credit": 5000
+   }
+  ]
+ },
+ "techpro-b": {
+  "titre": "Achat à une entreprise de l'UE (autoliquidation TVA)",
+  "journal": "AC",
+  "enonce": "SARL TechPro achète 3 000 € HT de composants à un fournisseur italien (facture sans TVA). La TVA est autoliquidée : on l'écrit en « à payer » ET en « à récupérer » (20 % = 600 €). Saisissez l'écriture (4 lignes).",
+  "astuce": "Autoliquidation : on inscrit la TVA DUE (4452, au crédit) ET la TVA DÉDUCTIBLE (445662, au débit) → impact net = 0. Achat 607 au débit (3 000) ; fournisseur 401 au crédit (3 000, car facture sans TVA).",
+  "doc": {
+   "sens": "Facture d'achat — fournisseur UE (entreprise)",
+   "emetteur": "COMPONENTI SRL (Italie)",
+   "ville": "Achat intracommunautaire · facture HT, sans TVA italienne",
+   "num": "IT-2026-558",
+   "date": "12/03/2026",
+   "lignes": [
+    {
+     "designation": "Composants informatiques",
+     "qte": 1,
+     "puht": 3000
+    }
+   ],
+   "ht": 3000,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 3000
   },
-  "ex4": {
-    "titre": "Encaissement d'un client",
-    "journal": "BQ",
-    "enonce": "Le client règle 2 400 € par virement bancaire. Saisissez l'encaissement.",
-    "astuce": "Banque au débit (l'argent entre), client au crédit (la créance s'éteint). On lettrera ensuite avec la facture.",
-    "lignes": [
-      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 2400, "credit": 0 },
-      { "compte": "411", "racine": "411", "libelle": "Client", "debit": 0, "credit": 2400 }
-    ]
+  "tuto": [
+   "C'est un <b>achat</b> → journal <b>AC</b>. La facture italienne est <b>HT, sans TVA</b>.",
+   "On calcule la TVA française nous-mêmes : 3 000 × 20 % = <b>600 €</b>.",
+   "Au <b>débit</b> : l'achat <b>607</b> (3 000) + la <b>TVA déductible intracom 445662</b> (600).",
+   "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (600) + le <b>fournisseur 401</b> (3 000).",
+   "La TVA due (600) et la TVA déductible (600) <b>s'annulent</b> → impact net = 0. Total débit = total crédit = 3 600 €."
+  ],
+  "lignes": [
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achats de marchandises (UE)",
+    "debit": 3000,
+    "credit": 0
+   },
+   {
+    "compte": "445662",
+    "racine": "445662",
+    "libelle": "TVA déductible intracom",
+    "debit": 600,
+    "credit": 0
+   },
+   {
+    "compte": "445200",
+    "racine": "4452",
+    "libelle": "TVA due intracom (autoliquidée)",
+    "debit": 0,
+    "credit": 600
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur Italie",
+    "debit": 0,
+    "credit": 3000
+   }
+  ]
+ },
+ "techpro-c": {
+  "titre": "Vente de service à une entreprise de l'UE (autoliquidation)",
+  "journal": "VT",
+  "enonce": "SARL TechPro facture une installation à distance, 2 000 € HT, à son client allemand (entreprise). Service B2B intra-UE : 0 € de TVA, c'est le client qui autoliquide. Saisissez la facture.",
+  "astuce": "Service vendu à une entreprise de l'UE : autoliquidé par le client (art. 259-1°). Chez nous : 0 € de TVA, mention « Autoliquidation ». Au débit : client (411) ; au crédit : prestation (706) ; 2 000 €.",
+  "doc": {
+   "sens": "Facture de vente — service UE (entreprise)",
+   "emetteur": "SARL TECHPRO (prestataire)",
+   "ville": "Service vers l'Allemagne · mention « Autoliquidation » (DES à déposer)",
+   "num": "VT2026-032",
+   "date": "15/03/2026",
+   "lignes": [
+    {
+     "designation": "Installation à distance",
+     "qte": 1,
+     "puht": 2000
+    }
+   ],
+   "ht": 2000,
+   "taux": 0,
+   "tva": 0,
+   "ttc": 2000
   },
-  "ex5": {
-    "titre": "Recette du jour (2 taux de TVA)",
-    "journal": "CA",
-    "enonce": "Z de caisse : ventes à 5,5 % = 1 000 € HT (TVA 55 €) et à 20 % = 500 € HT (TVA 100 €). Tout encaissé par carte bancaire (1 655 € TTC, en attente de versement).",
-    "astuce": "On ventile par taux. L'encaissement CB passe par le 511 (cartes bancaires à l'encaissement) au débit (1 655) ; ventes 1 500 + TVA 55 + TVA 100 au crédit. Le 511 sera soldé vers 512 au versement.",
-    "lignes": [
-      { "compte": "511500", "racine": "511", "libelle": "Cartes bancaires à l'encaissement", "debit": 1655, "credit": 0 },
-      { "compte": "707000", "racine": "707", "libelle": "Ventes de marchandises", "debit": 0, "credit": 1500 },
-      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 5,5 %", "debit": 0, "credit": 55 },
-      { "compte": "445720", "racine": "4457", "libelle": "TVA collectée 20 %", "debit": 0, "credit": 100 }
-    ]
-  },
-  "ex6": {
-    "titre": "Dotation aux amortissements (clôture)",
-    "journal": "OD",
-    "enonce": "À la clôture : une machine de 12 000 € est amortie sur 5 ans en linéaire. Passez la dotation de l'exercice.",
-    "astuce": "12 000 / 5 = 2 400. Dotation (charge 6811) au débit, amortissement (28) au crédit.",
-    "lignes": [
-      { "compte": "681120", "racine": "6811", "libelle": "Dotation aux amortissements", "debit": 2400, "credit": 0 },
-      { "compte": "281540", "racine": "2815", "libelle": "Amortissement du matériel", "debit": 0, "credit": 2400 }
-    ]
-  },
-  "techpro-a": {
-    "titre": "Vente de bien à une entreprise de l'UE (exonérée)",
-    "journal": "VT",
-    "enonce": "SARL TechPro vend 5 000 € HT de serveurs à une entreprise allemande (n° de TVA valide). La vente est exonérée : 0 € de TVA. Saisissez la facture de vente.",
-    "astuce": "Vente de bien à une entreprise de l'UE = exonérée (art. 262 ter I), donc pas de TVA. Au débit : le client (411) ; au crédit : la vente (707) ; même montant : 5 000 €.",
-    "doc": { "sens": "Facture de vente — client UE (entreprise)", "emetteur": "SARL TECHPRO (vendeur)", "ville": "Vente vers l'Allemagne · mention « Exonération de TVA, art. 262 ter I du CGI »", "num": "VT2026-031", "date": "10/03/2026", "lignes": [ { "designation": "Serveurs informatiques", "qte": 1, "puht": 5000 } ], "ht": 5000, "taux": 0, "tva": 0, "ttc": 5000 },
-    "tuto": [
-      "C'est une <b>vente</b> → journal <b>VT</b>.",
-      "Le client est une entreprise de l'UE avec un <b>n° de TVA valide</b> → la vente est <b>exonérée</b> : <b>0 € de TVA</b>.",
-      "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 5 000 € (il nous doit l'argent).",
-      "Au <b>crédit</b> : la <b>vente</b> (compte <b>707</b>) pour 5 000 € (notre produit).",
-      "Aucune ligne de TVA. Total débit = total crédit = 5 000 € → « Vérifier »."
-    ],
-    "lignes": [
-      { "compte": "411", "racine": "411", "libelle": "Client Allemagne", "debit": 5000, "credit": 0 },
-      { "compte": "707000", "racine": "707", "libelle": "Ventes de marchandises (UE)", "debit": 0, "credit": 5000 }
-    ]
-  },
-  "techpro-b": {
-    "titre": "Achat à une entreprise de l'UE (autoliquidation TVA)",
-    "journal": "AC",
-    "enonce": "SARL TechPro achète 3 000 € HT de composants à un fournisseur italien (facture sans TVA). La TVA est autoliquidée : on l'écrit en « à payer » ET en « à récupérer » (20 % = 600 €). Saisissez l'écriture (4 lignes).",
-    "astuce": "Autoliquidation : on inscrit la TVA DUE (4452, au crédit) ET la TVA DÉDUCTIBLE (445662, au débit) → impact net = 0. Achat 607 au débit (3 000) ; fournisseur 401 au crédit (3 000, car facture sans TVA).",
-    "doc": { "sens": "Facture d'achat — fournisseur UE (entreprise)", "emetteur": "COMPONENTI SRL (Italie)", "ville": "Achat intracommunautaire · facture HT, sans TVA italienne", "num": "IT-2026-558", "date": "12/03/2026", "lignes": [ { "designation": "Composants informatiques", "qte": 1, "puht": 3000 } ], "ht": 3000, "taux": 0, "tva": 0, "ttc": 3000 },
-    "tuto": [
-      "C'est un <b>achat</b> → journal <b>AC</b>. La facture italienne est <b>HT, sans TVA</b>.",
-      "On calcule la TVA française nous-mêmes : 3 000 × 20 % = <b>600 €</b>.",
-      "Au <b>débit</b> : l'achat <b>607</b> (3 000) + la <b>TVA déductible intracom 445662</b> (600).",
-      "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (600) + le <b>fournisseur 401</b> (3 000).",
-      "La TVA due (600) et la TVA déductible (600) <b>s'annulent</b> → impact net = 0. Total débit = total crédit = 3 600 €."
-    ],
-    "lignes": [
-      { "compte": "607000", "racine": "607", "libelle": "Achats de marchandises (UE)", "debit": 3000, "credit": 0 },
-      { "compte": "445662", "racine": "445662", "libelle": "TVA déductible intracom", "debit": 600, "credit": 0 },
-      { "compte": "445200", "racine": "4452", "libelle": "TVA due intracom (autoliquidée)", "debit": 0, "credit": 600 },
-      { "compte": "401", "racine": "401", "libelle": "Fournisseur Italie", "debit": 0, "credit": 3000 }
-    ]
-  },
-  "techpro-c": {
-    "titre": "Vente de service à une entreprise de l'UE (autoliquidation)",
-    "journal": "VT",
-    "enonce": "SARL TechPro facture une installation à distance, 2 000 € HT, à son client allemand (entreprise). Service B2B intra-UE : 0 € de TVA, c'est le client qui autoliquide. Saisissez la facture.",
-    "astuce": "Service vendu à une entreprise de l'UE : autoliquidé par le client (art. 259-1°). Chez nous : 0 € de TVA, mention « Autoliquidation ». Au débit : client (411) ; au crédit : prestation (706) ; 2 000 €.",
-    "doc": { "sens": "Facture de vente — service UE (entreprise)", "emetteur": "SARL TECHPRO (prestataire)", "ville": "Service vers l'Allemagne · mention « Autoliquidation » (DES à déposer)", "num": "VT2026-032", "date": "15/03/2026", "lignes": [ { "designation": "Installation à distance", "qte": 1, "puht": 2000 } ], "ht": 2000, "taux": 0, "tva": 0, "ttc": 2000 },
-    "tuto": [
-      "C'est une <b>vente de service</b> → journal <b>VT</b>.",
-      "Le client est une entreprise de l'UE → <b>autoliquidation par le client</b> : <b>0 € de TVA</b> sur notre facture.",
-      "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 2 000 €.",
-      "Au <b>crédit</b> : la <b>prestation de services</b> (compte <b>706</b>) pour 2 000 €.",
-      "Aucune TVA. On déposera ensuite une <b>DES</b> (déclaration européenne de services)."
-    ],
-    "lignes": [
-      { "compte": "411", "racine": "411", "libelle": "Client Allemagne", "debit": 2000, "credit": 0 },
-      { "compte": "706000", "racine": "706", "libelle": "Prestations de services (UE)", "debit": 0, "credit": 2000 }
-    ]
-  },
-  "vtc-recettes": {
-    "titre": "VTC ① — Recettes du mois via la plateforme",
-    "journal": "VT",
-    "enonce": "Mois sur Uber : 1 000 € TTC de courses encaissées par la plateforme (transport de personnes, TVA 10 %). Constatez les recettes (la plateforme = compte de tiers 467). HT = 909,09 ; TVA = 90,91.",
-    "astuce": "Le CA du chauffeur = le BRUT des courses (pas le net !). HT = 1 000 / 1,10 = 909,09 ; TVA 10 % = 90,91. Au débit : la plateforme 467 (1 000) ; au crédit : la vente 706 (909,09) + la TVA collectée 44571 (90,91).",
-    "tuto": [
-      "Ce sont des <b>recettes</b> → journal <b>VT</b>.",
-      "La plateforme nous doit le brut → au <b>débit</b> : <b>467</b> (plateforme) pour <b>1 000</b>.",
-      "Au <b>crédit</b> : la vente <b>706</b> (transport de personnes) pour le <b>HT 909,09</b>.",
-      "Au <b>crédit</b> : la <b>TVA collectée 10 %</b> (<b>44571</b>) pour <b>90,91</b>.",
-      "Total débit = total crédit = 1 000 € → « Vérifier »."
-    ],
-    "lignes": [
-      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 1000, "credit": 0 },
-      { "compte": "706000", "racine": "706", "libelle": "Transport de personnes", "debit": 0, "credit": 909.09 },
-      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 10 %", "debit": 0, "credit": 90.91 }
-    ]
-  },
-  "vtc-commission": {
-    "titre": "VTC ② — Commission plateforme (autoliquidée)",
-    "journal": "AC",
-    "enonce": "Commission Uber du mois : 250 € HT. Uber B.V. (Pays-Bas) facture sans TVA → service UE en autoliquidation (TVA 20 % = 50 €). Passez l'écriture (4 lignes). La plateforme (467) est créditée de la commission.",
-    "astuce": "Commission = charge 622. Service UE → autoliquidation : TVA déductible 445662 (50) au débit ET TVA due 4452 (50) au crédit → elles s'annulent. La plateforme 467 est créditée de 250 (elle retient sa commission).",
-    "tuto": [
-      "La commission est un <b>service acheté</b> → journal <b>AC</b>.",
-      "Au <b>débit</b> : la <b>commission 622</b> (250) + la <b>TVA déductible intracom 445662</b> (50).",
-      "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (50) + la <b>plateforme 467</b> (250).",
-      "La TVA due (50) et la TVA déductible (50) <b>s'annulent</b> (autoliquidation). Total débit = total crédit = 300 €."
-    ],
-    "lignes": [
-      { "compte": "622000", "racine": "622", "libelle": "Commission plateforme", "debit": 250, "credit": 0 },
-      { "compte": "445662", "racine": "445662", "libelle": "TVA déductible intracom", "debit": 50, "credit": 0 },
-      { "compte": "445200", "racine": "4452", "libelle": "TVA due intracom (autoliquidée)", "debit": 0, "credit": 50 },
-      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 0, "credit": 250 }
-    ]
-  },
-  "vtc-net": {
-    "titre": "VTC ③ — Reversement du net par la plateforme",
-    "journal": "BQ",
-    "enonce": "La plateforme vire le net au chauffeur : 1 000 − 250 (commission) = 750 €. Saisissez le virement reçu. Après cette écriture, le compte 467 doit être soldé.",
-    "astuce": "L'argent entre en banque (512) au débit ; on solde la plateforme (467) au crédit. Contrôle : 467 = 1 000 D (recettes) − 250 C (commission) − 750 C (net) = 0 → soldé.",
-    "tuto": [
-      "C'est un encaissement bancaire → journal <b>BQ</b>.",
-      "Au <b>débit</b> : la <b>banque 512</b> (750) — l'argent arrive.",
-      "Au <b>crédit</b> : la <b>plateforme 467</b> (750) — on solde le tiers.",
-      "Le compte 467 est maintenant <b>soldé</b> (1 000 = 250 + 750)."
-    ],
-    "lignes": [
-      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 750, "credit": 0 },
-      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 0, "credit": 750 }
-    ]
-  },
-  "paie-od": {
-    "titre": "OD de paie du mois",
-    "journal": "OD",
-    "enonce": "Journal de paie : brut 8 000 €, charges patronales 3 360 €, net à payer 6 240 €, cotisations URSSAF 3 840 €, autres organismes (retraite/prévoyance) 1 280 €. Passez l'OD de paie (5 lignes).",
-    "astuce": "Au débit : brut 641 (8 000) + patronales 645 (3 360). Au crédit : net 421 (6 240) + URSSAF 431 (3 840) + autres organismes 437 (1 280). Équilibre : 641+645 = 421+431+437.",
-    "tuto": [
-      "OD de paie → journal <b>OD</b>.",
-      "Au <b>débit</b> : <b>641</b> salaires bruts (8 000) et <b>645</b> charges patronales (3 360).",
-      "Au <b>crédit</b> : <b>421</b> net à payer (6 240), <b>431</b> URSSAF (3 840), <b>437</b> autres organismes (1 280).",
-      "Vérifiez : 8 000 + 3 360 = 11 360 = 6 240 + 3 840 + 1 280. → « Vérifier »."
-    ],
-    "lignes": [
-      { "compte": "641000", "racine": "641", "libelle": "Salaires bruts", "debit": 8000, "credit": 0 },
-      { "compte": "645000", "racine": "645", "libelle": "Charges patronales", "debit": 3360, "credit": 0 },
-      { "compte": "421000", "racine": "421", "libelle": "Personnel - net à payer", "debit": 0, "credit": 6240 },
-      { "compte": "431000", "racine": "431", "libelle": "URSSAF", "debit": 0, "credit": 3840 },
-      { "compte": "437000", "racine": "437", "libelle": "Autres organismes sociaux", "debit": 0, "credit": 1280 }
-    ]
-  },
-  "prov-cp-od": {
-    "titre": "Provision pour congés payés (clôture)",
-    "journal": "OD",
-    "enonce": "À la clôture, provision pour congés payés : base CP 6 000 € + charges sociales patronales 2 520 € (≈ 42 %). Passez l'écriture de provision (4 lignes).",
-    "astuce": "Charges au débit (6412 base CP + 6452 charges sociales sur CP) ; dettes provisionnées au crédit (4282 CP + 4382 charges sur CP). 6 000 + 2 520 = 8 520. Provision CP déductible fiscalement.",
-    "tuto": [
-      "Provision de clôture → journal <b>OD</b>.",
-      "Au <b>débit</b> : <b>6412</b> congés payés (6 000) + <b>6452</b> charges sociales sur CP (2 520).",
-      "Au <b>crédit</b> : <b>4282</b> dettes provisionnées pour CP (6 000) + <b>4382</b> charges sociales sur CP à payer (2 520).",
-      "Équilibre 8 520 = 8 520. → « Vérifier »."
-    ],
-    "lignes": [
-      { "compte": "641200", "racine": "6412", "libelle": "Congés payés", "debit": 6000, "credit": 0 },
-      { "compte": "645200", "racine": "6452", "libelle": "Charges sociales sur CP", "debit": 2520, "credit": 0 },
-      { "compte": "428200", "racine": "4282", "libelle": "Dettes provisionnées pour CP", "debit": 0, "credit": 6000 },
-      { "compte": "438200", "racine": "4382", "libelle": "Charges sociales sur CP à payer", "debit": 0, "credit": 2520 }
-    ]
-  },
-  "cession-immo": {
-    "titre": "Cession d'une immobilisation",
-    "journal": "OD",
-    "enonce": "Vente au comptant d'une machine : prix 3 000 € (encaissé en banque). Valeur d'origine 12 000 €, amortissements cumulés 9 600 € (VNC = 2 400 €). Passez l'écriture complète (5 lignes, sans TVA).",
-    "astuce": "Prix de cession : 512 D 3 000 / 775 C 3 000. Sortie du bien : 28154 D 9 600 + 675 D 2 400 (VNC) / 2154 C 12 000. Résultat de cession = 775 (3 000) − 675 (2 400) = +600 €.",
-    "tuto": [
-      "Cession → journal <b>OD</b>.",
-      "Encaissement : <b>512</b> banque (3 000) au débit / <b>775</b> produit de cession (3 000) au crédit.",
-      "Sortie du bien : <b>28154</b> amortissements (9 600) + <b>675</b> VNC (2 400) au débit / <b>2154</b> matériel (12 000) au crédit.",
-      "Total débit = 3 000 + 9 600 + 2 400 = 15 000 = crédit (3 000 + 12 000). Résultat = 775 − 675 = +600 €."
-    ],
-    "lignes": [
-      { "compte": "512000", "racine": "512", "libelle": "Banque (prix de vente)", "debit": 3000, "credit": 0 },
-      { "compte": "775000", "racine": "775", "libelle": "Produits de cession d'éléments d'actif", "debit": 0, "credit": 3000 },
-      { "compte": "281540", "racine": "2815", "libelle": "Amortissements du matériel", "debit": 9600, "credit": 0 },
-      { "compte": "675000", "racine": "675", "libelle": "VNC des éléments d'actif cédés", "debit": 2400, "credit": 0 },
-      { "compte": "215400", "racine": "2154", "libelle": "Matériel industriel", "debit": 0, "credit": 12000 }
-    ]
-  }
+  "tuto": [
+   "C'est une <b>vente de service</b> → journal <b>VT</b>.",
+   "Le client est une entreprise de l'UE → <b>autoliquidation par le client</b> : <b>0 € de TVA</b> sur notre facture.",
+   "Au <b>débit</b> : le <b>client</b> (compte <b>411</b>) pour 2 000 €.",
+   "Au <b>crédit</b> : la <b>prestation de services</b> (compte <b>706</b>) pour 2 000 €.",
+   "Aucune TVA. On déposera ensuite une <b>DES</b> (déclaration européenne de services)."
+  ],
+  "lignes": [
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client Allemagne",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services (UE)",
+    "debit": 0,
+    "credit": 2000
+   }
+  ]
+ },
+ "vtc-recettes": {
+  "titre": "VTC ① — Recettes du mois via la plateforme",
+  "journal": "VT",
+  "enonce": "Mois sur Uber : 1 000 € TTC de courses encaissées par la plateforme (transport de personnes, TVA 10 %). Constatez les recettes (la plateforme = compte de tiers 467). HT = 909,09 ; TVA = 90,91.",
+  "astuce": "Le CA du chauffeur = le BRUT des courses (pas le net !). HT = 1 000 / 1,10 = 909,09 ; TVA 10 % = 90,91. Au débit : la plateforme 467 (1 000) ; au crédit : la vente 706 (909,09) + la TVA collectée 44571 (90,91).",
+  "tuto": [
+   "Ce sont des <b>recettes</b> → journal <b>VT</b>.",
+   "La plateforme nous doit le brut → au <b>débit</b> : <b>467</b> (plateforme) pour <b>1 000</b>.",
+   "Au <b>crédit</b> : la vente <b>706</b> (transport de personnes) pour le <b>HT 909,09</b>.",
+   "Au <b>crédit</b> : la <b>TVA collectée 10 %</b> (<b>44571</b>) pour <b>90,91</b>.",
+   "Total débit = total crédit = 1 000 € → « Vérifier »."
+  ],
+  "lignes": [
+   {
+    "compte": "467",
+    "racine": "467",
+    "libelle": "Plateforme Uber (tiers)",
+    "debit": 1000,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Transport de personnes",
+    "debit": 0,
+    "credit": 909.09
+   },
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectée 10 %",
+    "debit": 0,
+    "credit": 90.91
+   }
+  ]
+ },
+ "vtc-commission": {
+  "titre": "VTC ② — Commission plateforme (autoliquidée)",
+  "journal": "AC",
+  "enonce": "Commission Uber du mois : 250 € HT. Uber B.V. (Pays-Bas) facture sans TVA → service UE en autoliquidation (TVA 20 % = 50 €). Passez l'écriture (4 lignes). La plateforme (467) est créditée de la commission.",
+  "astuce": "Commission = charge 622. Service UE → autoliquidation : TVA déductible 445662 (50) au débit ET TVA due 4452 (50) au crédit → elles s'annulent. La plateforme 467 est créditée de 250 (elle retient sa commission).",
+  "tuto": [
+   "La commission est un <b>service acheté</b> → journal <b>AC</b>.",
+   "Au <b>débit</b> : la <b>commission 622</b> (250) + la <b>TVA déductible intracom 445662</b> (50).",
+   "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (50) + la <b>plateforme 467</b> (250).",
+   "La TVA due (50) et la TVA déductible (50) <b>s'annulent</b> (autoliquidation). Total débit = total crédit = 300 €."
+  ],
+  "lignes": [
+   {
+    "compte": "622000",
+    "racine": "622",
+    "libelle": "Commission plateforme",
+    "debit": 250,
+    "credit": 0
+   },
+   {
+    "compte": "445662",
+    "racine": "445662",
+    "libelle": "TVA déductible intracom",
+    "debit": 50,
+    "credit": 0
+   },
+   {
+    "compte": "445200",
+    "racine": "4452",
+    "libelle": "TVA due intracom (autoliquidée)",
+    "debit": 0,
+    "credit": 50
+   },
+   {
+    "compte": "467",
+    "racine": "467",
+    "libelle": "Plateforme Uber (tiers)",
+    "debit": 0,
+    "credit": 250
+   }
+  ]
+ },
+ "vtc-net": {
+  "titre": "VTC ③ — Reversement du net par la plateforme",
+  "journal": "BQ",
+  "enonce": "La plateforme vire le net au chauffeur : 1 000 − 250 (commission) = 750 €. Saisissez le virement reçu. Après cette écriture, le compte 467 doit être soldé.",
+  "astuce": "L'argent entre en banque (512) au débit ; on solde la plateforme (467) au crédit. Contrôle : 467 = 1 000 D (recettes) − 250 C (commission) − 750 C (net) = 0 → soldé.",
+  "tuto": [
+   "C'est un encaissement bancaire → journal <b>BQ</b>.",
+   "Au <b>débit</b> : la <b>banque 512</b> (750) — l'argent arrive.",
+   "Au <b>crédit</b> : la <b>plateforme 467</b> (750) — on solde le tiers.",
+   "Le compte 467 est maintenant <b>soldé</b> (1 000 = 250 + 750)."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 750,
+    "credit": 0
+   },
+   {
+    "compte": "467",
+    "racine": "467",
+    "libelle": "Plateforme Uber (tiers)",
+    "debit": 0,
+    "credit": 750
+   }
+  ]
+ },
+ "paie-od": {
+  "titre": "OD de paie du mois",
+  "journal": "OD",
+  "enonce": "Journal de paie : brut 8 000 €, charges patronales 3 360 €, net à payer 6 240 €, cotisations URSSAF 3 840 €, autres organismes (retraite/prévoyance) 1 280 €. Passez l'OD de paie (5 lignes).",
+  "astuce": "Au débit : brut 641 (8 000) + patronales 645 (3 360). Au crédit : net 421 (6 240) + URSSAF 431 (3 840) + autres organismes 437 (1 280). Équilibre : 641+645 = 421+431+437.",
+  "tuto": [
+   "OD de paie → journal <b>OD</b>.",
+   "Au <b>débit</b> : <b>641</b> salaires bruts (8 000) et <b>645</b> charges patronales (3 360).",
+   "Au <b>crédit</b> : <b>421</b> net à payer (6 240), <b>431</b> URSSAF (3 840), <b>437</b> autres organismes (1 280).",
+   "Vérifiez : 8 000 + 3 360 = 11 360 = 6 240 + 3 840 + 1 280. → « Vérifier »."
+  ],
+  "lignes": [
+   {
+    "compte": "641000",
+    "racine": "641",
+    "libelle": "Salaires bruts",
+    "debit": 8000,
+    "credit": 0
+   },
+   {
+    "compte": "645000",
+    "racine": "645",
+    "libelle": "Charges patronales",
+    "debit": 3360,
+    "credit": 0
+   },
+   {
+    "compte": "421000",
+    "racine": "421",
+    "libelle": "Personnel - net à payer",
+    "debit": 0,
+    "credit": 6240
+   },
+   {
+    "compte": "431000",
+    "racine": "431",
+    "libelle": "URSSAF",
+    "debit": 0,
+    "credit": 3840
+   },
+   {
+    "compte": "437000",
+    "racine": "437",
+    "libelle": "Autres organismes sociaux",
+    "debit": 0,
+    "credit": 1280
+   }
+  ]
+ },
+ "prov-cp-od": {
+  "titre": "Provision pour congés payés (clôture)",
+  "journal": "OD",
+  "enonce": "À la clôture, provision pour congés payés : base CP 6 000 € + charges sociales patronales 2 520 € (≈ 42 %). Passez l'écriture de provision (4 lignes).",
+  "astuce": "Charges au débit (6412 base CP + 6452 charges sociales sur CP) ; dettes provisionnées au crédit (4282 CP + 4382 charges sur CP). 6 000 + 2 520 = 8 520. Provision CP déductible fiscalement.",
+  "tuto": [
+   "Provision de clôture → journal <b>OD</b>.",
+   "Au <b>débit</b> : <b>6412</b> congés payés (6 000) + <b>6452</b> charges sociales sur CP (2 520).",
+   "Au <b>crédit</b> : <b>4282</b> dettes provisionnées pour CP (6 000) + <b>4382</b> charges sociales sur CP à payer (2 520).",
+   "Équilibre 8 520 = 8 520. → « Vérifier »."
+  ],
+  "lignes": [
+   {
+    "compte": "641200",
+    "racine": "6412",
+    "libelle": "Congés payés",
+    "debit": 6000,
+    "credit": 0
+   },
+   {
+    "compte": "645200",
+    "racine": "6452",
+    "libelle": "Charges sociales sur CP",
+    "debit": 2520,
+    "credit": 0
+   },
+   {
+    "compte": "428200",
+    "racine": "4282",
+    "libelle": "Dettes provisionnées pour CP",
+    "debit": 0,
+    "credit": 6000
+   },
+   {
+    "compte": "438200",
+    "racine": "4382",
+    "libelle": "Charges sociales sur CP à payer",
+    "debit": 0,
+    "credit": 2520
+   }
+  ]
+ },
+ "cession-immo": {
+  "titre": "Cession d'une immobilisation",
+  "journal": "OD",
+  "enonce": "Vente au comptant d'une machine : prix 3 000 € (encaissé en banque). Valeur d'origine 12 000 €, amortissements cumulés 9 600 € (VNC = 2 400 €). Passez l'écriture complète (5 lignes, sans TVA).",
+  "astuce": "Prix de cession : 512 D 3 000 / 775 C 3 000. Sortie du bien : 28154 D 9 600 + 675 D 2 400 (VNC) / 2154 C 12 000. Résultat de cession = 775 (3 000) − 675 (2 400) = +600 €.",
+  "tuto": [
+   "Cession → journal <b>OD</b>.",
+   "Encaissement : <b>512</b> banque (3 000) au débit / <b>775</b> produit de cession (3 000) au crédit.",
+   "Sortie du bien : <b>28154</b> amortissements (9 600) + <b>675</b> VNC (2 400) au débit / <b>2154</b> matériel (12 000) au crédit.",
+   "Total débit = 3 000 + 9 600 + 2 400 = 15 000 = crédit (3 000 + 12 000). Résultat = 775 − 675 = +600 €."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque (prix de vente)",
+    "debit": 3000,
+    "credit": 0
+   },
+   {
+    "compte": "775000",
+    "racine": "775",
+    "libelle": "Produits de cession d'éléments d'actif",
+    "debit": 0,
+    "credit": 3000
+   },
+   {
+    "compte": "281540",
+    "racine": "2815",
+    "libelle": "Amortissements du matériel",
+    "debit": 9600,
+    "credit": 0
+   },
+   {
+    "compte": "675000",
+    "racine": "675",
+    "libelle": "VNC des éléments d'actif cédés",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "215400",
+    "racine": "2154",
+    "libelle": "Matériel industriel",
+    "debit": 0,
+    "credit": 12000
+   }
+  ]
+ },
+ "avoir-frs": {
+  "titre": "Avoir fournisseur (retour de marchandises)",
+  "journal": "AC",
+  "enonce": "Le fournisseur vous adresse un AVOIR pour 500 EUR HT de marchandises retournees (TVA 20 %). Passez l'ecriture (inverse d'un achat).",
+  "astuce": "Un avoir s'enregistre a l'envers d'un achat : 401 au debit (la dette diminue), 607 et la TVA deductible au credit.",
+  "tuto": [
+   "Avoir d'achat -> journal <b>AC</b>.",
+   "Au <b>debit</b> : <b>401</b> fournisseur (600).",
+   "Au <b>credit</b> : <b>607</b> (500) + <b>44566</b> TVA (100)."
+  ],
+  "lignes": [
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur",
+    "debit": 600,
+    "credit": 0
+   },
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achats de marchandises (avoir)",
+    "debit": 0,
+    "credit": 500
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible 20 %",
+    "debit": 0,
+    "credit": 100
+   }
+  ]
+ },
+ "acompte-frs": {
+  "titre": "Acompte verse a un fournisseur",
+  "journal": "BQ",
+  "enonce": "Vous versez un acompte de 1 200 EUR a un fournisseur (avant livraison/facture definitive). Saisissez le reglement.",
+  "astuce": "L'acompte verse va au 4091 (fournisseur debiteur) au debit ; la banque au credit. Solde a reception de la facture.",
+  "tuto": [
+   "Reglement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>4091</b> avances et acomptes verses (1 200).",
+   "Au <b>credit</b> : <b>512</b> banque (1 200)."
+  ],
+  "lignes": [
+   {
+    "compte": "409100",
+    "racine": "4091",
+    "libelle": "Avances et acomptes verses (fournisseur)",
+    "debit": 1200,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 1200
+   }
+  ]
+ },
+ "acompte-client": {
+  "titre": "Acompte recu d'un client",
+  "journal": "BQ",
+  "enonce": "Un client vous verse un acompte de 2 400 EUR avant la prestation. Saisissez l'encaissement.",
+  "astuce": "L'acompte recu va au 4191 (client crediteur) au credit ; la banque au debit. Solde a la facturation finale.",
+  "tuto": [
+   "Encaissement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>512</b> banque (2 400).",
+   "Au <b>credit</b> : <b>4191</b> avances et acomptes recus (2 400)."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "419100",
+    "racine": "4191",
+    "libelle": "Avances et acomptes recus (client)",
+    "debit": 0,
+    "credit": 2400
+   }
+  ]
+ },
+ "note-frais": {
+  "titre": "Note de frais d'un salarie (restaurant)",
+  "journal": "OD",
+  "enonce": "Un salarie presente une note de frais : repas d'affaires 110 EUR TTC (TVA 10 %). A rembourser. Saisissez (TVA restauration deductible).",
+  "astuce": "HT 100, TVA 10 %. Charge 6257 + TVA deductible 44566 au debit ; le salarie (425) au credit pour le TTC.",
+  "tuto": [
+   "Note de frais -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>6257</b> receptions (100) + <b>44566</b> TVA (10).",
+   "Au <b>credit</b> : <b>425</b> personnel - a rembourser (110)."
+  ],
+  "lignes": [
+   {
+    "compte": "625700",
+    "racine": "6257",
+    "libelle": "Receptions / repas d'affaires",
+    "debit": 100,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible 10 %",
+    "debit": 10,
+    "credit": 0
+   },
+   {
+    "compte": "425000",
+    "racine": "425",
+    "libelle": "Personnel - a rembourser",
+    "debit": 0,
+    "credit": 110
+   }
+  ]
+ },
+ "frais-bancaires": {
+  "titre": "Frais bancaires",
+  "journal": "BQ",
+  "enonce": "La banque preleve 30 EUR de frais de tenue de compte. Saisissez.",
+  "astuce": "Charge 627 au debit, banque au credit. Pas de TVA sur la plupart des frais bancaires.",
+  "tuto": [
+   "Prelevement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>627</b> services bancaires (30).",
+   "Au <b>credit</b> : <b>512</b> banque (30)."
+  ],
+  "lignes": [
+   {
+    "compte": "627000",
+    "racine": "627",
+    "libelle": "Services bancaires",
+    "debit": 30,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 30
+   }
+  ]
+ },
+ "tva-ca3": {
+  "titre": "Liquidation de la TVA (declaration CA3)",
+  "journal": "OD",
+  "enonce": "A la declaration : TVA collectee 5 000 EUR, TVA deductible biens/services 3 000 EUR, TVA deductible immobilisations 400 EUR. Soldez les comptes de TVA et constatez la TVA a decaisser.",
+  "astuce": "TVA a decaisser = collectee - deductible = 5 000 - 3 400 = 1 600. On solde 44571 (D), 44566 et 44562 (C), et on constate 44551 (C).",
+  "tuto": [
+   "Liquidation -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>44571</b> TVA collectee (5 000).",
+   "Au <b>credit</b> : <b>44566</b> (3 000) + <b>44562</b> (400) + <b>44551</b> a decaisser (1 600)."
+  ],
+  "lignes": [
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectee",
+    "debit": 5000,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible ABS",
+    "debit": 0,
+    "credit": 3000
+   },
+   {
+    "compte": "445620",
+    "racine": "44562",
+    "libelle": "TVA deductible immobilisations",
+    "debit": 0,
+    "credit": 400
+   },
+   {
+    "compte": "445510",
+    "racine": "4455",
+    "libelle": "TVA a decaisser",
+    "debit": 0,
+    "credit": 1600
+   }
+  ]
+ },
+ "credit-tva": {
+  "titre": "Credit de TVA",
+  "journal": "OD",
+  "enonce": "Ce mois : TVA collectee 2 000 EUR, TVA deductible 2 500 EUR. La deductible depasse la collectee -> credit de TVA. Soldez et constatez le credit.",
+  "astuce": "Credit de TVA = 2 500 - 2 000 = 500 -> compte 44567 (creance sur l'Etat) au debit.",
+  "tuto": [
+   "Journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>44571</b> collectee (2 000) + <b>44567</b> credit de TVA (500).",
+   "Au <b>credit</b> : <b>44566</b> deductible (2 500)."
+  ],
+  "lignes": [
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectee",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "445670",
+    "racine": "44567",
+    "libelle": "Credit de TVA a reporter",
+    "debit": 500,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible",
+    "debit": 0,
+    "credit": 2500
+   }
+  ]
+ },
+ "creance-irrec": {
+  "titre": "Creance client irrecouvrable",
+  "journal": "OD",
+  "enonce": "Une creance client de 1 200 EUR TTC (1 000 HT + 200 TVA) est definitivement irrecouvrable. Passez la perte (TVA recuperable sur impaye definitif).",
+  "astuce": "Perte 654 pour le HT + recuperation de la TVA collectee 44571, en solde du client 411.",
+  "tuto": [
+   "Journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>654</b> perte sur creance (1 000) + <b>44571</b> TVA recuperee (200).",
+   "Au <b>credit</b> : <b>411</b> client (1 200)."
+  ],
+  "lignes": [
+   {
+    "compte": "654000",
+    "racine": "654",
+    "libelle": "Pertes sur creances irrecouvrables",
+    "debit": 1000,
+    "credit": 0
+   },
+   {
+    "compte": "445710",
+    "racine": "4457",
+    "libelle": "TVA collectee (recuperee)",
+    "debit": 200,
+    "credit": 0
+   },
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client",
+    "debit": 0,
+    "credit": 1200
+   }
+  ]
+ },
+ "escompte": {
+  "titre": "Escompte de reglement accorde",
+  "journal": "BQ",
+  "enonce": "Un client devait 1 000 EUR. Il paie comptant avec un escompte de 20 EUR, soit 980 EUR par virement. Saisissez.",
+  "astuce": "L'escompte accorde est une charge financiere (665). Banque 980 + escompte 20 au debit, client 1 000 au credit.",
+  "tuto": [
+   "Encaissement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>512</b> banque (980) + <b>665</b> escompte accorde (20).",
+   "Au <b>credit</b> : <b>411</b> client (1 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 980,
+    "credit": 0
+   },
+   {
+    "compte": "665000",
+    "racine": "665",
+    "libelle": "Escomptes accordes",
+    "debit": 20,
+    "credit": 0
+   },
+   {
+    "compte": "411000",
+    "racine": "411",
+    "libelle": "Client",
+    "debit": 0,
+    "credit": 1000
+   }
+  ]
+ },
+ "acq-immo": {
+  "titre": "Acquisition d'une immobilisation",
+  "journal": "AC",
+  "enonce": "Achat d'un ordinateur 2 000 EUR HT (TVA 20 %). Passez l'acquisition. (Fournisseur d'immo = compte auxiliaire 401IMMO.)",
+  "astuce": "Immobilisation 2183 + TVA sur immo 44562 au debit ; fournisseur d'immo 401IMMO au credit pour le TTC.",
+  "tuto": [
+   "Achat d'immo -> journal <b>AC</b>.",
+   "Au <b>debit</b> : <b>2183</b> (2 000) + <b>44562</b> TVA sur immo (400).",
+   "Au <b>credit</b> : <b>401IMMO</b> fournisseur d'immobilisations (2 400)."
+  ],
+  "lignes": [
+   {
+    "compte": "218300",
+    "racine": "2183",
+    "libelle": "Materiel de bureau et informatique",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "445620",
+    "racine": "44562",
+    "libelle": "TVA deductible sur immobilisations",
+    "debit": 400,
+    "credit": 0
+   },
+   {
+    "compte": "401IMMO",
+    "racine": "401IMMO",
+    "libelle": "Fournisseur d'immobilisations",
+    "debit": 0,
+    "credit": 2400
+   }
+  ]
+ },
+ "cca": {
+  "titre": "Charge constatee d'avance (cut-off)",
+  "journal": "OD",
+  "enonce": "Assurance de 1 200 EUR payee le 01/10 pour 12 mois. Cloture au 31/12 : 3 mois consommes, 9 mois concernent l'an prochain. Regularisez la charge d'avance.",
+  "astuce": "On sort la part non consommee (9/12 x 1 200 = 900) de la charge : 486 au debit / 616 au credit.",
+  "tuto": [
+   "Regularisation de cloture -> journal <b>OD</b>.",
+   "Part d'avance = 1 200 x 9/12 = <b>900</b>.",
+   "Au <b>debit</b> : <b>486</b> charges constatees d'avance (900) ; au <b>credit</b> : <b>616</b> assurance (900)."
+  ],
+  "lignes": [
+   {
+    "compte": "486000",
+    "racine": "486",
+    "libelle": "Charges constatees d'avance",
+    "debit": 900,
+    "credit": 0
+   },
+   {
+    "compte": "616000",
+    "racine": "616",
+    "libelle": "Primes d'assurance",
+    "debit": 0,
+    "credit": 900
+   }
+  ]
+ },
+ "pca": {
+  "titre": "Produit constate d'avance (cut-off)",
+  "journal": "OD",
+  "enonce": "Vous avez facture 1 200 EUR d'abonnement pour 12 mois a partir du 01/10. Au 31/12, 9 mois concernent l'an prochain. Regularisez le produit d'avance.",
+  "astuce": "On sort la part non acquise (900) du produit : 706 au debit / 487 au credit.",
+  "tuto": [
+   "Regularisation de cloture -> journal <b>OD</b>.",
+   "Part d'avance = 900.",
+   "Au <b>debit</b> : <b>706</b> prestations (900) ; au <b>credit</b> : <b>487</b> produits constates d'avance (900)."
+  ],
+  "lignes": [
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services",
+    "debit": 900,
+    "credit": 0
+   },
+   {
+    "compte": "487000",
+    "racine": "487",
+    "libelle": "Produits constates d'avance",
+    "debit": 0,
+    "credit": 900
+   }
+  ]
+ },
+ "fnp": {
+  "titre": "Facture non parvenue (FNP)",
+  "journal": "OD",
+  "enonce": "Au 31/12, une livraison de 500 EUR HT (TVA 20 %) a ete recue mais la facture n'est pas arrivee. Constatez la charge a payer.",
+  "astuce": "On rattache la charge a l'exercice : 607 + TVA sur FNP 44586 au debit, dette 408 au credit.",
+  "tuto": [
+   "Cut-off -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>607</b> achats (500) + <b>44586</b> TVA sur FNP (100).",
+   "Au <b>credit</b> : <b>408</b> fournisseurs - factures non parvenues (600)."
+  ],
+  "lignes": [
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achats (charge a payer)",
+    "debit": 500,
+    "credit": 0
+   },
+   {
+    "compte": "445860",
+    "racine": "44586",
+    "libelle": "TVA sur factures non parvenues",
+    "debit": 100,
+    "credit": 0
+   },
+   {
+    "compte": "408000",
+    "racine": "408",
+    "libelle": "Fournisseurs - factures non parvenues",
+    "debit": 0,
+    "credit": 600
+   }
+  ]
+ },
+ "fae": {
+  "titre": "Facture a etablir (FAE)",
+  "journal": "OD",
+  "enonce": "Au 31/12, une prestation de 1 000 EUR HT (TVA 20 %) est realisee mais pas encore facturee. Constatez le produit a recevoir.",
+  "astuce": "On rattache le produit : 418 (clients - factures a etablir) au debit, produit 706 + TVA sur FAE 44587 au credit.",
+  "tuto": [
+   "Cut-off -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>418</b> clients - factures a etablir (1 200).",
+   "Au <b>credit</b> : <b>706</b> (1 000) + <b>44587</b> TVA sur FAE (200)."
+  ],
+  "lignes": [
+   {
+    "compte": "418000",
+    "racine": "418",
+    "libelle": "Clients - factures a etablir",
+    "debit": 1200,
+    "credit": 0
+   },
+   {
+    "compte": "706000",
+    "racine": "706",
+    "libelle": "Prestations de services",
+    "debit": 0,
+    "credit": 1000
+   },
+   {
+    "compte": "445870",
+    "racine": "44587",
+    "libelle": "TVA sur factures a etablir",
+    "debit": 0,
+    "credit": 200
+   }
+  ]
+ },
+ "prov-client": {
+  "titre": "Depreciation d'une creance douteuse",
+  "journal": "OD",
+  "enonce": "Un client doit 1 200 EUR TTC (1 000 EUR HT) mais son paiement est compromis. On deprecie la creance sur le HT. Passez la dotation.",
+  "astuce": "La provision porte sur le HT (le risque reel). Dotation 68174 au debit / depreciation 491 au credit.",
+  "tuto": [
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>68174</b> dotation depreciation creances (1 000).",
+   "Au <b>credit</b> : <b>491</b> depreciation des comptes clients (1 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "681740",
+    "racine": "6817",
+    "libelle": "Dotation depreciation creances",
+    "debit": 1000,
+    "credit": 0
+   },
+   {
+    "compte": "491000",
+    "racine": "491",
+    "libelle": "Depreciation des comptes clients",
+    "debit": 0,
+    "credit": 1000
+   }
+  ]
+ },
+ "prov-risque": {
+  "titre": "Provision pour risque (litige)",
+  "journal": "OD",
+  "enonce": "Un litige prud'homal est en cours, risque estime a 5 000 EUR. Constituez la provision pour risque a la cloture.",
+  "astuce": "Dotation 6815 (exploitation) au debit / provision pour litiges 1511 au credit.",
+  "tuto": [
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>6815</b> dotation provisions risques (5 000).",
+   "Au <b>credit</b> : <b>1511</b> provisions pour litiges (5 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "681500",
+    "racine": "6815",
+    "libelle": "Dotation provisions pour risques",
+    "debit": 5000,
+    "credit": 0
+   },
+   {
+    "compte": "151100",
+    "racine": "151",
+    "libelle": "Provisions pour litiges",
+    "debit": 0,
+    "credit": 5000
+   }
+  ]
+ },
+ "stock-final": {
+  "titre": "Variation de stock a la cloture (stock final)",
+  "journal": "OD",
+  "enonce": "A l'inventaire, le stock final de marchandises est de 10 000 EUR. Constatez le stock final (variation de stock).",
+  "astuce": "On entre le stock final a l'actif (37) en contrepartie de la variation de stock (6037).",
+  "tuto": [
+   "Inventaire -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>37</b> stock de marchandises (10 000).",
+   "Au <b>credit</b> : <b>6037</b> variation des stocks de marchandises (10 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "370000",
+    "racine": "37",
+    "libelle": "Stocks de marchandises",
+    "debit": 10000,
+    "credit": 0
+   },
+   {
+    "compte": "603700",
+    "racine": "6037",
+    "libelle": "Variation des stocks de marchandises",
+    "debit": 0,
+    "credit": 10000
+   }
+  ]
+ },
+ "is-ecriture": {
+  "titre": "Comptabilisation de l'impot sur les societes",
+  "journal": "OD",
+  "enonce": "A la cloture, l'IS du au titre de l'exercice est de 8 000 EUR. Comptabilisez l'impot.",
+  "astuce": "Charge d'IS 695 au debit / dette envers l'Etat 444 au credit.",
+  "tuto": [
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>695</b> impots sur les benefices (8 000).",
+   "Au <b>credit</b> : <b>444</b> Etat - impot sur les benefices (8 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "695000",
+    "racine": "695",
+    "libelle": "Impots sur les benefices (IS)",
+    "debit": 8000,
+    "credit": 0
+   },
+   {
+    "compte": "444000",
+    "racine": "444",
+    "libelle": "Etat - impot sur les benefices",
+    "debit": 0,
+    "credit": 8000
+   }
+  ]
+ },
+ "emprunt": {
+  "titre": "Echeance d'emprunt bancaire",
+  "journal": "BQ",
+  "enonce": "Prelevement d'une echeance d'emprunt de 1 000 EUR : 850 EUR de capital + 150 EUR d'interets. Saisissez.",
+  "astuce": "On rembourse le capital (164) et on passe les interets en charge (661) ; la banque est creditee du total.",
+  "tuto": [
+   "Prelevement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>164</b> emprunt (850) + <b>661</b> interets (150).",
+   "Au <b>credit</b> : <b>512</b> banque (1 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "164000",
+    "racine": "164",
+    "libelle": "Emprunts (capital rembourse)",
+    "debit": 850,
+    "credit": 0
+   },
+   {
+    "compte": "661000",
+    "racine": "661",
+    "libelle": "Charges d'interets",
+    "debit": 150,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 1000
+   }
+  ]
+ }
 }
