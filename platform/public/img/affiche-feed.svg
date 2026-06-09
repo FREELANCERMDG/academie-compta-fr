@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" font-family="Segoe UI, Roboto, Arial, sans-serif" role="img" aria-label="Affiche feed Academie Compta FR - 3 mois gratuits">
+  <defs>
+    <linearGradient id="bgf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16307a"/><stop offset="1" stop-color="#1F4E78"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#bgf)"/>
+  <rect x="0" y="0" width="1080" height="12" fill="#E8A13A"/>
+
+  <text x="540" y="92" text-anchor="middle" font-size="50" font-weight="800" fill="#ffffff" letter-spacing="2">ACADÉMIE COMPTA FR</text>
+  <text x="540" y="134" text-anchor="middle" font-size="24" fill="#cfe0f2">Comptabilité française externalisée · Madagascar</text>
+  <line x1="360" y1="162" x2="720" y2="162" stroke="#E8A13A" stroke-width="3"/>
+
+  <text x="540" y="240" text-anchor="middle" font-size="38" font-weight="700" fill="#ffffff">Jeune diplômé(e) en comptabilité ?</text>
+
+  <text x="540" y="410" text-anchor="middle" font-size="160" font-weight="800" fill="#E8A13A">3 MOIS</text>
+  <text x="540" y="510" text-anchor="middle" font-size="80" font-weight="800" fill="#ffffff">100 % GRATUITS</text>
+  <text x="540" y="566" text-anchor="middle" font-size="34" fill="#cfe0f2">Tous les modules · attestation à la clé</text>
+
+  <text x="540" y="640" text-anchor="middle" font-size="32" fill="#9fb3cf" text-decoration="line-through">Ailleurs : jusqu'à 100 000 Ar / module</text>
+  <text x="540" y="684" text-anchor="middle" font-size="36" font-weight="800" fill="#E8A13A">→ Ici : 0 Ar pendant 3 mois !</text>
+
+  <g font-size="31" fill="#ffffff">
+    <text x="120" y="780">✓ 100 % pratique sur Pennylane (logiciel phare FR)</text>
+    <text x="120" y="842">✓ De la saisie au bilan des PME françaises</text>
+    <text x="120" y="904">✓ Cabinets français · payé en euros</text>
+    <text x="120" y="966">✓ Évaluations réussies → attestation</text>
+  </g>
+
+  <rect x="130" y="1050" width="820" height="190" rx="26" fill="#E8A13A"/>
+  <text x="540" y="1120" text-anchor="middle" font-size="40" font-weight="800" fill="#16307a">INSCRIPTION GRATUITE</text>
+  <text x="540" y="1182" text-anchor="middle" font-size="46" font-weight="800" fill="#16307a">academie-compta-fr.mg</text>
+  <text x="540" y="1220" text-anchor="middle" font-size="24" font-weight="700" fill="#3a2600">Places limitées</text>
+
+  <rect x="0" y="1338" width="1080" height="12" fill="#E8A13A"/>
+</svg>
