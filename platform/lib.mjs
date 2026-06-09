@@ -60,6 +60,8 @@ export function openDB() {
   // migration : réponse du formateur aux demandes des apprenants
   try { db.exec('ALTER TABLE demandes ADD COLUMN reponse TEXT'); } catch { }
   try { db.exec('ALTER TABLE demandes ADD COLUMN repondu_le TEXT'); } catch { }
+  // table : annonces (message du formateur affiché dans l'espace de chaque apprenant)
+  try { db.exec("CREATE TABLE IF NOT EXISTS annonces(id TEXT PRIMARY KEY, message TEXT, actif INTEGER DEFAULT 1, cree_le TEXT)"); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');

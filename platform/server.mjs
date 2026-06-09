@@ -482,6 +482,7 @@ function pageDashboard(sess) {
   const fmtDate = s => s ? esc(String(s).slice(0, 10)) : '';
   const expActive = (ins.find(i => i.statut === 'active') || {}).expire_le;
   return layout('Mon espace', `<h1>Bonjour ${esc(u.prenom || u.nom)}</h1>
+  ${(function () { const a = annonceActive(); return a ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.10)"><h2 style="margin:0 0 6px">📣 Annonce</h2><p style="margin:0;white-space:pre-wrap;font-size:15px">${esc(a.message)}</p></section>` : ''; })()}
   <section class="card"><div class="fbody"><div class="favatar">${esc(initiales((u.prenom || '') + ' ' + (u.nom || '')) || '👤')}</div>
   <div class="fmeta"><div class="fname">${esc(u.prenom || '')} ${esc(u.nom || '')}</div>
   <p class="muted" style="margin:6px 0">${esc(u.email)} · ${esc(u.tel || '—')}</p>
@@ -571,7 +572,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -694,6 +695,11 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
+  ${(function () { const a = annonceActive(); const suggestion = "🎁 Bonne nouvelle ! Pendant la promo, TOUS les modules (1 à 6) sont GRATUITS jusqu'au " + ((((cfg.promo) || {}).jusqu_au || '').slice(0, 10)) + ". Connectez-vous et profitez-en — attestation de fin de formation à la clé !"; return `<section class="card"><h2>📣 Message aux apprenants (annonce dans leur espace)</h2>
+  ${a ? `<p class="muted" style="font-size:12px">Annonce actuellement affichée à tous les apprenants (publiée le ${esc((a.cree_le || '').slice(0, 10))}) :</p><div class="offre" style="margin:6px 0"><p style="margin:0;white-space:pre-wrap">${esc(a.message)}</p></div><form method="post" action="/admin/annonce-off" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small ghost" type="submit">Désactiver l'annonce</button></form>` : '<p class="muted">Aucune annonce active pour le moment.</p>'}
+  <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}
+    <textarea name="message" rows="4" maxlength="2000" required placeholder="Votre message aux apprenants…" style="width:100%">${esc(a ? a.message : suggestion)}</textarea>
+    <p style="margin:6px 0 0"><button class="btn small" type="submit">📣 Publier l'annonce</button> <span class="muted" style="font-size:12px">— s'affiche en haut de l'espace de chaque apprenant à sa connexion.</span></p></form></section>`; })()}
   <section class="card"><h2>Demandes / questions des apprenants (${dem.length})</h2>
   ${dem.length ? dem.map(d => `<div class="row2" style="flex-direction:column;align-items:stretch;gap:8px">
     <div><b>${esc(d.email)}</b>${d.tel ? ` · <span class="muted">${esc(d.tel)}</span>` : ''} — <b>${esc(d.sujet)}</b><br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></div>
@@ -1091,6 +1097,8 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
       if (p === '/admin/promo-debloquer-tous') return postPromoDebloquerTous(req, res, sess, body);
+      if (p === '/admin/annonce') return postAnnonce(req, res, sess, body);
+      if (p === '/admin/annonce-off') return postAnnonceOff(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
@@ -1126,6 +1134,8 @@ function grantPromoModules(uid, ipStr) {
   audit(db, uid, 'promo_grant', 'PROMO_PACK jusqu_au ' + ((cfg.promo && cfg.promo.jusqu_au) || ''), ipStr || '');
   return true;
 }
+// Annonce active (message du formateur affiché dans l'espace des apprenants)
+function annonceActive() { try { return db.prepare("SELECT * FROM annonces WHERE actif=1 ORDER BY cree_le DESC LIMIT 1").get() || null; } catch { return null; } }
 
 // Parrainage : quand un FILLEUL obtient son 1er accès payé, on prolonge l'accès de son PARRAIN de bonus_jours.
 function rewardParrain(filleulId) {
@@ -1293,6 +1303,23 @@ function postPromoDebloquerTous(req, res, sess, body) {
   for (const a of db.prepare("SELECT id FROM users WHERE role='apprenant'").all()) { if (grantPromoModules(a.id, ip(req))) n++; }
   audit(db, sess.user.id, 'promo_grant_tous', n + ' apprenant(s)', ip(req));
   return redirect(res, '/admin?acces=promo&e=' + n);
+}
+function postAnnonce(req, res, sess, body) {
+  if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
+  const msg = String(body.message || '').trim().slice(0, 2000);
+  if (msg.length < 2) return redirect(res, '/admin');
+  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1").run();
+  db.prepare("INSERT INTO annonces(id,message,actif,cree_le) VALUES(?,?,1,?)").run(rid(10), msg, new Date().toISOString());
+  audit(db, sess.user.id, 'annonce_publiee', msg.slice(0, 60), ip(req));
+  return redirect(res, '/admin?acces=annonce');
+}
+function postAnnonceOff(req, res, sess, body) {
+  if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
+  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1").run();
+  audit(db, sess.user.id, 'annonce_off', '', ip(req));
+  return redirect(res, '/admin?acces=annonce_off');
 }
 function postManuel(req, res, sess, body) {
   const ins = insOf(body.ins, sess.user.id); if (!ins) return redirect(res, '/tableau-de-bord');
