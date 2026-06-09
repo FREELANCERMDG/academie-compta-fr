@@ -30,7 +30,7 @@
   <rect x="130" y="1050" width="820" height="190" rx="26" fill="#E8A13A"/>
   <text x="540" y="1120" text-anchor="middle" font-size="40" font-weight="800" fill="#16307a">INSCRIPTION GRATUITE</text>
   <text x="540" y="1182" text-anchor="middle" font-size="46" font-weight="800" fill="#16307a">academie-compta-fr.mg</text>
-  <text x="540" y="1220" text-anchor="middle" font-size="24" font-weight="700" fill="#3a2600">Places limitées : 1000 inscrits</text>
+  <text x="540" y="1220" text-anchor="middle" font-size="24" font-weight="700" fill="#3a2600">Places limitées</text>
 
   <rect x="0" y="1338" width="1080" height="12" fill="#E8A13A"/>
 </svg>

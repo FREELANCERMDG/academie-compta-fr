@@ -36,7 +36,7 @@
   <rect x="120" y="1320" width="840" height="220" rx="28" fill="#E8A13A"/>
   <text x="540" y="1400" text-anchor="middle" font-size="44" font-weight="800" fill="#16307a">INSCRIPTION GRATUITE</text>
   <text x="540" y="1470" text-anchor="middle" font-size="50" font-weight="800" fill="#16307a">academie-compta-fr.mg</text>
-  <text x="540" y="1512" text-anchor="middle" font-size="26" font-weight="700" fill="#3a2600">Places limitées : 1000 inscrits</text>
+  <text x="540" y="1512" text-anchor="middle" font-size="26" font-weight="700" fill="#3a2600">Places limitées</text>
 
   <!-- Bandeau bas : drapeaux -->
   <text x="540" y="1640" text-anchor="middle" font-size="30" fill="#cfe0f2">Rendez-vous sur le site : academie-compta-fr.mg</text>
