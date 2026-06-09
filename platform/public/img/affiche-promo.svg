@@ -36,10 +36,11 @@
   <rect x="120" y="1320" width="840" height="220" rx="28" fill="#E8A13A"/>
   <text x="540" y="1400" text-anchor="middle" font-size="44" font-weight="800" fill="#16307a">INSCRIPTION GRATUITE</text>
   <text x="540" y="1470" text-anchor="middle" font-size="50" font-weight="800" fill="#16307a">academie-compta-fr.mg</text>
-  <text x="540" y="1512" text-anchor="middle" font-size="26" font-weight="700" fill="#3a2600">⏳ Places limitées</text>
+  <text x="540" y="1512" text-anchor="middle" font-size="26" font-weight="700" fill="#3a2600">Places limitées</text>
 
   <!-- Bandeau bas : drapeaux -->
-  <text x="540" y="1660" text-anchor="middle" font-size="30" fill="#cfe0f2">Travaille pour la France, depuis Madagascar</text>
+  <text x="540" y="1640" text-anchor="middle" font-size="30" fill="#cfe0f2">Rendez-vous sur le site : academie-compta-fr.mg</text>
+  <text x="540" y="1690" text-anchor="middle" font-size="27" fill="#9fb3cf">Travaille pour la France, depuis Madagascar</text>
   <g transform="translate(470,1700)">
     <rect x="0" y="0" width="48" height="32" fill="#0055A4"/><rect x="16" y="0" width="16" height="32" fill="#ffffff"/><rect x="32" y="0" width="16" height="32" fill="#EF4135"/>
     <rect x="0" y="0" width="48" height="32" fill="none" stroke="#9aa9bd" stroke-width="0.5"/>
