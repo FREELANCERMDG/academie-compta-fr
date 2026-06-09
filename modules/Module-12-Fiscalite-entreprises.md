@@ -281,6 +281,15 @@ Le crédit s'impute sur l'**IS 2024** (relevé de solde **2572**). Si l'IS dû <
 
 <div class="calc" data-calc="cifd"></div>
 
+## 💼 Cotisations du dirigeant : SAS (assimilé salarié) vs TNS
+Le **choix du statut du dirigeant** pèse lourd sur le coût social. En simplifié :
+- **Gérant majoritaire (EURL/SARL) = TNS** : cotisations **~45 %** de la rémunération ; la fraction de **dividendes > 10 % du capital** est soumise aux cotisations sociales.
+- **Président de SAS/SASU = assimilé salarié** : cotisations **~67 %** de la rémunération (protection proche du salarié), mais **dividendes non soumis à cotisations** (PFU 30 %).
+
+Saisissez la rémunération, le capital et les dividendes pour **comparer le coût total** des deux statuts (taux indicatifs — à confirmer avec l'URSSAF).
+
+<div class="calc" data-calc="cotis-dir"></div>
+
 ## ✅ Checklist « préparation des éléments fiscaux » (offshore)
 - [ ] Régime fiscal du dossier identifié (IR/IS, BIC/BNC, micro/réel)
 - [ ] Comptes révisés et justifiés (Module 11)

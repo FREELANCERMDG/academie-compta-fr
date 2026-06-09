@@ -372,6 +372,42 @@
     },
     exemple: "Créance douteuse 10 000 € HT, taux 60 % → dotation 6 000 € : 68174 (D) / 491 (C). Déductible.",
     source: "CGI art. 39,1-5° et art. 272 (TVA) ; PCG 2025 (règlement ANC 2022-06)."
+  },
+
+  // ---------- 9) Cotisations du dirigeant : SAS (assimilé salarié) vs TNS ----------
+  "cotis-dir": {
+    titre: "Cotisations du dirigeant — SAS vs TNS",
+    intro: "Compare le coût social d'un dirigeant selon le statut : gérant majoritaire (TNS) ou président assimilé salarié (SAS/SASU). Taux indicatifs.",
+    inputs: [
+      { key: "rem", label: "Rémunération brute annuelle", type: "number", unit: "€" },
+      { key: "capital", label: "Capital social", type: "number", unit: "€", def: "0" },
+      { key: "div", label: "Dividendes distribués", type: "number", unit: "€", def: "0" }
+    ],
+    compute: function (v, h) {
+      var TNS_R = 0.45, SAS_R = 0.67, PFU = 0.30, COT_DIV = 0.45, IR_DIV = 0.128, SEUIL = 0.10;
+      var remTNS = v.rem * TNS_R, remSAS = v.rem * SAS_R;
+      var seuil = v.capital * SEUIL, exc = Math.max(v.div - seuil, 0), norm = v.div - exc;
+      var divTNS = norm * PFU + exc * (COT_DIV + IR_DIV);
+      var divSAS = v.div * PFU;
+      var totTNS = remTNS + divTNS, totSAS = remSAS + divSAS, eco = Math.abs(totTNS - totSAS);
+      var verdict = eco < 1 ? "Équivalent" : (totTNS < totSAS ? "TNS (gérant majoritaire)" : "Assimilé salarié (SAS)");
+      return {
+        rows: [
+          { l: "Coût TNS (gérant majoritaire) — total", v: h.eur(totTNS), b: true },
+          { l: "Coût assimilé salarié (SAS/SASU) — total", v: h.eur(totSAS), b: true },
+          { l: "Statut le moins coûteux", v: verdict + (eco >= 1 ? " (−" + h.eur(eco) + ")" : ""), w: true }
+        ],
+        extra: "<b>Détail (taux indicatifs)</b><table style='width:100%;border-collapse:collapse;font-size:12px;margin-top:4px'>" +
+          "<tr><td></td><td style='text-align:right'><b>TNS</b></td><td style='text-align:right'><b>SAS</b></td></tr>" +
+          "<tr><td>Cotisations sur rémunération</td><td style='text-align:right'>" + h.eur(remTNS) + " <small>(45 %)</small></td><td style='text-align:right'>" + h.eur(remSAS) + " <small>(67 %)</small></td></tr>" +
+          "<tr><td>Dividendes : coût (cotis. + impôt)</td><td style='text-align:right'>" + h.eur(divTNS) + "</td><td style='text-align:right'>" + h.eur(divSAS) + "</td></tr>" +
+          "</table>" +
+          "<br>TNS : la fraction de dividendes <b>> 10 % du capital</b> (" + h.eur(exc) + ") supporte des <b>cotisations sociales</b> (~45 %) + IR ; le reste au <b>PFU 30 %</b>. SAS : dividendes au <b>PFU 30 %</b>, <b>sans</b> cotisations sociales, mais rémunération bien plus chargée." +
+          "<br><i>⚠ Taux INDICATIFS : le coût réel TNS dépend du niveau de revenu et de l'appel URSSAF ; l'assimilé salarié représente ≈ 75-80 % de charges sur le net. À confirmer avec l'URSSAF / un simulateur officiel.</i>"
+      };
+    },
+    exemple: "Rém. 40 000 €, capital 10 000 €, dividendes 20 000 € → TNS ≈ 29 282 € vs SAS ≈ 32 800 € : TNS plus avantageux ici.",
+    source: "Comparaison gérant majoritaire (TNS) vs président assimilé salarié (SAS/SASU) ; dividendes TNS > 10 % du capital soumis à cotisations ; PFU 30 %. Taux indicatifs (d'après le simulateur dirigeant)."
   }
 
   };
