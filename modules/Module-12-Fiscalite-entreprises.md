@@ -193,6 +193,94 @@ Pour les sociétés utilisant des véhicules de tourisme : **taxe annuelle sur l
 
 ---
 
+## 🎓 Crédit d'impôt pour la formation des dirigeants (CIFD)
+
+> 🛑 **ALERTE STATUT 2026 — dispositif SUPPRIMÉ.** La **loi de finances pour 2025** (art. 56) **n'a pas prorogé** ce crédit d'impôt : il s'éteint pour **les heures de formation effectuées à compter du 1er janvier 2025**. Seules les **heures réalisées jusqu'au 31/12/2024** y ouvrent encore droit (créance déclarée en **2025 sur l'exercice 2024**, puis imputée/restituée). *À jour au 09/06/2026.* En clientèle 2026, on ne le rencontre plus que pour des **régularisations / réclamations** sur exercices antérieurs (délai de réclamation : N+2). Toujours **vérifier la dernière LF** avant de conclure.
+
+### 1. À quoi servait le dispositif (et pourquoi le maîtriser encore)
+Le **CIFD** (article **244 quater M du CGI**) compensait le **temps que le dirigeant passe en formation** — temps non rémunéré et non déductible comme tel — par un crédit d'impôt forfaitaire. On le retrouve sur les **exercices ≤ 2024** : reprise de dossier, réclamation contentieuse, ou simple contrôle d'une créance déjà comptabilisée. Le collaborateur doit donc savoir **le recalculer** et **le comptabiliser**.
+
+### 2. Qui était concerné
+- **Dirigeants** d'entreprise (entrepreneur individuel, gérant, président, associé…) **imposés à l'IR (BIC, BNC, BA)** ou à l'**IS**, relevant d'un **régime réel** (le **micro** est exclu : pas de déclaration de résultat support).
+- Formation **professionnelle au sens des articles L. 6313-1 et suivants du Code du travail** (formation entrant dans le champ de la formation professionnelle continue).
+- Formation **réalisée par le dirigeant lui-même** (pas les salariés — eux relèvent du plan de développement des compétences).
+
+### 3. Formule de calcul
+> **CIFD = Nombre d'heures de formation (plafonné à 40 h / an / entreprise) × Taux horaire du SMIC**
+>
+> Le SMIC retenu est celui **en vigueur au 31 décembre de l'année** au titre de laquelle le crédit est calculé (art. L. 3231-2 C. trav.).
+
+**Doublement micro-entreprise** (art. **244 quater M, I bis du CGI**, issu de l'art. 19 LF 2022, applicable aux heures effectuées **depuis le 01/01/2022**) : le crédit est **multiplié par 2** pour les entreprises répondant à la **définition européenne de la micro-entreprise** :
+- **< 10 salariés**, **et**
+- **CA annuel OU total de bilan ≤ 2 M€**.
+
+Le **plafond reste 40 heures** (c'est le montant qui double, pas le nombre d'heures retenu).
+
+| Paramètre | Valeur | Référence |
+|---|---|---|
+| Plafond d'heures | **40 h / an / entreprise** | 244 quater M CGI |
+| SMIC horaire **au 31/12/2024** (dernière année éligible) | **11,88 €** | revalorisé au 01/11/2024 |
+| SMIC horaire au 31/12/2025 (pour mémoire — dispositif clos) | **11,88 €** | — |
+| Crédit max. **cas général** (40 h) | **40 × 11,88 = 475,20 €** | exercice 2024 |
+| Crédit max. **micro-entreprise** (40 h × 2) | **950,40 €** | exercice 2024 |
+
+> ⚠️ **Plafond « 1 fois » par entreprise**, pas par dirigeant : si plusieurs co-gérants se forment, on **cumule leurs heures** et on **plafonne le total à 40 h**.
+
+### 4. Déclaration (exercices ≤ 2024)
+- **Fiche d'aide au calcul** : formulaire **2079-FCE-FC** (non obligatoire mais recommandée — trace du calcul au dossier).
+- **Report du montant** sur la déclaration **2069-RCI-SD** (réductions et crédits d'impôt), jointe à la liasse.
+- **IS** : imputation sur l'IS via le **relevé de solde 2572** ; excédent **restitué**.
+- **IR** : report sur la **2042-C-PRO** (case dédiée « formation des dirigeants ») ; crédit **imputé sur l'IR**, **excédent restitué**.
+
+### 5. Traitement comptable
+Le CIFD est un **crédit d'impôt restituable**, donc une **créance sur l'État**. Point clé pour les collaborateurs : c'est un **produit NON imposable** — il ne doit **pas** augmenter le résultat fiscal (à **déduire extra-comptablement** sur la liasse, ligne des déductions, s'il a transité par un compte de produit).
+
+**Comptabilisation de la créance (à la clôture N, sur les heures de l'année) :**
+
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| **444** | État – Impôts sur les bénéfices (créance) | X | |
+| **699** ou **695** | (IS) Crédit d'impôt / Impôts sur les bénéfices | | X |
+
+> 💡 **Pratique cabinet :**
+> - **Société à l'IS** : on loge la créance en **444** par le crédit du compte d'**impôt (695/699)** — le crédit d'impôt **vient en diminution de la charge d'IS**. Effet net : produit **non imposable** (pas de retraitement supplémentaire car ça n'a pas transité par un compte de produit imposable).
+> - **Entreprise à l'IR** : l'IR n'est **pas** une charge de l'entreprise. La créance se constate en **444** par le crédit d'un **compte de produit (74xx/75xx « subventions »)** ou directement dans le **compte de l'exploitant (108)** ; ce **produit est non imposable** et doit être **déduit extra-comptablement** sur la 2031/2035.
+> - À l'encaissement : **512 (banque)** au débit / **444** au crédit (solde de la créance).
+
+### 6. EXEMPLE CHIFFRÉ DÉTAILLÉ (régularisation exercice 2024)
+
+> **Contexte.** SARL « ATELIER BOIS », **soumise à l'IS**, **6 salariés**, **CA 1,3 M€** → remplit la définition de la **micro-entreprise** (< 10 salariés et CA ≤ 2 M€) ⇒ **doublement applicable**. En 2024, le gérant a suivi **48 heures** de formation éligible (un parcours « gestion + management »). On régularise le dossier en juin 2026.
+
+**Étape 1 — Heures retenues**
+48 h demandées, plafond **40 h** ⇒ **heures retenues = min(48 ; 40) = 40 h**.
+
+**Étape 2 — Crédit de base**
+40 h × **11,88 €** (SMIC au 31/12/2024) = **475,20 €**.
+
+**Étape 3 — Doublement micro-entreprise**
+475,20 € × **2** = **950,40 €** ⇒ **CIFD = 950 €** (arrondi à l'euro).
+
+**Étape 4 — Comptabilisation (clôture 31/12/2024)**
+- Débit **444** : 950 €
+- Crédit **695** (Impôts sur les bénéfices) : 950 €
+→ La créance **réduit l'IS dû** de 950 € ; **aucun produit imposable** créé.
+
+**Étape 5 — Imputation / restitution**
+Le crédit s'impute sur l'**IS 2024** (relevé de solde **2572**). Si l'IS dû < 950 €, le **surplus est remboursé** par le SIE.
+
+> **À retenir.** Même montant SMIC qu'en 2025 (11,88 €) car le SMIC a été **revalorisé par anticipation au 01/11/2024**. Mais **attention** : pour **2025 et au-delà, le crédit est nul** — le dispositif est **supprimé**. Le simulateur ci-dessous sert au **recalcul des années ≤ 2024** ; il affiche un **avertissement de statut** systématique.
+
+---
+
+### Sources
+- [Article 244 quater M du CGI — Légifrance](https://www.legifrance.gouv.fr/codes/id/LEGISCTA000018035669)
+- [BOFiP BOI-BIC-RICI-10-50 — Crédit d'impôt formation des dirigeants](https://bofip.impots.gouv.fr/bofip/2035-PGP.html/identifiant=BOI-BIC-RICI-10-50-20230208)
+- [Service-Public Entreprendre — Fin du dispositif (formations après le 31/12/2024)](https://entreprendre.service-public.gouv.fr/vosdroits/F23460)
+- [economie.gouv.fr — Crédit d'impôt formation des dirigeants](https://www.economie.gouv.fr/entreprises/gerer-sa-fiscalite-et-ses-impots/limpot-sur-les-benefices-ir-et/tout-savoir-sur-le)
+- [Urssaf — Montant du SMIC](https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/montant-smic.html)
+
+<div class="calc" data-calc="cifd"></div>
+
 ## ✅ Checklist « préparation des éléments fiscaux » (offshore)
 - [ ] Régime fiscal du dossier identifié (IR/IS, BIC/BNC, micro/réel)
 - [ ] Comptes révisés et justifiés (Module 11)
