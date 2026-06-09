@@ -82,7 +82,7 @@
   "promo": {
     "actif": true,
     "acces_libre": true,
-    "debut_libre": "2026-06-09T16:00:00Z",
+    "debut_libre": "",
     "jusqu_au": "2026-09-09",
     "label": "🎁 Gratuit 3 mois",
     "prix_ref": "100 000 Ar",
