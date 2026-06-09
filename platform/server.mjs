@@ -182,7 +182,7 @@ function layout(title, body, sess) {
   const wa = (soc.whatsapp || '').replace(/\D/g, '');
   const waBtn = wa ? `<a class="wa" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite des informations sur la formation en comptabilité française externalisée.')}" target="_blank" rel="noopener" title="Contact WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.02zm-7.01 15.22h-.004a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>` : '';
   const nav = u
-    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
+    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
     : `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
@@ -1005,7 +1005,7 @@ const server = http.createServer(async (req, res) => {
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
       if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
-      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
+      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
         const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
         const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
@@ -1042,6 +1042,12 @@ const server = http.createServer(async (req, res) => {
         if (!authed(sess)) return redirect(res, '/connexion');
         if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
         return serveAttestation(res, sess);
+      }
+      if (p === '/communaute') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageForum(sess)); }
+      if (p === '/communaute/messages') {
+        if (!authed(sess) || !forumAccess(sess)) { res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end('[]'); }
+        const out = forumMsgsSince(url.searchParams.get('since') || '').map(forumMsgJSON);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end(JSON.stringify(out));
       }
       if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'))); }
       if (p === '/admin/backup') {
@@ -1099,6 +1105,8 @@ const server = http.createServer(async (req, res) => {
       if (p === '/admin/promo-debloquer-tous') return postPromoDebloquerTous(req, res, sess, body);
       if (p === '/admin/annonce') return postAnnonce(req, res, sess, body);
       if (p === '/admin/annonce-off') return postAnnonceOff(req, res, sess, body);
+      if (p === '/communaute') return postForum(req, res, sess, body);
+      if (p === '/communaute/supprimer') return postForumSupprimer(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
@@ -1136,6 +1144,8 @@ function grantPromoModules(uid, ipStr) {
 }
 // Annonce active (message du formateur affiché dans l'espace des apprenants)
 function annonceActive() { try { return db.prepare("SELECT * FROM annonces WHERE actif=1 ORDER BY cree_le DESC LIMIT 1").get() || null; } catch { return null; } }
+// Accès Communauté : réservé aux apprenants à accès actif (admin, ou promo en cours, ou inscription active).
+function forumAccess(sess) { return !!(sess && sess.user && (sess.user.role === 'admin' || promoLive() || hasActive(sess.user.id))); }
 
 // Parrainage : quand un FILLEUL obtient son 1er accès payé, on prolonge l'accès de son PARRAIN de bonus_jours.
 function rewardParrain(filleulId) {
@@ -1320,6 +1330,61 @@ function postAnnonceOff(req, res, sess, body) {
   db.prepare("UPDATE annonces SET actif=0 WHERE actif=1").run();
   audit(db, sess.user.id, 'annonce_off', '', ip(req));
   return redirect(res, '/admin?acces=annonce_off');
+}
+// --- Communauté : mur de discussion partagé (modéré par l'admin) ---
+function forumNom(prenom, nom, role) { return role === 'admin' ? '👨‍🏫 Formateur' : (esc(prenom || '') + ' ' + esc((nom || '').slice(0, 1)) + '.'); }
+function forumMsgsSince(since) {
+  return db.prepare("SELECT f.id,f.message,f.cree_le,u.prenom,u.nom,u.role FROM forum f JOIN users u ON u.id=f.user_id WHERE f.supprime=0 AND f.cree_le > ? ORDER BY f.cree_le ASC LIMIT 100").all(since || '');
+}
+function forumMsgJSON(m) {
+  return { id: m.id, auteur: m.role === 'admin' ? '👨‍🏫 Formateur' : (((m.prenom || '') + ' ' + (m.nom || '').slice(0, 1) + '.').trim()), role: m.role, message: m.message, t: (m.cree_le || '').slice(0, 16).replace('T', ' '), cree_le: m.cree_le };
+}
+function pageForum(sess) {
+  if (!forumAccess(sess)) {
+    return layout('Communauté', `<h1>💬 Communauté des apprenants</h1>
+    <section class="card"><p>L'espace <b>Communauté</b> est réservé aux apprenants ayant un <b>accès actif</b> à la formation.</p>
+    ${promoLive() ? '<p class="muted">🎁 Pendant la promo, débloquez gratuitement tous les modules depuis votre espace — vous aurez alors accès à la communauté.</p>' : ''}
+    <p><a class="btn" href="/tableau-de-bord">Mon espace</a></p></section>`, sess);
+  }
+  const isAdmin = sess.user.role === 'admin';
+  const rows = db.prepare("SELECT f.id,f.message,f.cree_le,u.prenom,u.nom,u.role FROM forum f JOIN users u ON u.id=f.user_id WHERE f.supprime=0 ORDER BY f.cree_le DESC LIMIT 50").all().reverse();
+  const last = rows.length ? rows[rows.length - 1].cree_le : '';
+  const item = m => `<div class="offre" id="m-${esc(m.id)}" style="margin-bottom:8px${m.role === 'admin' ? ';border-left:3px solid var(--accent)' : ''}"><p style="margin:0 0 4px">${isAdmin ? `<form method="post" action="/communaute/supprimer" class="inline" style="margin:0;float:right">${csrfField(sess)}<input type="hidden" name="id" value="${esc(m.id)}"><button class="btn small ghost" type="submit" title="Supprimer">🗑</button></form>` : ''}<b>${forumNom(m.prenom, m.nom, m.role)}</b> <span class="muted" style="font-size:11px">${esc((m.cree_le || '').slice(0, 16).replace('T', ' '))}</span></p><p style="margin:0;white-space:pre-wrap">${esc(m.message)}</p></div>`;
+  return layout('Communauté', `<h1>💬 Communauté des apprenants <span class="muted" style="font-size:13px;font-weight:400">· 🟢 en direct</span></h1>
+  <p class="muted">Échangez entre apprenants : questions, astuces, entraide. Le formateur participe aussi. <b>Charte :</b> restez courtois ; <b>pas</b> de partage du contenu de la formation, ni de coordonnées commerciales. Tout abus peut être supprimé.</p>
+  <section class="card" id="forum-box" data-admin="${isAdmin ? '1' : '0'}" data-last="${esc(last)}">
+    <div id="forum-list" style="max-height:55vh;overflow-y:auto;padding-right:4px">${rows.map(item).join('') || '<p class="muted" id="forum-empty">Aucun message — lancez la discussion !</p>'}</div>
+    <form method="post" action="/communaute" id="forum-form" class="form" style="margin:12px 0 0">${csrfField(sess)}
+      <label>Votre message<textarea name="message" required rows="2" maxlength="1000" placeholder="Écrivez à la communauté…"></textarea></label>
+      <p style="margin:6px 0 0"><button class="btn" type="submit">Publier</button> <span class="muted" id="forum-status" style="font-size:12px"></span></p></form>
+  </section>
+  <script src="/public/communaute.js?v=${ASSET_V}" defer></script>`, sess);
+}
+function postForum(req, res, sess, body) {
+  const ajax = body && body._ajax === '1';
+  const fail = (m) => { if (ajax) { res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify({ ok: false, error: m })); } return redirect(res, '/communaute'); };
+  if (!authed(sess)) return ajax ? fail('Session expirée.') : redirect(res, '/connexion');
+  if (!checkCsrf(sess, body)) return fail('Session expirée — rechargez la page.');
+  if (!forumAccess(sess)) return fail('Réservé aux apprenants ayant un accès actif.');
+  const msg = String(body.message || '').trim().slice(0, 1000);
+  if (msg.length < 2) return fail('Message trop court.');
+  // Anti-flood basé en base (robuste au redémarrage) : max 6 messages / 5 min par apprenant.
+  const cutoff = new Date(Date.now() - 5 * 60000).toISOString();
+  const cnt = db.prepare("SELECT COUNT(*) c FROM forum WHERE user_id=? AND cree_le > ?").get(sess.user.id, cutoff).c;
+  if (cnt >= 6) return fail('Trop de messages — patientez quelques minutes.');
+  const lastByUser = db.prepare("SELECT message FROM forum WHERE user_id=? ORDER BY cree_le DESC LIMIT 1").get(sess.user.id);
+  if (lastByUser && lastByUser.message === msg) return fail('Message identique au précédent.');
+  db.prepare("INSERT INTO forum(id,user_id,message,cree_le,supprime) VALUES(?,?,?,?,0)").run(rid(10), sess.user.id, msg, new Date().toISOString());
+  audit(db, sess.user.id, 'forum_post', msg.slice(0, 50), ip(req));
+  if (ajax) { res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify({ ok: true })); }
+  return redirect(res, '/communaute');
+}
+function postForumSupprimer(req, res, sess, body) {
+  if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
+  db.prepare("UPDATE forum SET supprime=1 WHERE id=?").run(body.id);
+  audit(db, sess.user.id, 'forum_suppr', String(body.id), ip(req));
+  return redirect(res, '/communaute');
 }
 function postManuel(req, res, sess, body) {
   const ins = insOf(body.ins, sess.user.id); if (!ins) return redirect(res, '/tableau-de-bord');
