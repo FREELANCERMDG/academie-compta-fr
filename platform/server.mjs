@@ -802,6 +802,11 @@ function serveAttestation(res, sess) {
   const fmt = d => d ? String(d).slice(0, 10).split('-').reverse().join('/') : '—';
   const today = new Date().toISOString().slice(0, 10).split('-').reverse().join('/');
   const nom = esc(((u.prenom || '') + ' ' + (u.nom || '')).trim()) || '[Apprenant]';
+  const isStage = (cfg.attestation_stage || []).map(e => String(e).toLowerCase().trim()).includes((u.email || '').toLowerCase().trim());
+  const aTitre = isStage ? 'ATTESTATION DE STAGE' : 'ATTESTATION DE FIN DE FORMATION';
+  const aSub = isStage ? 'Stage de formation pratique en comptabilité française externalisée' : 'Formation complète en comptabilité française externalisée depuis Madagascar';
+  const aNarr = isStage ? 'a effectué un <b>stage de formation pratique</b> en « <b>Comptabilité française externalisée</b> » (6 modules).' : 'a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules).';
+  const aLegal = isStage ? ('Attestation de stage interne délivrée par ' + esc(s.nom || '') + ', attestant la réalisation d\'un stage pratique de formation ; sans valeur de diplôme d\'État.') : ('Attestation de fin de formation interne, sans valeur de diplôme d\'État ; elle atteste du suivi de la formation et du niveau opérationnel constaté à l\'évaluation finale.');
   const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Attestation — ${esc(s.nom || '')}</title>
 <style>
@@ -826,11 +831,11 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
 <div class="bar noprint" style="max-width:820px;margin:14px auto 0"><button class="btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button> <a class="btn" style="text-decoration:none;background:#fff;border:1px solid #cfd8e3;color:#1F4E78" href="/tableau-de-bord">← Mon espace</a></div>
 <div class="sheet">
   <img class="logo" src="/public/logo.jpg" alt="${esc(s.nom || '')}">
-  <h1>ATTESTATION DE FIN DE FORMATION</h1>
-  <p class="sub">Formation complète en comptabilité française externalisée depuis Madagascar</p>
+  <h1>${aTitre}</h1>
+  <p class="sub">${aSub}</p>
   <p>Je soussigné <b>${esc(formateur)}</b>, formateur agissant pour la société <b>${esc(s.nom || '')}</b>, atteste que :</p>
   <p class="name">${nom}</p>
-  <p style="text-align:center">a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules).</p>
+  <p style="text-align:center">${aNarr}</p>
   <div style="max-width:660px;margin:14px auto 4px;background:#f4f7fb;border:1px solid #dbe4ee;border-radius:8px;padding:14px 20px">
     <p style="margin:0 0 6px;text-align:center;color:#1F4E78;font-weight:bold;font-size:15px">Compétences maîtrisées (résumé)</p>
     <ul style="margin:0;padding-left:20px;line-height:1.55;font-size:14px">
@@ -850,7 +855,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   <p id="warn" style="display:none;color:#c0392b;font-size:14px">⚠️ L'évaluation finale n'a pas encore été validée sur cet appareil. Passez le quiz final (Module 4) puis revenez ici.</p>
   <p>Fait à ____________________, le <b>${today}</b>.</p>
   <p class="sig">${esc(formateur)} — Formateur, ${esc(s.nom || '')}</p>
-  <p class="legal">${esc(s.denomination || s.nom || '')} — ${esc(s.forme || '')} au capital de ${esc(s.capital || '')} — ${esc(s.immat || '')}${s.siege ? ', ' + esc(s.siege) : ''}. Attestation de fin de formation interne, sans valeur de diplôme d'État ; elle atteste du suivi de la formation et du niveau opérationnel constaté à l'évaluation finale.</p>
+  <p class="legal">${esc(s.denomination || s.nom || '')} — ${esc(s.forme || '')} au capital de ${esc(s.capital || '')} — ${esc(s.immat || '')}${s.siege ? ', ' + esc(s.siege) : ''}. ${aLegal}</p>
 </div>
 <script>(function(){try{var p=JSON.parse(localStorage.getItem('fce_progress_v1')||'{}');var f=p.quiz&&p.quiz.final;var el=document.getElementById('result'),nv=document.getElementById('niveau');if(f&&f.total){var pct=Math.round(f.score/f.total*100);el.textContent=pct+' / 100';nv.textContent=pct>=85?'Avancé — Collaborateur autonome':(pct>=70?'Intermédiaire confirmé':(pct>=55?'Débutant validé':'À repasser (seuil 55)'));}else{el.textContent='—';nv.textContent='—';document.getElementById('warn').style.display='block';}}catch(e){}})();</script>
 </body></html>`;

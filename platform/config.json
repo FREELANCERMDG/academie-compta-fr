@@ -103,6 +103,8 @@
     "flux_rss": [],
     "_note": "liens = recherches deja filtrees 'comptabilite' (curees, sans risque). flux_rss = URLs de flux RSS a agreger (laisser vide tant qu'aucun flux fiable). Les offres internes (mini-bourse partenaires) se gerent depuis l'admin."
   },
+  "attestation_stage": ["ychadde@gmail.com"],
+  "_note_attestation_stage": "Liste d'e-mails dont l'attestation s'intitule 'ATTESTATION DE STAGE' au lieu de 'fin de formation'. Les autres apprenants ne sont pas affectés.",
   "formateur": {
     "nom": "M. RANDRIAMANANTSOA Heriniaina Anthony",
     "photo": "/public/formateur.png",
