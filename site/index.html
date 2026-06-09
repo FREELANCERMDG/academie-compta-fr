@@ -101,6 +101,71 @@ header .grow{flex:1}
 }
 @media print{header,.sidebar,.pagebar,.hamb,.quiz .btn{display:none!important}.main{max-width:none}}
 </style>
+<style>
+/* ===== Amelioration du design (page de cours) — surcouche non destructive ===== */
+:root{--bg:#eef2f7;--muted:#6a7889;--bd:#e4e9f0;--bd2:#eef2f7;
+  --shadow-sm:0 1px 2px rgba(20,40,70,.06);
+  --shadow:0 6px 22px rgba(20,40,70,.07),0 1px 3px rgba(20,40,70,.06);}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 420px at 100% -8%,rgba(46,108,164,.06),transparent),var(--bg);-webkit-font-smoothing:antialiased;font-size:15.5px}
+
+/* Header */
+header{background:linear-gradient(120deg,var(--navy),var(--navy2));border-bottom:1px solid rgba(0,0,0,.06)}
+header .logo{letter-spacing:.2px}
+#search{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.96);font-size:13.5px;transition:box-shadow .15s,width .2s}
+#search:focus{outline:none;box-shadow:0 0 0 3px rgba(232,161,58,.45)}
+.progwrap{color:rgba(255,255,255,.92)}
+.progbar{height:9px}
+.progbar i{transition:width .45s ease;background:linear-gradient(90deg,var(--accent),#f6c172)}
+
+/* Sidebar */
+.sidebar{background:linear-gradient(180deg,#fff,#fcfdff);scrollbar-width:thin;scrollbar-color:#c7d3e2 transparent}
+.sidebar::-webkit-scrollbar{width:9px}
+.sidebar::-webkit-scrollbar-thumb{background:#cdd9e8;border-radius:8px;border:2px solid #fff}
+.sidebar .grp{position:sticky;top:0;z-index:1;background:rgba(255,255,255,.97);padding:13px 16px 7px;color:#94a2b3;border-bottom:1px solid var(--bd2)}
+.sidebar a.item{font-size:13.5px;padding:9px 14px;margin:1px 8px 1px 0;border-radius:0 999px 999px 0;transition:background .12s,color .12s}
+.sidebar a.item:hover{background:#eef4fb}
+.sidebar a.item.active{background:linear-gradient(90deg,#eaf2fb,#f6f9fd);border-left-color:var(--accent);box-shadow:inset 0 0 0 1px #dbe7f5}
+.sidebar a.item.active .dot{border-color:var(--accent)}
+.sidebar a.item.done{color:#3a6b52}
+
+/* Contenu */
+.main{padding-top:30px}
+.content.card{border:1px solid var(--bd);box-shadow:var(--shadow);border-radius:18px;padding:30px 38px}
+.content{font-size:15.5px;color:#243240}
+.content>*:first-child{margin-top:0}
+.content :where(h1,h2,h3,h4){scroll-margin-top:76px;line-height:1.25}
+.content h1{font-size:27px;letter-spacing:-.2px;border-bottom:none;position:relative;margin-bottom:18px;padding-bottom:14px}
+.content h1::after{content:"";position:absolute;left:0;bottom:0;width:66px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--accent),#f6c172)}
+.content h2{font-size:20.5px;margin-top:34px;padding-left:13px;border-left:4px solid var(--accent)}
+.content h3{font-size:16.5px;margin-top:24px}
+.content p,.content ul,.content ol{max-width:76ch}
+.content li{margin:5px 0}
+.content a{color:var(--navy2);text-decoration:none;border-bottom:1px solid rgba(46,108,164,.32)}
+.content a:hover{border-bottom-color:var(--navy2)}
+.content strong{color:#16263a}
+.content blockquote{background:linear-gradient(180deg,#f1f6fc,#eef4fb);border-left:4px solid var(--navy2);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.content code{background:#eef2f7;border:1px solid #e2e8f1;color:#1c3d5e}
+.content hr{margin:26px 0}
+.content .tbl{border-radius:12px;border:1px solid var(--bd);box-shadow:var(--shadow-sm)}
+.content tbody tr:hover{background:#eef5fc}
+
+/* Boutons / barre de navigation */
+.btn{border-radius:10px;box-shadow:var(--shadow-sm);transition:transform .06s,filter .15s}
+.btn:active{transform:translateY(1px)}
+.btn.sec{background:#fff;border:1px solid var(--bd);color:var(--navy)}
+.pagebar{position:sticky;bottom:0;justify-content:space-between;background:linear-gradient(180deg,rgba(238,242,247,0),var(--bg) 45%);backdrop-filter:blur(3px);padding-bottom:14px;margin-top:30px}
+
+/* Quiz */
+.quiz{box-shadow:var(--shadow);border-radius:16px}
+
+@media(max-width:860px){
+  .content.card{padding:20px 18px;border-radius:14px}
+  .content h1{font-size:23px}
+  .main{padding-top:18px}
+  .sidebar{box-shadow:6px 0 30px rgba(10,25,50,.25)}
+}
+</style>
 </head>
 <body>
 <header>
@@ -163,6 +228,7 @@ function show(id){
   document.getElementById('content').innerHTML=CONTENT[id];
   document.getElementById('crumbs').textContent=titleOf(id);
   document.querySelectorAll('.sidebar a.item').forEach(a=>a.classList.toggle('active',a.dataset.id===id));
+  const _act=document.querySelector('.sidebar a.item.active');if(_act&&_act.scrollIntoView)_act.scrollIntoView({block:'nearest'});
   // boutons prev/next
   const idx=ORDER.indexOf(id);
   document.getElementById('prevb').onclick=()=>{if(idx>0)location.hash=ORDER[idx-1];};
