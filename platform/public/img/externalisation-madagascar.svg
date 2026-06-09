@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Organisation de l'externalisation comptable entre un cabinet francais et une equipe a Madagascar">
+  <defs>
+    <linearGradient id="gnavy" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1F4E78"/><stop offset="1" stop-color="#2f6aa6"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1000" height="560" rx="16" fill="#ffffff"/>
+
+  <!-- Titre -->
+  <rect x="0" y="0" width="1000" height="64" rx="16" fill="url(#gnavy)"/>
+  <text x="500" y="40" text-anchor="middle" font-size="23" font-weight="800" fill="#ffffff">Comment fonctionne l'externalisation comptable&#160;: Cabinet francais &#8644; Madagascar</text>
+
+  <!-- ===== Panneau gauche : Cabinet francais ===== -->
+  <rect x="24" y="92" width="300" height="252" rx="14" fill="#e8f0f9" stroke="#1F4E78" stroke-width="1.5"/>
+  <!-- drapeau FR -->
+  <g transform="translate(42,108)"><rect x="0" y="0" width="8" height="16" fill="#0055A4"/><rect x="8" y="0" width="8" height="16" fill="#ffffff"/><rect x="16" y="0" width="8" height="16" fill="#EF4135"/><rect x="0" y="0" width="24" height="16" fill="none" stroke="#9aa9bd" stroke-width="0.5"/></g>
+  <text x="74" y="121" font-size="15.5" font-weight="800" fill="#1F4E78">CABINET FRANCAIS</text>
+  <text x="42" y="142" font-size="11.5" fill="#5b6b80">Clients&#160;: TPE / PME francaises</text>
+  <line x1="42" y1="152" x2="306" y2="152" stroke="#bcd0e8" stroke-width="1"/>
+  <g font-size="12.5" fill="#22303f">
+    <text x="42" y="176">&#8226; Collecte les pieces du client</text>
+    <text x="42" y="204">&#8226; Donne acces au logiciel (Pennylane&#8230;)</text>
+    <text x="42" y="232">&#8226; Chef de mission&#160;: supervise &amp; contr&#244;le</text>
+    <text x="42" y="260">&#8226; Expert-comptable&#160;: revise &amp; signe</text>
+    <text x="42" y="288">&#8226; Porte la responsabilite finale</text>
+  </g>
+  <text x="42" y="320" font-size="11" fill="#5b6b80" font-style="italic">L'expert-comptable francais reste responsable</text>
+
+  <!-- ===== Panneau droit : Equipe Madagascar ===== -->
+  <rect x="676" y="92" width="300" height="252" rx="14" fill="#fdf3e3" stroke="#E8A13A" stroke-width="1.5"/>
+  <!-- drapeau MG -->
+  <g transform="translate(694,108)"><rect x="0" y="0" width="8" height="16" fill="#ffffff"/><rect x="8" y="0" width="16" height="8" fill="#FC3D32"/><rect x="8" y="8" width="16" height="8" fill="#007E3A"/><rect x="0" y="0" width="24" height="16" fill="none" stroke="#cdbb9a" stroke-width="0.5"/></g>
+  <text x="726" y="121" font-size="15.5" font-weight="800" fill="#b9740a">EQUIPE A MADAGASCAR</text>
+  <text x="694" y="142" font-size="11.5" fill="#8a6a36">Collaborateurs / reviseurs (vous)</text>
+  <line x1="694" y1="152" x2="958" y2="152" stroke="#eccfa0" stroke-width="1"/>
+  <g font-size="12.5" fill="#22303f">
+    <text x="694" y="176">&#8226; Saisie&#160;: achats, ventes, banque, OD</text>
+    <text x="694" y="204">&#8226; Rapprochement bancaire &amp; lettrage</text>
+    <text x="694" y="232">&#8226; Declarations de TVA (CA3 / CA12)</text>
+    <text x="694" y="260">&#8226; Revision comptable par cycle</text>
+    <text x="694" y="288">&#8226; Preparation de la liasse fiscale</text>
+  </g>
+  <text x="694" y="320" font-size="11" fill="#8a6a36" font-style="italic">Production realisee a distance, en euros</text>
+
+  <!-- ===== Flux central ===== -->
+  <text x="500" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E78">Pieces &#183; factures &#183; releves</text>
+  <text x="500" y="135" text-anchor="middle" font-size="10.5" fill="#5b6b80">GED securisee &#183; acces logiciel</text>
+  <!-- fleche France -> Mada -->
+  <g>
+    <rect x="356" y="146" width="272" height="8" rx="4" fill="#1F4E78"/>
+    <polygon points="628,140 652,150 628,160" fill="#1F4E78"/>
+  </g>
+
+  <!-- bloc securite -->
+  <rect x="384" y="176" width="232" height="70" rx="12" fill="#eef3fa" stroke="#cfdcee" stroke-width="1"/>
+  <text x="500" y="199" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1F4E78">Liaison securisee</text>
+  <text x="500" y="218" text-anchor="middle" font-size="11" fill="#33455c">RGPD &#183; secret professionnel</text>
+  <text x="500" y="235" text-anchor="middle" font-size="11" fill="#33455c">francophonie &#183; faible decalage horaire</text>
+
+  <!-- fleche Mada -> France -->
+  <g>
+    <rect x="372" y="266" width="272" height="8" rx="4" fill="#E8A13A"/>
+    <polygon points="372,260 348,270 372,280" fill="#E8A13A"/>
+  </g>
+  <text x="500" y="300" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b9740a">Compta a jour &#183; TVA &#183; liasse</text>
+  <text x="500" y="315" text-anchor="middle" font-size="10.5" fill="#5b6b80">dossier revise &#183; reporting</text>
+
+  <!-- ===== Chaine de supervision ===== -->
+  <rect x="24" y="360" width="952" height="80" rx="14" fill="#f7faff" stroke="#e4eef8" stroke-width="1"/>
+  <text x="40" y="382" font-size="12.5" font-weight="800" fill="#1F4E78">Chaine de supervision &#8212; le travail est delegue vers Mada, la revision remonte vers la France</text>
+  <!-- boxes -->
+  <g>
+    <rect x="40" y="396" width="184" height="30" rx="8" fill="#1F4E78"/><text x="132" y="416" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">Expert-comptable (FR)</text>
+    <polygon points="232,405 250,411 232,417" fill="#94a6bd"/>
+    <rect x="286" y="396" width="184" height="30" rx="8" fill="#d8e6f5" stroke="#bcd0e8"/><text x="378" y="416" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F4E78">Chef de mission (FR)</text>
+    <polygon points="478,405 496,411 478,417" fill="#94a6bd"/>
+    <rect x="532" y="396" width="184" height="30" rx="8" fill="#d8e6f5" stroke="#bcd0e8"/><text x="624" y="416" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F4E78">Reviseur</text>
+    <polygon points="724,405 742,411 724,417" fill="#94a6bd"/>
+    <rect x="778" y="396" width="184" height="30" rx="8" fill="#fbe8c8" stroke="#E8A13A"/><text x="870" y="416" text-anchor="middle" font-size="11.5" font-weight="800" fill="#b9740a">Collaborateur (MG)</text>
+  </g>
+
+  <!-- ===== Avantages + accroche ===== -->
+  <g font-size="12" font-weight="700">
+    <rect x="86" y="462" width="180" height="30" rx="15" fill="#e9f5ee" stroke="#bfe3cd"/><text x="176" y="481" text-anchor="middle" fill="#1f8a4c">&#10003; Meme langue</text>
+    <rect x="286" y="462" width="180" height="30" rx="15" fill="#e9f5ee" stroke="#bfe3cd"/><text x="376" y="481" text-anchor="middle" fill="#1f8a4c">&#10003; Cout maitrise</text>
+    <rect x="486" y="462" width="220" height="30" rx="15" fill="#e9f5ee" stroke="#bfe3cd"/><text x="596" y="481" text-anchor="middle" fill="#1f8a4c">&#10003; Methode francaise rigoureuse</text>
+    <rect x="726" y="462" width="190" height="30" rx="15" fill="#e9f5ee" stroke="#bfe3cd"/><text x="821" y="481" text-anchor="middle" fill="#1f8a4c">&#10003; Evolution de carriere</text>
+  </g>
+  <text x="500" y="528" text-anchor="middle" font-size="13.5" font-weight="700" fill="#22303f">Vous etes le collaborateur a Madagascar &#8212; cette formation vous rend autonome sur tout ce circuit.</text>
+</svg>

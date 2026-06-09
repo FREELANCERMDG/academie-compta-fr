@@ -539,6 +539,7 @@ renderNav();show(curId());
 <script src="/formation/sim.js"></script>
 <script src="/formation/pro.js"></script>
 <script src="/formation/simdoc.js"></script>
+<script src="/formation/calc.js"></script>
 </body>
 </html>"""
 

@@ -2,6 +2,10 @@
 
 Et si, **depuis n'importe où à Madagascar** — **Antananarivo, Tamatave, Antsirabe, Majunga** ou ailleurs — vous travailliez pour des **cabinets comptables français** — recruté par un cabinet d'externalisation, ou en **freelance payé en euros** ? C'est déjà le quotidien de centaines de Malgaches. Voici pourquoi, et comment cette formation vous y mène.
 
+## 🗺️ L'externalisation comptable en un coup d'œil
+<img src="/public/img/externalisation-madagascar.svg" alt="Organisation de l'externalisation comptable entre un cabinet français et une équipe à Madagascar : flux des pièces, production à distance et chaîne de supervision" style="width:100%;max-width:960px;height:auto;display:block;margin:10px auto;border:1px solid #e2e8f2;border-radius:14px">
+> **Comment lire ce schéma :** le **cabinet français** collecte les pièces de ses clients et vous y donne accès (GED, logiciel). **Vous, à Madagascar**, réalisez la production (saisie, TVA, révision, liasse). Le travail vous est **délégué** ; la **révision** et la **signature** remontent vers la France, où l'**expert-comptable** reste responsable. C'est exactement ce circuit que cette formation vous apprend à maîtriser.
+
 ## 🌍 Un marché en pleine croissance
 - Les cabinets français **manquent de collaborateurs** : ils **externalisent** leur production comptable.
 - **Madagascar = destination n°1 francophone** : même langue, fuseau horaire proche, qualité reconnue, coût compétitif.
