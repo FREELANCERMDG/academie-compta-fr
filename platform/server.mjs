@@ -265,8 +265,15 @@ function pageAccueil(sess) {
   <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Installez <b>Google Authenticator</b> (gratuit) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p>
   <p><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Google Play (Android)</a> <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></section>
   ${apercuModulesSection()}
-  <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${prixAffiche(o.prix)}</p></div>`).join('')}</div>
-  <p class="muted">${promoActive() ? '🎁 <b>Offre de lancement</b> : la formation sera <b>bientôt gratuite</b> pour une durée limitée. Inscrivez-vous pour en profiter.' : 'Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.'}</p></section>`, sess);
+  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
+  <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu'au <b>09/09/2026</b> — sans aucun paiement.</p>
+  <ol style="line-height:1.9;margin:8px 0 12px">
+  <li><b>Inscrivez-vous gratuitement</b> (2 min · installez Google Authenticator).</li>
+  <li><b>Suivez les 6 modules</b> : Pennylane, TVA, liasse, simulateurs… de la saisie au bilan des PME françaises.</li>
+  <li><b>Passez l'évaluation</b> et obtenez votre <b>attestation de fin de formation</b>.</li>
+  </ol>
+  <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/apercu?m=mod1">Découvrir le Module 1</a></p></section>` : `<section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${prixAffiche(o.prix)}</p></div>`).join('')}</div>
+  <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`}`, sess);
 }
 
 // Visite guidée (1 minute) — montrée à tout nouvel inscrit : tout l'accès en un coup d'œil
