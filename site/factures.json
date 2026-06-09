@@ -458,9 +458,9 @@
   },
   "lignes": [
    {
-    "compte": "613000",
-    "racine": "613",
-    "libelle": "Location véhicule tourisme (TVA non déduct.)",
+    "compte": "613500",
+    "racine": "6135",
+    "libelle": "Locations mobilières - véhicule tourisme (TVA non déduct.)",
     "debit": 420,
     "credit": 0
    },
@@ -794,7 +794,7 @@
   "activite": "Brasserie / Restaurant (distribution de boissons)",
   "cas": "Facture d'achat avec consigne d'emballages (fûts) - compte 4096",
   "journal": "AC",
-  "enonce": "Le restaurant La Tablee recoit la facture de son fournisseur de bieres : 40 futs de biere blonde + consigne sur les futs. La consigne n'est pas soumise a TVA (depot de garantie). Comptabilisez la facture d'achat.",
+  "enonce": "Le restaurant La Tablee recoit la facture de son fournisseur de bieres : 40 futs de biere blonde + consigne sur les futs. La consigne n'est pas soumise a TVA (depot de garantie). Net a payer (TTC) = 4 800 € = 3 000 € marchandises + 600 € TVA (20%) + 1 200 € de consigne (hors TVA). Comptabilisez la facture d'achat.",
   "doc": {
    "emetteur": "Brasserie Houblon Distribution SAS",
    "num": "FA-2026-0488",

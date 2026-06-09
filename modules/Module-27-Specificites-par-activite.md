@@ -73,7 +73,7 @@
 **Activités :** ménage, garde d'enfants, soutien scolaire, aide aux personnes âgées/handicapées, jardinage, petit bricolage…
 - **Déclaration/agrément SAP** (DREETS) → permet au **client particulier** un **crédit d'impôt de 50 %**.
 - **Obligation :** délivrer chaque année une **attestation fiscale** au client (pour son crédit d'impôt).
-- **TVA (taux selon prestation) :** **5,5 %** (aide aux personnes âgées/handicapées, garde d'enfants), **10 %** (jardinage, cours, petits travaux), sinon **20 %** ; certaines structures **exonérées**.
+- **TVA (taux selon prestation) :** **5,5 %** (aide aux personnes âgées/handicapées, garde d'enfants), **10 %** (jardinage, petits travaux ménagers), **soutien scolaire / cours à domicile : exonéré** si organisme **agréé** (art. 261‑4‑4° CGI), sinon **20 %** ; certaines structures **exonérées**.
 - **Comptes :** ventes **706**, à **ventiler par taux de TVA** (44571 par taux).
 **Exemple :** ménage **100 € TTC** (TVA 5,5 %) → après **crédit d'impôt 50 %**, coût réel client ≈ **50 €** ➜ argument commercial fort.
 

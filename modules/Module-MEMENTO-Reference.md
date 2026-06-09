@@ -114,7 +114,7 @@
 | **15/05** (clôture 31/12) | **Solde IS** |
 | **15/06** / **15/12** | **CFE** (acompte si > 3 000 € / solde) |
 
-> Honoraires versés (> **1 200 €/an** par bénéficiaire) → **DAS2** (souvent via DSN).
+> Honoraires versés (> **2 400 €/an** par bénéficiaire, seuil relevé depuis 2025) → **DAS2** (souvent via DSN).
 
 ---
 
