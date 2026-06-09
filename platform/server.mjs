@@ -247,7 +247,7 @@ function pageAccueil(sess) {
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
-  <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification.</p>
+  <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification. <b>Passez les étapes d'évaluation et obtenez votre attestation de fin de formation.</b></p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${fiscaliteBadge()}</section>
