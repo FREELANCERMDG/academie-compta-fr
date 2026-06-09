@@ -152,16 +152,39 @@ Dans **Pennylane** (Fiscalité → TVA) ou **ACD**, ces lignes sont **pré‑rem
 
 **Format = code pays (2 lettres ISO) + bloc national.** Pour la **France : `FR` + clé de contrôle (2 caractères) + n° SIREN (9 chiffres)** — ex. **`FR 32 123456789`** (13 caractères).
 
+**Les 27 États membres de l'UE — préfixe et format :**
+
 | Pays | Préfixe | Structure | Exemple |
 |---|---|---|---|
-| **France** | **FR** | FR + clé (2) + SIREN (9) | **FR32123456789** |
-| Allemagne | DE | DE + 9 chiffres | DE123456789 |
-| Belgique | BE | BE + 10 chiffres (commence par 0) | BE0123456789 |
-| Espagne | ES | ES + 9 caractères (lettres/chiffres) | ESX1234567X |
-| Italie | IT | IT + 11 chiffres | IT12345678901 |
-| Luxembourg | LU | LU + 8 chiffres | LU12345678 |
-| Pays‑Bas | NL | NL + 12 caractères (…B..) | NL123456789B01 |
-| Portugal | PT | PT + 9 chiffres | PT123456789 |
+| Allemagne | **DE** | 9 chiffres | DE123456789 |
+| Autriche | **ATU** | U + 8 chiffres | ATU12345678 |
+| Belgique | **BE** | 10 chiffres (commence par 0) | BE0123456789 |
+| Bulgarie | **BG** | 9 ou 10 chiffres | BG123456789 |
+| Chypre | **CY** | 8 chiffres + 1 lettre | CY12345678L |
+| Croatie | **HR** | 11 chiffres | HR12345678901 |
+| Danemark | **DK** | 8 chiffres | DK12345678 |
+| Espagne | **ES** | 9 caractères (lettres et/ou chiffres) | ESX1234567X |
+| Estonie | **EE** | 9 chiffres | EE123456789 |
+| Finlande | **FI** | 8 chiffres | FI12345678 |
+| **France** | **FR** | clé (2) + SIREN (9) | **FR32123456789** |
+| Grèce | **EL** | 9 chiffres *(préfixe EL, pas GR)* | EL123456789 |
+| Hongrie | **HU** | 8 chiffres | HU12345678 |
+| Irlande | **IE** | 8 ou 9 caractères | IE1234567FA |
+| Italie | **IT** | 11 chiffres | IT12345678901 |
+| Lettonie | **LV** | 11 chiffres | LV12345678901 |
+| Lituanie | **LT** | 9 ou 12 chiffres | LT123456789 |
+| Luxembourg | **LU** | 8 chiffres | LU12345678 |
+| Malte | **MT** | 8 chiffres | MT12345678 |
+| Pays‑Bas | **NL** | 12 caractères (contient « B ») | NL123456789B01 |
+| Pologne | **PL** | 10 chiffres | PL1234567890 |
+| Portugal | **PT** | 9 chiffres | PT123456789 |
+| Roumanie | **RO** | 2 à 10 chiffres | RO1234567890 |
+| Slovaquie | **SK** | 10 chiffres | SK1234567890 |
+| Slovénie | **SI** | 8 chiffres | SI12345678 |
+| Suède | **SE** | 12 chiffres (finit par 01) | SE123456789001 |
+| Tchéquie | **CZ** | 8, 9 ou 10 chiffres | CZ12345678 |
+
+> 🧭 **À retenir :** **Grèce = `EL`** (et non GR). **Irlande du Nord = `XI`** pour les **biens** (depuis le Brexit) ; le reste du **Royaume‑Uni (GB) est hors UE**. **Monaco** est traité comme la **France** (préfixe `FR`).
 
 **Le réflexe du collaborateur :** **vérifier la validité** du n° du client/fournisseur sur **VIES** (le service officiel de la Commission européenne) **AVANT** d'exonérer une vente ou d'autoliquider un achat — [VIES — vérification des numéros de TVA](https://ec.europa.eu/taxation_customs/vies/). Si le n° est **invalide/absent**, l'exonération tombe → **TVA française due** (risque de redressement). Les ventes intracom sont aussi reportées sur l'**état récapitulatif TVA** (biens) et la prestation de services B2B sur la **DES** (Déclaration Européenne de Services).
 
