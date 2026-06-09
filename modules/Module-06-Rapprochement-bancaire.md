@@ -73,6 +73,11 @@ L'**état de rapprochement** (tableau) liste les opérations en suspens et démo
 
 ---
 
+## 🛠️ Simulateur interactif — rapprochement bancaire
+Comme en cabinet (interface inspirée des logiciels type Pennylane, **recolorée**) : partez de l'**écart** entre la comptabilité (512) et le relevé, puis traitez **chaque ligne** avec la bonne action — **Pointer** (présente des deux côtés), **Comptabiliser** (écriture manquante en compta), **En rapprochement** (pas encore passée en banque). Objectif : **écart 0,00 €**. Le simulateur génère ensuite l'**état de rapprochement** et les **écritures à passer**.
+
+<div class="rappro" data-rappro="r1"></div>
+
 ## ✅ Checklist rapprochement bancaire
 - [ ] Relevé du mois complet (toutes les pages)
 - [ ] Solde initial relevé = solde final mois précédent

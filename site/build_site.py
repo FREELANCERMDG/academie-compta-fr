@@ -310,6 +310,13 @@ try:
 except Exception:
     PCG = []
 
+# Simulateur de rapprochement bancaire
+try:
+    with open(os.path.join(BASE, "rappro.json"), "r", encoding="utf-8") as f:
+        RAPPRO = json.load(f)
+except Exception:
+    RAPPRO = {}
+
 # ----------------- Template HTML -----------------
 TPL = r"""<!DOCTYPE html>
 <html lang="fr">
@@ -513,6 +520,7 @@ window.TVASIM=__TVASIM__;
 window.AUDITS=__AUDITS__;
 window.FACTURES=__FACTURES__;
 window.PCG=__PCG__;
+window.RAPPRO=__RAPPRO__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}
@@ -606,6 +614,7 @@ renderNav();show(curId());
 <script src="/formation/pro.js"></script>
 <script src="/formation/simdoc.js"></script>
 <script src="/formation/calc.js"></script>
+<script src="/formation/rappro.js"></script>
 </body>
 </html>"""
 
@@ -620,7 +629,8 @@ html_out = (TPL
     .replace("__TVASIM__", json.dumps(TVASIM, ensure_ascii=False))
     .replace("__AUDITS__", json.dumps(AUDITS, ensure_ascii=False))
     .replace("__FACTURES__", json.dumps(FACTURES, ensure_ascii=False))
-    .replace("__PCG__", json.dumps(PCG, ensure_ascii=False)))
+    .replace("__PCG__", json.dumps(PCG, ensure_ascii=False))
+    .replace("__RAPPRO__", json.dumps(RAPPRO, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----
 name = (BR.get("cabinet_name") or "").strip()

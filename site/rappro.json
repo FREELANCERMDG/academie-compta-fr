@@ -1,0 +1,19 @@
+{
+  "r1": {
+    "compte": "Banque Pro — Compte courant",
+    "periode": "Mars 2026",
+    "soldeDebut": 10000.00,
+    "soldeCompta": 9250.00,
+    "soldeReleve": 10775.00,
+    "intro": "Le solde comptable (512) et le solde du relevé diffèrent de <b>1 525 €</b>. Traitez chaque ligne pour atteindre un écart de 0 €.",
+    "lignes": [
+      { "id": 1, "date": "05/03", "libelle": "Virement fournisseur ALPHA", "montant": -1500.00, "correct": "pointer", "aide": "Présente en compta ET sur le relevé → on pointe." },
+      { "id": 2, "date": "12/03", "libelle": "Encaissement client BÊTA (CB)", "montant": 2300.00, "correct": "pointer", "aide": "Présente des deux côtés → on pointe." },
+      { "id": 3, "date": "20/03", "libelle": "Loyer du local (SCI)", "montant": -1200.00, "correct": "pointer", "aide": "Présente des deux côtés → on pointe." },
+      { "id": 4, "date": "31/03", "libelle": "Frais de tenue de compte", "montant": -25.00, "correct": "comptabiliser", "ecriture": "Débit 627 Services bancaires 25,00 — Crédit 512 Banque 25,00", "aide": "Sur le relevé mais absente de la compta → écriture à saisir." },
+      { "id": 5, "date": "30/03", "libelle": "Virement reçu client GAMMA", "montant": 1200.00, "correct": "comptabiliser", "ecriture": "Débit 512 Banque 1 200,00 — Crédit 411 Client GAMMA 1 200,00", "aide": "Créditée par la banque, pas encore saisie → écriture à saisir (puis lettrer)." },
+      { "id": 6, "date": "28/03", "libelle": "Chèque n°4521 émis (fournisseur DELTA)", "montant": -800.00, "correct": "rappro", "aide": "Enregistré en compta mais pas encore débité par la banque → reste en rapprochement." },
+      { "id": 7, "date": "29/03", "libelle": "Remise de chèque (client EPSILON)", "montant": 450.00, "correct": "rappro", "aide": "Saisie en compta, pas encore créditée par la banque → reste en rapprochement." }
+    ]
+  }
+}
