@@ -64,6 +64,10 @@ Le logiciel de paie (**Silae**, RCA, etc.) produit un **journal de paie** = la s
 **Étape 2 — Paiement des salaires** : 421 D / 512 C.
 **Étape 3 — Paiement des cotisations** : 431 D + 437 D / 512 C (à l'échéance URSSAF/caisses).
 
+### 🧮 À vous : passez l'OD de paie
+
+<div class="saisie" data-ex="paie-od"></div>
+
 ---
 
 ## 5. Les organismes
@@ -136,6 +140,10 @@ Les congés **acquis non encore pris** au 31/12 sont une **dette** de l'entrepri
 > ✅ La provision pour CP est **déductible fiscalement**. (⚠️ La provision pour **indemnités de retraite – IFC – n'est PAS déductible** → à réintégrer.) Méthode alternative admise : **1/10 de la rémunération brute** de la période de référence.
 
 <div class="calc" data-calc="prov-cp"></div>
+
+**🧮 À vous : passez l'écriture de provision pour congés payés**
+
+<div class="saisie" data-ex="prov-cp-od"></div>
 
 ### B) Justifier les comptes du cycle social (révision au 31/12)
 | Compte | Doit correspondre à… |

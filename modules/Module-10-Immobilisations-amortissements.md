@@ -82,6 +82,10 @@ La 1re année, on amortit **au prorata des jours/mois** depuis la mise en servic
 
 **TVA sur cession** : la vente d'une immo soumise à TVA est en principe taxable (à valider selon le cas).
 
+### 🧮 À vous : passez l'écriture de cession
+
+<div class="saisie" data-ex="cession-immo"></div>
+
 ---
 
 ## 6. Le fichier des immobilisations (tableau d'amortissement)

@@ -178,5 +178,61 @@
       { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 750, "credit": 0 },
       { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 0, "credit": 750 }
     ]
+  },
+  "paie-od": {
+    "titre": "OD de paie du mois",
+    "journal": "OD",
+    "enonce": "Journal de paie : brut 8 000 €, charges patronales 3 360 €, net à payer 6 240 €, cotisations URSSAF 3 840 €, autres organismes (retraite/prévoyance) 1 280 €. Passez l'OD de paie (5 lignes).",
+    "astuce": "Au débit : brut 641 (8 000) + patronales 645 (3 360). Au crédit : net 421 (6 240) + URSSAF 431 (3 840) + autres organismes 437 (1 280). Équilibre : 641+645 = 421+431+437.",
+    "tuto": [
+      "OD de paie → journal <b>OD</b>.",
+      "Au <b>débit</b> : <b>641</b> salaires bruts (8 000) et <b>645</b> charges patronales (3 360).",
+      "Au <b>crédit</b> : <b>421</b> net à payer (6 240), <b>431</b> URSSAF (3 840), <b>437</b> autres organismes (1 280).",
+      "Vérifiez : 8 000 + 3 360 = 11 360 = 6 240 + 3 840 + 1 280. → « Vérifier »."
+    ],
+    "lignes": [
+      { "compte": "641000", "racine": "641", "libelle": "Salaires bruts", "debit": 8000, "credit": 0 },
+      { "compte": "645000", "racine": "645", "libelle": "Charges patronales", "debit": 3360, "credit": 0 },
+      { "compte": "421000", "racine": "421", "libelle": "Personnel - net à payer", "debit": 0, "credit": 6240 },
+      { "compte": "431000", "racine": "431", "libelle": "URSSAF", "debit": 0, "credit": 3840 },
+      { "compte": "437000", "racine": "437", "libelle": "Autres organismes sociaux", "debit": 0, "credit": 1280 }
+    ]
+  },
+  "prov-cp-od": {
+    "titre": "Provision pour congés payés (clôture)",
+    "journal": "OD",
+    "enonce": "À la clôture, provision pour congés payés : base CP 6 000 € + charges sociales patronales 2 520 € (≈ 42 %). Passez l'écriture de provision (4 lignes).",
+    "astuce": "Charges au débit (6412 base CP + 6452 charges sociales sur CP) ; dettes provisionnées au crédit (4282 CP + 4382 charges sur CP). 6 000 + 2 520 = 8 520. Provision CP déductible fiscalement.",
+    "tuto": [
+      "Provision de clôture → journal <b>OD</b>.",
+      "Au <b>débit</b> : <b>6412</b> congés payés (6 000) + <b>6452</b> charges sociales sur CP (2 520).",
+      "Au <b>crédit</b> : <b>4282</b> dettes provisionnées pour CP (6 000) + <b>4382</b> charges sociales sur CP à payer (2 520).",
+      "Équilibre 8 520 = 8 520. → « Vérifier »."
+    ],
+    "lignes": [
+      { "compte": "641200", "racine": "6412", "libelle": "Congés payés", "debit": 6000, "credit": 0 },
+      { "compte": "645200", "racine": "6452", "libelle": "Charges sociales sur CP", "debit": 2520, "credit": 0 },
+      { "compte": "428200", "racine": "4282", "libelle": "Dettes provisionnées pour CP", "debit": 0, "credit": 6000 },
+      { "compte": "438200", "racine": "4382", "libelle": "Charges sociales sur CP à payer", "debit": 0, "credit": 2520 }
+    ]
+  },
+  "cession-immo": {
+    "titre": "Cession d'une immobilisation",
+    "journal": "OD",
+    "enonce": "Vente au comptant d'une machine : prix 3 000 € (encaissé en banque). Valeur d'origine 12 000 €, amortissements cumulés 9 600 € (VNC = 2 400 €). Passez l'écriture complète (5 lignes, sans TVA).",
+    "astuce": "Prix de cession : 512 D 3 000 / 775 C 3 000. Sortie du bien : 28154 D 9 600 + 675 D 2 400 (VNC) / 2154 C 12 000. Résultat de cession = 775 (3 000) − 675 (2 400) = +600 €.",
+    "tuto": [
+      "Cession → journal <b>OD</b>.",
+      "Encaissement : <b>512</b> banque (3 000) au débit / <b>775</b> produit de cession (3 000) au crédit.",
+      "Sortie du bien : <b>28154</b> amortissements (9 600) + <b>675</b> VNC (2 400) au débit / <b>2154</b> matériel (12 000) au crédit.",
+      "Total débit = 3 000 + 9 600 + 2 400 = 15 000 = crédit (3 000 + 12 000). Résultat = 775 − 675 = +600 €."
+    ],
+    "lignes": [
+      { "compte": "512000", "racine": "512", "libelle": "Banque (prix de vente)", "debit": 3000, "credit": 0 },
+      { "compte": "775000", "racine": "775", "libelle": "Produits de cession d'éléments d'actif", "debit": 0, "credit": 3000 },
+      { "compte": "281540", "racine": "2815", "libelle": "Amortissements du matériel", "debit": 9600, "credit": 0 },
+      { "compte": "675000", "racine": "675", "libelle": "VNC des éléments d'actif cédés", "debit": 2400, "credit": 0 },
+      { "compte": "215400", "racine": "2154", "libelle": "Matériel industriel", "debit": 0, "credit": 12000 }
+    ]
   }
 }
