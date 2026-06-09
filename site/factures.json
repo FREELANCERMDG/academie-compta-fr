@@ -729,14 +729,14 @@
     "credit": 0
    },
    {
-    "compte": "404",
-    "racine": "404",
+    "compte": "401IMMO",
+    "racine": "401IMMO",
     "libelle": "Fournisseur d'immobilisations - Reprographie Pro",
     "debit": 0,
     "credit": 5400
    }
   ],
-  "astuce": "Pour une immobilisation : compte 21x (ici 2183 matériel informatique/bureau), TVA déductible au compte 44562 (sur immobilisations, distinct du 44566 sur ABS), et le fournisseur va au 404 (fournisseur d'immobilisations) et non au 401. Le bien sera amorti.",
+  "astuce": "Pour une immobilisation : compte 21x (ici 2183 matériel informatique/bureau), TVA déductible au compte 44562 (sur immobilisations, distinct du 44566 sur ABS), et le fournisseur d'immobilisation va dans un compte auxiliaire fournisseur dédié 401IMMO (sous-compte de 401), distinct du fournisseur courant 401 — pratique cabinet, au lieu du 404. Le bien sera amorti.",
   "id": "F14"
  },
  {

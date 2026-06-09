@@ -103,7 +103,7 @@ Le **cadrage** vérifie que la **TVA déclarée = TVA en comptabilité** (aucune
 5. Contrôler : **fichier des immos = comptes 21/28** ; pas de TVA sur **VP**.
 
 > **Exemple chiffré.** Ordinateur **1 500 € HT** (TVA 300 €), mis en service le **1er avril**, durée **3 ans** (linéaire).
-> Acquisition : **2183 D 1 500 / 44562 D 300 / 404 C 1 800**.
+> Acquisition : **2183 D 1 500 / 44562 D 300 / 401IMMO C 1 800**.
 > Annuité pleine = 1 500 / 3 = **500 €/an**. **Année 1 (avril→déc = 9 mois)** : 500 × 9/12 = **375 €** → `6811 D 375 / 28183 C 375`. Années 2 et 3 : 500 € ; reliquat de 125 € en année 4. La fiche Pennylane génère ce plan automatiquement.
 
 ---

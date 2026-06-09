@@ -35,7 +35,7 @@ Un bien **durable** (utilisé > 1 an) destiné à servir l'activité, **non cons
 | **28** Amortissements | 2805, 28154, 28183… (amortissements cumulés, au passif en moins de l'actif) |
 | **68** Dotations aux amortissements | 6811 (charge annuelle d'amortissement) |
 | **44562** TVA déductible sur immobilisations | TVA récupérable (sauf VP) |
-| **404** Fournisseurs d'immobilisations | Dette d'achat d'immo |
+| **401IMMO** Fournisseurs d'immobilisations | Dette d'achat d'immo — **compte fournisseur auxiliaire dédié** (pratique cabinet, au lieu du 404) |
 
 ---
 
@@ -45,7 +45,7 @@ Un bien **durable** (utilisé > 1 an) destiné à servir l'activité, **non cons
 |---|---|---|
 | 2154 Matériel | 5 000 | |
 | 44562 TVA déductible immo | 1 000 | |
-| 404 Fournisseur d'immo | | 6 000 |
+| 401IMMO Fournisseur d'immo | | 6 000 |
 
 > **Mise en service** : l'amortissement démarre à la **date de mise en service**, pas forcément à la date d'achat.
 
@@ -265,7 +265,7 @@ Achat d'un ordinateur le **01/04/2026** : 1 200 € HT, TVA 20 %. Durée 3 ans. 
 **Travail :** écriture d'achat + dotation prorata temporis.
 
 ### ✔️ Correction 10.1
-**Achat :** 2183 D 1 200 / 44562 D 240 / 404 C 1 440
+**Achat :** 2183 D 1 200 / 44562 D 240 / 401IMMO C 1 440
 **Dotation annuelle pleine :** 1 200 ÷ 3 = 400 €/an
 **Prorata 2026** (du 01/04 au 31/12 = 9 mois) : 400 × 9/12 = **300 €**
 **Écriture dotation au 31/12/2026 :** 6811 D 300 / 28183 C 300

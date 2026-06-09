@@ -207,7 +207,13 @@
   "num": "404",
   "nom": "Fournisseurs d'immobilisations",
   "classe": "4",
-  "usage": "Dettes sur achats d'immobilisations"
+  "usage": "Dettes sur achats d'immobilisations (en cabinet : on utilise plutôt l'auxiliaire 401IMMO)"
+ },
+ {
+  "num": "401IMMO",
+  "nom": "Fournisseurs d'immobilisations (auxiliaire)",
+  "classe": "4",
+  "usage": "Dette d'achat d'immobilisation — compte fournisseur auxiliaire dédié (pratique cabinet, au lieu du 404)"
  },
  {
   "num": "408",

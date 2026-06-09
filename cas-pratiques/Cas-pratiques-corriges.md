@@ -110,7 +110,7 @@ Paiements : 421 D 6 200 / 512 C 6 200 ; 431 D 3 800 + 437 D 1 400 / 512 C 5 200.
 **Énoncé :** Achat machine le **01/07/2026** : 6 000 € HT, TVA 20 %, durée 5 ans, clôture 31/12/2026.
 
 **✔️ Corrigé :**
-- Achat : 2154 D 6 000 / 44562 D 1 200 / 404 C 7 200
+- Achat : 2154 D 6 000 / 44562 D 1 200 / 401IMMO C 7 200
 - Dotation annuelle pleine : 6 000 / 5 = 1 200 €/an
 - Prorata 2026 (6 mois) : 1 200 × 6/12 = **600 €**
 - Dotation 31/12/2026 : 6811 D 600 / 28154 C 600

@@ -161,7 +161,7 @@ Toute opération est enregistrée **au minimum sur deux comptes** : un au débit
 |---|---|---|---|
 | 2183 | Matériel de bureau et informatique | 1 800,00 | |
 | 44562 | TVA déductible sur immobilisations | 360,00 | |
-| 404 | Fournisseur d'immobilisations | | 2 160,00 |
+| 401IMMO | Fournisseur d'immobilisations | | 2 160,00 |
 
 **Ex. F — Échéance d'emprunt : 1 000 € dont 850 capital + 150 intérêts**
 | Compte | Libellé | Débit | Crédit |

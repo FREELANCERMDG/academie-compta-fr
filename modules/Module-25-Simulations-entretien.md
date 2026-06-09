@@ -36,7 +36,7 @@
 > « Acquisition intracommunautaire : **autoliquidation** — je collecte (4452) **et** déduis (44566) la TVA ; impact net 0, mais obligatoire (CA3 lignes 03/17/20). »
 
 **Q9. Achat d'un ordinateur 1 500 € HT : charge ou immobilisation ?**
-> « **Immobilisation** (> **500 € HT**, durée > 1 an) : 2183 + 44562 / 404, puis **amortissement** sur 3 ans (6811/28183), prorata temporis. »
+> « **Immobilisation** (> **500 € HT**, durée > 1 an) : 2183 + 44562 / 401IMMO, puis **amortissement** sur 3 ans (6811/28183), prorata temporis. »
 
 **Q10. Rapprochement bancaire sur Pennylane ?**
 > « Je rapproche chaque transaction à sa pièce (ou je catégorise), je traite les écarts (chèques non débités, frais), objectif **0 transaction "à traiter"** ; l'état de rapprochement justifie le solde 512. »
