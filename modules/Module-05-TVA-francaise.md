@@ -53,7 +53,7 @@ La TVA est un impôt sur la consommation, **collecté pour l'État**. L'entrepri
 | Régime | Seuils de CA (2026) | Déclaration |
 |---|---|---|
 | **Franchise en base** | Ventes ≤ **85 000 €** (tolérance **93 500 €**) · Services ≤ **37 500 €** (tolérance **41 250 €**) | Pas de TVA, pas de déclaration ; mention « TVA non applicable, art. 293 B du CGI » |
-| **Réel simplifié (RSI)** | Ventes ≤ **840 000 €** · Services ≤ **254 000 €** | **CA12** annuelle + 2 acomptes (juillet 55 %, décembre 40 %) |
+| **Réel simplifié (RSI)** | Ventes ≤ **945 000 €** · Services ≤ **286 000 €** | **CA12** annuelle + 2 acomptes (juillet 55 %, décembre 40 %) |
 | **Réel normal** | Au-delà des seuils du RSI, ou sur option | **CA3** mensuelle (trimestrielle si TVA due annuelle < 4 000 €) |
 
 > ⚠️ La réforme du **seuil unique de franchise à 25 000 €** a été suspendue ; en 2026, **les seuils ci-dessus restent applicables**. Toujours vérifier le régime exact dans le dossier permanent.

@@ -70,7 +70,7 @@ Répartit le coût du bien sur sa **durée d'utilisation**.
 
 ### Prorata temporis (1re année)
 La 1re année, on amortit **au prorata des jours/mois** depuis la mise en service.
-`Dotation 1re année = (Base ÷ durée) × (jours d'utilisation ÷ 360)`
+`Dotation 1re année = (Base ÷ durée) × (mois d'utilisation ÷ 12)`
 
 ---
 
@@ -191,7 +191,7 @@ Depuis l'**article 84 de la loi de finances 2025** (loi n° 2025-127 du 14/02/20
 
 | Régime | Seuil de recettes | Imposition |
 |---|---|---|
-| **Micro-BIC** (meublé classique) | ≤ **77 700 €** | Abattement forfaitaire **50 %** (pas d'amortissement) |
+| **Micro-BIC** (meublé classique) | ≤ **83 600 €** | Abattement forfaitaire **50 %** (pas d'amortissement) |
 | **Réel BIC** | de plein droit au-delà, ou sur option | Charges réelles **+ amortissement** (art. 39 C II) |
 
 > Le réel est quasi systématiquement plus favorable dès qu'il y a un emprunt et/ou un bien de valeur, grâce à l'amortissement. *(Seuils micro-BIC à jour pour les revenus 2025 déclarés en 2026 ; vérifier chaque loi de finances.)*

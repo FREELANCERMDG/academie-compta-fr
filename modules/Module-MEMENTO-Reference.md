@@ -36,20 +36,20 @@
 | Régime | Déclaration | Pour qui (CA, ordre de grandeur) |
 |---|---|---|
 | **Franchise en base** | Pas de TVA facturée | sous les seuils (à vérifier l'année — réforme du seuil unique reportée) |
-| **Réel simplifié (RSI)** | **CA12** annuelle + 2 acomptes (**juillet** ~55 %, **décembre** ~40 %) | CA ≤ 840 000 € (ventes) / 254 000 € (services) |
+| **Réel simplifié (RSI)** | **CA12** annuelle + 2 acomptes (**juillet** ~55 %, **décembre** ~40 %) | CA ≤ 945 000 € (ventes) / 286 000 € (services) |
 | **Réel normal (RN)** | **CA3** mensuelle (ou trimestrielle si TVA < 4 000 €/an) | au-delà des seuils RSI ou sur option |
 
 > Échéance **CA3** : selon le profil/n° SIREN (entre le **15 et le 24** du mois suivant). **CA12** : **2e jour ouvré après le 1er mai**.
 
 ---
 
-## 3. Régimes d'imposition des bénéfices (seuils 2023-2025, à confirmer 2026)
+## 3. Régimes d'imposition des bénéfices (seuils **2026-2028**)
 
 | Activité | Micro | Réel / déclaration |
 |---|---|---|
-| **BIC ventes/hébergement** | micro-BIC ≤ **188 700 €** | réel simplifié puis réel normal |
-| **BIC prestations de services** | micro-BIC ≤ **77 700 €** | réel simplifié / normal |
-| **BNC (professions libérales)** | micro-BNC ≤ **77 700 €** | **déclaration contrôlée 2035** |
+| **BIC ventes/hébergement** | micro-BIC ≤ **203 100 €** | réel simplifié puis réel normal |
+| **BIC prestations de services** | micro-BIC ≤ **83 600 €** | réel simplifié / normal |
+| **BNC (professions libérales)** | micro-BNC ≤ **83 600 €** | **déclaration contrôlée 2035** |
 
 > Micro = abattement forfaitaire (71 % ventes / 50 % services BIC / 34 % BNC). Au réel : comptabilité complète + liasse.
 

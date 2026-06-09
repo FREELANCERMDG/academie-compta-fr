@@ -12,7 +12,7 @@ La **location MEUBLÉE** = activité **commerciale** → imposée en **BIC** (B�
 |---|---|---|
 | Catégorie fiscale | Revenus fonciers | **BIC** |
 | Déclaration | 2044 → 2042 | **2031 + 2033 → 2042-C-PRO** |
-| Régime simplifié | Micro-foncier (abatt. 30 %, seuil 15 000 €) | **Micro-BIC (abatt. 50 %, seuil 77 700 €)** |
+| Régime simplifié | Micro-foncier (abatt. 30 %, seuil 15 000 €) | **Micro-BIC (abatt. 50 %, seuil 83 600 €)** |
 | Amortissement du bien | ❌ impossible | ✅ **possible (réel)** |
 
 > 🔑 **Réflexe cabinet :** dès qu'un client coche « meublé » → on sort de la 2044, on bascule en BIC. Erreur classique du débutant : traiter du meublé en revenus fonciers.
@@ -44,14 +44,14 @@ Voici les deux régimes face à face (location meublée classique de longue dur�
 
 | Critère | **Micro-BIC** | **Réel (simplifié)** |
 |---|---|---|
-| Seuil de recettes | ≤ **77 700 €** (meublé classique) | Sur option, ou si > seuil |
+| Seuil de recettes | ≤ **83 600 €** (meublé classique) | Sur option, ou si > seuil |
 | Abattement / charges | Abattement **forfaitaire 50 %** | Charges **réelles** déductibles |
 | Amortissement | ❌ inclus dans le forfait | ✅ **OUI (le gros atout)** |
 | Obligations | Néant (report direct 2042-C-PRO) | **Liasse 2031 + 2033, comptabilité** |
 | Charges < 50 % des loyers ? | **Micro avantageux** | — |
 | Charges + amortissement > 50 % ? | — | **Réel avantageux (souvent le cas)** |
 
-> ⚠️ **Meublé de tourisme NON classé :** depuis la loi de finances 2025, abattement micro-BIC ramené à **30 %** et seuil à **15 000 €**. Meublé de tourisme **classé** : 50 % / 77 700 €. Le meublé **longue durée** reste à 50 % / 77 700 €. **Vérifiez toujours le type de meublé.**
+> ⚠️ **Meublé de tourisme NON classé :** depuis la loi de finances 2025, abattement micro-BIC ramené à **30 %** et seuil à **15 000 €**. Meublé de tourisme **classé** : 50 % / 83 600 €. Le meublé **longue durée** reste à 50 % / 83 600 €. **Vérifiez toujours le type de meublé.**
 
 **En pratique :** dans la majorité des cas, le **réel** est plus avantageux car l'**amortissement** efface le bénéfice imposable pendant des années. C'est LA raison d'être du LMNP au réel.
 
@@ -186,7 +186,7 @@ Amortissements théoriques = 6 850 €, MAIS plafonnés au résultat avant amort
 
 **2.** Recettes meublées du foyer **> 23 000 €** **ET** recettes meublées **> autres revenus d'activité** du foyer. Les deux doivent être réunies (sinon LMNP).
 
-**3.** Abattement **50 %**, seuil **77 700 €** (meublé longue durée). *(Tourisme non classé : 30 % / 15 000 € ; tourisme classé : 50 % / 77 700 €.)*
+**3.** Abattement **50 %**, seuil **83 600 €** (meublé longue durée). *(Tourisme non classé : 30 % / 15 000 € ; tourisme classé : 50 % / 83 600 €.)*
 
 **4.** Le terrain ne se **déprécie pas** (il ne s'use pas) → non amortissable. On **retire sa quote-part** (souvent 10–20 % du prix) de la base avant d'amortir le seul **bâti**.
 
