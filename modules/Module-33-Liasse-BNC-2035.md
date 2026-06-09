@@ -40,6 +40,18 @@
 
 <div class="simdoc" data-sim="liasse" data-tab="bnc"></div>
 
+### 📝 Comment remplir le 2035 — pas à pas (vrai CERFA n° 11176*28)
+Le 2035 se remplit en **3 imprimés** : annexe **2035‑A** (recettes/dépenses) → annexe **2035‑B** (résultat fiscal) → page **2035** (récapitulatif + plus‑values), puis **report sur la 2042‑C‑PRO**.
+
+1. **En‑tête (2035)** — Nom/prénom, **N° SIRET**, mél, téléphone ; **nature de l'activité** + date de début ; cocher si membre d'une société/SCM.
+2. **2035‑A — le résultat** — **recettes ENCAISSÉES** (honoraires réellement perçus, pas les factures impayées + gains divers) ; **dépenses PAYÉES** par poste : achats, **loyer (6132)**, personnel, cotisations sociales TNS, **véhicule/déplacements**, fournitures, honoraires rétrocédés, télécom, assurances… → **Excédent (bénéfice)** ou **insuffisance (déficit)** = recettes − dépenses.
+3. **Immobilisations & amortissements (2035 « suite », cadre B)** — une ligne par immobilisation : date, prix TVA comprise, base amortissable, taux, amort. antérieurs et **de l'année** → **dotation nette de l'année** reportée sur le 2035‑B.
+4. **2035‑B — passage au fiscal** — repartir de l'excédent/insuffisance, **ajouter les réintégrations** (CSG non déductible, quote‑part privée des frais mixtes…), **retrancher les déductions** → **résultat fiscal lignes 46/47**.
+5. **Récapitulatif (page 2035)** — **1‑ Résultat fiscal** : reporter le bénéfice/déficit des lignes 46/47 du 2035‑B ; **2‑ Plus‑values** (LT 12,8 %, exonérées 151 septies…) ; **comptabilité informatisée** oui/non + logiciel ; **ECF** si visa.
+6. **Report** — le **résultat fiscal** est reporté sur la **2042‑C‑PRO** (catégorie BNC) du foyer.
+
+> 📄 Garde le **vrai CERFA officiel** ouvert à côté (bouton « CERFA officiel (PDF) » ci‑dessus) et remplis‑le case par case en suivant ces étapes.
+
 ---
 
 ## 4) Comptes & spécificités BNC (rappel)

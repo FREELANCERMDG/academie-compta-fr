@@ -53,6 +53,17 @@
 
 <div class="simdoc" data-sim="liasse" data-tab="sci"></div>
 
+### 📝 Comment remplir le 2072‑S — pas à pas (vrai CERFA n° 2072‑S‑SD)
+La SCI à l'IR **ne paie pas l'impôt** : la 2072‑S calcule le **résultat à répartir** ; chaque associé reporte sa quote‑part sur sa **2044** → **2042**. Dépôt **dématérialisé obligatoire** (avant début mai).
+
+1. **Annexe 2072‑S‑A1 (le détail, cadre VII)** — pour **chaque immeuble** : **loyers bruts encaissés** ; **charges déductibles** (frais de gestion, taxe foncière, assurance, travaux…) ; **intérêts d'emprunt** ; **revenu net** de l'immeuble.
+2. **Cadre I — Résultat net à répartir (page 1)** — **R1** Revenus bruts (total des immeubles) ; **R2** Paiement sur travaux ; **R3** Frais et charges *autres* que les intérêts ; **R4** Intérêts d'emprunts ; **R5** **Revenu net (+) ou déficit net (−)** = R1 − R3 − R4 (± R2).
+3. **Cadre II — Renseignements généraux** — dénomination, adresse, **date de clôture**, gérant, comptable, **nombre d'associés**, nombre et montant des parts.
+4. **Cadres III à VI** — III produits financiers (R6) et plus/moins‑values de cession (R7/R8) ; **IV liste des immeubles** détenus ; V tiers logés gratuitement ; **VI cessions de parts** de l'année.
+5. **Répartition & report** — le **résultat net (R5)** est réparti selon les parts ; chaque associé reporte sa **quote‑part sur sa 2044** (revenus fonciers) → **2042**.
+
+> 📄 Ouvre le **vrai CERFA officiel** (bouton « CERFA officiel (PDF) ») et remplis le cadre I avec les totaux issus de l'annexe 2072‑S‑A1.
+
 ---
 
 ## ✅ Checklist

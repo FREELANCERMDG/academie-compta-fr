@@ -113,6 +113,17 @@ Même logique, mais pour une entreprise **à l'IR** :
 | Répartition | Quote‑part des associés (sociétés de personnes) |
 > Le résultat est ensuite **reporté sur la déclaration de revenus** du dirigeant (**2042‑C‑PRO**).
 
+**📝 Comment remplir le 2031 — pas à pas (vrai CERFA n° 11085*28)**
+Le 2031 **ne calcule pas** le résultat : il **récapitule** le résultat venu de la **liasse** et le reporte à l'IR.
+1. **En‑tête** — cocher le **régime** (réel normal / simplifié), options (compta super‑simplifiée, TVA) ; exercice ouvert/clos le…
+2. **Cadre A — Identification** — dénomination, adresse, **SIREN**, mél, téléphone.
+3. **Cadre C — Récapitulation** — **1. Résultat fiscal** : Bénéfice (col.1) = report de **XN/XO du 2058‑A** (réel normal) ou **370/372 du 2033‑B** (réel simplifié) ; Déficit en col.2. **2.** revenus de capitaux mobiliers (a→d). **4.** Bénéfice imposable = col.1 − col.2. **5.** Plus‑values ; **6.** exonérations / abattements / crédits d'impôt.
+4. **LMNP / BIC non professionnels (annexe 2031‑Bis, cadre I)** — les **locations meublées non professionnelles** se portent ici → **résultat avant imputation des déficits : cases 7a (bénéfice) / 7b (déficit)**.
+5. **Sociétés de personnes (cadre 8 + 2031‑Bis cadre E)** — répartir le bénéfice/déficit entre associés (quote‑part).
+6. **Report** — le résultat est reporté sur la **2042‑C‑PRO** de chaque associé.
+
+> 📄 Garde le **vrai CERFA officiel** ouvert (bouton « CERFA officiel (PDF) » ci‑dessus) et remplis chaque cadre A → C en suivant ces étapes.
+
 ### 🧾 2035‑SD — BNC (déclaration contrôlée) — comptabilité de **caisse**
 Le plus « manuel » des trois : **2035‑A** (résultat) + **2035‑B** (résultat fiscal).
 **2035‑A — Recettes & dépenses :**
