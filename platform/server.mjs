@@ -3,7 +3,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
-  DIR, ROOT, cfg, loadEnv, openDB, hashPassword, verifyPassword, rid,
+  DIR, ROOT, cfg, loadEnv, openDB, hashPassword, verifyPassword, rid, genParrainCode,
   signSid, unsignSid, parseCookies, cookie, safeEqual, newTotpSecret, otpauthURI,
   verifyTOTP, esc, securityHeaders, loginGuard, loginFail, loginReset, audit, isEmail, strongPw,
   sendEmail, mailConfigured
@@ -398,6 +398,7 @@ function pageInscription(sess, err, val = {}) {
     <label>Prénom<input name="prenom" required value="${esc(val.prenom)}"></label></div>
     <label>Email<input type="email" name="email" required value="${esc(val.email)}"></label>
     <label>Téléphone<input name="tel" placeholder="+261 ..." value="${esc(val.tel)}"></label>
+    <label>Code de parrainage <span class="muted">(facultatif — 🎁 un cadeau de temps d'accès pour votre parrain)</span><input name="parrain" value="${esc(val.parrain || '')}" placeholder="ex. ABC234" maxlength="12" style="text-transform:uppercase"></label>
     <label>Niveau d'études
       <select name="niveau_etudes" required>
         <option value="">— choisir —</option>
@@ -467,6 +468,13 @@ function pageDashboard(sess) {
   <div id="cdwn" data-exp="${esc(expActive)}" style="font-size:28px;font-weight:800;letter-spacing:.5px">…</div>
   <p class="muted" style="margin:6px 0 0">Votre accès aux modules débloqués expire le <b>${fmtDate(expActive)}</b>. Pensez à le prolonger avant la fin.</p>
   <script>(function(){var el=document.getElementById('cdwn');if(!el)return;var t=new Date(el.getAttribute('data-exp')).getTime();function tick(){if(isNaN(t)){el.textContent='—';return;}var d=t-Date.now();if(d<=0){el.textContent='⛔ Accès expiré';el.style.color='#c0392b';return;}var j=Math.floor(d/864e5),h=Math.floor(d/36e5%24),m=Math.floor(d/6e4%60),s=Math.floor(d/1e3%60);el.textContent=j+' j  '+h+' h  '+m+' m  '+s+' s';el.style.color=j<7?'#c0392b':(j<30?'#E8A13A':'#1f8a4c');}tick();setInterval(tick,1000);})();</script>
+  </section>` : ''}
+  ${(cfg.parrainage && cfg.parrainage.actif && u.role !== 'admin' && u.code_parrain) ? `<section class="card" style="border-left:4px solid var(--accent)">
+  <h2>🎁 Parrainez et gagnez du temps d'accès</h2>
+  <p>Partagez votre code : dès qu'un filleul s'inscrit avec et <b>débloque un accès payant</b>, vous recevez <b>${(cfg.parrainage.bonus_jours || 30)} jours d'accès offerts</b> (ajoutés automatiquement).</p>
+  <p>Votre code de parrainage : <code style="font-size:18px;font-weight:800;letter-spacing:1px">${esc(u.code_parrain)}</code></p>
+  <p class="muted" style="font-size:13px;margin:4px 0">Lien à partager : <input readonly onclick="this.select()" value="${esc(BASE_URL)}/inscription?p=${esc(u.code_parrain)}" style="width:100%;max-width:440px;padding:6px;border:1px solid var(--line);border-radius:6px;font-size:12px"></p>
+  ${(function () { const n = db.prepare('SELECT COUNT(*) c FROM users WHERE parrain_id=?').get(u.id).c; const np = db.prepare('SELECT COUNT(*) c FROM users WHERE parrain_id=? AND parrain_recompense=1').get(u.id).c; return n ? `<p class="muted" style="font-size:13px">👥 ${n} filleul(s) inscrit(s) · ${np} accès payant(s) validé(s) → <b>${np * (cfg.parrainage.bonus_jours || 30)} j</b> gagnés.</p>` : '<p class="muted" style="font-size:13px">Aucun filleul pour l\'instant — partagez votre code !</p>'; })()}
   </section>` : ''}
   <section class="card"><h2>📈 Ma progression</h2>
   <div style="background:rgba(255,255,255,.08);border-radius:99px;height:16px;overflow:hidden;margin:12px 0"><div id="pgbar" style="height:100%;width:0;background:var(--grad);transition:width .7s ease"></div></div>
@@ -595,6 +603,16 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     <td><form method="post" action="/admin/acces-modifier" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><input name="jours" type="number" min="0" max="3650" value="30" style="width:74px"><button class="btn small">Fixer</button></form></td>
     <td><form method="post" action="/admin/acces-retirer" class="inline" onsubmit="return confirm('Retirer cet accès ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>
   <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}</section>`;
+  // --- Parrainage : vue d'ensemble ---
+  const _bj = (cfg.parrainage && cfg.parrainage.bonus_jours) || 30;
+  const parr = (cfg.parrainage && cfg.parrainage.actif) ? db.prepare(`SELECT p.email, p.code_parrain,
+    (SELECT COUNT(*) FROM users f WHERE f.parrain_id=p.id) AS nf,
+    (SELECT COUNT(*) FROM users f WHERE f.parrain_id=p.id AND f.parrain_recompense=1) AS nr
+    FROM users p WHERE EXISTS (SELECT 1 FROM users f WHERE f.parrain_id=p.id) ORDER BY nf DESC LIMIT 50`).all() : [];
+  const parrainageHtml = (cfg.parrainage && cfg.parrainage.actif) ? `<section class="card"><h2>🎁 Parrainage</h2>
+  <p class="muted" style="font-size:13px">Bonus : <b>+${_bj} j</b> d'accès au parrain dès qu'un filleul débloque un accès payant. Chaque inscrit a un code (visible dans son espace).</p>
+  ${parr.length ? `<div class="tbl"><table><tr><th>Parrain</th><th>Code</th><th>Filleuls</th><th>Accès payants validés</th><th>Jours offerts</th></tr>
+  ${parr.map(r => `<tr><td>${esc(r.email)}</td><td><code>${esc(r.code_parrain || '')}</code></td><td>${r.nf}</td><td>${r.nr}</td><td><b>${r.nr * _bj} j</b></td></tr>`).join('')}</table></div>` : '<p class="muted">Aucun parrainage pour le moment.</p>'}</section>` : '';
   return layout('Admin', `<h1>Administration</h1>
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
@@ -624,6 +642,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     <button class="btn" type="submit">Accorder l'accès</button></form>
   <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6). Le Module 1 est déjà gratuit pour tous les inscrits. Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
+  ${parrainageHtml}
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
@@ -812,7 +831,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
       if (p === '/apercu') { const code = url.searchParams.get('m') || 'm01'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
-      if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null));
+      if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12) }));
       if (p === '/connexion') return send(res, 200, pageConnexion(sess || ensureGuestSession(res, req), null));
       if (p === '/2fa') { if (!authed0(sess) || !sess.row.pending_2fa || !sess.user.twofa) return redirect(res, '/connexion'); return send(res, 200, page2faVerify(sess)); }
       if (p === '/2fa-setup-redirect') {
@@ -883,6 +902,30 @@ const server = http.createServer(async (req, res) => {
 const authed0 = sess => !!(sess && sess.user); // connecté (éventuellement 2fa en attente)
 const authed = sess => !!(sess && sess.user && !sess.row.pending_2fa);
 function hasActive(uid) { return !!db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(uid, new Date().toISOString()); }
+
+// Parrainage : quand un FILLEUL obtient son 1er accès payé, on prolonge l'accès de son PARRAIN de bonus_jours.
+function rewardParrain(filleulId) {
+  try {
+    const P = cfg.parrainage || {};
+    if (!P.actif) return;
+    const bonus = Math.max(1, parseInt(P.bonus_jours, 10) || 30);
+    const f = db.prepare('SELECT id, parrain_id, parrain_recompense FROM users WHERE id=?').get(filleulId);
+    if (!f || f.parrain_recompense || !f.parrain_id) return;
+    const parrain = db.prepare('SELECT id FROM users WHERE id=?').get(f.parrain_id);
+    if (!parrain || parrain.id === f.id) { db.prepare('UPDATE users SET parrain_recompense=1 WHERE id=?').run(f.id); return; }
+    // Prolonger toutes les inscriptions actives DATÉES du parrain (les accès illimités n'ont rien à prolonger)
+    const act = db.prepare("SELECT id, expire_le FROM inscriptions WHERE user_id=? AND statut='active' AND expire_le IS NOT NULL").all(parrain.id);
+    let applied = 0;
+    for (const r of act) {
+      const base = Math.max(Date.parse(r.expire_le) || Date.now(), Date.now());
+      const ne = new Date(base + bonus * 86400000).toISOString();
+      db.prepare('UPDATE inscriptions SET expire_le=? WHERE id=?').run(ne, r.id);
+      applied++;
+    }
+    db.prepare('UPDATE users SET parrain_recompense=1 WHERE id=?').run(f.id);
+    audit(db, parrain.id, 'parrainage_recompense', 'filleul ' + f.id + ' · +' + bonus + 'j · ' + applied + ' acces prolonge(s)', '');
+  } catch { }
+}
 function calcExpiry() { const a = cfg.acces || {}; if (a.illimite) return null; const d = a.duree_jours || 365; return new Date(Date.now() + d * 86400000).toISOString(); }
 function unSeulAppareil(user, keepSid) { if (cfg.acces && cfg.acces.un_seul_appareil && user.role !== 'admin') db.prepare('DELETE FROM sessions WHERE user_id=? AND id!=?').run(user.id, keepSid); }
 function insOf(id, uid) { return id ? db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.id=? AND i.user_id=?').get(id, uid) : null; }
@@ -905,7 +948,7 @@ function postInscription(req, res, sess, body) {
   }
   if (rateLimited('signup:' + ip(req), 8, 10 * 60000)) { audit(db, null, 'rate_limit', 'signup ' + ip(req), ip(req)); return send(res, 429, pageInscription(sess, 'Trop de tentatives depuis votre réseau. Réessayez dans quelques minutes.')); }
   if (!checkCsrf(sess, body)) return send(res, 403, pageInscription(sess, 'Session expirée, réessayez.'));
-  const v = { nom: body.nom?.trim(), prenom: body.prenom?.trim(), email: (body.email || '').trim().toLowerCase(), tel: body.tel?.trim(), niveau_etudes: body.niveau_etudes, niveau_intellectuel: body.niveau_intellectuel };
+  const v = { nom: body.nom?.trim(), prenom: body.prenom?.trim(), email: (body.email || '').trim().toLowerCase(), tel: body.tel?.trim(), niveau_etudes: body.niveau_etudes, niveau_intellectuel: body.niveau_intellectuel, parrain: (body.parrain || '').trim().toUpperCase().slice(0, 12) };
   if (!v.nom || !v.prenom) return send(res, 200, pageInscription(sess, 'Nom et prénom obligatoires.', v));
   if (!isEmail(v.email)) return send(res, 200, pageInscription(sess, 'Email invalide.', v));
   if (!strongPw(body.pw)) return send(res, 200, pageInscription(sess, 'Mot de passe trop faible (10+ caractères, lettres et chiffres).', v));
@@ -917,6 +960,12 @@ function postInscription(req, res, sess, body) {
   db.prepare('INSERT INTO users(id,nom,prenom,email,tel,niveau_etudes,diplome_bac2,niveau_intellectuel,pass_hash,pass_salt,email_verifie,role,cree_le) VALUES(?,?,?,?,?,?,1,?,?,?,1,?,?)')
     .run(id, v.nom, v.prenom, v.email, v.tel || '', v.niveau_etudes, v.niveau_intellectuel, hash, salt, 'apprenant', new Date().toISOString());
   audit(db, id, 'inscription', v.email, ip(req));
+  // Parrainage : code perso unique + résolution du parrain (code saisi ou lien ?p=)
+  try {
+    let cp; do { cp = genParrainCode(); } while (db.prepare('SELECT 1 FROM users WHERE code_parrain=?').get(cp));
+    const parr = v.parrain ? db.prepare('SELECT id FROM users WHERE code_parrain=?').get(v.parrain) : null;
+    db.prepare('UPDATE users SET code_parrain=?, parrain_id=? WHERE id=?').run(cp, (parr && parr.id !== id) ? parr.id : null, id);
+  } catch { }
   if (twofaRequired()) {
     db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(id, sess.sid);
     return redirect(res, '/2fa-setup-redirect');
@@ -1031,7 +1080,7 @@ async function paiementRetour(req, res, sess, url) {
   if (!pay) return redirect(res, '/tableau-de-bord');
   try {
     const st = await omApiStatus(pay.provider_ref);
-    if (st === 'SUCCESS') { setStatutPaiement(db, pay.id, 'paye'); db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(), pay.inscription_id); audit(db, sess.user.id, 'paiement_ok', pay.id, ip(req)); }
+    if (st === 'SUCCESS') { setStatutPaiement(db, pay.id, 'paye'); db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(), pay.inscription_id); audit(db, sess.user.id, 'paiement_ok', pay.id, ip(req)); rewardParrain(sess.user.id); }
     else setStatutPaiement(db, pay.id, st === 'FAILED' ? 'echec' : 'en_cours');
   } catch { }
   return redirect(res, '/tableau-de-bord');
@@ -1051,6 +1100,7 @@ function postAdminAcces(req, res, sess, body) {
   db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)')
     .run(rid(8), user.id, offre.code, 'active', new Date().toISOString(), expire);
   audit(db, sess.user.id, 'acces_offert', email + ' · ' + offre.code + ' · ' + jours + 'j', ip(req));
+  rewardParrain(user.id);
   return redirect(res, '/admin?acces=ok&e=' + encodeURIComponent(email) + '&o=' + encodeURIComponent(offre.code) + '&j=' + jours);
 }
 
@@ -1085,6 +1135,7 @@ function postAdminValider(req, res, sess, body) {
     setStatutPaiement(db, pay.id, 'paye');
     db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(), pay.inscription_id);
     audit(db, sess.user.id, 'paiement_valide_admin', pay.id, ip(req));
+    rewardParrain(pay.user_id);
   }
   return redirect(res, '/admin');
 }

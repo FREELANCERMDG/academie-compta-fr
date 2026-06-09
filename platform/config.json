@@ -74,6 +74,11 @@
     "un_seul_appareil": true,
     "_note": "duree_jours = durée d'accès après paiement (365 = 12 mois). illimite=true pour accès sans limite. un_seul_appareil=true : une seule session active à la fois (anti-partage de compte)."
   },
+  "parrainage": {
+    "actif": true,
+    "bonus_jours": 30,
+    "_note": "actif=true : chaque apprenant a un code de parrainage. Quand un filleul obtient un accès PAYÉ, le parrain gagne bonus_jours d'accès en plus (prolongation de ses accès actifs)."
+  },
   "formateur": {
     "nom": "M. RANDRIAMANANTSOA Heriniaina Anthony",
     "photo": "/public/formateur.png",

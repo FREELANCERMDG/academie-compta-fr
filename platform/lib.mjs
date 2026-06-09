@@ -51,6 +51,16 @@ export function openDB() {
   `);
   // migration : colonne d'expiration d'accès
   try { db.exec('ALTER TABLE inscriptions ADD COLUMN expire_le TEXT'); } catch { }
+  // migration : parrainage (code perso + parrain + flag récompense)
+  try { db.exec('ALTER TABLE users ADD COLUMN code_parrain TEXT'); } catch { }
+  try { db.exec('ALTER TABLE users ADD COLUMN parrain_id TEXT'); } catch { }
+  try { db.exec('ALTER TABLE users ADD COLUMN parrain_recompense INTEGER DEFAULT 0'); } catch { }
+  try {
+    const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
+    const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');
+    const setc = db.prepare('UPDATE users SET code_parrain=? WHERE id=?');
+    for (const u of sans) { let c; do { c = genParrainCode(); } while (exists.get(c)); setc.run(c, u.id); }
+  } catch { }
   // seed offres (+ retrait des offres supprimées de la config, si non utilisées)
   const up = db.prepare('INSERT INTO offres(code,titre,prix) VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET titre=excluded.titre,prix=excluded.prix');
   for (const o of cfg.offres) up.run(o.code, o.titre, o.prix);
@@ -73,6 +83,9 @@ export function verifyPassword(pw, hash, salt) {
   return h.length === stored.length && crypto.timingSafeEqual(h, stored);
 }
 export const rid = (n = 24) => crypto.randomBytes(n).toString('hex');
+// Code de parrainage court et lisible (sans I/O/0/1/L pour éviter les confusions)
+const PCHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+export function genParrainCode(n = 6) { const b = crypto.randomBytes(n); let s = ''; for (let i = 0; i < n; i++) s += PCHARS[b[i] % PCHARS.length]; return s; }
 
 // ---- Cookies signés ----
 function hmac(v) { return crypto.createHmac('sha256', process.env.SESSION_SECRET || 'dev-secret').update(v).digest('base64url'); }
