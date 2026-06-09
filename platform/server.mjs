@@ -445,6 +445,12 @@ function pageDashboard(sess) {
   <p class="muted" style="margin:6px 0">${esc(u.email)} · ${esc(u.tel || '—')}</p>
   <p class="muted" style="margin:6px 0">Niveau d'études : ${esc(u.niveau_etudes || '—')} · Auto-évaluation : ${esc(u.niveau_intellectuel || '—')}</p>
   <p class="muted" style="margin:6px 0">2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}${u.role === 'admin' ? ' · <b>Admin</b>' : ''}</p></div></div></section>
+  ${(u.role !== 'admin' && expActive) ? `<section class="card" style="border:1px solid var(--line)">
+  <h2>⏳ Temps d'accès restant</h2>
+  <div id="cdwn" data-exp="${esc(expActive)}" style="font-size:28px;font-weight:800;letter-spacing:.5px">…</div>
+  <p class="muted" style="margin:6px 0 0">Votre accès aux modules débloqués expire le <b>${fmtDate(expActive)}</b>. Pensez à le prolonger avant la fin.</p>
+  <script>(function(){var el=document.getElementById('cdwn');if(!el)return;var t=new Date(el.getAttribute('data-exp')).getTime();function tick(){if(isNaN(t)){el.textContent='—';return;}var d=t-Date.now();if(d<=0){el.textContent='⛔ Accès expiré';el.style.color='#c0392b';return;}var j=Math.floor(d/864e5),h=Math.floor(d/36e5%24),m=Math.floor(d/6e4%60),s=Math.floor(d/1e3%60);el.textContent=j+' j  '+h+' h  '+m+' m  '+s+' s';el.style.color=j<7?'#c0392b':(j<30?'#E8A13A':'#1f8a4c');}tick();setInterval(tick,1000);})();</script>
+  </section>` : ''}
   <section class="card"><h2>📈 Ma progression</h2>
   <div style="background:rgba(255,255,255,.08);border-radius:99px;height:16px;overflow:hidden;margin:12px 0"><div id="pgbar" style="height:100%;width:0;background:var(--grad);transition:width .7s ease"></div></div>
   <p id="pgtxt" class="muted">Chargement de votre progression…</p>
