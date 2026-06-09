@@ -162,8 +162,8 @@ const checkCsrf = (sess, body) => sess && body._csrf && safeEqual(sess.row.csrf,
 // --- Promo de lancement (annonce « bientôt gratuit ») ---
 function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
 function promoAccesLibre() { return promoActive() && !!(cfg.promo && cfg.promo.acces_libre); }
-function promoBadgeHtml() { const p = cfg.promo || {}; const ref = p.prix_ref ? `<s style="opacity:.6;font-weight:600;margin-right:5px">${esc(p.prix_ref)} ailleurs</s>` : ''; return `${ref}<b class="gratuit">${esc(p.label || 'Gratuit')}</b>`; }
-function prixAffiche(prix) { return promoActive() ? promoBadgeHtml() : money(prix); }
+function promoBadgeHtml(prix) { const p = cfg.promo || {}; const ref = (prix != null && prix !== '') ? `<s style="opacity:.6;font-weight:600;margin-right:5px">${esc(money(prix))}</s>` : ''; return `${ref}<b class="gratuit">${esc(p.label || 'Gratuit')}</b>`; }
+function prixAffiche(prix) { return promoActive() ? promoBadgeHtml(prix) : money(prix); }
 
 // --- Gabarit ---
 function layout(title, body, sess) {
@@ -228,10 +228,11 @@ function formateurCard() {
 // Aperçu du programme : une carte par module avec son résumé + thèmes + lien aperçu
 function apercuModulesSection() {
   const prixMod = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? money(o.prix) : ''; };
+  const prixModRaw = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? o.prix : null; };
   const rows = MODULES.map(m => {
     const inf = moduleInfo(m.code) || {};
     const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
-    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : (promoActive() ? promoBadgeHtml() : `<b class="tarif">${esc(prixMod(m.code))}</b>`);
+    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : (promoActive() ? promoBadgeHtml(prixModRaw(m.code)) : `<b class="tarif">${esc(prixMod(m.code))}</b>`);
     const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le Module 1 (inscription gratuite)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
     return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}<br><span style="display:inline-block;margin-top:3px;font-size:11.5px;font-weight:700;color:#1e7d46;background:#e9f7ef;border:1px solid #bfe6cd;border-radius:20px;padding:1px 9px">${({mod2:"🎥 100 % pratique sur <b>Pennylane</b> — le logiciel phare des cabinets français (vidéos pas à pas)",mod6:"🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante"})[m.code]||"🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel, inspirée de Pennylane)"}</span></span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
   }).join('');
