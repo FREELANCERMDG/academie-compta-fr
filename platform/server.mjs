@@ -672,6 +672,10 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     <td><form method="post" action="/admin/emploi-retirer" class="inline" onsubmit="return confirm('Retirer cette offre ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(o.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune offre publiée.</p>'}
   <p class="muted" style="font-size:12px">Les offres apparaissent sur la page publique <b>/emploi</b>.</p></section>`;
   return layout('Admin', `<h1>Administration</h1>
+  <section class="card" style="border-left:4px solid #1e7d46;background:rgba(30,125,70,.08)"><h2 style="margin:0 0 6px">🟢 En ligne maintenant — ${enLigne.length} apprenant${enLigne.length > 1 ? 's' : ''}</h2>
+  ${enLigne.length ? `<div class="prog">${enLigne.map(u => `<div class="pitem"><span>🟢 <b>${esc(u.prenom)} ${esc((u.nom || '').slice(0, 1))}.</b> <span class="muted" style="font-size:11px">${esc(u.email)}</span></span><b class="gratuit">${esc(dateMG(u.vu_le).slice(11))}</b></div>`).join('')}</div>` : '<p class="muted">Personne en ligne à l\'instant.</p>'}
+  ${vusRecent.length ? `<p class="muted" style="font-size:12px;margin-top:8px">🕒 Vus il y a moins de 30 min : ${vusRecent.map(u => esc(u.prenom) + ' ' + esc((u.nom || '').slice(0, 1)) + '.').join(' · ')}</p>` : ''}
+  <p class="muted" style="font-size:11px">« En ligne » = activité dans les 5 dernières minutes (heure de Madagascar). Le détail « Dernier vu » de chacun est dans le tableau des apprenants plus bas. Actualisez pour rafraîchir.</p></section>
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
   <form method="post" action="/admin/notifier" class="form">${csrfField(sess)}
@@ -722,10 +726,6 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     </form>
     <form method="post" action="/admin/demande-traitee" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small ghost" type="submit">Marquer traitée (sans réponse écrite)</button></form>
   </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
-  <section class="card"><h2>🟢 En ligne maintenant (${enLigne.length})</h2>
-  ${enLigne.length ? `<div class="prog">${enLigne.map(u => `<div class="pitem"><span>🟢 ${esc(u.prenom)} ${esc((u.nom || '').slice(0, 1))}. <span class="muted" style="font-size:11px">${esc(u.email)}</span></span><b class="gratuit">${esc(dateMG(u.vu_le).slice(11))}</b></div>`).join('')}</div>` : '<p class="muted">Personne en ligne à l\'instant.</p>'}
-  ${vusRecent.length ? `<p class="muted" style="font-size:12px;margin-top:8px">🕒 Vus il y a moins de 30 min : ${vusRecent.map(u => esc(u.prenom) + ' ' + esc((u.nom || '').slice(0, 1)) + '.').join(' · ')}</p>` : ''}
-  <p class="muted" style="font-size:11px">« En ligne » = activité dans les 5 dernières minutes (heure de Madagascar). Actualisez la page pour mettre à jour.</p></section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
   ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
