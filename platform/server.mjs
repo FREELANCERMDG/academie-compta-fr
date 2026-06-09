@@ -23,7 +23,8 @@ const BASE_URL = (process.env.BASE_URL || cfg.site.base_url || `http://localhost
 // donc le navigateur recharge immédiatement le CSS/JS mis à jour (plus de cache obsolète).
 const ASSET_V = Date.now();
 const db = openDB();
-const twofaRequired = () => !(cfg.securite && cfg.securite.twofa_obligatoire === false);
+// 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
+const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
 // Émetteur 2FA en ASCII pur (certaines apps gèrent mal accents/tirets dans l'otpauth URI)
 const ISSUER_2FA = 'Academie Compta FR';
 
@@ -247,7 +248,7 @@ function apercuModulesSection() {
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><p style="text-align:center;color:#d7e3ee;margin:0 0 14px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : chaque module s'appuie sur des <b style="color:#fff">simulateurs interactifs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), des <b style="color:#fff">CERFA réels</b> et des écritures à compléter.</p><div class="prog">${rows}</div></section>`;
 }
 function pageAccueil(sess) {
-  const offres = db.prepare('SELECT * FROM offres').all();
+  const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const lsoc = cfg.societe || {};
   const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
     { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": [{ "@type": "Country", "name": "Madagascar" }, { "@type": "City", "name": "Antananarivo" }, { "@type": "City", "name": "Tamatave (Toamasina)" }, { "@type": "City", "name": "Antsirabe" }, { "@type": "City", "name": "Majunga (Mahajanga)" }] },
@@ -265,15 +266,12 @@ function pageAccueil(sess) {
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
   <li>Attestation sur l'honneur du diplôme à l'inscription.</li>
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
-  <li>🔐 <b>Connexion sécurisée (double authentification)</b> : avant de vous inscrire, installez l'application gratuite <b>Google Authenticator</b> sur votre téléphone <b>Android</b> (ou iPhone) — elle vous sera demandée pour protéger votre compte.</li></ul></section>
-  <section class="card" style="border-left:4px solid var(--accent)"><h2>🔐 Sécurisez votre connexion</h2>
-  <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Installez <b>Google Authenticator</b> (gratuit) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p>
-  <p><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Google Play (Android)</a> <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></section>
+  <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
   <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu'au <b>09/09/2026</b> — sans aucun paiement.</p>
   <ol style="line-height:1.9;margin:8px 0 12px">
-  <li><b>Inscrivez-vous gratuitement</b> (2 min · installez Google Authenticator).</li>
+  <li><b>Inscrivez-vous gratuitement</b> (2 min).</li>
   <li><b>Suivez les 6 modules</b> : Pennylane, TVA, liasse, simulateurs… de la saisie au bilan des PME françaises.</li>
   <li><b>Passez l'évaluation</b> et obtenez votre <b>attestation de fin de formation</b>.</li>
   </ol>
@@ -337,7 +335,7 @@ function pageMentions(sess) {
   <section class="card"><h2>Conditions d'utilisation & propriété intellectuelle</h2>
   <p>L'ensemble des contenus (cours, vidéos, supports, quiz, <b>simulateurs interactifs</b>) est la <b>propriété exclusive</b> de <b>${esc(s.nom)}</b> et protégé par le droit d'auteur.</p>
   <ul>
-  <li>L'accès est <b>strictement personnel et nominatif</b> : une seule personne, un seul appareil actif à la fois (double authentification obligatoire).</li>
+  <li>L'accès est <b>strictement personnel et nominatif</b> : une seule personne, un seul appareil actif à la fois.</li>
   <li>Sont <b>interdits</b> : la reproduction, la copie, la capture, le téléchargement, la diffusion, le partage de compte ou d'identifiants, la revente ou la mise à disposition de tout ou partie du contenu.</li>
   <li>Les pages de cours sont <b>filigranées</b> (email de l'apprenant) : toute fuite est <b>traçable</b>.</li>
   <li>Tout manquement entraîne la <b>révocation immédiate de l'accès</b>, sans remboursement, et peut donner lieu à des poursuites.</li>
@@ -348,7 +346,7 @@ function pageMentions(sess) {
 }
 
 function pageProgramme(sess) {
-  const offres = db.prepare('SELECT * FROM offres').all();
+  const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const modulesSection = apercuModulesSection();
   const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0);
   const compteur = (cfg.afficher_compteur_inscrits && n > 0 && sess && sess.user && sess.user.role === 'admin') ? `<div class="stat"><b>${n}</b><span>apprenant${n > 1 ? 's' : ''} inscrit${n > 1 ? 's' : ''} <em style="font-size:10px;opacity:.7">(admin)</em></span></div>` : '';
@@ -413,24 +411,8 @@ function pageInscription(sess, err, val = {}) {
   return layout('Inscription', `
   <h1>Inscription</h1>
   <p class="muted">Conditions : ${esc(cfg.conditions.diplome_requis)}.</p>
-  <section class="card" style="border-left:4px solid var(--accent)">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="font-size:40px;line-height:1">🔐</div>
-      <div style="flex:1;min-width:220px"><h2 style="margin:0">Avant de vous inscrire : installez <b>Google Authenticator</b></h2>
-      <p class="muted" style="margin:4px 0">Votre connexion est protégée par <b>double authentification (2FA)</b>. Cette application <b>gratuite</b> génère votre code de sécurité à 6 chiffres.</p>
-      <p style="margin:6px 0"><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Installer sur Google Play (Android)</a>
-      <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p>
-      <p class="muted" style="font-size:13px;margin:2px 0"><b>🔗 Lien direct :</b> <a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" style="word-break:break-all">play.google.com/store/apps/details?id=com.google.android.apps.authenticator2</a></p></div>
-    </div>
-    <h3 style="margin:14px 0 6px">Comment faire (≈ 3 minutes) :</h3>
-    <ol style="margin:0;padding-left:20px;line-height:1.7">
-      <li><b>Installez Google Authenticator</b> (gratuit) sur votre téléphone Android (ou iPhone).</li>
-      <li><b>Remplissez le formulaire ci-dessous</b> et validez : votre compte est créé.</li>
-      <li>Un <b>QR code</b> s'affiche à l'écran. Ouvrez Google Authenticator → bouton <b>« + »</b> → <b>« Scanner un code QR »</b> → visez l'écran de votre ordinateur.</li>
-      <li>L'application affiche un <b>code à 6 chiffres</b> : saisissez-le sur le site pour activer la 2FA. C'est fait ✅</li>
-    </ol>
-    <p class="muted" style="font-size:12px;margin-top:10px">💡 Réglez l'<b>heure de votre téléphone en automatique</b> (sinon le code peut être refusé). Aux connexions suivantes, on vous demandera simplement ce code.</p>
-  </section>
+  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 6)</b> <b>gratuitement, jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
+  <p class="muted" style="font-size:13px">🔐 Connexion simple et sécurisée par <b>email + mot de passe</b> — aucune application à installer.</p>
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
   <form method="post" action="/inscription" class="card form" autocomplete="off">
     ${sess ? csrfField(sess) : ''}
@@ -493,7 +475,7 @@ function page2faVerify(sess, err) {
 function pageDashboard(sess) {
   const u = sess.user;
   const ent = entitledModules(u);
-  const offres = db.prepare('SELECT * FROM offres').all();
+  const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const ins = db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.user_id=? ORDER BY i.cree_le DESC').all(u.id);
   const mesDem = db.prepare('SELECT * FROM demandes WHERE user_id=? ORDER BY cree_le DESC').all(u.id);
   const active = u.role === 'admin' || hasActive(u.id);
@@ -504,7 +486,7 @@ function pageDashboard(sess) {
   <div class="fmeta"><div class="fname">${esc(u.prenom || '')} ${esc(u.nom || '')}</div>
   <p class="muted" style="margin:6px 0">${esc(u.email)} · ${esc(u.tel || '—')}</p>
   <p class="muted" style="margin:6px 0">Niveau d'études : ${esc(u.niveau_etudes || '—')} · Auto-évaluation : ${esc(u.niveau_intellectuel || '—')}</p>
-  <p class="muted" style="margin:6px 0">2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'}${u.role === 'admin' ? ' · <b>Admin</b>' : ''}</p></div></div></section>
+  <p class="muted" style="margin:6px 0">${u.role === 'admin' ? `2FA : ${u.twofa ? '✅ activée' : '⚠️ non activée'} · <b>Admin</b>` : 'Connexion : email + mot de passe'}</p></div></div></section>
   ${(u.role !== 'admin' && expActive) ? `<section class="card" style="border:1px solid var(--line)">
   <h2>⏳ Temps d'accès restant</h2>
   <div id="cdwn" data-exp="${esc(expActive)}" style="font-size:28px;font-weight:800;letter-spacing:.5px">…</div>
@@ -587,9 +569,9 @@ const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? Strin
 
 function pageAdmin(sess, notif, acces, accesEmail) {
   const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
-  const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0);
+  const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -613,7 +595,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
     GROUP BY j.user_id HAVING nip >= 2 ORDER BY nip DESC, nlog DESC LIMIT 50`).all(_j30);
   const _seul = !!(cfg.acces && cfg.acces.un_seul_appareil);
   const partageHtml = `<section class="card"><h2>🛡️ Sécurité — partage de compte (anti-duplication)</h2>
-  <p class="muted" style="font-size:13px">Protection active : <b>${_seul ? '✅ 1 seul appareil à la fois' : '⚠️ multi-appareils autorisés'}</b> · <b>${twofaRequired() ? '✅ 2FA obligatoire' : '⚠️ 2FA facultative'}</b>. <span title="L'IP change souvent sur les réseaux mobiles malgaches : un blocage par IP déconnecterait les vrais apprenants.">On ne bloque pas par adresse IP (trop instable sur mobile).</span></p>
+  <p class="muted" style="font-size:13px">Protection active : <b>${_seul ? '✅ 1 seul appareil à la fois' : '⚠️ multi-appareils autorisés'}</b> · <b>🔐 2FA réservée à l'admin</b> (apprenants : email + mot de passe). <span title="L'IP change souvent sur les réseaux mobiles malgaches : un blocage par IP déconnecterait les vrais apprenants.">On ne bloque pas par adresse IP (trop instable sur mobile).</span></p>
   ${partage.length ? `<p>Comptes vus depuis <b>plusieurs adresses IP</b> sur 30 jours (à surveiller) :</p>
   <div class="tbl"><table><tr><th>Email</th><th>IP distinctes</th><th>Connexions</th><th>Dernière</th></tr>
   ${partage.map(r => { const col = r.nip >= 4 ? '#c0392b' : '#E8A13A'; return `<tr><td>${esc(r.email)}</td><td><b style="color:${col}">${r.nip}</b></td><td>${r.nlog}</td><td>${esc((r.last || '').slice(0, 10))}</td></tr>`; }).join('')}</table></div>
@@ -723,6 +705,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
+  ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
   <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th></tr>
   ${users.map(u => `<tr><td>${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td></tr>`).join('')}</table></section>`, sess);
 }
@@ -902,7 +885,7 @@ function chatSystemPrompt() {
     "- Offres payantes :",
     off,
     "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement. Le Module 1 reste gratuit.",
-    "- Sécurité : double authentification obligatoire (Google Authenticator) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
+    "- Sécurité : connexion par email + mot de passe (double authentification réservée à l'admin) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
     "- Parrainage : chaque inscrit a un code ; quand un filleul débloque un accès payant, le parrain gagne " + bonus + " jours d'accès offerts.",
     "- Paiement : Orange Money ou carte bancaire ; l'accès est activé après validation.",
     "- Prérequis : " + dipl + " (attestation sur l'honneur).",
@@ -1107,6 +1090,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
+      if (p === '/admin/promo-debloquer-tous') return postPromoDebloquerTous(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
@@ -1125,6 +1109,23 @@ const server = http.createServer(async (req, res) => {
 const authed0 = sess => !!(sess && sess.user); // connecté (éventuellement 2fa en attente)
 const authed = sess => !!(sess && sess.user && !sess.row.pending_2fa);
 function hasActive(uid) { return !!db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(uid, new Date().toISOString()); }
+// Promo « gratuit » : on octroie EXPLICITEMENT tous les modules (PACK_COMPLET) à l'apprenant,
+// avec une expiration calée sur la fin de la promo. Idempotent + actif seulement si la promo est ouverte.
+function promoExpiryISO() { const p = cfg.promo; return (p && p.jusqu_au) ? (p.jusqu_au + 'T23:59:59.999Z') : null; }
+function grantPromoModules(uid, ipStr) {
+  if (!uid || !promoLive()) return false;
+  const exp = promoExpiryISO(); if (!exp) return false;
+  // Octroi promo via un code DÉDIÉ (PROMO_PACK) : ne se confond jamais avec un PACK_COMPLET payé/accordé manuellement.
+  const ex = db.prepare("SELECT id, expire_le FROM inscriptions WHERE user_id=? AND offre_code='PROMO_PACK' AND statut='active'").get(uid);
+  if (ex) {
+    // Resynchronise l'expiration sur la fin de promo en config (prolongation/raccourcissement de jusqu_au se propage).
+    if (ex.expire_le !== exp) db.prepare('UPDATE inscriptions SET expire_le=? WHERE id=?').run(exp, ex.id);
+    return false;
+  }
+  db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(10), uid, 'PROMO_PACK', 'active', new Date().toISOString(), exp);
+  audit(db, uid, 'promo_grant', 'PROMO_PACK jusqu_au ' + ((cfg.promo && cfg.promo.jusqu_au) || ''), ipStr || '');
+  return true;
+}
 
 // Parrainage : quand un FILLEUL obtient son 1er accès payé, on prolonge l'accès de son PARRAIN de bonus_jours.
 function rewardParrain(filleulId) {
@@ -1195,7 +1196,9 @@ function postInscription(req, res, sess, body) {
     const parr = v.parrain ? db.prepare('SELECT id FROM users WHERE code_parrain=?').get(v.parrain) : null;
     db.prepare('UPDATE users SET code_parrain=?, parrain_id=? WHERE id=?').run(cp, (parr && parr.id !== id) ? parr.id : null, id);
   } catch { }
-  if (twofaRequired()) {
+  // Promo en cours : on débloque TOUS les modules gratuitement dès l'inscription (jusqu'à la fin de la promo).
+  grantPromoModules(id, ip(req));
+  if (twofaRequired('apprenant')) { // 2FA non requise pour les apprenants : connexion directe
     db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(id, sess.sid);
     return redirect(res, '/2fa-setup-redirect');
   }
@@ -1219,8 +1222,9 @@ function postConnexion(req, res, sess, body) {
     return send(res, 401, pageConnexion(sess, 'Identifiants incorrects.', email));
   }
   loginReset(db, email);
-  if (u.twofa) { db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(u.id, sess.sid); audit(db, u.id, 'login_ok_2fa', '', ip(req)); return redirect(res, '/2fa'); }
-  if (twofaRequired()) {
+  if (u.role === 'apprenant') grantPromoModules(u.id, ip(req)); // promo : débloque tous les modules si pas déjà fait
+  if (u.role === 'admin' && u.twofa) { db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(u.id, sess.sid); audit(db, u.id, 'login_ok_2fa', '', ip(req)); return redirect(res, '/2fa'); }
+  if (twofaRequired(u.role)) {
     db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(u.id, sess.sid);
     return redirect(res, '/2fa-setup-redirect');
   }
@@ -1253,7 +1257,7 @@ function post2fa(req, res, sess, body) {
 
 function postChoisir(req, res, sess, body) {
   const o = db.prepare('SELECT * FROM offres WHERE code=?').get(body.offre_code);
-  if (!o) return redirect(res, '/tableau-de-bord');
+  if (!o || o.code === 'PROMO_PACK') return redirect(res, '/tableau-de-bord'); // PROMO_PACK = octroi automatique promo, non sélectionnable
   const id = rid(10);
   db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le) VALUES(?,?,?,?,?)').run(id, sess.user.id, o.code, 'en_attente', new Date().toISOString());
   audit(db, sess.user.id, 'choix_offre', o.code, ip(req));
@@ -1280,6 +1284,15 @@ function postDemandeRepondre(req, res, sess, body) {
   db.prepare("UPDATE demandes SET reponse=?, repondu_le=?, statut='traitee' WHERE id=?").run(reponse, new Date().toISOString(), body.id);
   audit(db, sess.user.id, 'demande_reponse', String(body.id), ip(req));
   return redirect(res, '/admin');
+}
+function postPromoDebloquerTous(req, res, sess, body) {
+  if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
+  if (!promoLive()) return redirect(res, '/admin');
+  let n = 0;
+  for (const a of db.prepare("SELECT id FROM users WHERE role='apprenant'").all()) { if (grantPromoModules(a.id, ip(req))) n++; }
+  audit(db, sess.user.id, 'promo_grant_tous', n + ' apprenant(s)', ip(req));
+  return redirect(res, '/admin?acces=promo&e=' + n);
 }
 function postManuel(req, res, sess, body) {
   const ins = insOf(body.ins, sess.user.id); if (!ins) return redirect(res, '/tableau-de-bord');

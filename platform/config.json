@@ -134,6 +134,7 @@
     { "code": "MOD5", "titre": "Module 5 — Liasse fiscale & déclarations par régime", "prix": 30000, "modules": ["mod5"] },
     { "code": "MOD6", "titre": "Module 6 — Pratique métier, qualité, carrière & certification", "prix": 30000, "modules": ["mod6"] },
     { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 2 à 6 (économie)", "prix": 120000, "modules": ["mod2", "mod3", "mod4", "mod5", "mod6"] },
+    { "code": "PROMO_PACK", "titre": "Accès promo — tous les modules (gratuit)", "prix": 0, "modules": ["mod2", "mod3", "mod4", "mod5", "mod6"] },
     { "code": "VISIO_1H", "titre": "Visio formation complémentaire (1 heure)", "prix": 25000, "modules": [] }
   ],
   "_note_prix": "Prix en Ariary (Ar). Valeurs indicatives — ajustez-les selon votre tarification."
