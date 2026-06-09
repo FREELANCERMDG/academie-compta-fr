@@ -445,6 +445,63 @@
     },
     exemple: "RC 100 000 € ; réintégrations 8 000 ; déductions 3 000 → résultat fiscal 105 000 €. Éligible 15 % → 42 500 × 15 % + 62 500 × 25 % = <b>22 000 €</b> d'IS.",
     source: "CGI art. 219 (taux IS), art. 209 (déficits). Taux réduit 15 % sur 42 500 € sous conditions ; 25 % standard 2026."
+  },
+
+  // ---------- 11) Plus-value LMNP à la revente (réforme LF 2025) ----------
+  "pv-lmnp": {
+    titre: "Plus-value LMNP à la revente (réforme 2025)",
+    intro: "Depuis le 15/02/2025, les amortissements déduits sont RÉINTÉGRÉS dans la plus-value (LMNP au réel). Calcule la PV et l'impôt (régime des particuliers, abattements pour durée).",
+    inputs: [
+      { key: "acq", label: "Prix d'acquisition (frais inclus)", type: "number", unit: "€" },
+      { key: "cess", label: "Prix de cession", type: "number", unit: "€" },
+      { key: "amort", label: "Amortissements déduits (cumulés)", type: "number", unit: "€", def: "0" },
+      { key: "annees", label: "Durée de détention", type: "number", unit: "ans", def: "0" }
+    ],
+    compute: function (v, h) {
+      var n = Math.max(0, Math.floor(v.annees));
+      var pvSansReint = Math.max(v.cess - v.acq, 0);
+      var pv = Math.max(v.cess - (v.acq - Math.max(v.amort, 0)), 0);
+      var aIR = n >= 22 ? 100 : (n >= 6 ? (n - 5) * 6 : 0);
+      var aPS = n >= 30 ? 100 : (n >= 23 ? 28 + (n - 22) * 9 : (n >= 22 ? 28 : (n >= 6 ? (n - 5) * 1.65 : 0)));
+      var ir = pv * (1 - aIR / 100) * 0.19, ps = pv * (1 - aPS / 100) * 0.172;
+      return {
+        rows: [
+          { l: "PV sans réforme (ancien régime)", v: h.eur(pvSansReint) },
+          { l: "Amortissements réintégrés (LF 2025)", v: h.eur(Math.max(v.amort, 0)) },
+          { l: "Plus-value imposable", v: h.eur(pv), b: true },
+          { l: "IR (19 % après abatt. " + Math.round(aIR) + " %)", v: h.eur(ir) },
+          { l: "Prélèvements sociaux (17,2 % après abatt. " + (Math.round(aPS * 10) / 10) + " %)", v: h.eur(ps) },
+          { l: "Total IR + PS", v: h.eur(ir + ps), b: true }
+        ],
+        extra: "<b>Réforme LF 2025 (art. 84)</b> : pour les cessions à compter du <b>15/02/2025</b>, la PV LMNP réintègre les <b>amortissements déduits</b> — PV = prix de cession − (prix d'acquisition − amortissements). <b>Exonérations pour durée :</b> IR à <b>22 ans</b>, prélèvements sociaux à <b>30 ans</b>. <b>Exclusions :</b> résidences services (étudiantes, seniors, EHPAD). <i>Indicatif (hors surtaxe PV > 50 000 € et cas particuliers).</i>"
+      };
+    },
+    exemple: "Acquis 200 000 €, cédé 260 000 €, 40 000 € d'amortissements, 10 ans → PV imposable = 260 000 − (200 000 − 40 000) = <b>100 000 €</b> (vs 60 000 € avant la réforme).",
+    source: "CGI art. 150 U s. ; LF 2025 art. 84 (réintégration des amortissements LMNP, cessions ≥ 15/02/2025). Indicatif."
+  },
+
+  // ---------- 12) Provision pour congés payés (clôture sociale) ----------
+  "prov-cp": {
+    titre: "Provision pour congés payés (clôture)",
+    intro: "À la clôture : jours de CP acquis non pris × salaire journalier + charges patronales. Avec l'écriture comptable.",
+    inputs: [
+      { key: "jours", label: "Jours de CP acquis non pris (au 31/12)", type: "number", unit: "j" },
+      { key: "sj", label: "Salaire journalier brut", type: "number", unit: "€" },
+      { key: "taux", label: "Taux de charges patronales", type: "number", unit: "%", def: "42" }
+    ],
+    compute: function (v, h) {
+      var base = v.jours * v.sj, ch = base * (v.taux > 0 ? v.taux : 42) / 100, tot = base + ch;
+      return {
+        rows: [
+          { l: "Base congés payés (jours × salaire/j)", v: h.eur(base) },
+          { l: "Charges patronales sur CP", v: h.eur(ch) },
+          { l: "Provision totale à comptabiliser", v: h.eur(tot), b: true }
+        ],
+        extra: "<b>Écriture au 31/12 :</b><br>Débit <code>6412</code> Congés payés " + h.eur(base) + " · Débit <code>6452</code> Charges sociales sur CP " + h.eur(ch) + "<br>Crédit <code>4282</code> Dettes provisionnées pour CP " + h.eur(base) + " · Crédit <code>4382</code> Charges sociales sur CP " + h.eur(ch) + "<br><b>Déductible fiscalement</b> (provision certaine) ; reprise à la prise des congés. <i>Méthode alternative : 1/10 de la rémunération brute de la période de référence.</i>"
+      };
+    },
+    exemple: "10 j non pris × 80 €/j = 800 € + 42 % (336 €) → provision <b>1 136 €</b> : 6412/6452 → 4282/4382.",
+    source: "Provision pour congés payés (déductible, art. 39 CGI) ; comptes PCG 4282 / 4382."
   }
 
   };

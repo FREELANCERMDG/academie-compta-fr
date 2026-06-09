@@ -31,7 +31,7 @@ On est **LMP (Professionnel)** quand les **DEUX** conditions sont réunies (sino
 | | LMNP | LMP |
 |---|---|---|
 | Déficit | Imputable sur revenus de **même nature** (BIC non pro), reportable 10 ans | Imputable sur le **revenu global** |
-| Plus-value à la revente | Régime **PV des particuliers** (abattements durée) | Régime **PV professionnelles** |
+| Plus-value à la revente | Régime **PV des particuliers** (abattements durée) — ⚠️ **amortissements réintégrés depuis la LF 2025** | Régime **PV professionnelles** |
 | Cotisations sociales | Prélèvements sociaux (17,2 %) | **Cotisations SSI** (régime social travailleur indép.) |
 
 > En cabinet offshore, **99 % des dossiers que vous traiterez sont des LMNP**. On vérifie quand même chaque année si le client ne bascule pas en LMP.
@@ -82,6 +82,21 @@ L'amortissement déductible **ne peut PAS créer ou augmenter un déficit**. Il 
 > **Conséquence concrète :** un LMNP au réel affiche très souvent un résultat **= 0** (loyers entièrement absorbés par charges + amortissements), donc **aucun impôt** pendant 10-15 ans, tout en stockant des amortissements en report.
 
 <div class="simdoc" data-sim="liasse" data-tab="rs"></div>
+
+## ⚠️ Plus-value à la revente : la réforme 2025 (à connaître absolument)
+
+Jusqu'au **14/02/2025**, le LMNP au réel cumulait deux avantages : amortir le bien **et**, à la revente, calculer la plus-value sur le **prix d'origine** (sans tenir compte des amortissements déduits).
+
+**Depuis le 15/02/2025 (LF 2025, art. 84)**, les **amortissements déduits sont RÉINTÉGRÉS** dans le calcul de la plus-value :
+> **Plus-value = Prix de cession − (Prix d'acquisition − Amortissements déduits)**
+
+La PV reste imposée au **régime des particuliers** (**19 % IR + 17,2 % PS**), avec **abattements pour durée de détention** : **exonération d'IR à 22 ans**, de **prélèvements sociaux à 30 ans**.
+
+**Exclusions** (pas de réintégration) : les **résidences services** (étudiantes, seniors, EHPAD).
+
+> 🔑 **Conséquence cabinet :** l'avantage du LMNP au réel reste fort sur les **revenus** (loyers effacés par l'amortissement), mais l'avantage **à la revente est désormais réduit**. À signaler au client qui envisage de vendre.
+
+<div class="calc" data-calc="pv-lmnp"></div>
 
 ## 5. Le circuit déclaratif (ce que vous produisez)
 

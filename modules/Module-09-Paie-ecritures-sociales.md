@@ -117,6 +117,39 @@ Contrôles :
 
 ---
 
+## 🔒 Clôture du cycle social (à maîtriser en révision)
+
+À la clôture, le collaborateur confirmé passe les **provisions sociales** et **justifie chaque compte** du cycle personnel.
+
+### A) La provision pour congés payés (systématique)
+Les congés **acquis non encore pris** au 31/12 sont une **dette** de l'entreprise → on provisionne.
+> **Provision = jours acquis non pris × salaire journalier brut + charges patronales (~42 %)**
+
+**Écriture au 31/12 :**
+| Compte | Débit | Crédit |
+|---|---|---|
+| **6412** Congés payés | base CP | |
+| **6452** Charges sociales sur CP | charges | |
+| **4282** Dettes provisionnées pour CP | | base CP |
+| **4382** Charges sociales sur CP à payer | | charges |
+
+> ✅ La provision pour CP est **déductible fiscalement**. (⚠️ La provision pour **indemnités de retraite – IFC – n'est PAS déductible** → à réintégrer.) Méthode alternative admise : **1/10 de la rémunération brute** de la période de référence.
+
+<div class="calc" data-calc="prov-cp"></div>
+
+### B) Justifier les comptes du cycle social (révision au 31/12)
+| Compte | Doit correspondre à… |
+|---|---|
+| **421** Personnel – rémunérations dues | nets de décembre à payer (rappr. DSN / virements de janvier) |
+| **431** URSSAF | cotisations du dernier trimestre/mois dues |
+| **437** Autres organismes (retraite, prévoyance…) | cotisations dues à ces caisses |
+| **4282 / 4382** | provision CP + charges (ci-dessus) |
+| **4486 / 4487** | régularisations (charges à payer / produits à recevoir) |
+
+> 🔑 **Contrôle de cohérence :** le **cumul annuel du compte 641** doit correspondre à la **masse salariale brute de la DSN** ; les **645** aux cotisations patronales. Tout écart = anomalie à expliquer (oubli d'une OD, erreur de paie, IJSS non comptabilisées…).
+
+---
+
 ## ✅ Checklist OD de paie
 - [ ] Journal de paie reçu et lisible
 - [ ] OD passée et équilibrée (641+645 = 421+431+437)
