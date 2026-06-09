@@ -707,7 +707,9 @@ function serveStatic(res, baseDir, relPath, { course = false } = {}) {
   const ext = path.extname(fp).toLowerCase();
   const types = { '.css': 'text/css', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.html': 'text/html; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon', '.pdf': 'application/pdf' };
   securityHeaders(res, { courseCSP: course, prod: PROD });
-  res.writeHead(200, { 'Content-Type': types[ext] || 'application/octet-stream' });
+  // Cache : fichiers statiques mis en cache (CDN + navigateur) ; HTML jamais caché.
+  const cc = ext === '.html' ? 'no-cache' : 'public, max-age=86400, stale-while-revalidate=604800';
+  res.writeHead(200, { 'Content-Type': types[ext] || 'application/octet-stream', 'Cache-Control': cc });
   fs.createReadStream(fp).pipe(res);
 }
 
@@ -978,6 +980,9 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET') {
       trackVisit(req, p);
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
+      // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
+      if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
+      if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
       if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
         const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
