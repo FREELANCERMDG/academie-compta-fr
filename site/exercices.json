@@ -126,5 +126,57 @@
       { "compte": "411", "racine": "411", "libelle": "Client Allemagne", "debit": 2000, "credit": 0 },
       { "compte": "706000", "racine": "706", "libelle": "Prestations de services (UE)", "debit": 0, "credit": 2000 }
     ]
+  },
+  "vtc-recettes": {
+    "titre": "VTC ① — Recettes du mois via la plateforme",
+    "journal": "VT",
+    "enonce": "Mois sur Uber : 1 000 € TTC de courses encaissées par la plateforme (transport de personnes, TVA 10 %). Constatez les recettes (la plateforme = compte de tiers 467). HT = 909,09 ; TVA = 90,91.",
+    "astuce": "Le CA du chauffeur = le BRUT des courses (pas le net !). HT = 1 000 / 1,10 = 909,09 ; TVA 10 % = 90,91. Au débit : la plateforme 467 (1 000) ; au crédit : la vente 706 (909,09) + la TVA collectée 44571 (90,91).",
+    "tuto": [
+      "Ce sont des <b>recettes</b> → journal <b>VT</b>.",
+      "La plateforme nous doit le brut → au <b>débit</b> : <b>467</b> (plateforme) pour <b>1 000</b>.",
+      "Au <b>crédit</b> : la vente <b>706</b> (transport de personnes) pour le <b>HT 909,09</b>.",
+      "Au <b>crédit</b> : la <b>TVA collectée 10 %</b> (<b>44571</b>) pour <b>90,91</b>.",
+      "Total débit = total crédit = 1 000 € → « Vérifier »."
+    ],
+    "lignes": [
+      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 1000, "credit": 0 },
+      { "compte": "706000", "racine": "706", "libelle": "Transport de personnes", "debit": 0, "credit": 909.09 },
+      { "compte": "445710", "racine": "4457", "libelle": "TVA collectée 10 %", "debit": 0, "credit": 90.91 }
+    ]
+  },
+  "vtc-commission": {
+    "titre": "VTC ② — Commission plateforme (autoliquidée)",
+    "journal": "AC",
+    "enonce": "Commission Uber du mois : 250 € HT. Uber B.V. (Pays-Bas) facture sans TVA → service UE en autoliquidation (TVA 20 % = 50 €). Passez l'écriture (4 lignes). La plateforme (467) est créditée de la commission.",
+    "astuce": "Commission = charge 622. Service UE → autoliquidation : TVA déductible 445662 (50) au débit ET TVA due 4452 (50) au crédit → elles s'annulent. La plateforme 467 est créditée de 250 (elle retient sa commission).",
+    "tuto": [
+      "La commission est un <b>service acheté</b> → journal <b>AC</b>.",
+      "Au <b>débit</b> : la <b>commission 622</b> (250) + la <b>TVA déductible intracom 445662</b> (50).",
+      "Au <b>crédit</b> : la <b>TVA due intracom 4452</b> (50) + la <b>plateforme 467</b> (250).",
+      "La TVA due (50) et la TVA déductible (50) <b>s'annulent</b> (autoliquidation). Total débit = total crédit = 300 €."
+    ],
+    "lignes": [
+      { "compte": "622000", "racine": "622", "libelle": "Commission plateforme", "debit": 250, "credit": 0 },
+      { "compte": "445662", "racine": "445662", "libelle": "TVA déductible intracom", "debit": 50, "credit": 0 },
+      { "compte": "445200", "racine": "4452", "libelle": "TVA due intracom (autoliquidée)", "debit": 0, "credit": 50 },
+      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 0, "credit": 250 }
+    ]
+  },
+  "vtc-net": {
+    "titre": "VTC ③ — Reversement du net par la plateforme",
+    "journal": "BQ",
+    "enonce": "La plateforme vire le net au chauffeur : 1 000 − 250 (commission) = 750 €. Saisissez le virement reçu. Après cette écriture, le compte 467 doit être soldé.",
+    "astuce": "L'argent entre en banque (512) au débit ; on solde la plateforme (467) au crédit. Contrôle : 467 = 1 000 D (recettes) − 250 C (commission) − 750 C (net) = 0 → soldé.",
+    "tuto": [
+      "C'est un encaissement bancaire → journal <b>BQ</b>.",
+      "Au <b>débit</b> : la <b>banque 512</b> (750) — l'argent arrive.",
+      "Au <b>crédit</b> : la <b>plateforme 467</b> (750) — on solde le tiers.",
+      "Le compte 467 est maintenant <b>soldé</b> (1 000 = 250 + 750)."
+    ],
+    "lignes": [
+      { "compte": "512000", "racine": "512", "libelle": "Banque", "debit": 750, "credit": 0 },
+      { "compte": "467", "racine": "467", "libelle": "Plateforme Uber (tiers)", "debit": 0, "credit": 750 }
+    ]
   }
 }

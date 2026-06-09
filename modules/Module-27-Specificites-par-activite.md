@@ -159,26 +159,17 @@ Le chauffeur VTC travaille via des **plateformes**. Le passager paie **la platef
 - Commission Uber **25 % = 250 € HT** (facture Uber B.V. sans TVA → autoliquidation 20 % = 50 €)
 - Net viré au chauffeur : 1 000 − 250 = **750 €**
 
-**① Recettes du mois (via la plateforme)**
-| Compte | Libellé | Débit | Crédit |
-|---|---|---|---|
-| 467 | Plateforme Uber (compte de tiers) | 1 000,00 | |
-| 706 | Transport de personnes | | 909,09 |
-| 44571 | TVA collectée 10 % | | 90,91 |
+**① Recettes du mois (via la plateforme)** — saisissez vous-même l'écriture, puis « ✓ Vérifier » :
 
-**② Commission Uber — autoliquidée (service UE)**
-| Compte | Libellé | Débit | Crédit |
-|---|---|---|---|
-| 622 | Commission plateforme | 250,00 | |
-| 445662 | TVA déductible intracom | 50,00 | |
-| 4452 | TVA due intracom (autoliquidée) | | 50,00 |
-| 467 | Plateforme Uber | | 250,00 |
+<div class="saisie" data-ex="vtc-recettes"></div>
 
-**③ Reversement du net par la plateforme**
-| Compte | Libellé | Débit | Crédit |
-|---|---|---|---|
-| 512 | Banque | 750,00 | |
-| 467 | Plateforme Uber | | 750,00 |
+**② Commission Uber — autoliquidée (service UE)** — à vous :
+
+<div class="saisie" data-ex="vtc-commission"></div>
+
+**③ Reversement du net par la plateforme** — à vous :
+
+<div class="saisie" data-ex="vtc-net"></div>
 
 > ✅ **Contrôle :** le compte **467 « Plateforme »** doit être **soldé** (1 000 au débit = 250 + 750 au crédit) → on **rapproche le relevé de la plateforme** avec la banque.
 >
