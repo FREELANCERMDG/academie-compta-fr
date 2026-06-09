@@ -164,7 +164,12 @@ function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; 
 function promoLive() { const p = cfg.promo; if (!promoActive() || !p || !p.acces_libre) return false; if (p.debut_libre) { const d = Date.parse(p.debut_libre); if (!isNaN(d) && Date.now() < d) return false; } return true; }
 function promoAccesLibre() { return promoLive(); }
 function promoLabel() { return promoLive() ? '🎁 GRATUIT 3 mois' : '🎁 Bientôt gratuit'; }
-function promoBanText() { const p = cfg.promo || {}; return promoLive() ? (p.banniere_live || p.banniere || '') : (p.banniere || ''); }
+function joursRestantsPromo() { const j = cfg.promo && cfg.promo.jusqu_au; if (!j) return null; const ms = Date.parse(j + 'T23:59:59Z') - Date.now(); return ms > 0 ? Math.ceil(ms / 86400000) : 0; }
+function promoBanText() {
+  const p = cfg.promo || {};
+  if (promoLive()) { const n = joursRestantsPromo(); return (p.banniere_live || p.banniere || '') + (n != null ? ' ⏳ Plus que ' + n + ' jour' + (n > 1 ? 's' : '') + ' !' : ''); }
+  return p.banniere || '';
+}
 function promoBadgeHtml(prix) { const ref = (prix != null && prix !== '') ? `<s style="opacity:.6;font-weight:600;margin-right:5px">${esc(money(prix))}</s>` : ''; return `${ref}<b class="gratuit">${esc(promoLabel())}</b>`; }
 function prixAffiche(prix) { return promoActive() ? promoBadgeHtml(prix) : money(prix); }
 
@@ -253,6 +258,7 @@ function pageAccueil(sess) {
   <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification. <b>Passez les étapes d'évaluation et obtenez votre attestation de fin de formation.</b></p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
   <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
+  ${(function () { try { const n = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c + (cfg.compteur_base || 0); return n > 0 ? `<p style="font-weight:700;color:#1f8a4c;margin:8px 0">👥 Déjà <b>${n}</b> inscrit${n > 1 ? 's' : ''}${promoLive() ? ' profitent des 3 mois gratuits — rejoignez-les !' : ' — rejoignez-les !'}</p>` : ''; } catch { return ''; } })()}
   ${fiscaliteBadge()}</section>
   ${visitesPublicCard()}
   ${formateurCard()}
