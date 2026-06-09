@@ -3,8 +3,8 @@
    avec repli WhatsApp / formulaire. Aucune donnée envoyée à un tiers. */
 (function () {
   if (window.__ACF_CHAT_INIT__) return; window.__ACF_CHAT_INIT__ = true;
-  var CFG = window.ACF_CHAT || {};
-  var WA = (CFG.wa || '').replace(/\D/g, '');
+  var SC = document.currentScript || document.querySelector('script[src*="chat.js"]');
+  var WA = ((SC && SC.getAttribute('data-wa')) || (window.ACF_CHAT && window.ACF_CHAT.wa) || '').replace(/\D/g, '');
   var waUrl = function (t) { return WA ? ('https://wa.me/' + WA + '?text=' + encodeURIComponent(t || 'Bonjour, je souhaite des informations sur la formation.')) : '/programme'; };
 
   // ----- Base de connaissances (intentions) -----
