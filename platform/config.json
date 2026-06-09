@@ -85,7 +85,8 @@
     "jusqu_au": "",
     "label": "🎁 Gratuit 3 mois",
     "prix_ref": "100 000 Ar",
-    "banniere": "🎁 Ailleurs : jusqu'à 100 000 Ar par module. Ici : bientôt 100 % GRATUIT pendant 3 MOIS — tous les modules + ATTESTATION à la clé ! Inscrivez-vous maintenant.",
+    "places_max": 1000,
+    "banniere": "🎁 Ailleurs : jusqu'à 100 000 Ar par module. Ici : bientôt 100 % GRATUIT pendant 3 MOIS — tous les modules + ATTESTATION à la clé ! Places limitées aux 1000 premiers inscrits. Inscrivez-vous maintenant.",
     "_note": "actif=true : affiche la bannière d'annonce + remplace les prix par 'label'. acces_libre=true : débloque GRATUITEMENT tous les modules pour les inscrits (à basculer quand l'offre démarre vraiment). jusqu_au (AAAA-MM-JJ) optionnel : la promo s'arrête après cette date."
   },
   "formateur": {

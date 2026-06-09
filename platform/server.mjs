@@ -1035,6 +1035,11 @@ function postInscription(req, res, sess, body) {
   if (body.rgpd !== '1') return send(res, 200, pageInscription(sess, 'Vous devez accepter la confidentialité (RGPD).', v));
   if (body.cgu !== '1') return send(res, 200, pageInscription(sess, 'Vous devez accepter les conditions d\'utilisation (contenu personnel, reproduction et partage interdits).', v));
   if (db.prepare('SELECT 1 FROM users WHERE email=?').get(v.email)) return send(res, 200, pageInscription(sess, 'Un compte existe déjà avec cet email.', v));
+  // Limite de places (offre de lancement) : on bloque les nouvelles inscriptions au-delà du quota.
+  if (cfg.promo && cfg.promo.places_max > 0) {
+    const _nbInscrits = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c;
+    if (_nbInscrits >= cfg.promo.places_max) return send(res, 200, pageInscription(sess, 'Inscriptions complètes : la limite de ' + cfg.promo.places_max + ' places a été atteinte. Merci de votre intérêt — contactez-nous pour être informé(e) de la prochaine session.', v));
+  }
   const { hash, salt } = hashPassword(body.pw);
   const id = rid(8);
   db.prepare('INSERT INTO users(id,nom,prenom,email,tel,niveau_etudes,diplome_bac2,niveau_intellectuel,pass_hash,pass_salt,email_verifie,role,cree_le) VALUES(?,?,?,?,?,?,1,?,?,?,1,?,?)')
