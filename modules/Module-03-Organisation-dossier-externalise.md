@@ -18,6 +18,66 @@
 
 ---
 
+## 📂 0. Avant de gérer un dossier : LIRE le KBIS, les statuts et la lettre de mission
+**Règle d'or du collaborateur :** on ne saisit **jamais** une seule écriture avant d'avoir lu les **3 documents fondateurs** du dossier. Ils répondent à : *qui est le client ? que fait-il ? sous quelle forme juridique (donc quel impôt et quel régime social) ? qui signe ? et jusqu'où va MA mission ?* Ces documents vivent dans le **dossier permanent** (`01_PERMANENT/`).
+
+### 🪪 A) Le KBIS (extrait Kbis) — la carte d'identité de l'entreprise
+Document officiel du greffe (à jour, **moins de 3 mois**). Pour une entreprise individuelle, l'équivalent est l'**avis de situation SIRENE**. Comment le lire :
+
+| Ce que vous lisez | Pourquoi c'est crucial (impact compta / fiscal) |
+|---|---|
+| **Dénomination + n° SIREN/SIRET, RCS** | Identité exacte, à reporter partout (factures, déclarations) |
+| **Forme juridique** (SARL, EURL, SAS, SASU, SCI, EI…) | Détermine l'**IS ou l'IR**, et le **statut social du dirigeant** (TNS vs assimilé salarié) |
+| **Date d'immatriculation** | 1er exercice (souvent **> 12 mois**), report de l'à-nouveau |
+| **Date de clôture de l'exercice** | Calendrier de **clôture, liasse, CA12** |
+| **Capital social** | Compte **101** ; capital libéré ou non ; base du taux réduit d'IS |
+| **Dirigeant(s) et pouvoirs** | **Qui signe / qui engage** ; gérant majoritaire = **TNS** |
+| **Objet / code APE-NAF** | Cohérence de l'activité ; indices de **régime/TVA** spécifiques (BTP, immobilier…) |
+| **Mentions** (procédure collective, EIRL…) | Alerte sur la situation (sauvegarde, redressement) |
+
+### 📜 B) Les statuts — le « contrat » de la société
+Ils précisent et complètent le KBIS. À extraire :
+
+| Clause à repérer | Ce que ça change pour vous |
+|---|---|
+| **Objet social** | Périmètre des opérations « normales » de l'entreprise |
+| **Capital & répartition des parts/actions** | Comptes **101 / 455**, **dividendes**, quote-part (SCI), associés |
+| **Date de clôture** | Confirme/complète le KBIS |
+| **Gérance / présidence, rémunération** | **TNS ou assimilé salarié** → traitement de la paie / cotisations |
+| **Option fiscale** (ex. SCI ou EURL à l'**IS** sur option, SAS de plein droit) | **IR ou IS** : tout le traitement en dépend |
+| **Comptes courants d'associés, conventions réglementées** | Compte **455**, intérêts déductibles plafonnés |
+
+### 🤝 C) La lettre de mission — VOTRE périmètre de travail
+C'est le **contrat obligatoire** (déontologie de l'expert-comptable) entre le **cabinet et le client**. Elle dit **ce que vous devez produire** et **ce que vous ne devez PAS faire**. À lire impérativement :
+- **Périmètre exact** : tenue ? révision ? **TVA** ? **liasse** ? **paie** ? conseil ? — et surtout ce qui est **exclu** (limites de responsabilité).
+- **Répartition des tâches** client ↔ cabinet : qui saisit, qui fournit les justificatifs, qui établit la paie.
+- **Périodicité et délais** de production ; **honoraires**.
+- **Interlocuteur** désigné et clause de **confidentialité / secret professionnel**.
+
+> ⚠️ **En offshore, c'est votre boussole.** Ne sortez **jamais** du périmètre de la lettre de mission (ex. ne pas produire une paie ou un conseil fiscal non prévus) et **remontez au chef de mission** tout ce qui en sort.
+
+### 🧭 Réflexe : créer la « fiche d'identité du dossier »
+Avant de saisir, remplissez une fiche (dans le dossier permanent) à partir des 3 documents :
+
+| Champ | Source | Exemple |
+|---|---|---|
+| Forme juridique | KBIS / statuts | SARL |
+| Régime d'imposition | Statuts / option | **IS** |
+| Régime de TVA | Lettre de mission / dossier | Réel normal — CA3 mensuelle |
+| Date de clôture | KBIS / statuts | 31/12 |
+| Dirigeant & statut social | KBIS / statuts | Gérant majoritaire → **TNS** |
+| Associés & parts | Statuts | 2 associés (60 / 40) |
+| Périmètre de ma mission | Lettre de mission | Tenue + TVA + liasse (paie exclue) |
+
+> ✅ Cette fiche évite 90 % des erreurs de débutant : appliquer le bon impôt, le bon régime social, la bonne TVA, et rester **dans son périmètre**.
+
+### 🧪 Mini cas pratique 3.0
+Vous recevez un nouveau dossier « SCI DURAND ». Le KBIS indique *forme : SCI*, les statuts mentionnent *option à l'IS*, la lettre de mission couvre *tenue + liasse, sans TVA*.
+**Questions :** (1) IR ou IS ? (2) Amortit-on l'immeuble ? (3) Doit-on préparer une CA3 ?
+**Réponse :** (1) **IS** (option dans les statuts). (2) **Oui**, l'immeuble s'amortit (SCI à l'IS, contrairement à la SCI à l'IR). (3) **Non** : la TVA n'est **pas** dans la lettre de mission → ne pas la traiter, le signaler si une opération taxable apparaît.
+
+---
+
 ## 1. La réception des pièces
 Les pièces arrivent par : **Dext / MEG** (photo, mail dédié), **Pennylane / Tiime** (upload, connexion bancaire), **Google Drive / Teams** (dépôt de fichiers), **mail du cabinet**.
 
