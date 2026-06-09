@@ -159,6 +159,11 @@ function newSession(userId, pending2fa, req) {
 const cookieOpts = { maxAge: 8 * 3600, secure: PROD };
 const checkCsrf = (sess, body) => sess && body._csrf && safeEqual(sess.row.csrf, body._csrf);
 
+// --- Promo de lancement (annonce « bientôt gratuit ») ---
+function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
+function promoAccesLibre() { return promoActive() && !!(cfg.promo && cfg.promo.acces_libre); }
+function prixAffiche(prix) { return promoActive() ? esc((cfg.promo && cfg.promo.label) || 'Bientôt gratuit') : money(prix); }
+
 // --- Gabarit ---
 function layout(title, body, sess) {
   const u = sess?.user;
@@ -172,6 +177,7 @@ function layout(title, body, sess) {
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
+  const promoBan = promoActive() ? `<div style="background:linear-gradient(90deg,#E8A13A,#f6c172);color:#3a2600;text-align:center;padding:8px 14px;font-weight:700;font-size:13.5px;line-height:1.45">${esc((cfg.promo && cfg.promo.banniere) || '')}${u ? '' : ' <a href="/inscription" style="color:#16307a;font-weight:800;text-decoration:underline">S\'inscrire →</a>'}</div>` : '';
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(cfg.site.nom_plateforme)}</title>
 <meta name="description" content="${esc(desc)}">
@@ -192,7 +198,7 @@ function layout(title, body, sess) {
 <link rel="apple-touch-icon" href="/public/icon-512.png">
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
-<body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><nav>${nav}</nav></header>
+<body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><nav>${nav}</nav></header>${promoBan}
 ${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🔐 Installez Google Authenticator (gratuit) pour sécuriser votre connexion (2FA)&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🔐 Installez Google Authenticator (gratuit) pour sécuriser votre connexion (2FA)&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
@@ -224,7 +230,7 @@ function apercuModulesSection() {
   const rows = MODULES.map(m => {
     const inf = moduleInfo(m.code) || {};
     const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
-    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : `<b class="tarif">${esc(prixMod(m.code))}</b>`;
+    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : (promoActive() ? `<b class="gratuit">${esc(cfg.promo.label)}</b>` : `<b class="tarif">${esc(prixMod(m.code))}</b>`);
     const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le Module 1 (inscription gratuite)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
     return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}<br><span style="display:inline-block;margin-top:3px;font-size:11.5px;font-weight:700;color:#1e7d46;background:#e9f7ef;border:1px solid #bfe6cd;border-radius:20px;padding:1px 9px">${({mod2:"🎥 100 % pratique · prise en main du <b>vrai logiciel Pennylane</b> (vidéos pas à pas)",mod6:"🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante"})[m.code]||"🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel, inspirée de Pennylane)"}</span></span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
   }).join('');
@@ -254,8 +260,8 @@ function pageAccueil(sess) {
   <p>Votre espace est protégé par une <b>double authentification (2FA)</b>. Installez <b>Google Authenticator</b> (gratuit) : à votre première connexion, vous scannerez un QR code, puis vous saisirez un code à 6 chiffres à chaque connexion. Pensez à régler l'<b>heure de votre téléphone en automatique</b>.</p>
   <p><a class="btn small" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">📲 Google Play (Android)</a> <a class="btn small ghost" target="_blank" rel="noopener" href="https://apps.apple.com/app/google-authenticator/id388497605">🍎 iPhone</a></p></section>
   ${apercuModulesSection()}
-  <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${money(o.prix)}</p></div>`).join('')}</div>
-  <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`, sess);
+  <section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${prixAffiche(o.prix)}</p></div>`).join('')}</div>
+  <p class="muted">${promoActive() ? '🎁 <b>Offre de lancement</b> : la formation sera <b>bientôt gratuite</b> pour une durée limitée. Inscrivez-vous pour en profiter.' : 'Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.'}</p></section>`, sess);
 }
 
 // Visite guidée (1 minute) — montrée à tout nouvel inscrit : tout l'accès en un coup d'œil
@@ -311,7 +317,15 @@ function pageMentions(sess) {
   <section class="card"><h2>Données personnelles (RGPD) & secret professionnel</h2>
   <p>Les données des apprenants (identité, contact, niveau d'études, paiements) sont collectées uniquement pour la gestion de la formation et de la certification, conservées de manière sécurisée et non communiquées à des tiers non autorisés. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression en contactant <b>${esc(s.nom)}</b>${s.telephone ? ' (' + esc(s.telephone) + ')' : ''}.</p>
   <p>Le formateur et l'équipe sont tenus au secret professionnel sur toute donnée traitée.</p></section>
-  <section class="card"><h2>Propriété intellectuelle</h2><p>L'ensemble des contenus (cours, vidéos, supports, quiz) est la propriété de <b>${esc(s.nom)}</b>. Toute reproduction ou diffusion non autorisée est interdite.</p></section>
+  <section class="card"><h2>Conditions d'utilisation & propriété intellectuelle</h2>
+  <p>L'ensemble des contenus (cours, vidéos, supports, quiz, <b>simulateurs interactifs</b>) est la <b>propriété exclusive</b> de <b>${esc(s.nom)}</b> et protégé par le droit d'auteur.</p>
+  <ul>
+  <li>L'accès est <b>strictement personnel et nominatif</b> : une seule personne, un seul appareil actif à la fois (double authentification obligatoire).</li>
+  <li>Sont <b>interdits</b> : la reproduction, la copie, la capture, le téléchargement, la diffusion, le partage de compte ou d'identifiants, la revente ou la mise à disposition de tout ou partie du contenu.</li>
+  <li>Les pages de cours sont <b>filigranées</b> (email de l'apprenant) : toute fuite est <b>traçable</b>.</li>
+  <li>Tout manquement entraîne la <b>révocation immédiate de l'accès</b>, sans remboursement, et peut donner lieu à des poursuites.</li>
+  </ul>
+  <p class="muted">En créant un compte, l'apprenant accepte ces conditions d'utilisation.</p></section>
   <section class="card"><h2>Attestation</h2><p>Les attestations de fin de formation sont délivrées par <b>${esc(s.nom)}</b> (${esc(s.immat || '')}). Attestations internes, sans valeur de diplôme d'État.</p></section>
   <p><a class="btn ghost" href="/">← Accueil</a></p>`, sess);
 }
@@ -412,6 +426,7 @@ function pageInscription(sess, err, val = {}) {
       </select></label>
     <label class="check"><input type="checkbox" name="diplome_bac2" value="1"> J'atteste sur l'honneur être titulaire d'un <b>${esc(cfg.conditions.diplome_requis)}</b>.</label>
     <label class="check"><input type="checkbox" name="rgpd" value="1"> J'accepte la politique de confidentialité (RGPD) et l'engagement de secret professionnel.</label>
+    <label class="check"><input type="checkbox" name="cgu" value="1"> J'accepte les <a href="/mentions-legales" target="_blank" rel="noopener">conditions d'utilisation</a> : le contenu et les simulateurs sont <b>strictement personnels</b> — toute <b>reproduction, diffusion, partage de compte ou revente est interdite</b>.</label>
     <label>Mot de passe (10+ caractères, lettres et chiffres)<input type="password" name="pw" required minlength="10"></label>
     <button class="btn" type="submit">Créer mon compte</button>
   </form>`, sess);
@@ -675,6 +690,7 @@ function offerModules(code) { const o = (cfg.offres || []).find(x => x.code === 
 function entitledModules(user) {
   const set = new Set(FREE_MODS);
   if (!user) return set;
+  if (promoAccesLibre()) { MODULES.forEach(m => set.add(m.code)); return set; }
   if (user.role === 'admin') { MODULES.forEach(m => set.add(m.code)); return set; }
   const rows = db.prepare("SELECT offre_code FROM inscriptions WHERE user_id=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").all(user.id, new Date().toISOString());
   for (const r of rows) offerModules(r.offre_code).forEach(c => set.add(c));
@@ -1015,6 +1031,7 @@ function postInscription(req, res, sess, body) {
   if (!strongPw(body.pw)) return send(res, 200, pageInscription(sess, 'Mot de passe trop faible (10+ caractères, lettres et chiffres).', v));
   if (cfg.conditions.attestation_obligatoire && body.diplome_bac2 !== '1') return send(res, 200, pageInscription(sess, `Condition non remplie : ${cfg.conditions.diplome_requis} (attestation obligatoire).`, v));
   if (body.rgpd !== '1') return send(res, 200, pageInscription(sess, 'Vous devez accepter la confidentialité (RGPD).', v));
+  if (body.cgu !== '1') return send(res, 200, pageInscription(sess, 'Vous devez accepter les conditions d\'utilisation (contenu personnel, reproduction et partage interdits).', v));
   if (db.prepare('SELECT 1 FROM users WHERE email=?').get(v.email)) return send(res, 200, pageInscription(sess, 'Un compte existe déjà avec cet email.', v));
   const { hash, salt } = hashPassword(body.pw);
   const id = rid(8);

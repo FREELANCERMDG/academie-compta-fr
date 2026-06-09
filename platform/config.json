@@ -79,6 +79,14 @@
     "bonus_jours": 30,
     "_note": "actif=true : chaque apprenant a un code de parrainage. Quand un filleul obtient un accès PAYÉ, le parrain gagne bonus_jours d'accès en plus (prolongation de ses accès actifs)."
   },
+  "promo": {
+    "actif": true,
+    "acces_libre": false,
+    "jusqu_au": "",
+    "label": "🎁 Bientôt gratuit",
+    "banniere": "🎁 Lancement : la formation sera bientôt 100 % GRATUITE pendant une durée limitée, pour la tester. Inscrivez-vous maintenant pour être prévenu(e) et prêt(e) !",
+    "_note": "actif=true : affiche la bannière d'annonce + remplace les prix par 'label'. acces_libre=true : débloque GRATUITEMENT tous les modules pour les inscrits (à basculer quand l'offre démarre vraiment). jusqu_au (AAAA-MM-JJ) optionnel : la promo s'arrête après cette date."
+  },
   "formateur": {
     "nom": "M. RANDRIAMANANTSOA Heriniaina Anthony",
     "photo": "/public/formateur.png",

@@ -1,6 +1,6 @@
 {
   "m01": {
-    "title": "Module 1 — Fondamentaux de la comptabilité française",
+    "title": "Fondamentaux de la comptabilité française",
     "questions": [
       {
         "q": "Dans un cabinet comptable, qui valide officiellement les travaux avant l'envoi d'une liasse fiscale ?",
@@ -55,7 +55,7 @@
     ]
   },
   "m02": {
-    "title": "Module 2 — Bases de comptabilité (PCG)",
+    "title": "Bases de comptabilité (PCG)",
     "questions": [
       {
         "q": "Quand l'argent entre en banque, le compte 512 est :",
@@ -105,7 +105,7 @@
     ]
   },
   "m03": {
-    "title": "Module 3 — Organisation du dossier externalisé",
+    "title": "Organisation du dossier externalisé",
     "questions": [
       {
         "q": "Que faire d'un devis reçu en pièce ?",
@@ -160,7 +160,7 @@
     ]
   },
   "m04": {
-    "title": "Module 4 — Saisie comptable pratique",
+    "title": "Saisie comptable pratique",
     "questions": [
       {
         "q": "La TVA sur une assurance est :",
@@ -210,7 +210,7 @@
     ]
   },
   "m05": {
-    "title": "Module 5 — TVA française",
+    "title": "TVA française",
     "questions": [
       {
         "q": "La TVA à décaisser =",
@@ -261,7 +261,7 @@
     ]
   },
   "m06": {
-    "title": "Module 6 — Rapprochement bancaire",
+    "title": "Rapprochement bancaire",
     "questions": [
       {
         "q": "L'objectif du rapprochement bancaire est de :",
@@ -313,7 +313,7 @@
     ]
   },
   "m07": {
-    "title": "Module 7 — Lettrage clients / fournisseurs",
+    "title": "Lettrage clients / fournisseurs",
     "questions": [
       {
         "q": "Le lettrage sert à :",
@@ -364,7 +364,7 @@
     ]
   },
   "m08": {
-    "title": "Module 8 — Comptes d'attente et sensibles",
+    "title": "Comptes d'attente et sensibles",
     "questions": [
       {
         "q": "Le compte 471 au bilan doit être :",
@@ -418,7 +418,7 @@
     ]
   },
   "m09": {
-    "title": "Module 9 — Paie et écritures sociales",
+    "title": "Paie et écritures sociales",
     "questions": [
       {
         "q": "Les salaires bruts se comptabilisent au compte :",
@@ -471,7 +471,7 @@
     ]
   },
   "m10": {
-    "title": "Module 10 — Immobilisations et amortissements",
+    "title": "Immobilisations et amortissements",
     "questions": [
       {
         "q": "Le seuil pratique charge / immobilisation est de :",
@@ -523,7 +523,7 @@
     ]
   },
   "m11": {
-    "title": "Module 11 — Révision comptable",
+    "title": "Révision comptable",
     "questions": [
       {
         "q": "Réviser un compte, c'est :",
@@ -575,7 +575,7 @@
     ]
   },
   "m12": {
-    "title": "Module 12 — Fiscalité des entreprises",
+    "title": "Fiscalité des entreprises",
     "questions": [
       {
         "q": "Le taux normal d'IS en 2026 est :",
@@ -629,7 +629,7 @@
     ]
   },
   "m13": {
-    "title": "Module 13 — Bilan et clôture",
+    "title": "Bilan et clôture",
     "questions": [
       {
         "q": "Une FNP correspond à :",
@@ -680,7 +680,7 @@
     ]
   },
   "m14": {
-    "title": "Module 14 — Outils des cabinets",
+    "title": "Outils des cabinets",
     "questions": [
       {
         "q": "Quel outil sert principalement à l'OCR des factures ?",
@@ -734,7 +734,7 @@
     ]
   },
   "m15": {
-    "title": "Module 15 — Communication professionnelle",
+    "title": "Communication professionnelle",
     "questions": [
       {
         "q": "Un bon objet de mail contient :",
@@ -785,7 +785,7 @@
     ]
   },
   "m16": {
-    "title": "Module 16 — Production offshore",
+    "title": "Production offshore",
     "questions": [
       {
         "q": "Le décalage Madagascar / France est de :",
@@ -836,7 +836,7 @@
     ]
   },
   "m17": {
-    "title": "Module 17 — Qualité et contrôle interne",
+    "title": "Qualité et contrôle interne",
     "questions": [
       {
         "q": "Avant livraison, doivent être à 0 les comptes :",
@@ -887,7 +887,7 @@
     ]
   },
   "m20": {
-    "title": "Module 20 — Carrière et freelancing",
+    "title": "Carrière et freelancing",
     "questions": [
       {
         "q": "Le KPI qui prouve le mieux la qualité à un cabinet est :",
@@ -937,7 +937,7 @@
     ]
   },
   "m21": {
-    "title": "Module 21 — Pennylane",
+    "title": "Pennylane",
     "questions": [
       {
         "q": "Avant de valider une transaction Pennylane, il faut :",
@@ -978,7 +978,7 @@
     ]
   },
   "m22": {
-    "title": "Module 22 — Tiime",
+    "title": "Tiime",
     "questions": [
       {
         "q": "La pré-catégorisation Tiime est :",
@@ -1019,7 +1019,7 @@
     ]
   },
   "m23": {
-    "title": "Module 23 — Quadra (Cegid)",
+    "title": "Quadra (Cegid)",
     "questions": [
       {
         "q": "Avant de saisir dans Quadra, on vérifie :",
@@ -1060,7 +1060,7 @@
     ]
   },
   "m24": {
-    "title": "Module 24 — Isacompta (ISAGRI)",
+    "title": "Isacompta (ISAGRI)",
     "questions": [
       {
         "q": "Isacompta est très présent dans les dossiers :",
