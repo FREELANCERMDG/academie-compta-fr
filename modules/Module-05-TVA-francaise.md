@@ -147,6 +147,24 @@ Dans **Pennylane** (Fiscalité → TVA) ou **ACD**, ces lignes sont **pré‑rem
   - Cadeaux > seuil unitaire (au-delà du plafond légal) ;
   - Dépenses sans facture conforme.
 
+### 🇪🇺 Le numéro de TVA intracommunautaire (qui, format, vérification)
+**Qui ?** C'est l'**identifiant fiscal unique** attribué à chaque **assujetti à la TVA** pour ses opérations intra‑UE. Il doit figurer **sur la facture** dès qu'il y a une opération intracommunautaire — **celui du vendeur ET celui de l'acheteur** : livraison intracommunautaire de biens (exonérée, art. 262 ter I) et prestation de services B2B (autoliquidée par le preneur, art. 259‑1°).
+
+**Format = code pays (2 lettres ISO) + bloc national.** Pour la **France : `FR` + clé de contrôle (2 caractères) + n° SIREN (9 chiffres)** — ex. **`FR 32 123456789`** (13 caractères).
+
+| Pays | Préfixe | Structure | Exemple |
+|---|---|---|---|
+| **France** | **FR** | FR + clé (2) + SIREN (9) | **FR32123456789** |
+| Allemagne | DE | DE + 9 chiffres | DE123456789 |
+| Belgique | BE | BE + 10 chiffres (commence par 0) | BE0123456789 |
+| Espagne | ES | ES + 9 caractères (lettres/chiffres) | ESX1234567X |
+| Italie | IT | IT + 11 chiffres | IT12345678901 |
+| Luxembourg | LU | LU + 8 chiffres | LU12345678 |
+| Pays‑Bas | NL | NL + 12 caractères (…B..) | NL123456789B01 |
+| Portugal | PT | PT + 9 chiffres | PT123456789 |
+
+**Le réflexe du collaborateur :** **vérifier la validité** du n° du client/fournisseur sur **VIES** (le service officiel de la Commission européenne) **AVANT** d'exonérer une vente ou d'autoliquider un achat — [VIES — vérification des numéros de TVA](https://ec.europa.eu/taxation_customs/vies/). Si le n° est **invalide/absent**, l'exonération tombe → **TVA française due** (risque de redressement). Les ventes intracom sont aussi reportées sur l'**état récapitulatif TVA** (biens) et la prestation de services B2B sur la **DES** (Déclaration Européenne de Services).
+
 ---
 
 ## 7. Contrôles AVANT déclaration (procédure cabinet)

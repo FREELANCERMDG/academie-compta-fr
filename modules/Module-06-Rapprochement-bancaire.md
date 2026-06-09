@@ -78,6 +78,8 @@ Comme en cabinet (interface inspirée des logiciels type Pennylane, **recolorée
 
 <div class="rappro" data-rappro="r1"></div>
 
+> 🔗 **Pour aller plus loin :** [fiche pratique « Comment faire un rapprochement bancaire » (Pennylane)](https://www.pennylane.com/fr/fiches-pratiques/comptabilite/comment-faire-un-rapprochement-bancaire) — méthode, écarts typiques et fréquence (mensuelle recommandée).
+
 ## ✅ Checklist rapprochement bancaire
 - [ ] Relevé du mois complet (toutes les pages)
 - [ ] Solde initial relevé = solde final mois précédent
