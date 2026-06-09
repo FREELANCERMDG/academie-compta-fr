@@ -102,6 +102,20 @@ Documents à réunir :
 - Détail des provisions/dépréciations proposées.
 - Liste des questions/éléments à valider par l'EC.
 
+## 7 bis. Lire le bilan : 2 indicateurs clés
+
+Une fois le bilan établi, le collaborateur sait l'**analyser**. Deux indicateurs que tout chef de mission attend :
+
+### 💪 La capacité d'autofinancement (CAF)
+Ce que l'entreprise dégage réellement pour **investir, rembourser, distribuer** (résultat net + dotations, retraité des cessions) :
+<div class="calc" data-calc="caf"></div>
+
+### 🎯 Le seuil de rentabilité (point mort)
+Le chiffre d'affaires à partir duquel l'entreprise **gagne de l'argent** :
+<div class="calc" data-calc="seuil-rentabilite"></div>
+
+> 🔗 Mise en pratique complète : voir le **fil rouge « SARL ZenBureau »** (3.16), du premier euro au bilan équilibré.
+
 ## 8. Documents à demander au client (clôture)
 - Inventaire physique des **stocks** au dernier jour.
 - Relevés bancaires de **décembre** + relevé au 31/12.

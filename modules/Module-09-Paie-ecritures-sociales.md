@@ -68,6 +68,11 @@ Le logiciel de paie (**Silae**, RCA, etc.) produit un **journal de paie** = la s
 
 <div class="saisie" data-ex="paie-od"></div>
 
+### 💶 Combien coûte vraiment un salarié ?
+Du brut au coût total employeur (la question que pose tout chef d'entreprise) :
+
+<div class="calc" data-calc="cout-salarie"></div>
+
 ---
 
 ## 5. Les organismes

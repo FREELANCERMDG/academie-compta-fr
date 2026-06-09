@@ -1175,5 +1175,355 @@
     "credit": 1000
    }
   ]
+ },
+ "fr-capital": {
+  "titre": "Fil rouge ① — Apport du capital",
+  "journal": "BQ",
+  "enonce": "ZenBureau demarre : les associes apportent 10 000 EUR de capital, deposes en banque. Saisissez.",
+  "astuce": "L'argent entre en banque (512, debit) ; le capital social (101) est au credit.",
+  "tuto": [
+   "Apport -> banque <b>512</b> au debit (10 000).",
+   "Capital <b>101</b> au credit (10 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 10000,
+    "credit": 0
+   },
+   {
+    "compte": "101000",
+    "racine": "101",
+    "libelle": "Capital social",
+    "debit": 0,
+    "credit": 10000
+   }
+  ]
+ },
+ "fr-achat": {
+  "titre": "Fil rouge ② — Achat de marchandises (paye)",
+  "journal": "AC",
+  "enonce": "Achat de mobilier (marchandises) 6 000 EUR HT, TVA 20 % (1 200), regle par banque. Saisissez.",
+  "astuce": "Charge 607 + TVA deductible 44566 au debit ; banque 512 au credit (TTC 7 200).",
+  "tuto": [
+   "Achat -> <b>607</b> (6 000) + <b>44566</b> TVA (1 200) au debit.",
+   "<b>512</b> banque au credit (7 200 TTC)."
+  ],
+  "lignes": [
+   {
+    "compte": "607000",
+    "racine": "607",
+    "libelle": "Achats de marchandises",
+    "debit": 6000,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible 20 %",
+    "debit": 1200,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 7200
+   }
+  ]
+ },
+ "fr-immo": {
+  "titre": "Fil rouge ③ — Achat d'un ordinateur (immobilisation)",
+  "journal": "AC",
+  "enonce": "Achat d'un ordinateur 1 500 EUR HT, TVA 20 % (300), paye par banque. Immobilisation amortie sur 3 ans.",
+  "astuce": "Immo 2183 + TVA sur immo 44562 au debit ; banque au credit (1 800).",
+  "tuto": [
+   "Immo -> <b>2183</b> (1 500) + <b>44562</b> TVA sur immo (300) au debit.",
+   "<b>512</b> banque au credit (1 800)."
+  ],
+  "lignes": [
+   {
+    "compte": "218300",
+    "racine": "2183",
+    "libelle": "Materiel de bureau et informatique",
+    "debit": 1500,
+    "credit": 0
+   },
+   {
+    "compte": "445620",
+    "racine": "44562",
+    "libelle": "TVA deductible sur immobilisations",
+    "debit": 300,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 1800
+   }
+  ]
+ },
+ "fr-vente": {
+  "titre": "Fil rouge ④ — Ventes de l'annee (encaissees)",
+  "journal": "VT",
+  "enonce": "Ventes de mobilier 15 000 EUR HT, TVA 20 % (3 000), encaissees par banque (18 000 TTC). Saisissez.",
+  "astuce": "Banque 512 au debit (18 000) ; vente 707 (15 000) + TVA collectee 44571 (3 000) au credit.",
+  "tuto": [
+   "<b>512</b> banque au debit (18 000 TTC).",
+   "<b>707</b> ventes (15 000) + <b>44571</b> TVA collectee (3 000) au credit."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 18000,
+    "credit": 0
+   },
+   {
+    "compte": "707000",
+    "racine": "707",
+    "libelle": "Ventes de marchandises",
+    "debit": 0,
+    "credit": 15000
+   },
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectee 20 %",
+    "debit": 0,
+    "credit": 3000
+   }
+  ]
+ },
+ "fr-paie": {
+  "titre": "Fil rouge ⑤ — OD de paie de l'annee",
+  "journal": "OD",
+  "enonce": "Paie cumulee : brut 4 000 EUR, charges patronales 1 600 EUR, net 3 120 EUR, cotisations (URSSAF) 2 480 EUR. Passez l'OD de paie.",
+  "astuce": "641 brut + 645 patronales au debit ; 421 net + 431 cotisations au credit.",
+  "tuto": [
+   "Au debit : <b>641</b> (4 000) + <b>645</b> (1 600).",
+   "Au credit : <b>421</b> net (3 120) + <b>431</b> URSSAF (2 480)."
+  ],
+  "lignes": [
+   {
+    "compte": "641000",
+    "racine": "641",
+    "libelle": "Salaires bruts",
+    "debit": 4000,
+    "credit": 0
+   },
+   {
+    "compte": "645000",
+    "racine": "645",
+    "libelle": "Charges patronales",
+    "debit": 1600,
+    "credit": 0
+   },
+   {
+    "compte": "421000",
+    "racine": "421",
+    "libelle": "Personnel - net a payer",
+    "debit": 0,
+    "credit": 3120
+   },
+   {
+    "compte": "431000",
+    "racine": "431",
+    "libelle": "URSSAF",
+    "debit": 0,
+    "credit": 2480
+   }
+  ]
+ },
+ "fr-paie-reglt": {
+  "titre": "Fil rouge ⑥ — Paiement des salaires et cotisations",
+  "journal": "BQ",
+  "enonce": "Reglement par banque : net aux salaries 3 120 EUR + cotisations URSSAF 2 480 EUR (total 5 600 EUR). Soldez 421 et 431.",
+  "astuce": "On solde les dettes 421 et 431 (debit) par la banque (credit, 5 600).",
+  "tuto": [
+   "Au debit : <b>421</b> (3 120) + <b>431</b> (2 480) -> soldes.",
+   "Au credit : <b>512</b> banque (5 600)."
+  ],
+  "lignes": [
+   {
+    "compte": "421000",
+    "racine": "421",
+    "libelle": "Personnel - net paye",
+    "debit": 3120,
+    "credit": 0
+   },
+   {
+    "compte": "431000",
+    "racine": "431",
+    "libelle": "URSSAF payee",
+    "debit": 2480,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 5600
+   }
+  ]
+ },
+ "fr-loyer": {
+  "titre": "Fil rouge ⑦ — Loyer & frais (payes)",
+  "journal": "AC",
+  "enonce": "Loyers et frais generaux de l'annee : 2 000 EUR HT, TVA 20 % (400), payes par banque. Saisissez.",
+  "astuce": "Charge 613 (location) + TVA deductible 44566 au debit ; banque au credit (2 400).",
+  "tuto": [
+   "Au debit : <b>613</b> locations (2 000) + <b>44566</b> TVA (400).",
+   "Au credit : <b>512</b> banque (2 400)."
+  ],
+  "lignes": [
+   {
+    "compte": "613000",
+    "racine": "613",
+    "libelle": "Locations",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible 20 %",
+    "debit": 400,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 2400
+   }
+  ]
+ },
+ "fr-amort": {
+  "titre": "Fil rouge ⑧ — Dotation aux amortissements (cloture)",
+  "journal": "OD",
+  "enonce": "Cloture : l'ordinateur (1 500 EUR, 3 ans) genere une dotation de 500 EUR. Passez la dotation.",
+  "astuce": "1 500 / 3 = 500. Dotation 6811 au debit / amortissement 28183 au credit.",
+  "tuto": [
+   "Au debit : <b>6811</b> dotation (500).",
+   "Au credit : <b>28183</b> amortissement du materiel (500)."
+  ],
+  "lignes": [
+   {
+    "compte": "681120",
+    "racine": "6811",
+    "libelle": "Dotation aux amortissements",
+    "debit": 500,
+    "credit": 0
+   },
+   {
+    "compte": "281830",
+    "racine": "28183",
+    "libelle": "Amortissement du materiel informatique",
+    "debit": 0,
+    "credit": 500
+   }
+  ]
+ },
+ "fr-stock": {
+  "titre": "Fil rouge ⑨ — Stock final (variation, cloture)",
+  "journal": "OD",
+  "enonce": "Cloture : le stock final de marchandises est de 2 000 EUR (achats 6 000, donc 4 000 consommes). Constatez le stock final.",
+  "astuce": "Stock final a l'actif (37) en contrepartie de la variation de stock (6037, qui diminue les charges).",
+  "tuto": [
+   "Au debit : <b>37</b> stock de marchandises (2 000).",
+   "Au credit : <b>6037</b> variation des stocks (2 000)."
+  ],
+  "lignes": [
+   {
+    "compte": "370000",
+    "racine": "37",
+    "libelle": "Stocks de marchandises",
+    "debit": 2000,
+    "credit": 0
+   },
+   {
+    "compte": "603700",
+    "racine": "6037",
+    "libelle": "Variation des stocks de marchandises",
+    "debit": 0,
+    "credit": 2000
+   }
+  ]
+ },
+ "fr-tva": {
+  "titre": "Fil rouge ⑩ — Liquidation de la TVA (cloture)",
+  "journal": "OD",
+  "enonce": "Cloture TVA : collectee 3 000 EUR ; deductible 1 600 EUR (achats + loyer) + 300 EUR (immo). Soldez et constatez la TVA a decaisser.",
+  "astuce": "A decaisser = 3 000 - 1 900 = 1 100. On solde 44571 (D), 44566 et 44562 (C), et on constate 44551 (C).",
+  "tuto": [
+   "Au debit : <b>44571</b> collectee (3 000).",
+   "Au credit : <b>44566</b> (1 600) + <b>44562</b> (300) + <b>44551</b> a decaisser (1 100)."
+  ],
+  "lignes": [
+   {
+    "compte": "445710",
+    "racine": "44571",
+    "libelle": "TVA collectee",
+    "debit": 3000,
+    "credit": 0
+   },
+   {
+    "compte": "445660",
+    "racine": "44566",
+    "libelle": "TVA deductible ABS",
+    "debit": 0,
+    "credit": 1600
+   },
+   {
+    "compte": "445620",
+    "racine": "44562",
+    "libelle": "TVA deductible immobilisations",
+    "debit": 0,
+    "credit": 300
+   },
+   {
+    "compte": "445510",
+    "racine": "44551",
+    "libelle": "TVA a decaisser",
+    "debit": 0,
+    "credit": 1100
+   }
+  ]
+ },
+ "fr-is": {
+  "titre": "Fil rouge ⑪ — Impot sur les societes (cloture)",
+  "journal": "OD",
+  "enonce": "Resultat avant impot 2 900 EUR. IS au taux reduit 15 % = 435 EUR. Comptabilisez l'IS.",
+  "astuce": "Charge d'IS 695 au debit / dette envers l'Etat 444 au credit.",
+  "tuto": [
+   "2 900 x 15 % = 435.",
+   "Au debit : <b>695</b> impot sur les benefices (435).",
+   "Au credit : <b>444</b> Etat - IS (435)."
+  ],
+  "lignes": [
+   {
+    "compte": "695000",
+    "racine": "695",
+    "libelle": "Impots sur les benefices (IS)",
+    "debit": 435,
+    "credit": 0
+   },
+   {
+    "compte": "444000",
+    "racine": "444",
+    "libelle": "Etat - impot sur les benefices",
+    "debit": 0,
+    "credit": 435
+   }
+  ]
  }
 }

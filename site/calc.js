@@ -502,6 +502,78 @@
     },
     exemple: "10 j non pris × 80 €/j = 800 € + 42 % (336 €) → provision <b>1 136 €</b> : 6412/6452 → 4282/4382.",
     source: "Provision pour congés payés (déductible, art. 39 CGI) ; comptes PCG 4282 / 4382."
+  },
+
+  // ---------- coût total d'un salarié ----------
+  "cout-salarie": {
+    titre: "Coût total d'un salarié",
+    intro: "Du salaire brut au coût employeur (brut + charges patronales). Le net est approximatif (les charges salariales varient selon le statut).",
+    inputs: [
+      { key: "brut", label: "Salaire brut mensuel", type: "number", unit: "€" },
+      { key: "tp", label: "Taux de charges patronales", type: "number", unit: "%", def: "42" }
+    ],
+    compute: function (v, h) {
+      var tp = v.tp > 0 ? v.tp : 42;
+      var patr = v.brut * tp / 100, coutM = v.brut + patr, coutA = coutM * 12, netApprox = v.brut * 0.78;
+      return { rows: [
+        { l: "Charges patronales (mensuelles)", v: h.eur(patr) },
+        { l: "Coût total employeur (mensuel)", v: h.eur(coutM), b: true },
+        { l: "Coût total employeur (annuel)", v: h.eur(coutA) },
+        { l: "Net mensuel approximatif (~ −22 %)", v: h.eur(netApprox), w: true }
+      ], extra: "<b>Écriture de paie :</b> Débit <code>641</code> brut " + h.eur(v.brut) + " · Débit <code>645</code> charges patronales " + h.eur(patr) + " → Crédit <code>421</code> net + <code>431</code>/<code>437</code> cotisations.<br>Règle d'or : <b>coût employeur ≈ brut × 1,42</b> · <b>net ≈ brut × 0,78</b> (ordre de grandeur ; dépend du statut et des taux réels)." };
+    },
+    exemple: "Brut 2 000 € × 42 % = 840 € → coût employeur <b>2 840 €/mois</b> (≈ 34 080 €/an) ; net ≈ 1 560 €.",
+    source: "Taux indicatif de charges patronales (~40–45 % du brut). Vérifier les taux réels (URSSAF, retraite, prévoyance) selon la convention collective."
+  },
+
+  // ---------- Capacité d'autofinancement (CAF) ----------
+  "caf": {
+    titre: "Capacité d'autofinancement (CAF)",
+    intro: "Méthode additive : à partir du résultat net, on réintègre les charges/produits sans incidence sur la trésorerie. La CAF = ressource dégagée par l'activité pour investir, rembourser, distribuer.",
+    inputs: [
+      { key: "rn", label: "Résultat net de l'exercice", type: "number", unit: "€" },
+      { key: "dot", label: "Dotations aux amort. & provisions", type: "number", unit: "€" },
+      { key: "rep", label: "Reprises sur amort. & provisions", type: "number", unit: "€", def: "0" },
+      { key: "pc", label: "Produits de cession (compte 775)", type: "number", unit: "€", def: "0" },
+      { key: "vnc", label: "VNC des éléments cédés (compte 675)", type: "number", unit: "€", def: "0" }
+    ],
+    compute: function (v, h) {
+      var caf = v.rn + v.dot - v.rep - v.pc + v.vnc;
+      return { rows: [
+        { l: "Résultat net", v: h.eur(v.rn) },
+        { l: "+ Dotations aux amort. & provisions", v: h.eur(v.dot) },
+        { l: "− Reprises", v: h.eur(-v.rep) },
+        { l: "− Produits de cession (775)", v: h.eur(-v.pc) },
+        { l: "+ VNC des éléments cédés (675)", v: h.eur(v.vnc) },
+        { l: "= Capacité d'autofinancement", v: h.eur(caf), b: true }
+      ], extra: "La <b>CAF</b> mesure la trésorerie potentielle générée par l'exploitation (avant variation du BFR). Elle sert à <b>investir, rembourser les emprunts et distribuer des dividendes</b>. CAF − dividendes = <b>autofinancement</b>." };
+    },
+    exemple: "Résultat net 2 465 € + dotations 500 € (sans cession ni reprise) → CAF = <b>2 965 €</b> — cf. le fil rouge « SARL ZenBureau ».",
+    source: "Méthode additive de la CAF (PCG ; liasse 2058-C). On retraite reprises et plus/moins-values de cession."
+  },
+
+  // ---------- Seuil de rentabilité (point mort) ----------
+  "seuil-rentabilite": {
+    titre: "Seuil de rentabilité (point mort)",
+    intro: "Le chiffre d'affaires à partir duquel l'entreprise commence à gagner de l'argent (résultat = 0). On sépare charges variables (proportionnelles au CA) et charges fixes.",
+    inputs: [
+      { key: "ca", label: "Chiffre d'affaires annuel", type: "number", unit: "€" },
+      { key: "cv", label: "Charges variables", type: "number", unit: "€" },
+      { key: "cf", label: "Charges fixes", type: "number", unit: "€" }
+    ],
+    compute: function (v, h) {
+      var mcv = v.ca - v.cv, taux = v.ca > 0 ? mcv / v.ca : 0;
+      var sr = taux > 0 ? v.cf / taux : 0, pm = v.ca > 0 ? sr / v.ca * 365 : 0, res = mcv - v.cf;
+      return { rows: [
+        { l: "Marge sur coûts variables (MCV)", v: h.eur(mcv) },
+        { l: "Taux de marge sur CV", v: h.pct(taux * 100) },
+        { l: "Seuil de rentabilité (CA)", v: h.eur(sr), b: true },
+        { l: "Point mort", v: Math.round(pm) + " jours (sur 365)" },
+        { l: "Résultat actuel", v: h.eur(res), w: res < 0 }
+      ], extra: "Au-dessus du <b>seuil de rentabilité</b>, chaque euro de CA dégage du bénéfice (au taux de MCV) ; en dessous, l'entreprise perd. Le <b>point mort</b> = la date de l'année où le seuil est atteint." };
+    },
+    exemple: "CA 100 000 €, charges variables 60 000 € (MCV 40 000, taux 40 %), charges fixes 30 000 € → seuil = 30 000 / 0,40 = <b>75 000 €</b> ; point mort ≈ 274 j ; résultat +10 000 €.",
+    source: "Analyse coûts-volume-profit (gestion). Seuil = charges fixes / taux de marge sur coûts variables."
   }
 
   };
