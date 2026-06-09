@@ -84,12 +84,25 @@
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
 
   // ----- Construction du widget -----
+  function robot(px) {
+    return '<svg viewBox="0 0 64 64" width="' + px + '" height="' + px + '" style="display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))">' +
+      '<defs><radialGradient id="acfrH" cx="38%" cy="26%" r="85%"><stop offset="0" stop-color="#ffffff"/><stop offset="55%" stop-color="#dbe7f5"/><stop offset="100%" stop-color="#a6bedb"/></radialGradient>' +
+      '<linearGradient id="acfrE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8defff"/><stop offset="1" stop-color="#17a3d4"/></linearGradient></defs>' +
+      '<line x1="32" y1="6" x2="32" y2="15" stroke="#dbe7f5" stroke-width="2.4"/><circle cx="32" cy="5" r="3.3" fill="#E8A13A"/>' +
+      '<rect x="7" y="29" width="6" height="13" rx="3" fill="#9bb4d0"/><rect x="51" y="29" width="6" height="13" rx="3" fill="#9bb4d0"/>' +
+      '<rect x="13" y="16" width="38" height="34" rx="12" fill="url(#acfrH)" stroke="#8aa6c6" stroke-width="1"/>' +
+      '<rect x="18" y="23" width="28" height="15" rx="7.5" fill="#16307a"/>' +
+      '<circle cx="26" cy="30.5" r="3.6" fill="url(#acfrE)"/><circle cx="38" cy="30.5" r="3.6" fill="url(#acfrE)"/>' +
+      '<circle cx="24.8" cy="29.3" r="1.05" fill="#fff"/><circle cx="36.8" cy="29.3" r="1.05" fill="#fff"/>' +
+      '<path d="M25 43 q7 4.5 14 0" stroke="#8aa0bd" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<ellipse cx="27" cy="21" rx="10" ry="3.4" fill="#ffffff" opacity=".5"/></svg>';
+  }
   var launcher = document.createElement('button');
-  launcher.id = 'acfc-l'; launcher.setAttribute('aria-label', 'Ouvrir l\'assistant'); launcher.innerHTML = '💬<span class="badge">?</span>';
+  launcher.id = 'acfc-l'; launcher.setAttribute('aria-label', 'Ouvrir l\'assistant'); launcher.innerHTML = robot(40) + '<span class="badge">?</span>';
   var panel = document.createElement('div');
   panel.id = 'acfc-p'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Assistant d\'information');
   panel.innerHTML =
-    '<div id="acfc-h"><div class="av">🎓</div><div><div class="ti">Assistant Académie Compta FR</div><div class="su"><span class="acfc-dot"></span>En ligne · réponses immédiates</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
+    '<div id="acfc-h"><div class="av">' + robot(26) + '</div><div><div class="ti">Assistant Académie Compta FR</div><div class="su"><span class="acfc-dot"></span>En ligne · réponses immédiates</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
     '<div id="acfc-m" aria-live="polite"></div>' +
     '<div id="acfc-chips"></div>' +
     '<div id="acfc-f"><input id="acfc-i" placeholder="Votre question…" autocomplete="off"><button id="acfc-s" aria-label="Envoyer">➤</button></div>' +
