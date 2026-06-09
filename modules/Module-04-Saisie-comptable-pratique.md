@@ -115,8 +115,9 @@ Servent aux écritures qui ne passent pas par achats/ventes/banque : **paie, TVA
 | Assurances | 616 | **Pas de TVA** (exonérée) |
 | Téléphone / Internet | 6262 | 20 % |
 | Carburant essence/gazole | 60622 (ou 6061) | TVA : voir Module 3 (gazole 80 %, essence alignée) |
-| Restaurant / repas d'affaires | 6257 | 20 % récupérable si justifié pro |
-| Déplacements (train, avion, péage, hôtel) | 6251 | train/avion exonérés ; hôtel 10 % ; péage 20 % |
+| Restaurant / repas d'affaires | 6257 | **Multi‑taux** : repas & boissons sans alcool **10 %**, boissons **alcoolisées 20 %** — déductible si **professionnel** (⚠️ jamais un taux unique de 20 %) |
+| Déplacements (train, avion, péage) | 6251 | train/avion **exonérés** ; péage **20 %** |
+| **Hôtel / hébergement** (dirigeant ou salarié) | 6251 | **TVA NON déductible** → tout le **TTC en charge** |
 | Honoraires (EC, avocat) | 6226 | 20 % |
 | Sous-traitance | 611 | 20 % (ou autoliquidation BTP) |
 | Abonnements / logiciels SaaS | 6262 ou 6063 | 20 % (vérifier si fournisseur UE → autoliq.) |
@@ -130,6 +131,10 @@ Servent aux écritures qui ne passent pas par achats/ventes/banque : **paie, TVA
 | Entretien et réparations | 615 | 20 % |
 
 > ⚠️ **Véhicules de tourisme (VP)** : TVA sur l'achat et l'entretien **non déductible** ; carburant partiellement déductible. Détail Module 3.
+
+> 🍽️ **Restauration — TVA en MULTI‑TAUX (ne jamais figer à 20 %)** : un ticket de restaurant porte **plusieurs taux** — **10 %** sur la nourriture et les boissons **sans alcool** consommées sur place, **20 %** sur les boissons **alcoolisées**. On récupère la TVA **ligne par ligne, au taux réel imprimé sur la facture**, jamais à un taux unique. La TVA n'est déductible que si la dépense a un **caractère professionnel** (repas d'affaires, déplacement pro) et que la **facture est conforme** (mention du bénéficiaire si > seuil).
+
+> 🏨 **Hôtel / hébergement — fiscalité** : ① **TVA** : l'hébergement du **dirigeant ou des salariés** de l'entreprise est **exclu du droit à déduction** → on passe **tout le TTC en charge** (6251). ② **Charge (IS/IR)** : la dépense n'est **déductible** que si elle est engagée dans l'**intérêt de l'entreprise**. Si elle correspond à un **événement NON professionnel** (séjour privé, week‑end personnel, invité sans lien d'affaires), elle est **NON déductible** → **réintégration** au résultat fiscal (et, le cas échéant, **avantage en nature** à déclarer). Réflexe collaborateur : exiger le **motif professionnel** de la note de frais avant de comptabiliser en charge déductible.
 
 ---
 
