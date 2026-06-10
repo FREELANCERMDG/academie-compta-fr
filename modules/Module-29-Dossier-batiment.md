@@ -148,4 +148,4 @@ Sur un chantier long, on facture par **situations** (avancement périodique).
 4. Plafond et durée de la **retenue de garantie** ? Quel compte chez l'entreprise qui la subit ?
 5. Une **situation de travaux** est‑elle un produit ou un « travaux en cours » ?
 
-**Seuil : 7/10.** **Corrigé :** 1) **20 %** (neuf/pro), **10 %** (amélioration logement +2 ans), **5,5 %** (rénovation énergétique +2 ans). 2) une **simple mention** du client sur le **devis/facture**. 3) `611 = 5 000 D / 401 = 5 000 C` + autoliquidation `44566 = 1 000 D / 4457 = 1 000 C`. 4) **5 % max**, libérée **1 an** après réception ; compte **4117**. 5) un **produit** (créance acquise, compte 704), **pas** des travaux en cours.
+**Seuil : 7/10.** **Corrigé :** 1) **20 %** (neuf/pro), **10 %** (amélioration logement +2 ans), **5,5 %** (rénovation énergétique +2 ans). 2) une **simple mention** du client sur le **devis/facture**. 3) `604 = 5 000 D / 401 = 5 000 C` + autoliquidation `44566 = 1 000 D / 4457 = 1 000 C`. 4) **5 % max**, libérée **1 an** après réception ; compte **4117**. 5) un **produit** (créance acquise, compte 704), **pas** des travaux en cours.

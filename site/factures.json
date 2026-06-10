@@ -467,7 +467,7 @@
    {
     "compte": "401LOC",
     "racine": "401",
-    "libelle": "Fournisseur Europcar",
+    "libelle": "Fournisseur LOCAUTO Location France",
     "debit": 0,
     "credit": 420
    }
@@ -482,7 +482,7 @@
   "journal": "AC",
   "enonce": "Comptabilisez la facture d'hôtel engagée pour le dirigeant lors d'un salon professionnel. Déterminez le traitement de la TVA sur l'hébergement.",
   "doc": {
-   "emetteur": "Hôtel Hôtel LE CENTRAL Centre",
+   "emetteur": "Hôtel LE CENTRAL",
    "num": "H-2026-19044",
    "date": "2026-06-02",
    "echeance": "2026-07-02",
@@ -510,7 +510,7 @@
    {
     "compte": "401HOT",
     "racine": "401",
-    "libelle": "Fournisseur Hôtel Mercure",
+    "libelle": "Fournisseur Hôtel LE CENTRAL",
     "debit": 0,
     "credit": 242
    }

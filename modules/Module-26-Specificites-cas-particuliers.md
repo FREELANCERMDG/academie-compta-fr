@@ -70,7 +70,7 @@ La société **avance des frais pour le compte de son client** (ex. frais de gre
 ## 7) 🎓 CIFD — Crédit d'Impôt Formation du Dirigeant
 - **Calcul :** **nombre d'heures de formation (max 40 h/an) × taux horaire du SMIC** de l'année.
 - **Condition :** organisme avec **agrément formation** (mention sur la facture).
-- **Société à l'IS :** écriture **695xx D / 444 C** ; le crédit est **réintégré fiscalement**.
+- **Société à l'IS :** le crédit d'impôt est une **créance sur l'État** qui vient en **diminution de l'IS** → écriture **444 D / 695 (ou 699) C**. C'est un **produit non imposable** (aucun retraitement à l'IS : il transite par le compte d'impôt, pas par un produit).
 - **Société à l'IR :** **pas d'écriture** ; on **indique le montant dans le rapport** (les associés l'imputent sur leur déclaration personnelle).
 
 ---

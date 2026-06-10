@@ -192,7 +192,7 @@ function layout(title, body, sess) {
   const wa = (soc.whatsapp || '').replace(/\D/g, '');
   const waBtn = wa ? `<a class="wa" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite des informations sur la formation en comptabilité française externalisée.')}" target="_blank" rel="noopener" title="Contact WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.02zm-7.01 15.22h-.004a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>` : '';
   const nav = u
-    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
+    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/logiciel">🧪 Logiciel</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
     : `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
@@ -1010,6 +1010,133 @@ function postEmploiRetirer(req, res, sess, body) {
 }
 
 // --- Routeur ---
+// ============================================================
+// === LOGICIEL COMPTABLE — sandbox pédagogique (partie double) ===
+// ============================================================
+let _pcgL = null;
+function pcgL() { if (!_pcgL) { try { _pcgL = JSON.parse(fs.readFileSync(path.join(ROOT, 'site', 'pcg.json'), 'utf8')); } catch { _pcgL = []; } } return _pcgL; }
+function pcgNom(num) { const c = String(num || '').replace(/\s/g, ''); if (!c) return ''; let best = null; for (const a of pcgL()) { const nn = String(a.num); if (c.indexOf(nn) === 0) { if (!best || nn.length > best.n.length) best = { n: nn, nom: a.nom }; } } return best ? best.nom : ''; }
+function eurf(n) { return (Math.round((n || 0) * 100) / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+const CPTA_JX = [['AC', 'Achats'], ['VT', 'Ventes'], ['BQ', 'Banque'], ['CA', 'Caisse'], ['OD', 'Opérations diverses']];
+function ensureDossier(uid) {
+  let d = db.prepare('SELECT * FROM cpta_dossiers WHERE user_id=? ORDER BY cree_le LIMIT 1').get(uid);
+  if (!d) { const id = rid(10); db.prepare('INSERT INTO cpta_dossiers(id,user_id,nom,ex_debut,ex_fin,cree_le) VALUES(?,?,?,?,?,?)').run(id, uid, "Ma société d'entraînement", '2026-01-01', '2026-12-31', new Date().toISOString()); d = db.prepare('SELECT * FROM cpta_dossiers WHERE id=?').get(id); }
+  return d;
+}
+function cptaBalance(did) { return db.prepare('SELECT compte, SUM(debit) d, SUM(credit) c FROM cpta_lignes WHERE dossier_id=? GROUP BY compte ORDER BY compte').all(did).map(r => ({ compte: r.compte, nom: pcgNom(r.compte), debit: r.d || 0, credit: r.c || 0, solde: (r.d || 0) - (r.c || 0) })); }
+function cptaResultat(did) { const b = cptaBalance(did); let ch = 0, pr = 0; for (const r of b) { const cl = r.compte.charAt(0); if (cl === '6') ch += r.debit - r.credit; else if (cl === '7') pr += r.credit - r.debit; } return { charges: ch, produits: pr, resultat: pr - ch }; }
+function cptaNav(active) { const items = [['/logiciel', 'Accueil'], ['/logiciel/saisie', '🖊️ Saisie'], ['/logiciel/grand-livre', '📒 Grand livre'], ['/logiciel/balance', '⚖️ Balance'], ['/logiciel/etats', '📊 États']]; return '<p style="margin:0 0 12px">' + items.map(i => i[0] === active ? `<b>${esc(i[1])}</b>` : `<a href="${i[0]}">${esc(i[1])}</a>`).join(' &nbsp;·&nbsp; ') + '</p>'; }
+
+function pageLogiciel(sess) {
+  const u = sess.user, d = ensureDossier(u.id);
+  const nbE = db.prepare('SELECT COUNT(*) c FROM cpta_ecritures WHERE dossier_id=?').get(d.id).c;
+  const tot = db.prepare('SELECT SUM(debit) d, SUM(credit) c FROM cpta_lignes WHERE dossier_id=?').get(d.id);
+  const r = cptaResultat(d.id), eq = Math.abs((tot.d || 0) - (tot.c || 0)) < 0.005;
+  return layout('Logiciel', `<h1>🧪 Logiciel comptable <span class="muted" style="font-size:13px;font-weight:400">· sandbox d'entraînement</span></h1>
+  <p class="muted">Votre société d'entraînement : <b>${esc(d.nom)}</b> · exercice ${esc(d.ex_debut)} → ${esc(d.ex_fin)}. Saisissez de <b>vraies écritures</b> et voyez le <b>grand livre</b>, la <b>balance</b> et le <b>bilan</b> se calculer tout seuls.</p>
+  <div class="grid">
+   <a class="offre" href="/logiciel/saisie" style="text-decoration:none"><h3>🖊️ Saisie</h3><p class="muted">Passer une écriture par journal</p></a>
+   <a class="offre" href="/logiciel/grand-livre" style="text-decoration:none"><h3>📒 Grand livre</h3><p class="muted">Le détail compte par compte</p></a>
+   <a class="offre" href="/logiciel/balance" style="text-decoration:none"><h3>⚖️ Balance générale</h3><p class="muted">Soldes de tous les comptes</p></a>
+   <a class="offre" href="/logiciel/etats" style="text-decoration:none"><h3>📊 États de synthèse</h3><p class="muted">Bilan & compte de résultat</p></a>
+  </div>
+  <section class="card"><h2>Synthèse</h2>
+   <div class="stats"><div class="stat"><b>${nbE}</b><span>écriture${nbE > 1 ? 's' : ''}</span></div><div class="stat"><b>${eurf(tot.d || 0)}</b><span>total débit</span></div><div class="stat"><b>${eurf(tot.c || 0)}</b><span>total crédit</span></div><div class="stat"><b style="color:${r.resultat >= 0 ? '#1f8a4c' : '#c0392b'}">${eurf(r.resultat)}</b><span>résultat</span></div></div>
+   <p class="muted" style="font-size:12px">Comptabilité ${eq ? '✅ équilibrée' : '⚠️ déséquilibrée'} (Σ débit = Σ crédit).</p>
+   <p><a class="btn" href="/logiciel/saisie">+ Nouvelle écriture</a> ${nbE ? `<form method="post" action="/logiciel/reset" class="inline" style="margin:0" onsubmit="return confirm('Effacer TOUTES les écritures de votre société d\\'entraînement ?')">${csrfField(sess)}<button class="btn ghost" type="submit">↺ Réinitialiser le dossier</button></form>` : ''}</p>
+  </section>`, sess);
+}
+function pageLogicielSaisie(sess, msg) {
+  const d = ensureDossier(sess.user.id);
+  const recent = db.prepare('SELECT * FROM cpta_ecritures WHERE dossier_id=? ORDER BY cree_le DESC LIMIT 15').all(d.id);
+  const lineRow = '<tr><td><input class="cc" placeholder="ex. 607" autocomplete="off" style="width:100%"></td><td><input class="cl" placeholder="libellé" style="width:100%"></td><td><input class="cd" inputmode="decimal" placeholder="0,00" style="width:100%;text-align:right"></td><td><input class="cr" inputmode="decimal" placeholder="0,00" style="width:100%;text-align:right"></td><td style="text-align:center"><button type="button" class="rm" title="Supprimer" style="border:none;background:#fbe7e7;color:#c0392b;border-radius:6px;width:26px;height:26px;cursor:pointer">×</button></td></tr>';
+  return layout('Saisie', `<h1>🖊️ Nouvelle écriture</h1>${cptaNav('/logiciel/saisie')}
+  ${msg ? `<p style="${/non|déséqu|erreur/i.test(msg) ? 'color:#c0392b' : 'color:#1f8a4c'};font-weight:600">${esc(msg)}</p>` : ''}
+  <section class="card">
+   <form method="post" action="/logiciel/saisie" id="cpta-form">${csrfField(sess)}<input type="hidden" name="lignes" id="cpta-json">
+    <div class="row"><label>Journal<select name="journal">${CPTA_JX.map(j => `<option value="${j[0]}">${j[0]} — ${j[1]}</option>`).join('')}</select></label>
+    <label>Date<input type="date" name="date" value="${esc(d.ex_debut)}"></label>
+    <label>N° pièce<input name="piece" placeholder="facultatif"></label></div>
+    <label>Libellé de l'écriture<input name="libelle" placeholder="ex. Achat de fournitures" required maxlength="160"></label>
+    <table style="width:100%;border-collapse:collapse;margin:8px 0"><thead><tr><th style="text-align:left">Compte</th><th style="text-align:left">Libellé</th><th>Débit</th><th>Crédit</th><th></th></tr></thead><tbody id="cpta-lines">${lineRow + lineRow + lineRow + lineRow}</tbody></table>
+    <p><button type="button" class="btn ghost small" id="cpta-add">+ Ligne</button></p>
+    <p>Total débit : <b id="cpta-td">0,00</b> &nbsp;·&nbsp; Total crédit : <b id="cpta-tc">0,00</b> &nbsp;·&nbsp; <span id="cpta-bal" style="font-weight:700">déséquilibré</span></p>
+    <button class="btn" type="submit">Enregistrer l'écriture</button></form>
+  </section>
+  <section class="card"><h2>Dernières écritures</h2>
+   ${recent.length ? recent.map(e => { const ls = db.prepare('SELECT * FROM cpta_lignes WHERE ecriture_id=? ORDER BY debit DESC').all(e.id); const td = ls.reduce((s, l) => s + l.debit, 0); return `<div class="offre" style="margin-bottom:8px"><p style="margin:0 0 4px"><form method="post" action="/logiciel/ecriture-suppr" class="inline" style="float:right;margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(e.id)}"><button class="btn small ghost" title="Supprimer">🗑</button></form><b>${esc(e.journal)}</b> · ${esc(e.date)} · ${esc(e.libelle)} <span class="muted" style="font-size:11px">${eurf(td)} €</span></p><table style="width:100%;border-collapse:collapse;font-size:12.5px">${ls.map(l => `<tr><td style="padding:2px 6px">${esc(l.compte)}</td><td style="padding:2px 6px;color:#5a6b80">${esc(pcgNom(l.compte))}</td><td style="padding:2px 6px;text-align:right;color:#1554b8">${l.debit ? eurf(l.debit) : ''}</td><td style="padding:2px 6px;text-align:right;color:#9a5b00">${l.credit ? eurf(l.credit) : ''}</td></tr>`).join('')}</table></div>`; }).join('') : '<p class="muted">Aucune écriture — saisissez la première !</p>'}
+  </section>
+  <script src="/public/logiciel.js?v=${ASSET_V}" defer></script>`, sess);
+}
+function pageBalance(sess) {
+  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id);
+  const td = b.reduce((s, r) => s + r.debit, 0), tc = b.reduce((s, r) => s + r.credit, 0);
+  return layout('Balance', `<h1>⚖️ Balance générale</h1>${cptaNav('/logiciel/balance')}
+  <section class="card">${b.length ? `<table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left">Compte</th><th style="text-align:left">Intitulé</th><th style="text-align:right">Débit</th><th style="text-align:right">Crédit</th><th style="text-align:right">Solde</th></tr>${b.map(r => `<tr><td><a href="/logiciel/grand-livre?c=${esc(r.compte)}">${esc(r.compte)}</a></td><td>${esc(r.nom)}</td><td style="text-align:right">${eurf(r.debit)}</td><td style="text-align:right">${eurf(r.credit)}</td><td style="text-align:right">${eurf(r.solde)}</td></tr>`).join('')}<tr style="font-weight:800;border-top:2px solid #16307a"><td colspan="2">TOTAUX</td><td style="text-align:right">${eurf(td)}</td><td style="text-align:right">${eurf(tc)}</td><td style="text-align:right">${eurf(td - tc)}</td></tr></table><p class="muted" style="font-size:12px">${Math.abs(td - tc) < 0.005 ? '✅ Balance équilibrée.' : '⚠️ Déséquilibre de ' + eurf(td - tc) + ' € — une écriture est fausse.'}</p>` : '<p class="muted">Aucune écriture. <a href="/logiciel/saisie">Saisir une écriture →</a></p>'}</section>`, sess);
+}
+function pageGrandLivre(sess, compte) {
+  const d = ensureDossier(sess.user.id);
+  if (compte) {
+    const ls = db.prepare('SELECT l.*, e.date d, e.journal j, e.libelle el FROM cpta_lignes l JOIN cpta_ecritures e ON e.id=l.ecriture_id WHERE l.dossier_id=? AND l.compte=? ORDER BY e.date, e.cree_le').all(d.id, compte);
+    let s = 0; const rows = ls.map(l => { s += l.debit - l.credit; return `<tr><td>${esc(l.d)}</td><td>${esc(l.j)}</td><td>${esc(l.el || l.libelle)}</td><td style="text-align:right;color:#1554b8">${l.debit ? eurf(l.debit) : ''}</td><td style="text-align:right;color:#9a5b00">${l.credit ? eurf(l.credit) : ''}</td><td style="text-align:right;font-weight:700">${eurf(s)}</td></tr>`; }).join('');
+    return layout('Grand livre', `<h1>📒 ${esc(compte)} <span class="muted" style="font-size:14px;font-weight:400">${esc(pcgNom(compte))}</span></h1>${cptaNav('/logiciel/grand-livre')}<section class="card">${ls.length ? `<table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left">Date</th><th>Jl</th><th style="text-align:left">Libellé</th><th style="text-align:right">Débit</th><th style="text-align:right">Crédit</th><th style="text-align:right">Solde</th></tr>${rows}</table>` : '<p class="muted">Aucun mouvement sur ce compte.</p>'}</section>`, sess);
+  }
+  const b = cptaBalance(d.id);
+  return layout('Grand livre', `<h1>📒 Grand livre</h1>${cptaNav('/logiciel/grand-livre')}<section class="card"><p class="muted">Choisissez un compte :</p>${b.length ? `<div class="prog">${b.map(r => `<div class="pitem"><span><a href="/logiciel/grand-livre?c=${esc(r.compte)}">${esc(r.compte)} ${esc(r.nom)}</a></span><b>${eurf(r.solde)}</b></div>`).join('')}</div>` : '<p class="muted">Aucune écriture.</p>'}</section>`, sess);
+}
+function pageEtats(sess) {
+  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id), r = cptaResultat(d.id);
+  const charges = b.filter(x => x.compte.charAt(0) === '6'), produits = b.filter(x => x.compte.charAt(0) === '7');
+  const actif = b.filter(x => x.solde > 0.005 && '2345'.includes(x.compte.charAt(0)));
+  const passif = b.filter(x => x.solde < -0.005 && '145'.includes(x.compte.charAt(0)));
+  const totA = actif.reduce((s, x) => s + x.solde, 0), totPh = passif.reduce((s, x) => s - x.solde, 0), totP = totPh + r.resultat;
+  const liR = (arr, sens) => arr.map(x => `<tr><td>${esc(x.compte)} ${esc(x.nom)}</td><td style="text-align:right">${eurf(sens === 'd' ? x.solde : -x.solde)}</td></tr>`).join('');
+  return layout('États', `<h1>📊 États de synthèse</h1>${cptaNav('/logiciel/etats')}
+  <section class="card"><h2>📈 Compte de résultat</h2>
+   <div class="grid"><div><h3 style="color:#9a5b00">Charges (classe 6)</h3><table style="width:100%;border-collapse:collapse">${charges.length ? charges.map(x => `<tr><td>${esc(x.compte)} ${esc(x.nom)}</td><td style="text-align:right">${eurf(x.debit - x.credit)}</td></tr>`).join('') : '<tr><td class="muted">—</td></tr>'}<tr style="font-weight:800;border-top:1px solid #ccc"><td>Total charges</td><td style="text-align:right">${eurf(r.charges)}</td></tr></table></div>
+   <div><h3 style="color:#1f8a4c">Produits (classe 7)</h3><table style="width:100%;border-collapse:collapse">${produits.length ? produits.map(x => `<tr><td>${esc(x.compte)} ${esc(x.nom)}</td><td style="text-align:right">${eurf(x.credit - x.debit)}</td></tr>`).join('') : '<tr><td class="muted">—</td></tr>'}<tr style="font-weight:800;border-top:1px solid #ccc"><td>Total produits</td><td style="text-align:right">${eurf(r.produits)}</td></tr></table></div></div>
+   <p style="font-size:17px;margin-top:10px"><b>Résultat de l'exercice : <span style="color:${r.resultat >= 0 ? '#1f8a4c' : '#c0392b'}">${eurf(r.resultat)} €</span></b> (${r.resultat >= 0 ? 'bénéfice' : 'perte'})</p></section>
+  <section class="card"><h2>⚖️ Bilan</h2>
+   <div class="grid"><div><h3>ACTIF</h3><table style="width:100%;border-collapse:collapse">${liR(actif, 'd') || '<tr><td class="muted">—</td></tr>'}<tr style="font-weight:800;border-top:2px solid #16307a"><td>TOTAL ACTIF</td><td style="text-align:right">${eurf(totA)}</td></tr></table></div>
+   <div><h3>PASSIF</h3><table style="width:100%;border-collapse:collapse">${liR(passif, 'c')}<tr><td>Résultat de l'exercice</td><td style="text-align:right">${eurf(r.resultat)}</td></tr><tr style="font-weight:800;border-top:2px solid #16307a"><td>TOTAL PASSIF</td><td style="text-align:right">${eurf(totP)}</td></tr></table></div></div>
+   <p class="muted" style="font-size:12px">${Math.abs(totA - totP) < 0.01 ? '✅ Bilan équilibré : ACTIF = PASSIF.' : '⚠️ Bilan déséquilibré (vérifiez vos écritures).'}</p></section>`, sess);
+}
+function postLogicielSaisie(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const d = ensureDossier(sess.user.id);
+  const journal = String(body.journal || 'OD').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4) || 'OD';
+  const date = (String(body.date || '').slice(0, 10)) || new Date().toISOString().slice(0, 10);
+  const lib = String(body.libelle || '').trim().slice(0, 160);
+  const piece = String(body.piece || '').trim().slice(0, 40);
+  let raw = []; try { raw = JSON.parse(body.lignes || '[]'); } catch { raw = []; }
+  const numv = v => { v = ('' + (v == null ? '' : v)).replace(/\s/g, '').replace(',', '.').replace(/[^0-9.\-]/g, ''); const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+  const lignes = [];
+  for (const l of (Array.isArray(raw) ? raw : [])) { const cpt = String(l.compte || '').replace(/\s/g, '').toUpperCase().slice(0, 12); const dd = numv(l.debit), cc = numv(l.credit); if (cpt && (dd || cc)) lignes.push({ compte: cpt, libelle: String(l.libelle || '').slice(0, 120), debit: dd, credit: cc }); }
+  const sd = lignes.reduce((s, l) => s + l.debit, 0), sc = lignes.reduce((s, l) => s + l.credit, 0);
+  if (!lib || lignes.length < 2 || sd <= 0 || Math.abs(sd - sc) >= 0.005) return send(res, 200, pageLogicielSaisie(sess, 'Écriture non enregistrée : libellé + au moins 2 lignes équilibrées (Σ débit = Σ crédit > 0).'));
+  const eid = rid(10), now = new Date().toISOString();
+  db.prepare('INSERT INTO cpta_ecritures(id,dossier_id,journal,date,libelle,piece,cree_le) VALUES(?,?,?,?,?,?,?)').run(eid, d.id, journal, date, lib, piece, now);
+  const ins = db.prepare('INSERT INTO cpta_lignes(id,ecriture_id,dossier_id,compte,libelle,debit,credit) VALUES(?,?,?,?,?,?,?)');
+  for (const l of lignes) ins.run(rid(10), eid, d.id, l.compte, l.libelle, l.debit, l.credit);
+  audit(db, sess.user.id, 'cpta_ecriture', journal + ' ' + eurf(sd), ip(req));
+  return send(res, 200, pageLogicielSaisie(sess, 'Écriture enregistrée ✅'));
+}
+function postLogicielSuppr(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const d = ensureDossier(sess.user.id);
+  const e = db.prepare('SELECT id FROM cpta_ecritures WHERE id=? AND dossier_id=?').get(body.id, d.id);
+  if (e) { db.prepare('DELETE FROM cpta_lignes WHERE ecriture_id=?').run(e.id); db.prepare('DELETE FROM cpta_ecritures WHERE id=?').run(e.id); }
+  return redirect(res, '/logiciel/saisie');
+}
+function postLogicielReset(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const d = ensureDossier(sess.user.id);
+  db.prepare('DELETE FROM cpta_lignes WHERE dossier_id=?').run(d.id);
+  db.prepare('DELETE FROM cpta_ecritures WHERE dossier_id=?').run(d.id);
+  audit(db, sess.user.id, 'cpta_reset', '', ip(req));
+  return redirect(res, '/logiciel');
+}
+
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://x');
@@ -1023,7 +1150,7 @@ const server = http.createServer(async (req, res) => {
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
       if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
-      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
+      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
         const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
         const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
@@ -1062,6 +1189,11 @@ const server = http.createServer(async (req, res) => {
         return serveAttestation(res, sess);
       }
       if (p === '/communaute') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageForum(sess)); }
+      if (p === '/logiciel') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageLogiciel(sess)); }
+      if (p === '/logiciel/saisie') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageLogicielSaisie(sess, '')); }
+      if (p === '/logiciel/grand-livre') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageGrandLivre(sess, (url.searchParams.get('c') || '').replace(/\s/g, ''))); }
+      if (p === '/logiciel/balance') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageBalance(sess)); }
+      if (p === '/logiciel/etats') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageEtats(sess)); }
       if (p === '/communaute/messages') {
         if (!authed(sess) || !forumAccess(sess)) { res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end('[]'); }
         const out = forumMsgsSince(url.searchParams.get('since') || '').map(forumMsgJSON);
@@ -1125,6 +1257,9 @@ const server = http.createServer(async (req, res) => {
       if (p === '/admin/annonce-off') return postAnnonceOff(req, res, sess, body);
       if (p === '/communaute') return postForum(req, res, sess, body);
       if (p === '/communaute/supprimer') return postForumSupprimer(req, res, sess, body);
+      if (p === '/logiciel/saisie') return postLogicielSaisie(req, res, sess, body);
+      if (p === '/logiciel/ecriture-suppr') return postLogicielSuppr(req, res, sess, body);
+      if (p === '/logiciel/reset') return postLogicielReset(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);

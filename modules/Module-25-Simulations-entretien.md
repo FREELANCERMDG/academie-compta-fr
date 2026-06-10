@@ -30,7 +30,7 @@
 > « Ligne **08** = base à 20 % (TVA collectée) ; **20** = TVA déductible sur biens et services ; **28** = **TVA nette due** (collectée − déductible). »
 
 **Q7. Un sous‑traitant du BTP vous facture 5 000 € HT, sans TVA. Que faites‑vous (donneur d'ordre) ?**
-> « **Autoliquidation** (art. 283‑2 nonies) : 611 = 5 000 (D) / 401 = 5 000 (C), puis **44566 = 1 000 (D) / 4457 = 1 000 (C)**. À déclarer sur la CA3. »
+> « **Autoliquidation** (art. 283‑2 nonies) : 604 = 5 000 (D) / 401 = 5 000 (C), puis **44566 = 1 000 (D) / 4457 = 1 000 (C)**. À déclarer sur la CA3. »
 
 **Q8. Achat à 5 000 € HT en Allemagne (intracom) ?**
 > « Acquisition intracommunautaire : **autoliquidation** — je collecte (4452) **et** déduis (44566) la TVA ; impact net 0, mais obligatoire (CA3 lignes 03/17/20). »
@@ -195,4 +195,4 @@
 4. Donnez 2 **réintégrations** fiscales classiques.
 5. Citez 1 **question** à poser au recruteur.
 
-**Seuil : 7/10.** **Corrigé :** 1) parcours + normes FR + outils + posture « je fais valider ». 2) 611 / 401 puis **autoliquidation** 44566 / 4457. 3) **2065 + tableaux 2050‑2059**. 4) amendes, TVS, amort. VP excédentaire (au choix). 5) organisation de l'équipe / outils / perspectives.
+**Seuil : 7/10.** **Corrigé :** 1) parcours + normes FR + outils + posture « je fais valider ». 2) 604 / 401 puis **autoliquidation** 44566 / 4457. 3) **2065 + tableaux 2050‑2059**. 4) amendes, TVS, amort. VP excédentaire (au choix). 5) organisation de l'équipe / outils / perspectives.

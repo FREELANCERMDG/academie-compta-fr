@@ -66,6 +66,12 @@ export function openDB() {
   try { db.exec("CREATE TABLE IF NOT EXISTS forum(id TEXT PRIMARY KEY, user_id TEXT, message TEXT, cree_le TEXT, supprime INTEGER DEFAULT 0)"); } catch { }
   // migration : présence "en ligne" (dernier passage de l'utilisateur)
   try { db.exec('ALTER TABLE users ADD COLUMN vu_le TEXT'); } catch { }
+  // === Logiciel comptable (sandbox pédagogique) : moteur partie double ===
+  try { db.exec("CREATE TABLE IF NOT EXISTS cpta_dossiers(id TEXT PRIMARY KEY, user_id TEXT, nom TEXT, ex_debut TEXT, ex_fin TEXT, cree_le TEXT)"); } catch { }
+  try { db.exec("CREATE TABLE IF NOT EXISTS cpta_ecritures(id TEXT PRIMARY KEY, dossier_id TEXT, journal TEXT, date TEXT, libelle TEXT, piece TEXT, cree_le TEXT)"); } catch { }
+  try { db.exec("CREATE TABLE IF NOT EXISTS cpta_lignes(id TEXT PRIMARY KEY, ecriture_id TEXT, dossier_id TEXT, compte TEXT, libelle TEXT, debit REAL DEFAULT 0, credit REAL DEFAULT 0)"); } catch { }
+  try { db.exec("CREATE INDEX IF NOT EXISTS idx_cpta_lignes_dossier ON cpta_lignes(dossier_id)"); } catch { }
+  try { db.exec("CREATE INDEX IF NOT EXISTS idx_cpta_ecritures_dossier ON cpta_ecritures(dossier_id)"); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');

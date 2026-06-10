@@ -1179,11 +1179,11 @@
  "fr-capital": {
   "titre": "Fil rouge ① — Apport du capital",
   "journal": "BQ",
-  "enonce": "ZenBureau demarre : les associes apportent 10 000 EUR de capital, deposes en banque. Saisissez.",
+  "enonce": "ZenBureau demarre : les associes apportent 10 000 EUR de capital, deposes en banque. Saisissez (journal BQ).",
   "astuce": "L'argent entre en banque (512, debit) ; le capital social (101) est au credit.",
   "tuto": [
-   "Apport -> banque <b>512</b> au debit (10 000).",
-   "Capital <b>101</b> au credit (10 000)."
+   "Apport en banque -> journal <b>BQ</b>.",
+   "<b>512</b> banque au debit (10 000) ; <b>101</b> capital au credit (10 000)."
   ],
   "lignes": [
    {
@@ -1203,13 +1203,14 @@
   ]
  },
  "fr-achat": {
-  "titre": "Fil rouge ② — Achat de marchandises (paye)",
+  "titre": "Fil rouge ② — Achat de marchandises (facture)",
   "journal": "AC",
-  "enonce": "Achat de mobilier (marchandises) 6 000 EUR HT, TVA 20 % (1 200), regle par banque. Saisissez.",
-  "astuce": "Charge 607 + TVA deductible 44566 au debit ; banque 512 au credit (TTC 7 200).",
+  "enonce": "Facture fournisseur : mobilier (marchandises) 6 000 EUR HT, TVA 20 % (1 200). A CREDIT. Saisissez la facture d'achat (journal AC). Le reglement viendra ensuite en banque.",
+  "astuce": "Facture d'achat -> journal AC : charge 607 + TVA deductible 44566 au debit ; FOURNISSEUR 401 au credit (TTC 7 200). Pas de 512 ici : la banque, c'est le journal BQ.",
   "tuto": [
-   "Achat -> <b>607</b> (6 000) + <b>44566</b> TVA (1 200) au debit.",
-   "<b>512</b> banque au credit (7 200 TTC)."
+   "Facture d'achat -> journal <b>AC</b>.",
+   "Au <b>debit</b> : <b>607</b> (6 000) + <b>44566</b> TVA (1 200).",
+   "Au <b>credit</b> : <b>401</b> fournisseur (7 200 TTC)."
   ],
   "lignes": [
    {
@@ -1227,22 +1228,23 @@
     "credit": 0
    },
    {
-    "compte": "512000",
-    "racine": "512",
-    "libelle": "Banque",
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur de marchandises",
     "debit": 0,
     "credit": 7200
    }
   ]
  },
  "fr-immo": {
-  "titre": "Fil rouge ③ — Achat d'un ordinateur (immobilisation)",
+  "titre": "Fil rouge ④ — Achat de l'ordinateur (facture)",
   "journal": "AC",
-  "enonce": "Achat d'un ordinateur 1 500 EUR HT, TVA 20 % (300), paye par banque. Immobilisation amortie sur 3 ans.",
-  "astuce": "Immo 2183 + TVA sur immo 44562 au debit ; banque au credit (1 800).",
+  "enonce": "Facture : ordinateur 1 500 EUR HT, TVA 20 % (300), a credit. Immobilisation amortie sur 3 ans. Saisissez la facture (journal AC).",
+  "astuce": "Facture d'immo -> journal AC : immo 2183 + TVA sur immo 44562 au debit ; fournisseur d'immo 401IMMO au credit (1 800).",
   "tuto": [
-   "Immo -> <b>2183</b> (1 500) + <b>44562</b> TVA sur immo (300) au debit.",
-   "<b>512</b> banque au credit (1 800)."
+   "Facture d'immo -> journal <b>AC</b>.",
+   "Au <b>debit</b> : <b>2183</b> (1 500) + <b>44562</b> TVA immo (300).",
+   "Au <b>credit</b> : <b>401IMMO</b> fournisseur d'immobilisations (1 800)."
   ],
   "lignes": [
    {
@@ -1260,28 +1262,29 @@
     "credit": 0
    },
    {
-    "compte": "512000",
-    "racine": "512",
-    "libelle": "Banque",
+    "compte": "401IMMO",
+    "racine": "401IMMO",
+    "libelle": "Fournisseur d'immobilisations",
     "debit": 0,
     "credit": 1800
    }
   ]
  },
  "fr-vente": {
-  "titre": "Fil rouge ④ — Ventes de l'annee (encaissees)",
+  "titre": "Fil rouge ⑥ — Ventes de l'annee (facture)",
   "journal": "VT",
-  "enonce": "Ventes de mobilier 15 000 EUR HT, TVA 20 % (3 000), encaissees par banque (18 000 TTC). Saisissez.",
-  "astuce": "Banque 512 au debit (18 000) ; vente 707 (15 000) + TVA collectee 44571 (3 000) au credit.",
+  "enonce": "Facture client : ventes de mobilier 15 000 EUR HT, TVA 20 % (3 000). A CREDIT. Saisissez la facture de vente (journal VT). L'encaissement viendra ensuite en banque.",
+  "astuce": "Facture de vente -> journal VT : CLIENT 411 au debit (TTC 18 000) ; vente 707 (15 000) + TVA collectee 44571 (3 000) au credit. Pas de 512 ici : l'encaissement, c'est le journal BQ.",
   "tuto": [
-   "<b>512</b> banque au debit (18 000 TTC).",
-   "<b>707</b> ventes (15 000) + <b>44571</b> TVA collectee (3 000) au credit."
+   "Facture de vente -> journal <b>VT</b>.",
+   "Au <b>debit</b> : <b>411</b> client (18 000 TTC).",
+   "Au <b>credit</b> : <b>707</b> ventes (15 000) + <b>44571</b> TVA collectee (3 000)."
   ],
   "lignes": [
    {
-    "compte": "512000",
-    "racine": "512",
-    "libelle": "Banque",
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client",
     "debit": 18000,
     "credit": 0
    },
@@ -1302,13 +1305,14 @@
   ]
  },
  "fr-paie": {
-  "titre": "Fil rouge ⑤ — OD de paie de l'annee",
+  "titre": "Fil rouge ⑩ — OD de paie de l'annee",
   "journal": "OD",
-  "enonce": "Paie cumulee : brut 4 000 EUR, charges patronales 1 600 EUR, net 3 120 EUR, cotisations (URSSAF) 2 480 EUR. Passez l'OD de paie.",
+  "enonce": "Paie cumulee : brut 4 000 EUR, charges patronales 1 600 EUR, net 3 120 EUR, cotisations (URSSAF) 2 480 EUR. Passez l'OD de paie (journal OD).",
   "astuce": "641 brut + 645 patronales au debit ; 421 net + 431 cotisations au credit.",
   "tuto": [
-   "Au debit : <b>641</b> (4 000) + <b>645</b> (1 600).",
-   "Au credit : <b>421</b> net (3 120) + <b>431</b> URSSAF (2 480)."
+   "OD de paie -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>641</b> (4 000) + <b>645</b> (1 600).",
+   "Au <b>credit</b> : <b>421</b> net (3 120) + <b>431</b> URSSAF (2 480)."
   ],
   "lignes": [
    {
@@ -1342,13 +1346,14 @@
   ]
  },
  "fr-paie-reglt": {
-  "titre": "Fil rouge ⑥ — Paiement des salaires et cotisations",
+  "titre": "Fil rouge ⑪ — Paiement des salaires et cotisations",
   "journal": "BQ",
-  "enonce": "Reglement par banque : net aux salaries 3 120 EUR + cotisations URSSAF 2 480 EUR (total 5 600 EUR). Soldez 421 et 431.",
-  "astuce": "On solde les dettes 421 et 431 (debit) par la banque (credit, 5 600).",
+  "enonce": "Reglement par banque : net aux salaries 3 120 EUR + cotisations URSSAF 2 480 EUR (total 5 600 EUR). Soldez 421 et 431 (journal BQ).",
+  "astuce": "Paiement -> journal BQ : on solde 421 et 431 au debit, banque 512 au credit (5 600).",
   "tuto": [
-   "Au debit : <b>421</b> (3 120) + <b>431</b> (2 480) -> soldes.",
-   "Au credit : <b>512</b> banque (5 600)."
+   "Paiement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>421</b> (3 120) + <b>431</b> (2 480).",
+   "Au <b>credit</b> : <b>512</b> banque (5 600)."
   ],
   "lignes": [
    {
@@ -1375,13 +1380,14 @@
   ]
  },
  "fr-loyer": {
-  "titre": "Fil rouge ⑦ — Loyer & frais (payes)",
+  "titre": "Fil rouge ⑧ — Loyers & frais (facture)",
   "journal": "AC",
-  "enonce": "Loyers et frais generaux de l'annee : 2 000 EUR HT, TVA 20 % (400), payes par banque. Saisissez.",
-  "astuce": "Charge 613 (location) + TVA deductible 44566 au debit ; banque au credit (2 400).",
+  "enonce": "Facture : loyers et frais generaux de l'annee 2 000 EUR HT, TVA 20 % (400), a credit. Saisissez (journal AC).",
+  "astuce": "Facture de charge -> journal AC : 613 location + TVA 44566 au debit ; fournisseur 401 au credit (2 400).",
   "tuto": [
-   "Au debit : <b>613</b> locations (2 000) + <b>44566</b> TVA (400).",
-   "Au credit : <b>512</b> banque (2 400)."
+   "Facture -> journal <b>AC</b>.",
+   "Au <b>debit</b> : <b>613</b> locations (2 000) + <b>44566</b> TVA (400).",
+   "Au <b>credit</b> : <b>401</b> fournisseur (2 400)."
   ],
   "lignes": [
    {
@@ -1399,22 +1405,23 @@
     "credit": 0
    },
    {
-    "compte": "512000",
-    "racine": "512",
-    "libelle": "Banque",
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur de services",
     "debit": 0,
     "credit": 2400
    }
   ]
  },
  "fr-amort": {
-  "titre": "Fil rouge ⑧ — Dotation aux amortissements (cloture)",
+  "titre": "Fil rouge ⑫ — Dotation aux amortissements (cloture)",
   "journal": "OD",
-  "enonce": "Cloture : l'ordinateur (1 500 EUR, 3 ans) genere une dotation de 500 EUR. Passez la dotation.",
+  "enonce": "Cloture : l'ordinateur (1 500 EUR, 3 ans) genere une dotation de 500 EUR. Passez la dotation (journal OD).",
   "astuce": "1 500 / 3 = 500. Dotation 6811 au debit / amortissement 28183 au credit.",
   "tuto": [
-   "Au debit : <b>6811</b> dotation (500).",
-   "Au credit : <b>28183</b> amortissement du materiel (500)."
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>6811</b> dotation (500).",
+   "Au <b>credit</b> : <b>28183</b> amortissement (500)."
   ],
   "lignes": [
    {
@@ -1434,13 +1441,14 @@
   ]
  },
  "fr-stock": {
-  "titre": "Fil rouge ⑨ — Stock final (variation, cloture)",
+  "titre": "Fil rouge ⑬ — Stock final (variation, cloture)",
   "journal": "OD",
-  "enonce": "Cloture : le stock final de marchandises est de 2 000 EUR (achats 6 000, donc 4 000 consommes). Constatez le stock final.",
-  "astuce": "Stock final a l'actif (37) en contrepartie de la variation de stock (6037, qui diminue les charges).",
+  "enonce": "Cloture : le stock final de marchandises est de 2 000 EUR. Constatez le stock final (journal OD).",
+  "astuce": "Stock final a l'actif (37) en contrepartie de la variation de stock (6037).",
   "tuto": [
-   "Au debit : <b>37</b> stock de marchandises (2 000).",
-   "Au credit : <b>6037</b> variation des stocks (2 000)."
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>37</b> stock (2 000).",
+   "Au <b>credit</b> : <b>6037</b> variation des stocks (2 000)."
   ],
   "lignes": [
    {
@@ -1460,13 +1468,14 @@
   ]
  },
  "fr-tva": {
-  "titre": "Fil rouge ⑩ — Liquidation de la TVA (cloture)",
+  "titre": "Fil rouge ⑭ — Liquidation de la TVA (cloture)",
   "journal": "OD",
-  "enonce": "Cloture TVA : collectee 3 000 EUR ; deductible 1 600 EUR (achats + loyer) + 300 EUR (immo). Soldez et constatez la TVA a decaisser.",
+  "enonce": "Cloture TVA : collectee 3 000 EUR ; deductible 1 600 EUR (achats + loyer) + 300 EUR (immo). Soldez et constatez la TVA a decaisser (journal OD).",
   "astuce": "A decaisser = 3 000 - 1 900 = 1 100. On solde 44571 (D), 44566 et 44562 (C), et on constate 44551 (C).",
   "tuto": [
-   "Au debit : <b>44571</b> collectee (3 000).",
-   "Au credit : <b>44566</b> (1 600) + <b>44562</b> (300) + <b>44551</b> a decaisser (1 100)."
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>44571</b> collectee (3 000).",
+   "Au <b>credit</b> : <b>44566</b> (1 600) + <b>44562</b> (300) + <b>44551</b> a decaisser (1 100)."
   ],
   "lignes": [
    {
@@ -1500,14 +1509,14 @@
   ]
  },
  "fr-is": {
-  "titre": "Fil rouge ⑪ — Impot sur les societes (cloture)",
+  "titre": "Fil rouge ⑮ — Impot sur les societes (cloture)",
   "journal": "OD",
-  "enonce": "Resultat avant impot 2 900 EUR. IS au taux reduit 15 % = 435 EUR. Comptabilisez l'IS.",
+  "enonce": "Resultat avant impot 2 900 EUR. IS au taux reduit 15 % = 435 EUR. Comptabilisez l'IS (journal OD).",
   "astuce": "Charge d'IS 695 au debit / dette envers l'Etat 444 au credit.",
   "tuto": [
-   "2 900 x 15 % = 435.",
-   "Au debit : <b>695</b> impot sur les benefices (435).",
-   "Au credit : <b>444</b> Etat - IS (435)."
+   "Cloture -> journal <b>OD</b>.",
+   "Au <b>debit</b> : <b>695</b> IS (435).",
+   "Au <b>credit</b> : <b>444</b> Etat - IS (435)."
   ],
   "lignes": [
    {
@@ -1523,6 +1532,114 @@
     "libelle": "Etat - impot sur les benefices",
     "debit": 0,
     "credit": 435
+   }
+  ]
+ },
+ "fr-achat-reg": {
+  "titre": "Fil rouge ③ — Reglement du fournisseur",
+  "journal": "BQ",
+  "enonce": "On regle le fournisseur de marchandises par virement : 7 200 EUR. Saisissez le paiement (journal BQ).",
+  "astuce": "Paiement -> journal BQ : on solde le fournisseur 401 au debit, banque 512 au credit (7 200).",
+  "tuto": [
+   "Paiement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>401</b> fournisseur (7 200) -> solde.",
+   "Au <b>credit</b> : <b>512</b> banque (7 200)."
+  ],
+  "lignes": [
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur de marchandises",
+    "debit": 7200,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 7200
+   }
+  ]
+ },
+ "fr-immo-reg": {
+  "titre": "Fil rouge ⑤ — Reglement du fournisseur d'immo",
+  "journal": "BQ",
+  "enonce": "On regle le fournisseur de l'ordinateur par virement : 1 800 EUR. Saisissez le paiement (journal BQ).",
+  "astuce": "Paiement -> journal BQ : 401IMMO au debit (1 800) -> solde ; banque 512 au credit.",
+  "tuto": [
+   "Paiement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>401IMMO</b> (1 800).",
+   "Au <b>credit</b> : <b>512</b> banque (1 800)."
+  ],
+  "lignes": [
+   {
+    "compte": "401IMMO",
+    "racine": "401IMMO",
+    "libelle": "Fournisseur d'immobilisations",
+    "debit": 1800,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 1800
+   }
+  ]
+ },
+ "fr-encaiss": {
+  "titre": "Fil rouge ⑦ — Encaissement des clients",
+  "journal": "BQ",
+  "enonce": "Les clients reglent par virement : 18 000 EUR. Saisissez l'encaissement (journal BQ).",
+  "astuce": "Encaissement -> journal BQ : banque 512 au debit, client 411 au credit (18 000) -> solde.",
+  "tuto": [
+   "Encaissement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>512</b> banque (18 000).",
+   "Au <b>credit</b> : <b>411</b> client (18 000) -> solde."
+  ],
+  "lignes": [
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 18000,
+    "credit": 0
+   },
+   {
+    "compte": "411",
+    "racine": "411",
+    "libelle": "Client",
+    "debit": 0,
+    "credit": 18000
+   }
+  ]
+ },
+ "fr-loyer-reg": {
+  "titre": "Fil rouge ⑨ — Reglement des loyers & frais",
+  "journal": "BQ",
+  "enonce": "On regle le bailleur/prestataire par virement : 2 400 EUR. Saisissez le paiement (journal BQ).",
+  "astuce": "Paiement -> journal BQ : 401 au debit (2 400) -> solde ; banque 512 au credit.",
+  "tuto": [
+   "Paiement -> journal <b>BQ</b>.",
+   "Au <b>debit</b> : <b>401</b> fournisseur (2 400).",
+   "Au <b>credit</b> : <b>512</b> banque (2 400)."
+  ],
+  "lignes": [
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "Fournisseur de services",
+    "debit": 2400,
+    "credit": 0
+   },
+   {
+    "compte": "512000",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 0,
+    "credit": 2400
    }
   ]
  }

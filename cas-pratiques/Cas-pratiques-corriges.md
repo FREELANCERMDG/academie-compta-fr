@@ -22,7 +22,7 @@
 **✔️ Corrigé :** Pas de TVA déductible.
 | Compte | Débit | Crédit |
 |---|---|---|
-| 611 Sous-traitance (ou compte de charge adapté) | 500 | |
+| 604 Sous-traitance (ou compte de charge adapté) | 500 | |
 | 401 Fournisseur | | 500 |
 > Si la facture portait de la TVA à tort → ne pas la déduire, signaler.
 

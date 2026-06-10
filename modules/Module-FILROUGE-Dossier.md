@@ -8,15 +8,16 @@
 **Activité :** vente de mobilier de bureau (négoce). **Exercice :** du 01/01 au 31/12/2026. **Régime :** IS, réel.
 Voici **tout ce qui s'est passé** cette année — à vous de le comptabiliser.
 
-| # | Opération | Montant |
-|---|---|---|
-| ① | Apport du capital | 10 000 € |
-| ② | Achat de marchandises (payé) | 6 000 € HT |
-| ③ | Achat d'un ordinateur (immobilisation) | 1 500 € HT |
-| ④ | Ventes de l'année (encaissées) | 15 000 € HT |
-| ⑤ | Paie de l'année | brut 4 000 € |
-| ⑥ | Paiement des salaires & cotisations | 5 600 € |
-| ⑦ | Loyers & frais (payés) | 2 000 € HT |
+| Opération de l'année | Montant |
+|---|---|
+| Apport du capital | 10 000 € |
+| Achat de marchandises | 6 000 € HT |
+| Achat d'un ordinateur (immobilisation) | 1 500 € HT |
+| Ventes de l'année | 15 000 € HT |
+| Loyers & frais généraux | 2 000 € HT |
+| Paie de l'année | brut 4 000 € |
+
+> Chaque **achat** et chaque **vente** se comptabilise en **2 écritures** : la **facture** (journal AC/VT) puis le **règlement** en banque (journal BQ). Tout est payé/encaissé dans l'année.
 
 **À la clôture :** stock final 2 000 € · ordinateur amorti sur 3 ans · TVA à liquider · IS.
 
@@ -24,51 +25,69 @@ Voici **tout ce qui s'est passé** cette année — à vous de le comptabiliser.
 
 ## 🧾 Partie 1 — La saisie de l'année
 
-### ① Apport du capital
+> 🗂️ **Le bon journal pour chaque écriture :** la **facture** d'achat va au journal **AC**, la **facture** de vente au journal **VT** (via le compte **fournisseur 401** ou **client 411**), et **tout mouvement de banque (512) va au journal BQ**. C'est pourquoi chaque achat/vente se fait en **2 temps** : la **facture**, puis le **règlement** en banque.
+
+### ① Apport du capital — journal BQ
 
 <div class="saisie" data-ex="fr-capital"></div>
 
-### ② Achat de marchandises
+### ② Achat de marchandises — facture (journal AC)
 
 <div class="saisie" data-ex="fr-achat"></div>
 
-### ③ Achat de l'ordinateur (immobilisation)
+### ③ Règlement du fournisseur — journal BQ
+
+<div class="saisie" data-ex="fr-achat-reg"></div>
+
+### ④ Achat de l'ordinateur — facture (journal AC)
 
 <div class="saisie" data-ex="fr-immo"></div>
 
-### ④ Les ventes de l'année
+### ⑤ Règlement du fournisseur d'immo — journal BQ
+
+<div class="saisie" data-ex="fr-immo-reg"></div>
+
+### ⑥ Les ventes de l'année — facture (journal VT)
 
 <div class="saisie" data-ex="fr-vente"></div>
 
-### ⑤ L'OD de paie
+### ⑦ Encaissement des clients — journal BQ
 
-<div class="saisie" data-ex="fr-paie"></div>
+<div class="saisie" data-ex="fr-encaiss"></div>
 
-### ⑥ Le paiement des salaires et cotisations
-
-<div class="saisie" data-ex="fr-paie-reglt"></div>
-
-### ⑦ Les loyers & frais généraux
+### ⑧ Les loyers & frais — facture (journal AC)
 
 <div class="saisie" data-ex="fr-loyer"></div>
 
+### ⑨ Règlement des loyers & frais — journal BQ
+
+<div class="saisie" data-ex="fr-loyer-reg"></div>
+
+### ⑩ L'OD de paie — journal OD
+
+<div class="saisie" data-ex="fr-paie"></div>
+
+### ⑪ Le paiement des salaires et cotisations — journal BQ
+
+<div class="saisie" data-ex="fr-paie-reglt"></div>
+
 ---
 
-## 🔒 Partie 2 — Les travaux de clôture (31/12)
+## 🔒 Partie 2 — Les travaux de clôture (31/12) — journal OD
 
-### ⑧ La dotation aux amortissements
+### ⑫ La dotation aux amortissements
 
 <div class="saisie" data-ex="fr-amort"></div>
 
-### ⑨ Le stock final (variation de stock)
+### ⑬ Le stock final (variation de stock)
 
 <div class="saisie" data-ex="fr-stock"></div>
 
-### ⑩ La liquidation de la TVA
+### ⑭ La liquidation de la TVA
 
 <div class="saisie" data-ex="fr-tva"></div>
 
-### ⑪ L'impôt sur les sociétés
+### ⑮ L'impôt sur les sociétés
 
 <div class="saisie" data-ex="fr-is"></div>
 
