@@ -1006,7 +1006,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   <p style="text-align:center">${aNarr}</p>
   ${isStage ? `<div style="max-width:680px;margin:14px auto 4px;background:#f4f7fb;border:1px solid #dbe4ee;border-radius:8px;padding:16px 22px">
     <p style="margin:0 0 10px;text-align:center;color:#1F4E78;font-weight:bold;font-size:15px">Mentions de l'attestation de stage</p>
-    <p style="margin:7px 0"><b>Lieu et adresse du stage :</b> ${esc(s.siege || '__________________________________________')}</p>
+    <p style="margin:7px 0"><b>Lieu et adresse du stage :</b> ${esc(s.siege || 'Analamanga 105')}</p>
     <p style="margin:7px 0"><b>Période du stage :</b> du <b>__________________</b> au <b>__________________</b></p>
     <p style="margin:7px 0"><b>Durée totale :</b> <b>3 mois</b> <span style="font-size:13px;color:#6b7785">(soit 13 semaines — supérieure au minimum de 8 semaines requis)</span></p>
     <p style="margin:10px 0 4px"><b>Nature des missions confiées :</b></p>
@@ -1036,7 +1036,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
   </div>
   <p id="warn" style="display:none;color:#c0392b;font-size:14px">⚠️ L'évaluation finale n'a pas encore été validée sur cet appareil. Passez le quiz final (Module 4) puis revenez ici.</p>`}
   ${u.attestation_le ? `<p style="text-align:center;color:#1e7d46;font-weight:bold;margin:16px 0 0">✔ Niveau opérationnel validé lors de l'entretien/test final du ${fmt(u.attestation_le)}.</p>` : ''}
-  <p>Fait à ____________________, le <b>${today}</b>.</p>
+  <p>Fait à <b>Analamanga 105</b>, le <b>${today}</b>.</p>
   <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;margin-top:18px">
     <div style="flex:1;min-width:220px">
       <p class="sig" style="margin:0">${esc(formateur)}</p>
