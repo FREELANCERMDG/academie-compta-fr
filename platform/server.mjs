@@ -1002,7 +1002,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
     <p style="margin:0 0 10px;text-align:center;color:#1F4E78;font-weight:bold;font-size:15px">Mentions de l'attestation de stage</p>
     <p style="margin:7px 0"><b>Lieu et adresse du stage :</b> ${esc(s.siege || '__________________________________________')}</p>
     <p style="margin:7px 0"><b>Période du stage :</b> du <b>__________________</b> au <b>__________________</b></p>
-    <p style="margin:7px 0"><b>Durée totale :</b> <b>__________ semaines</b> <span style="font-size:13px;color:#6b7785">(durée minimale de 8 semaines requise)</span></p>
+    <p style="margin:7px 0"><b>Durée totale :</b> <b>3 mois</b> <span style="font-size:13px;color:#6b7785">(soit 13 semaines — supérieure au minimum de 8 semaines requis)</span></p>
     <p style="margin:10px 0 4px"><b>Nature des missions confiées :</b></p>
     <ul style="margin:0;padding-left:20px;line-height:1.55;font-size:14px">
       <li>Saisie des achats, ventes, banque et OD selon le <b>PCG</b> ;</li>
@@ -1011,7 +1011,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
       <li>Préparation du <b>bilan</b>, du compte de résultat et de la <b>liasse fiscale</b> ;</li>
       <li>Pratique sur logiciel (<b>Pennylane</b>, Silae, Sage 50).</li>
     </ul>
-    <p style="margin:10px 0 0;font-size:12px;color:#6b7785">Complétez la période et la durée exactes avant signature. Attestation à établir sur papier à en-tête de l'entreprise, signée et tamponnée (mentions conformes aux exigences DCG/DGC — UE 123 / UE 13).</p>
+    <p style="margin:10px 0 0;font-size:12px;color:#6b7785">Complétez les dates exactes de la période avant signature. Attestation à établir sur papier à en-tête de l'entreprise, signée et tamponnée (mentions conformes aux exigences DCG/DGC — UE 123 / UE 13).</p>
   </div>` : `<div style="max-width:660px;margin:14px auto 4px;background:#f4f7fb;border:1px solid #dbe4ee;border-radius:8px;padding:14px 20px">
     <p style="margin:0 0 6px;text-align:center;color:#1F4E78;font-weight:bold;font-size:15px">Compétences maîtrisées (résumé)</p>
     <ul style="margin:0;padding-left:20px;line-height:1.55;font-size:14px">
