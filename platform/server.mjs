@@ -457,7 +457,66 @@ function pageConnexion(sess, err, email = '') {
     <label>Email<input type="email" name="email" required value="${esc(email)}"></label>
     <label>Mot de passe<input type="password" name="pw" required></label>
     <button class="btn" type="submit">Se connecter</button>
-  </form><p class="muted"><a href="/inscription">Créer un compte</a></p>`, sess);
+  </form><p class="muted"><a href="/mot-de-passe-oublie">Mot de passe oublié ?</a> · <a href="/inscription">Créer un compte</a></p>`, sess);
+}
+
+// ===== Mot de passe oublié / réinitialisation =====
+function pageMotDePasseOublie(sess, msg) {
+  return layout('Mot de passe oublié', `<h1>Mot de passe oublié</h1>
+  ${msg ? `<p class="ok">${esc(msg)}</p>` : ''}
+  <p class="muted">Saisissez votre email : si un compte existe, vous recevrez un <b>lien</b> pour choisir un nouveau mot de passe (valable <b>1 heure</b>).</p>
+  <form method="post" action="/mot-de-passe-oublie" class="card form">${sess ? csrfField(sess) : ''}
+    <label>Email<input type="email" name="email" required autocomplete="email"></label>
+    <button class="btn" type="submit">Envoyer le lien de réinitialisation</button></form>
+  <p class="muted"><a href="/connexion">← Retour à la connexion</a>${!mailConfigured() ? ' · <span style="color:#9a5b00">Si vous ne recevez pas l\'email, contactez le formateur via WhatsApp.</span>' : ''}</p>`, sess);
+}
+function pageReinitialiser(sess, token, err) {
+  const u = token ? db.prepare('SELECT id FROM users WHERE reset_token=? AND reset_exp > ?').get(token, new Date().toISOString()) : null;
+  if (!u) return layout('Réinitialisation', `<h1>Lien invalide ou expiré</h1>
+  <p class="muted">Ce lien de réinitialisation n'est plus valide (expiré ou déjà utilisé). Refaites une demande.</p>
+  <p><a class="btn" href="/mot-de-passe-oublie">Nouvelle demande</a></p>`, sess);
+  return layout('Réinitialisation', `<h1>Choisir un nouveau mot de passe</h1>
+  ${err ? `<p class="err" style="color:#c0392b">${esc(err)}</p>` : ''}
+  <form method="post" action="/reinitialiser" class="card form">${sess ? csrfField(sess) : ''}<input type="hidden" name="token" value="${esc(token)}">
+    <label>Nouveau mot de passe <span class="muted">(10+ caractères, lettres et chiffres)</span><input type="password" name="pw" required autocomplete="new-password"></label>
+    <label>Confirmer le mot de passe<input type="password" name="pw2" required autocomplete="new-password"></label>
+    <button class="btn" type="submit">Enregistrer le nouveau mot de passe</button></form>`, sess);
+}
+function postMotDePasseOublie(req, res, sess, body) {
+  sess = sess || getSession(req);
+  if (!sess) { const sid = newSession(null, false, req); return redirect(res, '/mot-de-passe-oublie', [cookie('sid', signSid(sid), cookieOpts)]); }
+  if (!checkCsrf(sess, body)) return send(res, 403, pageMotDePasseOublie(sess, ''));
+  if (rateLimited('pwreset:' + ip(req), 5, 15 * 60000)) return send(res, 429, pageMotDePasseOublie(sess, ''));
+  const email = (body.email || '').trim().toLowerCase();
+  const u = isEmail(email) ? db.prepare('SELECT * FROM users WHERE email=?').get(email) : null;
+  if (u) {
+    const token = rid(28), exp = new Date(Date.now() + 3600000).toISOString();
+    db.prepare('UPDATE users SET reset_token=?, reset_exp=? WHERE id=?').run(token, exp, u.id);
+    audit(db, u.id, 'pwreset_demande', email, ip(req));
+    if (mailConfigured()) {
+      const link = BASE_URL + '/reinitialiser?token=' + token;
+      const html = `<p>Bonjour ${esc(u.prenom || '')},</p><p>Vous avez demandé à réinitialiser votre mot de passe sur <b>${esc(cfg.site.nom_plateforme)}</b>.</p>`
+        + `<p><a href="${link}" style="display:inline-block;background:#16307a;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Choisir un nouveau mot de passe</a></p>`
+        + `<p>Ou copiez ce lien dans votre navigateur :<br>${link}</p>`
+        + `<p style="color:#777;font-size:12px">Ce lien expire dans 1 heure. Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail (votre mot de passe reste inchangé).</p>`;
+      sendEmail(u.email, 'Réinitialisation de votre mot de passe', html).catch(() => { });
+    }
+  }
+  return send(res, 200, pageMotDePasseOublie(sess, "Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé. Vérifiez votre boîte de réception (et les indésirables)."));
+}
+function postReinitialiser(req, res, sess, body) {
+  sess = sess || getSession(req);
+  if (!sess) { const sid = newSession(null, false, req); return redirect(res, '/reinitialiser?token=' + encodeURIComponent(body.token || ''), [cookie('sid', signSid(sid), cookieOpts)]); }
+  if (!checkCsrf(sess, body)) return send(res, 403, pageReinitialiser(sess, body.token || '', 'Session expirée, réessayez.'));
+  const token = String(body.token || '');
+  const u = db.prepare('SELECT * FROM users WHERE reset_token=? AND reset_exp > ?').get(token, new Date().toISOString());
+  if (!u) return send(res, 200, pageReinitialiser(sess, token, null));
+  if (!strongPw(body.pw)) return send(res, 200, pageReinitialiser(sess, token, 'Mot de passe trop faible (10+ caractères, lettres et chiffres).'));
+  if (body.pw !== body.pw2) return send(res, 200, pageReinitialiser(sess, token, 'Les deux mots de passe ne correspondent pas.'));
+  const { hash, salt } = hashPassword(body.pw);
+  db.prepare('UPDATE users SET pass_hash=?, pass_salt=?, reset_token=NULL, reset_exp=NULL WHERE id=?').run(hash, salt, u.id);
+  audit(db, u.id, 'pwreset_ok', u.email, ip(req));
+  return send(res, 200, layout('Mot de passe modifié', `<h1>✅ Mot de passe modifié</h1><p>Votre nouveau mot de passe est enregistré. Vous pouvez maintenant vous connecter.</p><p><a class="btn" href="/connexion">Se connecter</a></p>`, sess));
 }
 
 function page2faSetup(sess, secret, uri, err, qr) {
@@ -1150,7 +1209,7 @@ const server = http.createServer(async (req, res) => {
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
       if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
-      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
+      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nDisallow: /reinitialiser\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
         const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
         const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
@@ -1170,6 +1229,8 @@ const server = http.createServer(async (req, res) => {
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
       if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12) }));
       if (p === '/connexion') return send(res, 200, pageConnexion(sess || ensureGuestSession(res, req), null));
+      if (p === '/mot-de-passe-oublie') return send(res, 200, pageMotDePasseOublie(sess || ensureGuestSession(res, req), null));
+      if (p === '/reinitialiser') return send(res, 200, pageReinitialiser(sess || ensureGuestSession(res, req), url.searchParams.get('token') || '', null));
       if (p === '/2fa') { if (!authed0(sess) || !sess.row.pending_2fa || !sess.user.twofa) return redirect(res, '/connexion'); return send(res, 200, page2faVerify(sess)); }
       if (p === '/2fa-setup-redirect') {
         if (!authed0(sess)) return redirect(res, '/connexion');
@@ -1239,6 +1300,8 @@ const server = http.createServer(async (req, res) => {
       // CSRF obligatoire (sauf création de session initiale gérée plus bas)
       if (p === '/inscription') return postInscription(req, res, sess, body);
       if (p === '/connexion') return postConnexion(req, res, sess, body);
+      if (p === '/mot-de-passe-oublie') return postMotDePasseOublie(req, res, sess, body);
+      if (p === '/reinitialiser') return postReinitialiser(req, res, sess, body);
       if (!authed0(sess)) return redirect(res, '/connexion');
       if (!checkCsrf(sess, body)) return send(res, 403, layout('403', '<h1>Jeton invalide</h1>', sess));
       if (p === '/2fa-activer') return post2faActiver(req, res, sess, body);
