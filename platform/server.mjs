@@ -280,7 +280,7 @@ function pageAccueil(sess) {
   <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Aussi en présentiel à Antananarivo (renforcement)</h2>
-  <p>En complément de la formation en ligne : séances <b>en présentiel</b>, <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>80 000 Ar/module</b>.</p>
+  <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>80 000 Ar/module</b>.</p>
   <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
   <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu'au <b>09/09/2026</b> — sans aucun paiement.</p>
@@ -370,7 +370,7 @@ function pagePresentiel(sess) {
   return layout('Présentiel', `
   <section class="hero"><h1>Formation en présentiel — Comptabilité française</h1>
   <p class="lead"><b>De la saisie à la préparation du bilan.</b> Traitement externalisé avec les cabinets comptables français.</p>
-  <p>Vous suivez la formation en ligne et vous voulez <b>renforcer votre pratique</b> ? Profitez de séances <b>en présentiel à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels réellement utilisés en cabinet.</p>
+  <p>Vous suivez la formation en ligne et vous voulez <b>renforcer votre pratique</b> ? Profitez de séances <b>en présentiel dans nos bureaux à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels réellement utilisés en cabinet.</p>
   <p><a class="btn" href="${telLink}">📞 ${tel}</a> <a class="btn ghost" href="${waLink}" target="_blank" rel="noopener">💬 WhatsApp</a></p></section>
 
   ${mod('#d9822b', 'rgba(232,161,58,.08)', '1', 'SAISIE &amp; TRAVAUX JOURNALIERS', [
@@ -404,7 +404,7 @@ function pagePresentiel(sess) {
     <div class="offre" style="text-align:center"><div style="font-size:24px">⏰</div><b>2 h / jour</b><div class="muted" style="font-size:13px">Lundi → Vendredi<br>8h30 – 10h30</div></div>
     <div class="offre" style="text-align:center"><div style="font-size:24px">💰</div><b>80 000 Ar</b><div class="muted" style="font-size:13px">par module</div></div>
     <div class="offre" style="text-align:center"><div style="font-size:24px">👥</div><b>4 personnes</b><div class="muted" style="font-size:13px">par module (petit groupe)</div></div>
-    <div class="offre" style="text-align:center"><div style="font-size:24px">📍</div><b>Antananarivo</b><div class="muted" style="font-size:13px">Ambobibao, près de MCB Banque, à côté de la station Total</div></div>
+    <div class="offre" style="text-align:center"><div style="font-size:24px">📍</div><b>Dans nos bureaux</b><div class="muted" style="font-size:13px">Ambobibao (Antananarivo), près de MCB Banque, à côté de la station Total</div></div>
   </div></section>
 
   <section class="card" style="text-align:center;border-left:4px solid var(--accent)">
@@ -653,7 +653,7 @@ function pageDashboard(sess) {
   ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(25000)})</button></form>`}
   </section>
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Renforcez votre formation en présentiel</h2>
-  <p>Séances <b>en présentiel à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels du métier (<b>Pennylane</b>, <b>Silae</b>, <b>Sage 50</b>) : saisie & travaux journaliers, travaux périodiques & fiscaux, préparation du bilan. <b>2 h/jour</b> (lun.–ven., 8h30–10h30) · <b>80 000 Ar/module</b>.</p>
+  <p>Séances <b>en présentiel dans nos bureaux à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels du métier (<b>Pennylane</b>, <b>Silae</b>, <b>Sage 50</b>) : saisie & travaux journaliers, travaux périodiques & fiscaux, préparation du bilan. <b>2 h/jour</b> (lun.–ven., 8h30–10h30) · <b>80 000 Ar/module</b>.</p>
   <p><a class="btn" href="/presentiel">Voir le détail</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   <section class="card"><h2>Débloquer un module (paiement)</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
