@@ -154,6 +154,9 @@ def split_row(line):
     if line.endswith('|'): line = line[:-1]
     return [c.strip() for c in line.split('|')]
 
+# Détection d'un corrigé/correction (paragraphe) : préfixe "**Seuil …**" optionnel, puis "**Corrigé/Réponses/Correction …**".
+CORR_START_RE = re.compile(r'^\s*(\*\*\s*Seuil[^*]*\*\*[\s.:]*)?(\*\*[^*]*?(?:Corrigé|Corrigés|Corrigée|Réponses?|Correction)[^*]*\*\*)\s*:?\s*(.*)$', re.IGNORECASE)
+
 def md_to_html(text):
     lines = text.split('\n')
     out = []
@@ -184,8 +187,20 @@ def md_to_html(text):
         # heading
         m = re.match(r'^(#{1,6})\s+(.*)$', st)
         if m:
-            lvl = len(m.group(1))
-            out.append('<h%d>%s</h%d>' % (lvl, inline(m.group(2)), lvl))
+            lvl = len(m.group(1)); htext = m.group(2)
+            hclean = re.sub(r'^[^0-9A-Za-zÀ-ÖØ-öø-ÿ]+', '', htext)
+            # Section "Correction" / "Corrigé" → volet repliable (visible après recherche)
+            if re.match(r'(?:Correction|Corrigé|Corrigés|Corrigée)\b', hclean, re.IGNORECASE):
+                j = i + 1; body = []
+                while j < n:
+                    sj = lines[j].strip()
+                    hm = re.match(r'^(#{1,6})\s+', sj)
+                    if hm and len(hm.group(1)) <= lvl: break
+                    if re.match(r'^-{3,}$', sj) or re.match(r'^\*{3,}$', sj): break
+                    body.append(lines[j]); j += 1
+                out.append('<details class="corrige"><summary>👁 Afficher : %s</summary><div class="corrige-body">%s</div></details>' % (inline(hclean), md_to_html('\n'.join(body))))
+                i = j; continue
+            out.append('<h%d>%s</h%d>' % (lvl, inline(htext), lvl))
             i += 1; continue
         # table
         if '|' in line and i + 1 < n and SEP_RE.match(lines[i+1]):
@@ -233,15 +248,34 @@ def md_to_html(text):
                 i += 1
             out.append('<ol>%s</ol>' % ''.join(items)); continue
         # paragraph
-        buf = []
+        raw = []
         while i < n and lines[i].strip() != '' and not lines[i].strip().startswith(('#', '>', '```', '|')) \
               and not re.match(r'^\s*[-*]\s+', lines[i]) and not re.match(r'^\s*\d+\.\s+', lines[i]) \
               and not re.match(r'^-{3,}$', lines[i].strip()):
-            buf.append(inline(lines[i].strip())); i += 1
-        if buf:
-            out.append('<p>%s</p>' % '<br>'.join(buf))
-        else:
-            i += 1
+            raw.append(lines[i].strip()); i += 1
+        if not raw:
+            i += 1; continue
+        # Paragraphe "Corrigé/Réponses" → volet repliable (le seuil reste visible ; on capture les blocs suivants : tableau, liste, note)
+        # le marqueur "Corrigé/Réponses" peut être sur la 1re ligne OU une ligne suivante (ex. "Seuil" seul puis "Corrigé" dessous)
+        ck = next((idx for idx, l in enumerate(raw) if CORR_START_RE.match(l)), None)
+        if ck is not None:
+            mc = CORR_START_RE.match(raw[ck])
+            pre = ('<p>%s</p>' % '<br>'.join(inline(x) for x in raw[:ck])) if ck else ''  # lignes avant le corrigé (ex. Seuil) restent visibles
+            seuil_html = ('<p class="corrige-seuil">%s</p>' % inline(mc.group(1).strip())) if mc.group(1) else ''
+            marker = re.sub(r'\*\*', '', mc.group(2)).strip().rstrip(':').strip()
+            marker = re.sub(r'^[^0-9A-Za-zÀ-ÖØ-öø-ÿ]+', '', marker) or 'le corrigé'
+            # contenu de la réponse SANS le marqueur (sinon re-match infini) + blocs suivants (tableau, liste, note) jusqu'au prochain titre/séparateur/corrigé
+            corr_lines = [mc.group(3)] + raw[ck+1:]
+            while i < n:
+                sj = lines[i].strip()
+                if re.match(r'^(#{1,6})\s+', sj) or re.match(r'^-{3,}$', sj) or re.match(r'^\*{3,}$', sj):
+                    break
+                if CORR_START_RE.match(sj):  # nouveau corrigé → volet distinct (pas d'imbrication)
+                    break
+                corr_lines.append(lines[i]); i += 1
+            out.append('%s%s<details class="corrige"><summary>✅ Afficher : %s</summary><div class="corrige-body">%s</div></details>' % (pre, seuil_html, inline(marker), md_to_html('\n'.join(corr_lines))))
+            continue
+        out.append('<p>%s</p>' % '<br>'.join(inline(x) for x in raw))
     return '\n'.join(out)
 
 # ----------------- Construction des donnees -----------------
@@ -472,6 +506,16 @@ header .logo{letter-spacing:.2px}
 .content hr{margin:26px 0}
 .content .tbl{border-radius:12px;border:1px solid var(--bd);box-shadow:var(--shadow-sm)}
 .content tbody tr:hover{background:#eef5fc}
+/* Corrigés / corrections : masqués derrière un volet (visibles après recherche) */
+.content details.corrige{margin:14px 0;border:1px solid #d8c084;background:#fffaf0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.content details.corrige>summary{cursor:pointer;list-style:none;padding:11px 16px;font-weight:700;color:#8a5a00;background:linear-gradient(180deg,#fff6e3,#fbeac6);user-select:none}
+.content details.corrige>summary::-webkit-details-marker{display:none}
+.content details.corrige>summary::after{content:" ▸";color:#b07d1a;font-weight:700}
+.content details.corrige[open]>summary::after{content:" ▾"}
+.content details.corrige[open]>summary{border-bottom:1px solid #ecd9a8}
+.content .corrige-body{padding:8px 16px 12px}
+.content .corrige-body>*:first-child{margin-top:6px}
+.content .corrige-seuil{margin:14px 0 0;font-weight:600;color:#3a4a5e}
 
 /* Boutons / barre de navigation */
 .btn{border-radius:10px;box-shadow:var(--shadow-sm);transition:transform .06s,filter .15s}
