@@ -192,8 +192,8 @@ function layout(title, body, sess) {
   const wa = (soc.whatsapp || '').replace(/\D/g, '');
   const waBtn = wa ? `<a class="wa" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite des informations sur la formation en comptabilité française externalisée.')}" target="_blank" rel="noopener" title="Contact WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.02zm-7.01 15.22h-.004a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>` : '';
   const nav = u
-    ? `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/logiciel">🧪 Logiciel</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
-    : `<a href="/programme">Programme</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
+    ? `<a href="/programme">Programme</a><a href="/presentiel">Présentiel</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/logiciel">🧪 Logiciel</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
+    : `<a href="/programme">Programme</a><a href="/presentiel">Présentiel</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
@@ -279,6 +279,9 @@ function pageAccueil(sess) {
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
   <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
+  <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Aussi en présentiel à Antananarivo (renforcement)</h2>
+  <p>En complément de la formation en ligne : séances <b>en présentiel</b>, <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>80 000 Ar/module</b>.</p>
+  <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
   <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu'au <b>09/09/2026</b> — sans aucun paiement.</p>
   <ol style="line-height:1.9;margin:8px 0 12px">
@@ -354,6 +357,63 @@ function pageMentions(sess) {
   <p class="muted">En créant un compte, l'apprenant accepte ces conditions d'utilisation.</p></section>
   <section class="card"><h2>Attestation</h2><p>Les attestations de fin de formation sont délivrées par <b>${esc(s.nom)}</b> (${esc(s.immat || '')}). Attestations internes, sans valeur de diplôme d'État.</p></section>
   <p><a class="btn ghost" href="/">← Accueil</a></p>`, sess);
+}
+
+function pagePresentiel(sess) {
+  const tel = '032 73 622 59';
+  const telLink = 'tel:0327362259';
+  const wa = '261327362259';
+  const waLink = 'https://wa.me/' + wa + '?text=' + encodeURIComponent('Bonjour, je suis intéressé(e) par la formation en présentiel (renforcement) en comptabilité française. Pouvez-vous me donner les prochaines dates ?');
+  const mod = (color, bg, num, titre, points) => `<section class="card" style="border-left:5px solid ${color};background:${bg}">
+    <h2 style="color:${color};margin-top:0">MODULE ${num} — ${titre}</h2>
+    <ul style="line-height:1.7;margin:0">${points.map(p => `<li>${p}</li>`).join('')}</ul></section>`;
+  return layout('Présentiel', `
+  <section class="hero"><h1>Formation en présentiel — Comptabilité française</h1>
+  <p class="lead"><b>De la saisie à la préparation du bilan.</b> Traitement externalisé avec les cabinets comptables français.</p>
+  <p>Vous suivez la formation en ligne et vous voulez <b>renforcer votre pratique</b> ? Profitez de séances <b>en présentiel à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels réellement utilisés en cabinet.</p>
+  <p><a class="btn" href="${telLink}">📞 ${tel}</a> <a class="btn ghost" href="${waLink}" target="_blank" rel="noopener">💬 WhatsApp</a></p></section>
+
+  ${mod('#d9822b', 'rgba(232,161,58,.08)', '1', 'SAISIE &amp; TRAVAUX JOURNALIERS', [
+    'Saisie des achats, ventes, banques',
+    'Rapprochement bancaire et suivi de trésorerie',
+    'Lettrage et justification des comptes clients et fournisseurs',
+    'Préparation des déclarations de TVA (CA12, CA3)',
+    'Simulation et intégration des écritures de paie via <b>Sage 50</b>'])}
+
+  ${mod('#5a8f3c', 'rgba(106,168,79,.08)', '2', 'TRAVAUX PÉRIODIQUES &amp; FISCAUX', [
+    'Révision des comptes (FNP, CCA, FAE, PCA)',
+    'Déclaration de résultats et TVA',
+    'Tableaux de bord et reporting périodiques',
+    'Déclarations fiscales : IS, CFE, CVAE, etc.'])}
+
+  ${mod('#c0392b', 'rgba(192,57,43,.07)', '3', 'PRÉPARATION &amp; FINALISATION DU BILAN', [
+    'Préparation du bilan et du compte de résultat',
+    'Calcul et validation des provisions',
+    'Justification des comptes et contrôle des soldes',
+    'Élaboration de la liasse fiscale et échanges avec le CAC'])}
+
+  <section class="card" style="text-align:center">
+  <h2>🖥️ Pratique sur les logiciels du métier</h2>
+  <p style="font-size:17px"><b>Pratique sur</b> <span style="color:#1F4E78;font-weight:800">Pennylane</span></p>
+  <p><b>Intégration des écritures</b> sur <b style="color:#0a7">Silae</b> &amp; <b style="color:#5a8f3c">Sage 50</b></p>
+  <p class="muted">Simulation via Silae &amp; Sage 50</p></section>
+
+  <section class="card" style="border:1px solid var(--line)">
+  <h2>📋 Infos pratiques</h2>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+    <div class="offre" style="text-align:center"><div style="font-size:24px">⏰</div><b>2 h / jour</b><div class="muted" style="font-size:13px">Lundi → Vendredi<br>8h30 – 10h30</div></div>
+    <div class="offre" style="text-align:center"><div style="font-size:24px">💰</div><b>80 000 Ar</b><div class="muted" style="font-size:13px">par module</div></div>
+    <div class="offre" style="text-align:center"><div style="font-size:24px">👥</div><b>4 personnes</b><div class="muted" style="font-size:13px">par module (petit groupe)</div></div>
+    <div class="offre" style="text-align:center"><div style="font-size:24px">📍</div><b>Antananarivo</b><div class="muted" style="font-size:13px">Ambobibao, près de MCB Banque, à côté de la station Total</div></div>
+  </div></section>
+
+  <section class="card" style="text-align:center;border-left:4px solid var(--accent)">
+  <h2>📞 Réserver votre place</h2>
+  <p>Places limitées à <b>4 personnes par module</b>. Contactez-nous pour les prochaines dates :</p>
+  <p style="font-size:22px;font-weight:800;letter-spacing:.5px"><a href="${telLink}" style="color:#16307a;text-decoration:none">${tel}</a></p>
+  <p><a class="btn" href="${telLink}">📞 Appeler</a> <a class="btn ghost" href="${waLink}" target="_blank" rel="noopener">💬 WhatsApp</a></p>
+  <p class="muted" style="font-size:12px">Formation complémentaire en présentiel à Antananarivo — en plus de votre formation en ligne.</p></section>
+  `, sess);
 }
 
 function pageProgramme(sess) {
@@ -592,6 +652,9 @@ function pageDashboard(sess) {
   <p>Séance individuelle avec le formateur en visioconférence — <b>${money(25000)} / heure</b>.</p>
   ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(25000)})</button></form>`}
   </section>
+  <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Renforcez votre formation en présentiel</h2>
+  <p>Séances <b>en présentiel à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels du métier (<b>Pennylane</b>, <b>Silae</b>, <b>Sage 50</b>) : saisie & travaux journaliers, travaux périodiques & fiscaux, préparation du bilan. <b>2 h/jour</b> (lun.–ven., 8h30–10h30) · <b>80 000 Ar/module</b>.</p>
+  <p><a class="btn" href="/presentiel">Voir le détail</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   <section class="card"><h2>Débloquer un module (paiement)</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
     <select name="offre_code" required>${offres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} — ${money(o.prix)}</option>`).join('')}</select>
@@ -1244,6 +1307,7 @@ const server = http.createServer(async (req, res) => {
       }
       if (p === '/') return send(res, 200, pageAccueil(sess));
       if (p === '/programme') return send(res, 200, pageProgramme(sess));
+      if (p === '/presentiel') return send(res, 200, pagePresentiel(sess));
       if (p === '/emploi') return send(res, 200, pageEmploi(sess));
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
