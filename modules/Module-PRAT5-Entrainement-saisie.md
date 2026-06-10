@@ -22,21 +22,27 @@ Comme en cabinet : une **pile de factures** à traiter, chacune avec l'**activit
 ---
 
 ## Exercice 1 — Achat de marchandises
+
 <div class="saisie" data-ex="ex1"></div>
 
 ## Exercice 2 — Vente de prestation
+
 <div class="saisie" data-ex="ex2"></div>
 
 ## Exercice 3 — Course Uber (piège TVA !)
+
 <div class="saisie" data-ex="ex3"></div>
 
 ## Exercice 4 — Encaissement d'un client
+
 <div class="saisie" data-ex="ex4"></div>
 
 ## Exercice 5 — Recette du jour (2 taux de TVA)
+
 <div class="saisie" data-ex="ex5"></div>
 
 ## Exercice 6 — Dotation aux amortissements (clôture)
+
 <div class="saisie" data-ex="ex6"></div>
 
 ---
