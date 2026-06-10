@@ -157,6 +157,15 @@ def split_row(line):
 # Détection d'un corrigé/correction (paragraphe) : préfixe "**Seuil …**" optionnel, puis "**Corrigé/Réponses/Correction …**".
 CORR_START_RE = re.compile(r'^\s*(\*\*\s*Seuil[^*]*\*\*[\s.:]*)?(\*\*[^*]*?(?:Corrigé|Corrigés|Corrigée|Réponses?|Correction)[^*]*\*\*)\s*:?\s*(.*)$', re.IGNORECASE)
 
+# QCM : une option de réponse "… a) X b) Y c) Z" (lettre isolée + parenthèse, PAS "(a)" énoncé ni "public)" mot)
+QCM_OPT_RE = re.compile(r'(?<![\(\w])[a-d]\)\s')
+def strip_qcm_bold(content):
+    """Sur une ligne de QCM (≥2 options a)/b)…), retire le **gras** qui révèle la bonne réponse.
+    La clé reste disponible dans le corrigé (volet) ; les énoncés "(a) … (b) …" ne sont pas touchés."""
+    if '**' in content and len(QCM_OPT_RE.findall(content)) >= 2:
+        return re.sub(r'\*\*([^*]+)\*\*', r'\1', content)
+    return content
+
 def md_to_html(text):
     lines = text.split('\n')
     out = []
@@ -243,7 +252,7 @@ def md_to_html(text):
         if re.match(r'^\s*\d+\.\s+', line):
             items = []
             while i < n and re.match(r'^\s*\d+\.\s+', lines[i]):
-                content = re.sub(r'^\s*\d+\.\s+', '', lines[i])
+                content = strip_qcm_bold(re.sub(r'^\s*\d+\.\s+', '', lines[i]))
                 items.append('<li>%s</li>' % inline(content))
                 i += 1
             out.append('<ol>%s</ol>' % ''.join(items)); continue
