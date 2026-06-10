@@ -69,6 +69,9 @@ export function openDB() {
   // migration : réinitialisation de mot de passe (token + expiration)
   try { db.exec('ALTER TABLE users ADD COLUMN reset_token TEXT'); } catch { }
   try { db.exec('ALTER TABLE users ADD COLUMN reset_exp TEXT'); } catch { }
+  // migration : validation finale de l'attestation (après entretien/test avec le formateur)
+  try { db.exec('ALTER TABLE users ADD COLUMN attestation_ok INTEGER DEFAULT 0'); } catch { }
+  try { db.exec('ALTER TABLE users ADD COLUMN attestation_le TEXT'); } catch { }
   // === Logiciel comptable (sandbox pédagogique) : moteur partie double ===
   try { db.exec("CREATE TABLE IF NOT EXISTS cpta_dossiers(id TEXT PRIMARY KEY, user_id TEXT, nom TEXT, ex_debut TEXT, ex_fin TEXT, cree_le TEXT)"); } catch { }
   try { db.exec("CREATE TABLE IF NOT EXISTS cpta_ecritures(id TEXT PRIMARY KEY, dossier_id TEXT, journal TEXT, date TEXT, libelle TEXT, piece TEXT, cree_le TEXT)"); } catch { }

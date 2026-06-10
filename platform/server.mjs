@@ -583,7 +583,10 @@ function pageDashboard(sess) {
   <section class="card"><h2>Accès à la formation</h2>
   <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
-  <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 Mon attestation</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p></section>
+  <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 ${(u.role === 'admin' || u.attestation_ok) ? 'Mon attestation' : 'Attestation (entretien final)'}</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
+  ${(u.role !== 'admin') ? (u.attestation_ok
+    ? `<p class="ok" style="font-size:13px;margin:8px 0 0">✅ Attestation débloquée — vous pouvez la télécharger (signée/tamponnée).</p>`
+    : `<p class="muted" style="font-size:13px;margin:8px 0 0">🎓 Votre attestation sera délivrée <b>après un entretien/test final</b> avec le formateur. Terminez l'évaluation finale puis demandez votre entretien depuis la page Attestation.</p>`) : ''}</section>
   <section class="card"><h2>🎥 Visio formation complémentaire</h2>
   <p>Séance individuelle avec le formateur en visioconférence — <b>${money(25000)} / heure</b>.</p>
   ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(25000)})</button></form>`}
@@ -638,13 +641,13 @@ const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
 function pageAdmin(sess, notif, acces, accesEmail) {
-  const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le,u.vu_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
+  const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le,u.vu_le,u.attestation_ok,u.attestation_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
   const _cut5 = new Date(Date.now() - 5 * 60000).toISOString(), _cut30 = new Date(Date.now() - 30 * 60000).toISOString();
   const enLigne = users.filter(u => u.vu_le && u.vu_le > _cut5);
   const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -788,8 +791,12 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
   ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
-  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th><th>Dernier vu</th></tr>
-  ${users.map(u => `<tr><td>${(u.vu_le && u.vu_le > _cut5) ? '🟢 ' : ''}${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc(dateMG(u.vu_le)) : '—'}</td></tr>`).join('')}</table></section>`, sess);
+  <p class="muted" style="font-size:12px"><b>🎓 Attestation</b> : l'apprenant ne peut télécharger son attestation (signée/tamponnée) qu'<b>après votre validation</b> ci-dessous — à faire une fois l'<b>entretien/test final</b> réussi.</p>
+  <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th><th>Dernier vu</th><th>🎓 Attestation</th></tr>
+  ${users.map(u => `<tr><td>${(u.vu_le && u.vu_le > _cut5) ? '🟢 ' : ''}${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc(dateMG(u.vu_le)) : '—'}</td>
+    <td>${u.attestation_ok
+      ? `<span style="color:#1e7d46;font-weight:700;white-space:nowrap">✅ Validée</span>${u.attestation_le ? `<br><span class="muted" style="font-size:11px">le ${esc(u.attestation_le.slice(0, 10))}</span>` : ''}<br><form method="post" action="/admin/attestation" class="inline" onsubmit="return confirm('Annuler la validation de l\\'attestation ? L\\'apprenant ne pourra plus la télécharger.')" style="margin-top:4px">${csrfField(sess)}<input type="hidden" name="id" value="${esc(u.id)}"><input type="hidden" name="action" value="annuler"><button class="btn small ghost" type="submit">Annuler</button></form>`
+      : `<form method="post" action="/admin/attestation" class="inline" onsubmit="return confirm('Confirmer : l\\'entretien/test final est réussi ? L\\'attestation deviendra téléchargeable.')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(u.id)}"><input type="hidden" name="action" value="valider"><button class="btn small" type="submit">Valider</button></form>`}</td></tr>`).join('')}</table></section>`, sess);
 }
 
 // --- Service de fichiers statiques sécurisé ---
@@ -938,8 +945,16 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
     <div class="box"><div class="lbl">Niveau délivré</div><div class="val" id="niveau">…</div></div>
   </div>
   <p id="warn" style="display:none;color:#c0392b;font-size:14px">⚠️ L'évaluation finale n'a pas encore été validée sur cet appareil. Passez le quiz final (Module 4) puis revenez ici.</p>
+  ${u.attestation_le ? `<p style="text-align:center;color:#1e7d46;font-weight:bold;margin:16px 0 0">✔ Niveau opérationnel validé lors de l'entretien/test final du ${fmt(u.attestation_le)}.</p>` : ''}
   <p>Fait à ____________________, le <b>${today}</b>.</p>
-  <p class="sig">${esc(formateur)} — Formateur, ${esc(s.nom || '')}</p>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;margin-top:18px">
+    <div style="flex:1;min-width:220px">
+      <p class="sig" style="margin:0">${esc(formateur)}</p>
+      <p style="margin:2px 0 0;font-size:13px;color:#555">Formateur, ${esc(s.nom || '')}</p>
+      <p style="margin:24px 0 0;border-top:1px solid #9aa6b2;width:200px;font-size:11px;color:#7a8694">Signature</p>
+    </div>
+    <div style="width:170px;height:110px;border:1.5px dashed #9aa6b2;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;color:#9aa6b2;font-size:12px;font-style:italic">Cachet de<br>l'organisme</div>
+  </div>
   <p class="legal">${esc(s.denomination || s.nom || '')} — ${esc(s.forme || '')} au capital de ${esc(s.capital || '')} — ${esc(s.immat || '')}${s.siege ? ', ' + esc(s.siege) : ''}. ${aLegal}</p>
 </div>
 <script>(function(){try{var p=JSON.parse(localStorage.getItem('fce_progress_v1')||'{}');var f=p.quiz&&p.quiz.final;var el=document.getElementById('result'),nv=document.getElementById('niveau');if(f&&f.total){var pct=Math.round(f.score/f.total*100);el.textContent=pct+' / 100';nv.textContent=pct>=85?'Avancé — Collaborateur autonome':(pct>=70?'Intermédiaire confirmé':(pct>=55?'Débutant validé':'À repasser (seuil 55)'));}else{el.textContent='—';nv.textContent='—';document.getElementById('warn').style.display='block';}}catch(e){}})();</script>
@@ -1246,7 +1261,24 @@ const server = http.createServer(async (req, res) => {
       if (p === '/tableau-de-bord') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageDashboard(sess), { course: true }); }
       if (p === '/attestation') {
         if (!authed(sess)) return redirect(res, '/connexion');
-        if (sess.user.role !== 'admin' && !hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
+        if (sess.user.role !== 'admin') {
+          if (!hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
+          if (!sess.user.attestation_ok) return send(res, 200, layout('Attestation', `<h1>🎓 Attestation — dernière étape</h1>
+            <section class="card" style="border-left:4px solid var(--accent)">
+            <p><b>Votre attestation n'est pas encore débloquée.</b> Avant de la recevoir <b>signée et tamponnée</b>, vous devez réussir un <b>entretien (ou test) final</b> avec le formateur.</p>
+            <p>👉 <b>Comment l'obtenir :</b></p>
+            <ol style="line-height:1.7">
+              <li>Terminez les modules et l'<b>évaluation finale</b> (Module 4).</li>
+              <li>Demandez votre <b>entretien/test final</b> au formateur (bouton ci-dessous).</li>
+              <li>Une fois l'entretien réussi, le formateur <b>valide</b> votre dossier : votre attestation devient alors téléchargeable ici, <b>signée et tamponnée</b>.</li>
+            </ol>
+            <p style="margin-top:14px">
+              <a class="btn" href="${(cfg.societe && cfg.societe.whatsapp) ? 'https://wa.me/' + String(cfg.societe.whatsapp).replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('Bonjour, je souhaite passer mon entretien/test final pour obtenir mon attestation. Mon compte : ' + (sess.user.email || '')) : '/tableau-de-bord'}"${(cfg.societe && cfg.societe.whatsapp) ? ' target="_blank" rel="noopener"' : ''}>📅 Demander mon entretien final</a>
+              <a class="btn ghost" href="/tableau-de-bord">← Mon espace</a>
+            </p>
+            <p class="muted" style="font-size:12px;margin-top:10px">L'attestation est une attestation interne de fin de formation : elle n'est délivrée qu'après validation du niveau opérationnel par le formateur.</p>
+            </section>`, sess));
+        }
         return serveAttestation(res, sess);
       }
       if (p === '/communaute') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageForum(sess)); }
@@ -1315,6 +1347,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
+      if (p === '/admin/attestation') return postAdminAttestation(req, res, sess, body);
       if (p === '/admin/promo-debloquer-tous') return postPromoDebloquerTous(req, res, sess, body);
       if (p === '/admin/annonce') return postAnnonce(req, res, sess, body);
       if (p === '/admin/annonce-off') return postAnnonceOff(req, res, sess, body);
@@ -1690,6 +1723,19 @@ function postAdminAccesModifier(req, res, sess, body) {
   db.prepare("UPDATE inscriptions SET expire_le=? WHERE id=?").run(expire, id);
   audit(db, sess.user.id, 'acces_modifie', ins.offre_code + ' · user ' + ins.user_id + ' · ' + jours + 'j', ip(req));
   return redirect(res, '/admin?acces=modif');
+}
+
+// Valider / annuler l'attestation d'un apprenant (après entretien/test final avec le formateur).
+function postAdminAttestation(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const id = (body.id || '').trim();
+  const on = (body.action || '') === 'valider';
+  const u = db.prepare("SELECT id,email FROM users WHERE id=? AND role='apprenant'").get(id);
+  if (!u) return redirect(res, '/admin?acces=noid');
+  if (on) db.prepare('UPDATE users SET attestation_ok=1, attestation_le=? WHERE id=?').run(new Date().toISOString(), id);
+  else db.prepare('UPDATE users SET attestation_ok=0, attestation_le=NULL WHERE id=?').run(id);
+  audit(db, sess.user.id, on ? 'attestation_validee' : 'attestation_annulee', u.email, ip(req));
+  return redirect(res, '/admin?acces=' + (on ? 'att_ok' : 'att_off'));
 }
 
 function postAdminValider(req, res, sess, body) {
