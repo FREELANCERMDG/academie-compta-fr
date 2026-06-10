@@ -1090,10 +1090,19 @@ function chatSystemPrompt() {
   ].join('\n');
 }
 
+// Clé API de l'assistant : variable d'env LLM_API_KEY, sinon "Secret File" Render (fichier monté à la racine ou /etc/secrets/).
+function llmApiKey() {
+  const env = (process.env.LLM_API_KEY || '').trim();
+  if (env) return env;
+  const cands = ['/etc/secrets/LLM_API_KEY', path.join(ROOT, 'LLM_API_KEY'), path.join(DIR || ROOT, 'LLM_API_KEY'), '/app/LLM_API_KEY', '/app/platform/LLM_API_KEY'];
+  for (const p of cands) { try { const v = fs.readFileSync(p, 'utf8').trim(); if (v) return v; } catch { } }
+  return '';
+}
+
 async function postApiChat(req, res, body) {
   const J = (obj, code) => { try { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(obj)); } catch { } };
   try {
-    const KEY = process.env.LLM_API_KEY || '';
+    const KEY = llmApiKey();
     if (!KEY) return J({ disabled: true, reason: (process.env.LLM_API_KEY === undefined ? 'absent' : 'vide') });
     if (typeof fetch !== 'function') return J({ disabled: true, reason: 'nofetch' });
     if (rateLimited('chat:' + ip(req), 25, 10 * 60000)) return J({ reply: "Vous avez envoyé beaucoup de messages 🙂 Patientez quelques minutes, ou écrivez-nous sur WhatsApp." });
