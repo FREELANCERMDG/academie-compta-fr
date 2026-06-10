@@ -823,6 +823,11 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <p class="muted">Accès complet (admin), sans paiement.</p>
   <p><a class="btn" href="/formation">Ouvrir la formation (tous les modules)</a></p>
   <ul>${MODULES.map(m => `<li>${esc(m.titre)}</li>`).join('')}</ul></section>
+  <section class="card"><h2>📄 Aperçu des attestations</h2>
+  <p class="muted" style="font-size:13px">Prévisualisez le document tel qu'il sera remis (votre nom d'admin sert d'exemple). Bouton « 🖨️ Imprimer / PDF » en haut du document.</p>
+  <p><a class="btn" href="/attestation?type=fin" target="_blank" rel="noopener">🎓 Aperçu — Attestation de fin de formation</a>
+     <a class="btn ghost" href="/attestation?type=stage" target="_blank" rel="noopener">🧑‍💼 Aperçu — Attestation de stage</a></p>
+  <p class="muted" style="font-size:12px">L'attestation de stage affiche les mentions DCG/DGC (lieu &amp; adresse, période à compléter, durée <b>3 mois ≈ 13 semaines</b>, missions, signature + cachet). Elle est délivrée automatiquement aux comptes dont l'e-mail est dans <code>attestation_stage</code> (config).</p></section>
   <section class="card"><h2>🎁 Donner un accès (gratuit, sans paiement)</h2>
   <p class="muted">Accorde l'accès à un module (ou au pack complet) à un email <b>déjà inscrit</b>, immédiatement et sans paiement, pour la durée choisie.</p>
   ${accesMsg}
@@ -958,13 +963,14 @@ window.addEventListener('afterprint',function(){try{document.body.style.display=
 }
 
 // --- Attestation personnalisée (générée par la plateforme) ---
-function serveAttestation(res, sess) {
+function serveAttestation(res, sess, forceType) {
   const u = sess.user; const s = cfg.societe || {};
   const formateur = (cfg.formateur && cfg.formateur.nom) || s.cogerant || s.gerant || '';
   const fmt = d => d ? String(d).slice(0, 10).split('-').reverse().join('/') : '—';
   const today = new Date().toISOString().slice(0, 10).split('-').reverse().join('/');
   const nom = esc(((u.prenom || '') + ' ' + (u.nom || '')).trim()) || '[Apprenant]';
-  const isStage = (cfg.attestation_stage || []).map(e => String(e).toLowerCase().trim()).includes((u.email || '').toLowerCase().trim());
+  // forceType ('stage' | 'fin') : aperçu admin ; sinon déterminé par la liste attestation_stage (email du stagiaire)
+  const isStage = forceType === 'stage' ? true : forceType === 'fin' ? false : (cfg.attestation_stage || []).map(e => String(e).toLowerCase().trim()).includes((u.email || '').toLowerCase().trim());
   const aTitre = isStage ? 'ATTESTATION DE STAGE' : 'ATTESTATION DE FIN DE FORMATION';
   const aSub = isStage ? 'Stage de formation pratique en comptabilité française externalisée' : 'Formation complète en comptabilité française externalisée depuis Madagascar';
   const aNarr = isStage ? 'a effectué un <b>stage de formation pratique</b> en « <b>Comptabilité française externalisée</b> » (6 modules).' : 'a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules).';
@@ -1372,7 +1378,7 @@ const server = http.createServer(async (req, res) => {
             <p class="muted" style="font-size:12px;margin-top:10px">L'attestation est une attestation interne de fin de formation : elle n'est délivrée qu'après validation du niveau opérationnel par le formateur.</p>
             </section>`, sess));
         }
-        return serveAttestation(res, sess);
+        return serveAttestation(res, sess, sess.user.role === 'admin' ? (url.searchParams.get('type') || '') : '');
       }
       if (p === '/communaute') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageForum(sess)); }
       if (p === '/logiciel') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageLogiciel(sess)); }
