@@ -1123,11 +1123,11 @@ async function postApiChat(req, res, body) {
         signal: ctl.signal
       });
     } finally { clearTimeout(to); }
-    if (!r.ok) { let etype = ''; try { const ed = await r.json(); etype = (ed && ed.error && (ed.error.message || ed.error.type)) || ''; } catch { } try { audit(db, null, 'chat_api_err', 'http ' + r.status + ' ' + etype, ip(req)); } catch { } return J({ error: true, status: r.status, type: String(etype).slice(0, 180), model: model }); }
+    if (!r.ok) { let etype = ''; try { const ed = await r.json(); etype = (ed && ed.error && (ed.error.message || ed.error.type)) || ''; } catch { } try { audit(db, null, 'chat_api_err', 'http ' + r.status + ' ' + etype, ip(req)); } catch { } return J({ error: true }); }
     const data = await r.json();
     const text = (data && Array.isArray(data.content) && data.content[0] && data.content[0].text) ? data.content[0].text.trim() : '';
     return text ? J({ reply: text }) : J({ error: true });
-  } catch (e) { return J({ error: true, ex: String((e && e.name) || e).slice(0, 60) }); }
+  } catch (e) { return J({ error: true }); }
 }
 
 // --- Offres d'emploi : mini-bourse interne + liens curés + agrégation RSS (optionnelle) ---
