@@ -1094,7 +1094,8 @@ async function postApiChat(req, res, body) {
   const J = (obj, code) => { try { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(obj)); } catch { } };
   try {
     const KEY = process.env.LLM_API_KEY || '';
-    if (!KEY || typeof fetch !== 'function') return J({ disabled: true });
+    if (!KEY) return J({ disabled: true, reason: (process.env.LLM_API_KEY === undefined ? 'absent' : 'vide') });
+    if (typeof fetch !== 'function') return J({ disabled: true, reason: 'nofetch' });
     if (rateLimited('chat:' + ip(req), 25, 10 * 60000)) return J({ reply: "Vous avez envoyé beaucoup de messages 🙂 Patientez quelques minutes, ou écrivez-nous sur WhatsApp." });
     const q = (body.q || '').toString().slice(0, 1000).trim();
     if (!q) return J({ reply: "Posez votre question 🙂" });

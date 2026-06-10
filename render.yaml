@@ -39,3 +39,9 @@ services:
         sync: false
       - key: MAIL_FROM_NAME
         sync: false
+      # Assistant IA (chatbot /api/chat) — clé API Anthropic. Vide = chatbot désactivé (renvoi WhatsApp).
+      # La valeur se saisit dans le dashboard Render (sync:false). Le nom DOIT être exactement LLM_API_KEY.
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: claude-3-5-haiku-latest
