@@ -1112,7 +1112,7 @@ async function postApiChat(req, res, body) {
     const msgs = hist.filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
       .slice(-6).map(m => ({ role: m.role, content: m.content.slice(0, 800) }));
     msgs.push({ role: 'user', content: q });
-    const model = process.env.LLM_MODEL || 'claude-3-5-haiku-latest';
+    const model = process.env.LLM_MODEL || 'claude-haiku-4-5';
     const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 20000);
     let r;
     try {
