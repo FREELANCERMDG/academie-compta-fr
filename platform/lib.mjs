@@ -62,6 +62,14 @@ export function openDB() {
   try { db.exec('ALTER TABLE demandes ADD COLUMN repondu_le TEXT'); } catch { }
   // table : annonces (message du formateur affiché dans l'espace de chaque apprenant)
   try { db.exec("CREATE TABLE IF NOT EXISTS annonces(id TEXT PRIMARY KEY, message TEXT, actif INTEGER DEFAULT 1, cree_le TEXT)"); } catch { }
+  // migration : cible de l'annonce ('apprenants' = espace apprenant, 'accueil' = bannière sur la page d'accueil publique)
+  try { db.exec("ALTER TABLE annonces ADD COLUMN cible TEXT DEFAULT 'apprenants'"); } catch { }
+  // seed : bannière d'accueil par défaut (validation de l'attestation) — uniquement si aucune n'a jamais été créée
+  try {
+    const _nb = db.prepare("SELECT COUNT(*) c FROM annonces WHERE cible='accueil'").get().c;
+    if (!_nb) db.prepare("INSERT INTO annonces(id,message,actif,cree_le,cible) VALUES(?,?,1,?,'accueil')")
+      .run('seed-accueil', "🎓 L'attestation de fin de formation n'est délivrée qu'après réussite d'une évaluation finale avec le formateur.", new Date().toISOString());
+  } catch { }
   // table : communauté (mur de discussion partagé entre apprenants, modéré par l'admin)
   try { db.exec("CREATE TABLE IF NOT EXISTS forum(id TEXT PRIMARY KEY, user_id TEXT, message TEXT, cree_le TEXT, supprime INTEGER DEFAULT 0)"); } catch { }
   // migration : présence "en ligne" (dernier passage de l'utilisateur)

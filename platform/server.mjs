@@ -265,6 +265,7 @@ function pageAccueil(sess) {
     { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules, logiciel Pennylane, TVA, liasse fiscale, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
+  ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
   <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
   <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification. <b>Passez les étapes d'évaluation et obtenez votre attestation de fin de formation.</b></p>
   <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
@@ -647,7 +648,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -779,6 +780,12 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}
     <textarea name="message" rows="4" maxlength="2000" required placeholder="Votre message aux apprenants…" style="width:100%">${esc(a ? a.message : suggestion)}</textarea>
     <p style="margin:6px 0 0"><button class="btn small" type="submit">📣 Publier l'annonce</button> <span class="muted" style="font-size:12px">— s'affiche en haut de l'espace de chaque apprenant à sa connexion.</span></p></form></section>`; })()}
+  ${(function () { const b = annonceAccueil(); const suggestion = "🎓 L'attestation de fin de formation n'est délivrée qu'après réussite d'une évaluation finale avec le formateur."; return `<section class="card"><h2>🌐 Bannière sur la page d'accueil (visiteurs)</h2>
+  <p class="muted" style="font-size:12px">Ce message s'affiche en haut de la <b>page d'accueil publique</b> (visible par tous les visiteurs, même non inscrits).</p>
+  ${b ? `<p class="muted" style="font-size:12px">Bannière actuellement en ligne (publiée le ${esc((b.cree_le || '').slice(0, 10))}) :</p><div class="offre" style="margin:6px 0"><p style="margin:0;white-space:pre-wrap">${esc(b.message)}</p></div><form method="post" action="/admin/annonce-off" class="inline" style="margin:0 0 10px">${csrfField(sess)}<input type="hidden" name="cible" value="accueil"><button class="btn small ghost" type="submit">Retirer la bannière</button></form>` : '<p class="muted">Aucune bannière affichée sur l\'accueil.</p>'}
+  <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="cible" value="accueil">
+    <textarea name="message" rows="3" maxlength="2000" required placeholder="Message affiché sur l'accueil du site…" style="width:100%">${esc(b ? b.message : suggestion)}</textarea>
+    <p style="margin:6px 0 0"><button class="btn small" type="submit">🌐 Publier sur l'accueil</button> <span class="muted" style="font-size:12px">— remplace la bannière précédente. « Retirer » la masque.</span></p></form></section>`; })()}
   <section class="card"><h2>Demandes / questions des apprenants (${dem.length})</h2>
   ${dem.length ? dem.map(d => `<div class="row2" style="flex-direction:column;align-items:stretch;gap:8px">
     <div><b>${esc(d.email)}</b>${d.tel ? ` · <span class="muted">${esc(d.tel)}</span>` : ''} — <b>${esc(d.sujet)}</b><br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></div>
@@ -1392,7 +1399,8 @@ function grantPromoModules(uid, ipStr) {
   return true;
 }
 // Annonce active (message du formateur affiché dans l'espace des apprenants)
-function annonceActive() { try { return db.prepare("SELECT * FROM annonces WHERE actif=1 ORDER BY cree_le DESC LIMIT 1").get() || null; } catch { return null; } }
+function annonceActive() { try { return db.prepare("SELECT * FROM annonces WHERE actif=1 AND (cible IS NULL OR cible='apprenants') ORDER BY cree_le DESC LIMIT 1").get() || null; } catch { return null; } }
+function annonceAccueil() { try { return db.prepare("SELECT * FROM annonces WHERE actif=1 AND cible='accueil' ORDER BY cree_le DESC LIMIT 1").get() || null; } catch { return null; } }
 // Accès Communauté : réservé aux apprenants à accès actif (admin, ou promo en cours, ou inscription active).
 function forumAccess(sess) { return !!(sess && sess.user && (sess.user.role === 'admin' || promoLive() || hasActive(sess.user.id))); }
 
@@ -1566,19 +1574,21 @@ function postPromoDebloquerTous(req, res, sess, body) {
 function postAnnonce(req, res, sess, body) {
   if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
   if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
+  const cible = (body.cible === 'accueil') ? 'accueil' : 'apprenants';
   const msg = String(body.message || '').trim().slice(0, 2000);
   if (msg.length < 2) return redirect(res, '/admin');
-  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1").run();
-  db.prepare("INSERT INTO annonces(id,message,actif,cree_le) VALUES(?,?,1,?)").run(rid(10), msg, new Date().toISOString());
-  audit(db, sess.user.id, 'annonce_publiee', msg.slice(0, 60), ip(req));
-  return redirect(res, '/admin?acces=annonce');
+  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1 AND (cible=? OR (? = 'apprenants' AND cible IS NULL))").run(cible, cible);
+  db.prepare("INSERT INTO annonces(id,message,actif,cree_le,cible) VALUES(?,?,1,?,?)").run(rid(10), msg, new Date().toISOString(), cible);
+  audit(db, sess.user.id, 'annonce_publiee', cible + ' · ' + msg.slice(0, 60), ip(req));
+  return redirect(res, '/admin?acces=' + (cible === 'accueil' ? 'banniere' : 'annonce'));
 }
 function postAnnonceOff(req, res, sess, body) {
   if (!sess || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
   if (!checkCsrf(sess, body)) return send(res, 403, 'forbidden');
-  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1").run();
-  audit(db, sess.user.id, 'annonce_off', '', ip(req));
-  return redirect(res, '/admin?acces=annonce_off');
+  const cible = (body.cible === 'accueil') ? 'accueil' : 'apprenants';
+  db.prepare("UPDATE annonces SET actif=0 WHERE actif=1 AND (cible=? OR (? = 'apprenants' AND cible IS NULL))").run(cible, cible);
+  audit(db, sess.user.id, 'annonce_off', cible, ip(req));
+  return redirect(res, '/admin?acces=' + (cible === 'accueil' ? 'banniere_off' : 'annonce_off'));
 }
 // --- Communauté : mur de discussion partagé (modéré par l'admin) ---
 function forumNom(prenom, nom, role) { return role === 'admin' ? '👨‍🏫 Formateur' : (esc(prenom || '') + ' ' + esc((nom || '').slice(0, 1)) + '.'); }
