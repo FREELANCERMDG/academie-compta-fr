@@ -68,6 +68,7 @@
     ".sx-btn:hover{background:#0f2360}",
     ".sx-btn.amber{background:#E8A13A;color:#1c2733}.sx-btn.amber:hover{background:#d8912a}",
     ".sx-btn.g{background:#eef2f8;color:#16307a}.sx-btn.g:hover{background:#e0e8f3}",
+    ".sx-btn:disabled{opacity:.5;cursor:not-allowed}",
     ".sx-nav{margin-left:auto;display:flex;gap:6px}",
     ".sx-fb{margin:0 16px 12px;padding:10px 12px;border-radius:9px;font-size:13.5px;display:none}",
     ".sx-fb.k{background:#e4f6ea;color:#0a6b46;border:1px solid #9fdcb6;display:block}",
@@ -214,7 +215,7 @@
     } else { host.appendChild(matWrap); }
 
     var act = document.createElement("div"); act.className = "sx-act";
-    act.innerHTML = '<button class="sx-btn amber verif">✓ Vérifier l\'écriture</button><button class="sx-btn g corr">👁 Corrigé</button><button class="sx-btn g raz">↺ Effacer</button>' + (opts.nav ? '<span class="sx-nav"><button class="sx-btn g prev">← Précédent</button><button class="sx-btn next">Suivant →</button></span>' : '');
+    act.innerHTML = '<button class="sx-btn amber verif">✓ Vérifier l\'écriture</button><button class="sx-btn g corr" disabled title="Disponible après Vérifier">👁 Corrigé</button><button class="sx-btn g raz">↺ Effacer</button>' + (opts.nav ? '<span class="sx-nav"><button class="sx-btn g prev">← Précédent</button><button class="sx-btn next">Suivant →</button></span>' : '');
     var fb = document.createElement("div"); fb.className = "sx-fb";
     var cor = document.createElement("div"); cor.className = "sx-cor";
     host.appendChild(act); host.appendChild(fb); host.appendChild(cor);
@@ -259,9 +260,9 @@
     tbl.addEventListener("input", function () { recompute(); refreshNames(); });
     tb.addEventListener("click", function (e) { if (e.target.classList.contains("sx-rm")) { if (tb.querySelectorAll("tr").length > 1) e.target.closest("tr").remove(); recompute(); } });
     add.addEventListener("click", function () { tb.appendChild(row()); });
-    act.querySelector(".verif").addEventListener("click", function () { var ok = verify(); if (ok && opts.onVerified) opts.onVerified(); });
+    act.querySelector(".verif").addEventListener("click", function () { var ok = verify(); var _cb = act.querySelector(".corr"); if (_cb) _cb.disabled = false; if (ok && opts.onVerified) opts.onVerified(); });
     act.querySelector(".corr").addEventListener("click", showCorrection);
-    act.querySelector(".raz").addEventListener("click", function () { tb.querySelectorAll("input").forEach(function (i) { i.value = ""; }); refreshNames(); fb.style.display = "none"; cor.style.display = "none"; recompute(); });
+    act.querySelector(".raz").addEventListener("click", function () { tb.querySelectorAll("input").forEach(function (i) { i.value = ""; }); refreshNames(); fb.style.display = "none"; cor.style.display = "none"; var _cb = act.querySelector(".corr"); if (_cb) _cb.disabled = true; recompute(); });
     if (opts.nav) { act.querySelector(".next").addEventListener("click", opts.next); act.querySelector(".prev").addEventListener("click", opts.prev); }
     recompute(); refreshNames();
   }

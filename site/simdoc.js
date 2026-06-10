@@ -81,6 +81,7 @@
     ".sd-msg{margin-right:auto;font-weight:700;font-size:12.5px}.sd-msg.ok{color:#1f8a4c}.sd-msg.ko{color:#c0392b}",
     ".sd-btn{border:1px solid #cdd8e8;background:#fff;color:#27384a;border-radius:8px;padding:8px 14px;font-weight:700;font-size:12.5px;cursor:pointer}.sd-btn:hover{border-color:var(--sd-navy)}",
     ".sd-btn.primary{background:var(--sd-accent);border-color:var(--sd-accent);color:#1c2733}",
+    ".sd-btn:disabled{opacity:.5;cursor:not-allowed}",
     ".sd-soonbox{padding:26px 14px;text-align:center;color:#5a6b80;background:#fff;border:1px dashed #cdd8e8;border-radius:10px;margin:0 14px 14px}",
     "@media(max-width:760px){.sd-panes{flex-direction:column}.sd-tab .b{display:none}}"
   ].join("");
@@ -503,7 +504,7 @@
       +"</div>"
       +"<div class='sd-act'><span class='sd-msg'></span>"
       +"<button class='sd-btn' data-act='reset'>↺ Réinitialiser</button>"
-      +"<button class='sd-btn' data-act='corrige'>👁 Voir le corrigé</button>"
+      +"<button class='sd-btn' data-act='corrige' disabled title='Disponible après avoir cliqué Vérifier'>👁 Voir le corrigé</button>"
       +"<button class='sd-btn primary' data-act='verif'>✓ Vérifier ma déclaration</button></div>";
   }
   function render(el){
@@ -512,10 +513,14 @@
     el.setAttribute("data-rendered","1");
     if(!sim){ el.innerHTML="<p style='color:#c0392b'>(Simulateur non disponible : "+esc(key)+")</p>"; return; }
     el.classList.add("simdoc");
-    var initTab=el.getAttribute("data-tab"); if(initTab && sim.panes[initTab]) sim.active=initTab;
-    var tabsH=sim.tabs.map(function(t){ return "<div class='sd-tab "+(t.id===sim.active?"on":"")+(t.soon?" soon":"")+"' data-tab='"+escA(t.id)+"'>"+esc(t.label)+(t.sub?"<span class='b'>"+esc(t.sub)+"</span>":"")+(t.soon?"<span class='b'>bientôt</span>":"")+"</div>"; }).join("");
+    var initTab=el.getAttribute("data-tab");
+    // data-tab => simulateur MONO-régime : on n'affiche QUE cet onglet (les explications d'un autre régime — ex. 2035 — n'apparaissent plus sur les autres liasses).
+    var only=(initTab && sim.panes[initTab]) ? initTab : null; if(only) sim.active=only;
+    var tabList=only ? sim.tabs.filter(function(t){return t.id===only;}) : sim.tabs;
+    var tabsH=tabList.map(function(t){ return "<div class='sd-tab "+(t.id===sim.active?"on":"")+(t.soon?" soon":"")+"' data-tab='"+escA(t.id)+"'>"+esc(t.label)+(t.sub?"<span class='b'>"+esc(t.sub)+"</span>":"")+(t.soon?"<span class='b'>bientôt</span>":"")+"</div>"; }).join("");
+    var tabsBar=tabList.length>1 ? "<div class='sd-tabs'>"+tabsH+"</div>" : "";
     el.innerHTML="<div class='sd-top'><span class='sd-ic'>🖥️</span><span class='sd-h'>"+esc(sim.titre)+"</span><span class='sd-sub'>"+esc(sim.sous)+"</span></div>"
-      +"<div class='sd-tabs'>"+tabsH+"</div><div class='sd-stage'>"+buildPane(sim,sim.active)+"</div>";
+      +tabsBar+"<div class='sd-stage'>"+buildPane(sim,sim.active)+"</div>";
     el.addEventListener("click", function(e){
       var tab=e.target.closest(".sd-tab");
       if(tab && !tab.classList.contains("soon")){
@@ -525,7 +530,7 @@
       }
       var btn=e.target.closest(".sd-btn"); if(!btn) return;
       var act=btn.getAttribute("data-act"), fills=el.querySelectorAll(".cf-fill"), msg=el.querySelector(".sd-msg");
-      if(act==="reset"){ fills.forEach(function(f){ f.value=""; f.classList.remove("ok","ko"); }); if(msg){msg.textContent="";msg.className="sd-msg";} return; }
+      if(act==="reset"){ fills.forEach(function(f){ f.value=""; f.classList.remove("ok","ko"); }); if(msg){msg.textContent="";msg.className="sd-msg";} var cbr=el.querySelector("[data-act=corrige]"); if(cbr) cbr.disabled=true; return; }
       if(act==="corrige"){ fills.forEach(function(f){ f.value=f.getAttribute("data-expect"); f.classList.remove("ko"); f.classList.add("ok"); }); if(msg){msg.textContent="Corrigé affiché.";msg.className="sd-msg ok";} return; }
       if(act==="verif"){
         var ok=0, tot=fills.length;
@@ -534,6 +539,7 @@
           else good=Math.abs(num(f.value)-num(exp))<0.5;
           f.classList.toggle("ok",good); f.classList.toggle("ko",!good); if(good) ok++; });
         if(msg){ msg.textContent=ok+" / "+tot+" correct"+(ok===tot?" — parfait ✅":" — corrigez les cases en rouge"); msg.className="sd-msg "+(ok===tot?"ok":"ko"); }
+        var cbv=el.querySelector("[data-act=corrige]"); if(cbv) cbv.disabled=false; // corrigé débloqué après finalisation
         return;
       }
     });

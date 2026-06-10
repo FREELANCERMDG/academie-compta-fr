@@ -51,7 +51,7 @@
 ### 🛠️ Simulateur interactif — préparez la liasse (réel normal)
 À partir du dossier ci‑dessous (à gauche), complétez le **2058‑A** (à droite) : réintégrations (**WB**), déductions (**WC**), résultat fiscal (**WD = WA + WB − WC**) puis le bénéfice imposable (**XE**). Suivez le **tutoriel** en tête, puis cliquez **Vérifier ma déclaration**.
 
-<div class="simdoc" data-sim="liasse"></div>
+<div class="simdoc" data-sim="liasse" data-tab="rn"></div>
 
 ---
 

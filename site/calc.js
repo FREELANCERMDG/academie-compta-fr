@@ -159,7 +159,7 @@
       }
       var taxeP;
       if (v.carburant === "electrique") taxeP = 0;
-      else if ((v.carburant === "essence" || v.carburant === "hybride" || v.carburant === "e85") && v.annee >= 2015) taxeP = 100;
+      else if ((v.carburant === "essence" || v.carburant === "hybride" || v.carburant === "e85") && v.annee >= 2011) taxeP = 100;
       else taxeP = 500;
       var jours = v.jours > 0 ? v.jours : 365, pr = jours / 365;
       var c = Math.round(taxeCO2 * pr), p = Math.round(taxeP * pr);
@@ -327,8 +327,8 @@
     compute: function (v, h) {
       var taux = v.taux > 0 ? v.taux : 42, cot = Math.round(v.revenu * taux / 100), prov = cot - v.deja_verse;
       var ecr, sens;
-      if (prov > 0) { sens = "Complément à provisionner"; ecr = "Débit <code>646</code> Cotisations sociales " + h.eur(prov) + " / Crédit <code>438</code> (ou 4486) Charges sociales à payer " + h.eur(prov); }
-      else if (prov < 0) { sens = "Trop-versé attendu (avoir URSSAF)"; ecr = "Débit <code>4487</code> Produits à recevoir " + h.eur(-prov) + " / Crédit <code>646</code> Cotisations sociales " + h.eur(-prov); }
+      if (prov > 0) { sens = "Complément à provisionner"; ecr = "Débit <code>646</code> Cotisations sociales " + h.eur(prov) + " / Crédit <code>438</code> Organismes sociaux - charges à payer " + h.eur(prov); }
+      else if (prov < 0) { sens = "Trop-versé attendu (avoir URSSAF)"; ecr = "Débit <code>438</code> Organismes sociaux - produit à recevoir " + h.eur(-prov) + " / Crédit <code>646</code> Cotisations sociales " + h.eur(-prov); }
       else { sens = "Rien à régulariser"; ecr = "—"; }
       var circuit = v.statut === "ei" ? "EI : décaissement réel <code>108</code> (D) / <code>512</code> (C) ; provision en 646/438." : "Société : charges en <code>646</code>.";
       var divid = v.statut === "gerant_majo" ? "<br><b>⚠ Gérant majoritaire :</b> la fraction de dividendes > 10 % du capital (+ primes + CCA) est soumise aux cotisations TNS." : "";
