@@ -1103,8 +1103,7 @@ async function postApiChat(req, res, body) {
   const J = (obj, code) => { try { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(obj)); } catch { } };
   try {
     const KEY = llmApiKey();
-    if (!KEY) return J({ disabled: true, reason: (process.env.LLM_API_KEY === undefined ? 'absent' : 'vide') });
-    if (typeof fetch !== 'function') return J({ disabled: true, reason: 'nofetch' });
+    if (!KEY || typeof fetch !== 'function') return J({ disabled: true });
     if (rateLimited('chat:' + ip(req), 25, 10 * 60000)) return J({ reply: "Vous avez envoyé beaucoup de messages 🙂 Patientez quelques minutes, ou écrivez-nous sur WhatsApp." });
     const q = (body.q || '').toString().slice(0, 1000).trim();
     if (!q) return J({ reply: "Posez votre question 🙂" });
@@ -1124,11 +1123,11 @@ async function postApiChat(req, res, body) {
         signal: ctl.signal
       });
     } finally { clearTimeout(to); }
-    if (!r.ok) { let etype = ''; try { const ed = await r.json(); etype = (ed && ed.error && (ed.error.message || ed.error.type)) || ''; } catch { } try { audit(db, null, 'chat_api_err', 'http ' + r.status + ' ' + etype, ip(req)); } catch { } return J({ error: true, status: r.status, type: String(etype).slice(0, 160) }); }
+    if (!r.ok) { let etype = ''; try { const ed = await r.json(); etype = (ed && ed.error && (ed.error.message || ed.error.type)) || ''; } catch { } try { audit(db, null, 'chat_api_err', 'http ' + r.status + ' ' + etype, ip(req)); } catch { } return J({ error: true }); }
     const data = await r.json();
     const text = (data && Array.isArray(data.content) && data.content[0] && data.content[0].text) ? data.content[0].text.trim() : '';
-    return text ? J({ reply: text }) : J({ error: true, status: 'empty' });
-  } catch (e) { return J({ error: true, ex: String(e && e.name || e).slice(0, 40) }); }
+    return text ? J({ reply: text }) : J({ error: true });
+  } catch (e) { return J({ error: true }); }
 }
 
 // --- Offres d'emploi : mini-bourse interne + liens curés + agrégation RSS (optionnelle) ---
