@@ -97,6 +97,18 @@ Et l'outil de navigation dans la liasse au régime réel simplifié (onglet RS) 
 
 <div class="simdoc" data-sim="liasse" data-tab="rs"></div>
 
+## 🔢 Plan de comptes LMP — comme le LMNP réel, **+ le social et les +values pro**
+
+> Comptablement, le LMP utilise **les mêmes comptes BIC que le LMNP au réel** (immos 213 / 2184, amort. 28xx, loyers **706**, charges 6xx, intérêts **661**, dotations **6811**, compte exploitant **108**). Le statut **professionnel** ajoute trois blocs :
+
+| Spécificité LMP | Comptes PCG |
+|---|---|
+| **Cotisations sociales** (affiliation **SSI / TNS**) | **646 Cotisations sociales personnelles de l'exploitant** + provision de régularisation **4386 / 4387** *(voir Module 11 §7)* |
+| **Plus-value PROFESSIONNELLE** à la cession | **675 VCEAC** (valeur comptable des éléments d'actif cédés) · **775 Produits de cession d'éléments d'actif** · sortie de l'immo (213 / 2184) + reprise des **amortissements (28xx)** · 462 Créances sur cessions / 512 |
+| **Déficit** imputable sur le **revenu global** | pas de compte dédié — traitement **fiscal** (report sur 2042-C-PRO) via le résultat (12x) et le **108** |
+
+> ⚠️ **La vraie différence comptable LMNP / LMP :** le LMNP relève des **plus-values des particuliers** (pas de 675/775) ; le LMP relève des **plus-values professionnelles** (**675 / 775**, court terme / long terme) et paie des **cotisations TNS** (**646**) — d'où ces comptes en plus.
+
 ## 🧪 Cas pratique
 
 **Contexte.** M. RAKOTO (votre dossier) et son épouse déclarent ensemble. En 2025 :

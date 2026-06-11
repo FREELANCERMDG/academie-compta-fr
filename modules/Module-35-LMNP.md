@@ -113,6 +113,24 @@ La PV reste imposée au **régime des particuliers** (**19 % IR + 17,2 % PS**), 
 
 **CFE :** le LMNP est **redevable de la CFE** (Cotisation Foncière des Entreprises), sauf cas d'exonération (ex. location d'une partie de l'habitation principale, 1re année, recettes très faibles). Penser à la déclaration initiale **n° 1447-C-SD**.
 
+## 🔢 Plan de comptes LMNP au réel (BIC)
+
+> Le meublé relève des **BIC** : vraie comptabilité d'engagement (bilan + compte de résultat 2033), au cœur de laquelle l'**amortissement**.
+
+| Poste | Comptes PCG |
+|---|---|
+| **Immobilisations** (par composants) | 2111 Terrain *(non amortissable)* · 213 Constructions · 2135 Installations générales / agencements · **2184 Mobilier** · 2183 Matériel informatique |
+| **Amortissements** | **2813** Amort. constructions · 2815 Amort. installations · **28184** Amort. mobilier *(28 + n° de l'immo)* |
+| **Recettes (loyers meublés)** | **706 Prestations de services** (ou 7083 Locations diverses) |
+| **Charges courantes** | 606 Fournitures · 615 Entretien-réparations · 6161 Assurance · 6226 Honoraires (expert-comptable) · 6262 Télécom · 627 Frais bancaires |
+| **Impôts & taxes** | **63512 CFE** · 635 Autres impôts |
+| **Charges financières** | **661 Intérêts d'emprunt** |
+| **Dotations** | **6811 Dotations aux amortissements** *(le poste clé du réel)* |
+| **Capitaux / financement** | **108 Compte de l'exploitant** (apports/retraits) · 164 Emprunts |
+| **Tiers / trésorerie** | 411 Locataires · 401 Fournisseurs · 512 Banque · 44566 TVA déductible *(para-hôtellerie uniquement)* |
+
+> 💡 **Micro-BIC** : ni comptabilité d'engagement ni amortissement — uniquement le suivi des recettes ; l'abattement forfaitaire (50 %, ou 30 % meublé de tourisme non classé) tient lieu de charges. Les comptes ci-dessus ne servent **qu'au réel**.
+
 ## 🧪 Cas pratique
 
 **Données — Mme RAKOTO, LMNP au réel (1er exercice 2026) :**

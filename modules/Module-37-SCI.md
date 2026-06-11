@@ -97,6 +97,23 @@ Et voici le formulaire de déclaration de résultat à l'IS que tu déposes pour
 - Construire un **plan d'amortissement par composants** (gros œuvre, toiture, installations…) si l'immeuble est significatif.
 - À l'IR : ne **jamais** glisser d'amortissement dans la 2072 ; bien isoler les **intérêts d'emprunt** (régime de déficit spécifique).
 
+## 🔢 Plan de comptes SCI — IR vs IS
+
+> La SCI fait de la **location NUE** (revenus fonciers) : comptes différents du meublé, et surtout **l'IR n'amortit pas** alors que **l'IS amortit**.
+
+| Poste | Comptes PCG | IR (translucide) | IS (option) |
+|---|---|---|---|
+| **Capital / associés** | 101 Capital · 106/110/12x réserves-RAN-résultat · **455 Comptes courants d'associés** | ✔ (résultat → 455) | ✔ |
+| **Immobilisations** | 2111 Terrain · 213 Constructions · 2181 Agencements | ✔ | ✔ |
+| **Amortissements** | **2813** Amort. constructions | ❌ **jamais** (foncier) | ✔ via **6811 / 28** |
+| **Emprunt** | **164 Emprunts** | ✔ | ✔ |
+| **Loyers (location nue)** | **752 Revenus des immeubles** (ou 7083 Locations diverses) | ✔ | ✔ |
+| **Charges** | 615 Entretien · 6161 Assurance · 6226 Honoraires · 622 Syndic · **63512 Taxe foncière** · **661 Intérêts d'emprunt** | ✔ | ✔ |
+| **Impôt sur les bénéfices** | — | ❌ (imposé chez l'associé) | **695 IS** |
+| **Distribution** | — | via **455** *(non taxée)* | **457 Dividendes** → PFU 30 % |
+
+> 🔑 **Le 455 est la plaque tournante de la SCI à l'IR** : apport `512 / 455`, retrait `455 / 512`, affectation du résultat `12x / 455` — **jamais re-taxé**. À l'IS, c'est la **distribution (457)** qui déclenche l'impôt (PFU 30 %).
+
 ## 🧪 Cas pratique
 
 **Données.** M. et Mme Rakoto créent une SCI (50/50) qui achète un immeuble locatif **250 000 €** (dont terrain 50 000 €, construction 200 000 €, amortie sur **25 ans**). Loyers annuels **18 000 €**. Charges déductibles annuelles (TF, assurance, gestion, intérêts) **6 000 €**. TMI des associés : **41 %**. On compare l'**impôt annuel** dans les deux régimes.
