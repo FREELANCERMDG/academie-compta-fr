@@ -8,8 +8,6 @@
 
 <img src="/public/logo.jpg" alt="MG Consulting IT & ACT" width="280">
 
-**MG CONSULTING IT&ACT**
-
 # ATTESTATION DE FIN DE FORMATION
 
 **Formation complète en comptabilité française externalisée depuis Madagascar**
