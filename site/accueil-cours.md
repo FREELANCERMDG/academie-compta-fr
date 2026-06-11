@@ -22,7 +22,12 @@ Vous allez acquérir toutes les compétences pour devenir **collaborateur compta
 - Recommencez les **quiz** jusqu'à 100 %.
 - Notez vos erreurs pour ne pas les refaire.
 
-## Votre certification
-À la fin, l'**évaluation finale (/100)** vous délivre une **attestation de fin de formation MG CONSULTING IT&ACT** (société enregistrée au Registre de Commerce et des Sociétés d'Antananarivo), selon votre niveau.
+## 🎓 Votre certification — comment l'obtenir
+1. **Terminez TOUS les modules** : cliquez sur **« Marquer comme terminé »** en bas de chaque module — la **barre de progression** (en haut) doit atteindre **100 %**.
+2. Réussissez l'**évaluation finale (/100)**.
+3. **Programmez votre test final en visio** (Google Meet avec le formateur) depuis la page **🎓 Mon attestation** de votre espace.
+4. Test réussi → le formateur **valide** votre dossier → votre **attestation de fin de formation MG CONSULTING IT&ACT** (société enregistrée au RCS d'Antananarivo) devient **téléchargeable** (signée et tamponnée).
+
+> ⚠️ **Important :** l'attestation n'est délivrée qu'**après avoir terminé tous les modules** (progression 100 %) **ET réussi le test final en visio** avec le formateur.
 
 > Bon courage ! Appliquez la méthode et les checklists, et vous serez **opérationnel pour les cabinets français**. 🚀

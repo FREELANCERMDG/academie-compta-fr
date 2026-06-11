@@ -1371,21 +1371,29 @@ const server = http.createServer(async (req, res) => {
         if (!authed(sess)) return redirect(res, '/connexion');
         if (sess.user.role !== 'admin') {
           if (!hasActive(sess.user.id)) return send(res, 402, layout('Attestation', '<h1>Attestation indisponible</h1><p>Votre attestation sera disponible après activation de votre accès à la formation.</p><a class="btn" href="/tableau-de-bord">Mon espace</a>', sess));
-          if (!sess.user.attestation_ok) return send(res, 200, layout('Attestation', `<h1>🎓 Attestation — dernière étape</h1>
+          if (!sess.user.attestation_ok) {
+            const rdvOk = url.searchParams.get('rdv') === 'ok';
+            const em = esc(sess.user.email || '');
+            const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — Académie Compta FR') + '&details=' + encodeURIComponent('Test/entretien final pour l\'attestation. Le formateur ajoute le lien Google Meet et envoie l\'invitation.') + '&add=' + encodeURIComponent((sess.user.email || '') + ',anthony.eglmada@gmail.com');
+            return send(res, 200, layout('Attestation', `<h1>🎓 Attestation — dernière étape</h1>
             <section class="card" style="border-left:4px solid var(--accent)">
-            <p><b>Votre attestation n'est pas encore débloquée.</b> Avant de la recevoir <b>signée et tamponnée</b>, vous devez réussir un <b>entretien (ou test) final</b> avec le formateur.</p>
+            ${rdvOk ? `<div style="background:#e9f7ef;border:1px solid #bfe6cd;border-radius:10px;padding:14px 16px;margin-bottom:14px">
+              <p style="margin:0;font-weight:700;color:#1e7d46;font-size:16px">✅ Votre rendez-vous de test est programmé.</p>
+              <p style="margin:6px 0 0;font-size:14px">Le formateur vous enverra le <b>lien Google Meet</b> et l'horaire par e-mail à <b>${em}</b>. Ajoutez le rendez-vous à votre agenda :</p>
+              <p style="margin:8px 0 0"><a class="btn small" target="_blank" rel="noopener" href="${calLink}">📅 Ajouter à Google Agenda (visio)</a></p></div>` : ''}
+            <p><b>Votre attestation n'est pas encore débloquée.</b> Elle vous sera remise <b>signée et tamponnée</b> après un <b>test final en visio</b> (Google Meet) avec le formateur.</p>
             <p>👉 <b>Comment l'obtenir :</b></p>
             <ol style="line-height:1.7">
-              <li>Terminez les modules et l'<b>évaluation finale</b> (Module 4).</li>
-              <li>Demandez votre <b>entretien/test final</b> au formateur (bouton ci-dessous).</li>
-              <li>Une fois l'entretien réussi, le formateur <b>valide</b> votre dossier : votre attestation devient alors téléchargeable ici, <b>signée et tamponnée</b>.</li>
+              <li><b>Terminez TOUS les modules</b> dans la formation : cliquez sur <b>« Marquer comme terminé »</b> en bas de chaque module (la <b>barre de progression</b> doit atteindre <b>100 %</b>) et passez l'<b>évaluation finale</b>.</li>
+              <li><b>Programmez votre test final en visio</b> ci-dessous (rendez-vous Google Meet avec le formateur).</li>
+              <li>Test réussi → le formateur <b>valide</b> votre dossier → l'attestation devient <b>téléchargeable</b> ici.</li>
             </ol>
-            <p style="margin-top:14px">
-              <a class="btn" href="${(cfg.societe && cfg.societe.whatsapp) ? 'https://wa.me/' + String(cfg.societe.whatsapp).replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('Bonjour, je souhaite passer mon entretien/test final pour obtenir mon attestation. Mon compte : ' + (sess.user.email || '')) : '/tableau-de-bord'}"${(cfg.societe && cfg.societe.whatsapp) ? ' target="_blank" rel="noopener"' : ''}>📅 Demander mon entretien final</a>
-              <a class="btn ghost" href="/tableau-de-bord">← Mon espace</a>
-            </p>
-            <p class="muted" style="font-size:12px;margin-top:10px">L'attestation est une attestation interne de fin de formation : elle n'est délivrée qu'après validation du niveau opérationnel par le formateur.</p>
+            ${rdvOk ? '<p style="margin-top:14px"><a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p>' : `<form method="post" action="/attestation/rdv" class="form" style="margin-top:14px">${csrfField(sess)}
+              <label>Votre e-mail (pour l'invitation Google Meet)<input name="email" type="email" required value="${em}"></label>
+              <p style="margin:8px 0 0"><button class="btn" type="submit">📅 Programmer mon rendez-vous de test (visio)</button> <a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p></form>`}
+            <p class="muted" style="font-size:12px;margin-top:10px">Attestation interne de fin de formation, délivrée après validation du niveau opérationnel par le formateur.</p>
             </section>`, sess));
+          }
         }
         return serveAttestation(res, sess, sess.user.role === 'admin' ? (url.searchParams.get('type') || '') : '');
       }
@@ -1450,6 +1458,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/choisir') return postChoisir(req, res, sess, body);
       if (p === '/progression') return postProgression(req, res, sess, body);
       if (p === '/demande') return postDemande(req, res, sess, body);
+      if (p === '/attestation/rdv') return postAttestationRdv(req, res, sess, body);
       if (p === '/admin/demande-traitee') return postDemandeTraitee(req, res, sess, body);
       if (p === '/admin/demande-repondre') return postDemandeRepondre(req, res, sess, body);
       if (p === '/paiement/manuel') return postManuel(req, res, sess, body);
@@ -1649,6 +1658,21 @@ function postDemande(req, res, sess, body) {
   db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(rid(10), sess.user.id, sujet, message, 'nouvelle', new Date().toISOString());
   audit(db, sess.user.id, 'demande_rdv', sujet, ip(req));
   return send(res, 200, layout('Demande envoyée', `<h1>Demande envoyée ✅</h1><p>Votre demande « ${esc(sujet)} » a été transmise au formateur. Vous serez recontacté(e).</p><a class="btn" href="/tableau-de-bord">Retour à mon espace</a>`, sess));
+}
+// Prise de rendez-vous pour le test final en visio (Google Meet avec le formateur)
+function postAttestationRdv(req, res, sess, body) {
+  const email = (body.email || sess.user.email || '').trim().slice(0, 160);
+  if (!isEmail(email)) return redirect(res, '/attestation');
+  const apprenant = ((sess.user.prenom || '') + ' ' + (sess.user.nom || '')).trim() || email;
+  try { db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(rid(10), sess.user.id, 'RDV test final (visio)', 'Rendez-vous de test final demandé. E-mail apprenant : ' + email, 'nouvelle', new Date().toISOString()); } catch { }
+  audit(db, sess.user.id, 'rdv_test_final', email, ip(req));
+  if (mailConfigured()) {
+    const FORMATEUR = 'anthony.eglmada@gmail.com';
+    const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — ' + apprenant) + '&details=' + encodeURIComponent('Test/entretien final attestation. Apprenant : ' + apprenant + ' (' + email + '). Ajouter le lien Google Meet, puis envoyer l\'invitation.') + '&add=' + encodeURIComponent(email + ',' + FORMATEUR);
+    sendEmail(FORMATEUR, 'Nouveau RDV test final — ' + apprenant, `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">Demande de test final (visio)</h2><p>Apprenant : <b>${esc(apprenant)}</b><br>E-mail : <b>${esc(email)}</b></p><p><a href="${calLink}">📅 Créer l'événement Google Agenda + Meet</a> — ajoutez « Google Meet » à l'événement puis envoyez l'invitation à l'apprenant.</p></div>`).catch(() => { });
+    sendEmail(email, 'Votre rendez-vous de test est programmé', `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">✅ Votre rendez-vous de test est programmé</h2><p>Bonjour ${esc(sess.user.prenom || '')},</p><p>Votre demande de <b>test final en visio</b> est enregistrée. Le formateur vous enverra le <b>lien Google Meet</b> et l'horaire par e-mail.</p><p>D'ici là, pensez à <b>terminer tous les modules</b> (progression 100 %) et l'<b>évaluation finale</b>.</p><p>— ${esc((cfg.societe || {}).nom || 'Académie Compta FR')}</p></div>`).catch(() => { });
+  }
+  return redirect(res, '/attestation?rdv=ok');
 }
 function postDemandeTraitee(req, res, sess, body) {
   if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
