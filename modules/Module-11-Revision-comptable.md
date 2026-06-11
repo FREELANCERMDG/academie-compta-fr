@@ -283,6 +283,68 @@ On comptabilise le **complément de cotisations dû** au titre de l'exercice mai
 - **Toujours justifier** la provision au dossier : **appel/échéancier URSSAF** + **détail du calcul** (assiette × taux du § pas à pas). C'est la pièce qui tient en cas de contrôle.
 - **Le réflexe** : *cotisations comptabilisées (646 payées + provision) = cotisations dues sur le revenu de l'exercice*. Si ce n'est pas équilibré, la provision est mal calée.
 
+### 7.6 — Modèle cabinet : régulariser les cotisations du gérant (taux forfaitaire + CSG)
+
+> En cabinet, on **n'éclate pas** chaque cotisation : on **estime** les cotisations sociales avec un **taux forfaitaire par tranche** de revenu, puis on traite la **CSG/CRDS à part**. C'est la logique du **fichier de régularisation des cotisations gérant**.
+
+**A) Le barème forfaitaire (cotisations sociales, hors CSG)**
+
+| Tranche de revenu | Taux forfaitaire | Si **ACRE** (exonération) |
+|---|---|---|
+| < 4 731 € | 40 % | 7 % |
+| < 1 PASS | 29 % | 7 % |
+| > 1 PASS | 29 % | 29 % |
+| > 83 000 € | 31 % | 31 % |
+
+> **PASS** = plafond annuel de la Sécurité sociale : **48 060 € en 2026** (41 136 € en 2021-2022). L'ACRE n'allège que les **deux premières tranches**.
+
+**B) La CSG/CRDS — calcul séparé**
+- **Base CSG = rémunération + cotisations sociales obligatoires** (et non la seule rémunération).
+- **CSG déductible 6,8 %** + **CSG non déductible / CRDS 2,9 %** (= **9,7 %** au total).
+
+**C) Sortir la CSG du compte de cotisations (retraitement)**
+La CSG est appelée dans le **646100** avec les cotisations ; on la **reclasse** :
+
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| 6378 | CSG déductible | 1 888 | |
+| 644 | Rémunération – CSG non déductible (gérant) | 805 | |
+| 646100 | Cotisations sociales obligatoires | | 2 693 |
+
+> En **EI**, la part **non déductible** va au **108** (compte de l'exploitant), pas au 644.
+
+**D) La provision de régularisation (CAP / CPA) — exemple chiffré**
+
+Salaire gérant **15 520 €** (< 1 PASS → taux **29 %**) :
+
+| Ligne | Base | Taux | Cotisation ajustée | En 646100 (comptabilisé) | Écart → provision |
+|---|---|---|---|---|---|
+| Cotisations sociales | 15 520 | 29 % | 4 501 | 8 411 | **3 910** |
+| CSG déductible | 20 021 | 6,8 % | 1 361 | 1 888 | **527** |
+| CSG non déd. | 20 021 | 2,9 % | 581 | 805 | **224** |
+| **Total** | | | **6 443** | **11 104** | **4 661** |
+
+Ici on a **trop comptabilisé** (11 104 > 6 443) → on neutralise l'excédent en **produit à recevoir / CPA** :
+
+| Compte | Libellé | Débit | Crédit |
+|---|---|---|---|
+| 438700 | Organismes sociaux – produit à recevoir | 4 661 | |
+| 64650x | Cotisations sociales (régularisation) | | 3 910 |
+| 637815 | CSG déductible (régularisation) | | 527 |
+| 644000 | Rémunération – CSG non déd. (régularisation) | | 224 |
+
+> Sens **inverse** (cotisations dues > comptabilisées) → **charge à payer (CAP)** : **646500** au débit / **438700** au crédit. Taux global constaté dans cet exemple : **≈ 38,7 %**.
+
+**E) L'ordre des écritures (procédure cabinet, 6 étapes)**
+1. **CAP** — comptabiliser les **échéances non payées** de l'exercice via le **646100**.
+2. **Provisionner** les échéances de **régularisation N-1** à payer (exercices clos à compter du 30/06).
+3. **Passer la régularisation** et sa ventilation selon l'**appel de régul** : **646500** + comptes de **CSG** + **108** pour la part non déductible.
+4. **Retraiter la CSG-CRDS** des cotisations du **646100** (étape C ci-dessus).
+5. **Reporter** les éléments de rémunération du dossier (les « cases roses » du fichier).
+6. **Passer la provision** finale selon le **résultat provisoire** après dispatch.
+
+> 🔗 **Correspondance des comptes** : **646100** = cotisations obligatoires · **646500** = régularisation · **6378 / 637815** = CSG déductible · **644** = CSG non déd. reclassée en rémunération (**108** en EI) · **438700** = 4387 (organismes sociaux, produits à recevoir / charges à payer).
+
 <div class="calc" data-calc="tns"></div>
 
 ## 🛡️ Les provisions à la clôture (travaux de révision)
