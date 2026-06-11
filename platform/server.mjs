@@ -711,7 +711,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : acces === 'google_ok' ? '<p class="ok">📅 Google Agenda connecté — les RDV de test créent maintenant le Meet automatiquement.</p>' : acces === 'google_err' ? '<p class="err" style="color:#c0392b">❌ Connexion Google échouée — vérifiez l\'URI de redirection et réessayez.</p>' : acces === 'google_noenv' ? '<p class="err" style="color:#c0392b">❌ GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET manquants dans Render.</p>' : acces === 'google_off' ? '<p class="ok">Google Agenda déconnecté.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -854,6 +854,21 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="cible" value="accueil">
     <textarea name="message" rows="3" maxlength="2000" required placeholder="Message affiché sur l'accueil du site…" style="width:100%">${esc(b ? b.message : suggestion)}</textarea>
     <p style="margin:6px 0 0"><button class="btn small" type="submit">🌐 Publier sur l'accueil</button> <span class="muted" style="font-size:12px">— remplace la bannière précédente. « Retirer » la masque.</span></p></form></section>`; })()}
+  <section class="card"><h2>📅 Google Agenda / Meet — RDV de test final</h2>
+  <p class="muted" style="font-size:13px">Quand un apprenant programme son <b>test final en visio</b>, la plateforme crée l'événement <b>directement dans votre Google Agenda</b> (${esc(FORMATEUR_EMAIL)}) avec le <b>lien Meet généré automatiquement</b> et l'invitation envoyée aux deux parties.</p>
+  ${googleConnected() ? `<p class="ok">✅ Google Agenda <b>connecté</b> — création automatique des Meet active.</p>
+    <form method="post" action="/admin/google/off" class="inline" onsubmit="return confirm('Déconnecter Google Agenda ? Les RDV repasseront en mode manuel (e-mail).')">${csrfField(sess)}<button class="btn small ghost" type="submit">Déconnecter</button></form>`
+    : googleEnvOk() ? `<p style="margin:6px 0"><a class="btn" href="/admin/google/connect">🔗 Connecter mon Google Agenda</a> <span class="muted" style="font-size:12px">— autorisez l'accès « Agenda » avec le compte ${esc(FORMATEUR_EMAIL)} (une seule fois).</span></p>`
+    : `<p class="muted" style="font-size:13px">⚙️ <b>Configuration requise (une fois, ~5 min)</b> :</p>
+    <ol class="muted" style="font-size:13px;line-height:1.7">
+      <li>Sur <b>console.cloud.google.com</b> : créez un projet → activez l'API <b>Google Calendar</b>.</li>
+      <li><b>Écran de consentement OAuth</b> : type Externe, ajoutez votre compte, puis passez en <b>Production</b> (sinon la connexion expire tous les 7 jours).</li>
+      <li><b>Identifiants → Créer → ID client OAuth → Application Web</b> ; URI de redirection : <code>${esc(BASE_URL)}/admin/google/callback</code></li>
+      <li>Copiez l'<b>ID client</b> et le <b>secret</b> dans Render → Environment : <code>GOOGLE_CLIENT_ID</code> et <code>GOOGLE_CLIENT_SECRET</code> → Save (redéploiement).</li>
+      <li>Revenez ici et cliquez <b>Connecter mon Google Agenda</b>.</li>
+    </ol>
+    <p class="muted" style="font-size:12px">Sans cette connexion, les RDV restent enregistrés ici et notifiés par e-mail (mode manuel).</p>`}
+  </section>
   <section class="card"><h2>Demandes / questions des apprenants (${dem.length})</h2>
   ${dem.length ? dem.map(d => `<div class="row2" style="flex-direction:column;align-items:stretch;gap:8px">
     <div><b>${esc(d.email)}</b>${d.tel ? ` · <span class="muted">${esc(d.tel)}</span>` : ''} — <b>${esc(d.sujet)}</b><br><span class="muted">${esc(d.message)}</span> <span class="muted">(${esc((d.cree_le || '').slice(0, 10))})</span></div>
@@ -1389,8 +1404,10 @@ const server = http.createServer(async (req, res) => {
               <li>Test réussi → le formateur <b>valide</b> votre dossier → l'attestation devient <b>téléchargeable</b> ici.</li>
             </ol>
             ${rdvOk ? '<p style="margin-top:14px"><a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p>' : `<form method="post" action="/attestation/rdv" class="form" style="margin-top:14px">${csrfField(sess)}
-              <label>Votre e-mail (pour l'invitation Google Meet)<input name="email" type="email" required value="${em}"></label>
-              <p style="margin:8px 0 0"><button class="btn" type="submit">📅 Programmer mon rendez-vous de test (visio)</button> <a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p></form>`}
+              <div class="row"><label>Votre e-mail (pour l'invitation Google Meet)<input name="email" type="email" required value="${em}"></label>
+              <label>Date et heure souhaitées (heure de Madagascar)<input name="quand" type="datetime-local" required min="${new Date(Date.now() + 3 * 3600000).toISOString().slice(0, 16)}"></label></div>
+              <p style="margin:8px 0 0"><button class="btn" type="submit">📅 Programmer mon rendez-vous de test (visio)</button> <a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p>
+              <p class="muted" style="font-size:12px;margin:6px 0 0">Durée : 1 h. Vous recevrez l'invitation Google Agenda avec le lien Meet par e-mail.</p></form>`}
             <p class="muted" style="font-size:12px;margin-top:10px">Attestation interne de fin de formation, délivrée après validation du niveau opérationnel par le formateur.</p>
             </section>`, sess));
           }
@@ -1409,6 +1426,34 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end(JSON.stringify(out));
       }
       if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'))); }
+      if (p === '/admin/google/connect') {
+        if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess));
+        if (!googleEnvOk()) return redirect(res, '/admin?acces=google_noenv');
+        const st = rid(24); setSetting('google_oauth_state', st);
+        return redirect(res, 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
+          client_id: process.env.GOOGLE_CLIENT_ID, redirect_uri: BASE_URL + '/admin/google/callback',
+          response_type: 'code', scope: 'https://www.googleapis.com/auth/calendar.events',
+          access_type: 'offline', prompt: 'consent', state: st
+        }).toString());
+      }
+      if (p === '/admin/google/callback') {
+        if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess));
+        return (async () => {
+          try {
+            const st = getSetting('google_oauth_state'); delSetting('google_oauth_state');
+            if (!st || url.searchParams.get('state') !== st || !url.searchParams.get('code')) return redirect(res, '/admin?acces=google_err');
+            const r = await fetch('https://oauth2.googleapis.com/token', {
+              method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({ code: url.searchParams.get('code'), client_id: process.env.GOOGLE_CLIENT_ID, client_secret: process.env.GOOGLE_CLIENT_SECRET, redirect_uri: BASE_URL + '/admin/google/callback', grant_type: 'authorization_code' }).toString()
+            });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok || !d.refresh_token) { try { audit(db, sess.user.id, 'google_connect_err', 'http ' + r.status, ip(req)); } catch { } return redirect(res, '/admin?acces=google_err'); }
+            setSetting('google_refresh_token', d.refresh_token);
+            audit(db, sess.user.id, 'google_connecte', 'agenda', ip(req));
+            return redirect(res, '/admin?acces=google_ok');
+          } catch { return redirect(res, '/admin?acces=google_err'); }
+        })();
+      }
       if (p === '/admin/backup') {
         if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess));
         try {
@@ -1465,6 +1510,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/paiement/orange-api') return postOrangeApi(req, res, sess, body);
       if (p === '/admin/valider') return postAdminValider(req, res, sess, body);
       if (p === '/admin/attestation') return postAdminAttestation(req, res, sess, body);
+      if (p === '/admin/google/off') { if (sess.user.role !== 'admin') return send(res, 403, 'forbidden'); delSetting('google_refresh_token'); audit(db, sess.user.id, 'google_deconnecte', '', ip(req)); return redirect(res, '/admin?acces=google_off'); }
       if (p === '/admin/promo-debloquer-tous') return postPromoDebloquerTous(req, res, sess, body);
       if (p === '/admin/annonce') return postAnnonce(req, res, sess, body);
       if (p === '/admin/annonce-off') return postAnnonceOff(req, res, sess, body);
@@ -1659,18 +1705,92 @@ function postDemande(req, res, sess, body) {
   audit(db, sess.user.id, 'demande_rdv', sujet, ip(req));
   return send(res, 200, layout('Demande envoyée', `<h1>Demande envoyée ✅</h1><p>Votre demande « ${esc(sujet)} » a été transmise au formateur. Vous serez recontacté(e).</p><a class="btn" href="/tableau-de-bord">Retour à mon espace</a>`, sess));
 }
+// --- Réglages clé/valeur (jeton Google Agenda, etc.) ---
+function getSetting(k) { try { const r = db.prepare('SELECT value FROM settings WHERE key=?').get(k); return r ? r.value : null; } catch { return null; } }
+function setSetting(k, v) { try { db.prepare('INSERT INTO settings(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').run(k, v); } catch { } }
+function delSetting(k) { try { db.prepare('DELETE FROM settings WHERE key=?').run(k); } catch { } }
+
+// --- Google Agenda / Meet (RDV de test final) ---
+const FORMATEUR_EMAIL = 'anthony.eglmada@gmail.com';
+const googleEnvOk = () => !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+const googleConnected = () => googleEnvOk() && !!getSetting('google_refresh_token');
+async function googleAccessToken() {
+  const rt = getSetting('google_refresh_token');
+  if (!googleEnvOk() || !rt || typeof fetch !== 'function') return null;
+  try {
+    const r = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ client_id: process.env.GOOGLE_CLIENT_ID, client_secret: process.env.GOOGLE_CLIENT_SECRET, refresh_token: rt, grant_type: 'refresh_token' }).toString()
+    });
+    if (!r.ok) { try { audit(db, null, 'google_token_err', 'http ' + r.status, ''); } catch { } return null; }
+    const d = await r.json(); return d.access_token || null;
+  } catch { return null; }
+}
+// Crée l'événement (1 h) dans l'agenda du formateur avec lien Meet auto + invitation envoyée par Google aux deux parties.
+// quand = "YYYY-MM-DDTHH:MM" en heure de Madagascar (UTC+3).
+async function googleCreateMeetEvent(emailApprenant, apprenantNom, quand) {
+  const tok = await googleAccessToken();
+  if (!tok) return { ok: false };
+  const startMs = Date.parse(quand + ':00+03:00');
+  if (isNaN(startMs)) return { ok: false };
+  const endLocal = new Date(startMs + 3600000 + 3 * 3600000).toISOString().slice(0, 19);
+  try {
+    const r = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1&sendUpdates=all', {
+      method: 'POST', headers: { 'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        summary: 'Test final visio — ' + apprenantNom + ' (Académie Compta FR)',
+        description: "Test/entretien final pour l'attestation de fin de formation — Académie Compta FR.",
+        start: { dateTime: quand + ':00+03:00' },
+        end: { dateTime: endLocal + '+03:00' },
+        attendees: [{ email: emailApprenant }],
+        conferenceData: { createRequest: { requestId: rid(16), conferenceSolutionKey: { type: 'hangoutsMeet' } } },
+        reminders: { useDefault: true }
+      })
+    });
+    if (!r.ok) { let m = ''; try { const e2 = await r.json(); m = (e2.error && e2.error.message) || ''; } catch { } try { audit(db, null, 'google_event_err', 'http ' + r.status + ' ' + m, ''); } catch { } return { ok: false }; }
+    const ev = await r.json();
+    return { ok: true, meet: ev.hangoutLink || '', lien: ev.htmlLink || '' };
+  } catch { return { ok: false }; }
+}
+
 // Prise de rendez-vous pour le test final en visio (Google Meet avec le formateur)
-function postAttestationRdv(req, res, sess, body) {
+async function postAttestationRdv(req, res, sess, body) {
   const email = (body.email || sess.user.email || '').trim().slice(0, 160);
   if (!isEmail(email)) return redirect(res, '/attestation');
+  const quand = (body.quand || '').trim();
+  const quandOk = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(quand) && Date.parse(quand + ':00+03:00') > Date.now();
   const apprenant = ((sess.user.prenom || '') + ' ' + (sess.user.nom || '')).trim() || email;
-  try { db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(rid(10), sess.user.id, 'RDV test final (visio)', 'Rendez-vous de test final demandé. E-mail apprenant : ' + email, 'nouvelle', new Date().toISOString()); } catch { }
-  audit(db, sess.user.id, 'rdv_test_final', email, ip(req));
+  const quandTxt = quandOk ? quand.slice(0, 10).split('-').reverse().join('/') + ' à ' + quand.slice(11) : '';
+  audit(db, sess.user.id, 'rdv_test_final', email + (quandOk ? ' · ' + quand : ''), ip(req));
+
+  // 1) Création AUTOMATIQUE de l'événement Google Agenda + lien Meet (si Google connecté dans l'admin)
+  let meet = null;
+  if (quandOk && googleConnected()) {
+    const g = await googleCreateMeetEvent(email, apprenant, quand);
+    if (g.ok) meet = g;
+  }
+  try {
+    db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(
+      rid(10), sess.user.id, 'RDV test final (visio)',
+      'RDV test final ' + (quandOk ? 'le ' + quandTxt + ' (heure MG)' : 'demandé') + '. E-mail : ' + email + (meet && meet.meet ? '. Google Meet créé automatiquement : ' + meet.meet : '. (Lien Meet à envoyer manuellement)'),
+      meet ? 'traitee' : 'nouvelle', new Date().toISOString());
+  } catch { }
+
+  if (meet) {
+    return send(res, 200, layout('Rendez-vous programmé', `<h1>✅ Votre rendez-vous de test est programmé</h1>
+      <section class="card" style="border-left:4px solid #1e7d46">
+      <p style="font-size:17px"><b>📅 ${esc(quandTxt)}</b> (heure de Madagascar) — <b>test final en visio</b> avec le formateur.</p>
+      <p>L'invitation <b>Google Agenda</b> vient d'être envoyée à <b>${esc(email)}</b> (vérifiez aussi les spams). Le lien de la visio :</p>
+      <p>${meet.meet ? `<a class="btn" target="_blank" rel="noopener" href="${esc(meet.meet)}">🎥 Rejoindre le Google Meet</a>` : ''} ${meet.lien ? `<a class="btn ghost" target="_blank" rel="noopener" href="${esc(meet.lien)}">📅 Voir dans Google Agenda</a>` : ''}</p>
+      <p class="muted" style="font-size:13px">D'ici le rendez-vous : <b>terminez tous les modules</b> (progression 100 %) et l'<b>évaluation finale</b>. En cas d'empêchement, prévenez le formateur (WhatsApp) — le rendez-vous peut être déplacé.</p>
+      <p><a class="btn ghost" href="/tableau-de-bord">← Mon espace</a></p></section>`, sess));
+  }
+
+  // 2) Repli (Google non connecté ou erreur API) : demande enregistrée + e-mails via Brevo
   if (mailConfigured()) {
-    const FORMATEUR = 'anthony.eglmada@gmail.com';
-    const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — ' + apprenant) + '&details=' + encodeURIComponent('Test/entretien final attestation. Apprenant : ' + apprenant + ' (' + email + '). Ajouter le lien Google Meet, puis envoyer l\'invitation.') + '&add=' + encodeURIComponent(email + ',' + FORMATEUR);
-    sendEmail(FORMATEUR, 'Nouveau RDV test final — ' + apprenant, `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">Demande de test final (visio)</h2><p>Apprenant : <b>${esc(apprenant)}</b><br>E-mail : <b>${esc(email)}</b></p><p><a href="${calLink}">📅 Créer l'événement Google Agenda + Meet</a> — ajoutez « Google Meet » à l'événement puis envoyez l'invitation à l'apprenant.</p></div>`).catch(() => { });
-    sendEmail(email, 'Votre rendez-vous de test est programmé', `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">✅ Votre rendez-vous de test est programmé</h2><p>Bonjour ${esc(sess.user.prenom || '')},</p><p>Votre demande de <b>test final en visio</b> est enregistrée. Le formateur vous enverra le <b>lien Google Meet</b> et l'horaire par e-mail.</p><p>D'ici là, pensez à <b>terminer tous les modules</b> (progression 100 %) et l'<b>évaluation finale</b>.</p><p>— ${esc((cfg.societe || {}).nom || 'Académie Compta FR')}</p></div>`).catch(() => { });
+    const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — ' + apprenant) + '&dates=' + (quandOk ? encodeURIComponent(quand.replace(/[-:]/g, '') + '00/' + new Date(Date.parse(quand + ':00+03:00') + 3600000 + 3 * 3600000).toISOString().slice(0, 19).replace(/[-:]/g, '')) : '') + '&details=' + encodeURIComponent('Test/entretien final attestation. Apprenant : ' + apprenant + ' (' + email + '). Ajouter le lien Google Meet, puis envoyer l\'invitation.') + '&add=' + encodeURIComponent(email + ',' + FORMATEUR_EMAIL);
+    sendEmail(FORMATEUR_EMAIL, 'Nouveau RDV test final — ' + apprenant + (quandTxt ? ' (' + quandTxt + ')' : ''), `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">Demande de test final (visio)</h2><p>Apprenant : <b>${esc(apprenant)}</b><br>E-mail : <b>${esc(email)}</b>${quandTxt ? '<br>Créneau souhaité : <b>' + esc(quandTxt) + '</b> (heure MG)' : ''}</p><p><a href="${calLink}">📅 Créer l'événement Google Agenda + Meet</a> — ajoutez « Google Meet » puis envoyez l'invitation.</p></div>`).catch(() => { });
+    sendEmail(email, 'Votre rendez-vous de test est programmé', `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733"><h2 style="color:#16307a">✅ Votre rendez-vous de test est programmé</h2><p>Bonjour ${esc(sess.user.prenom || '')},</p><p>Votre demande de <b>test final en visio</b>${quandTxt ? ' pour le <b>' + esc(quandTxt) + '</b> (heure de Madagascar)' : ''} est enregistrée. Le formateur vous confirmera le <b>lien Google Meet</b> par e-mail.</p><p>D'ici là, pensez à <b>terminer tous les modules</b> (progression 100 %) et l'<b>évaluation finale</b>.</p><p>— ${esc((cfg.societe || {}).nom || 'Académie Compta FR')}</p></div>`).catch(() => { });
   }
   return redirect(res, '/attestation?rdv=ok');
 }

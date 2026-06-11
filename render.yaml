@@ -45,3 +45,9 @@ services:
         sync: false
       - key: LLM_MODEL
         value: claude-haiku-4-5
+      # Google Agenda / Meet (RDV de test final automatiques) — identifiants OAuth du projet Google Cloud.
+      # Valeurs à saisir dans le dashboard Render ; ensuite, connecter l'agenda depuis /admin (bouton dédié).
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
