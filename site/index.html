@@ -114,6 +114,9 @@ header{background:linear-gradient(120deg,var(--navy),var(--navy2));border-bottom
 header .logo{letter-spacing:.2px}
 #search{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.96);font-size:13.5px;transition:box-shadow .15s,width .2s}
 #search:focus{outline:none;box-shadow:0 0 0 3px rgba(232,161,58,.45)}
+#searchgo{margin-left:6px;padding:7px 12px;border:none;border-radius:8px;background:var(--accent);color:#1c2733;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+#searchgo:hover{filter:brightness(.96)}
+.content mark.shl{background:#fff2a8;color:#16263a;padding:0 2px;border-radius:3px;box-shadow:0 0 0 2px #ffe066}
 .progwrap{color:rgba(255,255,255,.92)}
 .progbar{height:9px}
 .progbar i{transition:width .45s ease;background:linear-gradient(90deg,var(--accent),#f6c172)}
@@ -183,6 +186,7 @@ header .logo{letter-spacing:.2px}
   <div class="logo" style="display:flex;align-items:center"><div>Comptabilité française externalisée<span>Formation en ligne · Madagascar · 2026</span></div></div>
   <div class="grow"></div>
   <input id="search" placeholder="Rechercher un module ou un mot...">
+  <button id="searchgo" title="Ouvrir le 1er module contenant ce mot">Valider</button>
   <div class="progwrap">Progression <div class="progbar"><i id="progi"></i></div><b id="progt">0%</b></div>
 </header>
 <div class="layout">
@@ -254,6 +258,7 @@ function show(id){
   if(qk&&QUIZ[qk])qm.appendChild(buildQuiz(qk));
   window.scrollTo(0,0);
   document.querySelector('.sidebar').classList.remove('open');
+  if(window.__pendingHL){const t=window.__pendingHL;window.__pendingHL=null;highlightInContent(t);}
 }
 function buildQuiz(qk){
   const data=QUIZ[qk];const wrap=document.createElement('div');wrap.className='quiz';
@@ -315,6 +320,35 @@ function applySearch(){
   if(q&&!any){note.style.display='';note.textContent='Aucun module ne contient « '+raw+' ».';}else{note.style.display='none';}
 }
 document.getElementById('search').addEventListener('input',applySearch);
+function highlightInContent(term){
+  const root=document.getElementById('content');if(!root||!term)return;
+  const t=term.toLowerCase();
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null);const nodes=[];let n;while(n=w.nextNode())nodes.push(n);
+  for(const node of nodes){
+    const txt=node.nodeValue;if(!txt)continue;
+    const p=node.parentNode;if(p&&(p.tagName==='SCRIPT'||p.tagName==='STYLE'))continue;
+    const idx=txt.toLowerCase().indexOf(t);if(idx<0)continue;
+    const span=document.createElement('span');
+    span.appendChild(document.createTextNode(txt.slice(0,idx)));
+    const mk=document.createElement('mark');mk.className='shl';mk.textContent=txt.slice(idx,idx+term.length);
+    span.appendChild(mk);span.appendChild(document.createTextNode(txt.slice(idx+term.length)));
+    p.replaceChild(span,node);
+    if(mk.scrollIntoView)mk.scrollIntoView({block:'center'});
+    return;
+  }
+}
+function goSearch(){
+  const inp=document.getElementById('search');const raw=(inp?inp.value:'').trim();const q=norm(raw);
+  if(!q)return;
+  if(!SEARCHIDX)buildIdx();
+  let id=null;for(const x of ORDER){if((SEARCHIDX[x]||'').includes(q)){id=x;break;}}
+  if(!id){applySearch();return;}
+  window.__pendingHL=raw;
+  if(curId()===id){show(id);}else{location.hash=id;}
+  const sb=document.querySelector('.sidebar');if(sb)sb.classList.remove('open');
+}
+document.getElementById('searchgo').addEventListener('click',goSearch);
+document.getElementById('search').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();goSearch();}});
 renderNav();show(curId());
 </script>
 <script src="/formation/cerfa.js?v=13a8c0e8"></script>
