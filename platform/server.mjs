@@ -1389,7 +1389,7 @@ const server = http.createServer(async (req, res) => {
           if (!sess.user.attestation_ok) {
             const rdvOk = url.searchParams.get('rdv') === 'ok';
             const em = esc(sess.user.email || '');
-            const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — Académie Compta FR') + '&details=' + encodeURIComponent('Test/entretien final pour l\'attestation. Le formateur ajoute le lien Google Meet et envoie l\'invitation.') + '&add=' + encodeURIComponent((sess.user.email || '') + ',anthony.eglmada@gmail.com');
+            const calLink = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Test final visio — Académie Compta FR') + '&details=' + encodeURIComponent('Test/entretien final pour l\'attestation. Le formateur ajoute le lien Google Meet et envoie l\'invitation.') + '&add=' + encodeURIComponent((sess.user.email || '') + ',' + FORMATEUR_EMAIL);
             return send(res, 200, layout('Attestation', `<h1>🎓 Attestation — dernière étape</h1>
             <section class="card" style="border-left:4px solid var(--accent)">
             ${rdvOk ? `<div style="background:#e9f7ef;border:1px solid #bfe6cd;border-radius:10px;padding:14px 16px;margin-bottom:14px">
@@ -1711,7 +1711,7 @@ function setSetting(k, v) { try { db.prepare('INSERT INTO settings(key,value) VA
 function delSetting(k) { try { db.prepare('DELETE FROM settings WHERE key=?').run(k); } catch { } }
 
 // --- Google Agenda / Meet (RDV de test final) ---
-const FORMATEUR_EMAIL = 'anthony.eglmada@gmail.com';
+const FORMATEUR_EMAIL = 'freelancecomptafr@anthonyfreecomptafr.net';
 const googleEnvOk = () => !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 const googleConnected = () => googleEnvOk() && !!getSetting('google_refresh_token');
 async function googleAccessToken() {
