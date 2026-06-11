@@ -548,7 +548,7 @@ header .logo{letter-spacing:.2px}
   <button class="hamb" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
   <div class="logo">Comptabilite FR externalisee<span>Formation en ligne &middot; Madagascar &middot; 2026</span></div>
   <div class="grow"></div>
-  <input id="search" placeholder="Rechercher un module...">
+  <input id="search" placeholder="Rechercher un module ou un mot...">
   <div class="progwrap">Progression <div class="progbar"><i id="progi"></i></div><b id="progt">0%</b></div>
 </header>
 <div class="layout">
@@ -593,6 +593,7 @@ function renderNav(){
     }
   }
   updateProgress();
+  applySearch();
 }
 function updateProgress(){
   const total=ORDER.length;let d=0;for(const id of ORDER)if(prog.done[id])d++;
@@ -658,10 +659,28 @@ function buildQuiz(qk){
 }
 function curId(){return location.hash.slice(1)||ORDER[0];}
 window.addEventListener('hashchange',()=>show(curId()));
-document.getElementById('search').addEventListener('input',e=>{
-  const q=e.target.value.toLowerCase();
-  document.querySelectorAll('.sidebar a.item').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});
-});
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+let SEARCHIDX=null;
+function buildIdx(){SEARCHIDX={};for(const id in CONTENT){const d=document.createElement('div');d.innerHTML=CONTENT[id]||'';SEARCHIDX[id]=norm(titleOf(id)+' '+(d.textContent||''));}}
+function applySearch(){
+  const inp=document.getElementById('search');const raw=inp?inp.value.trim():'';const q=norm(raw);
+  if(q&&!SEARCHIDX)buildIdx();
+  let any=false;
+  document.querySelectorAll('.sidebar a.item').forEach(a=>{
+    const m=!q||((SEARCHIDX&&SEARCHIDX[a.dataset.id])||norm(a.textContent)).includes(q);
+    a.style.display=m?'':'none';if(m)any=true;
+  });
+  // masque les en-tetes de groupe sans item visible (evite l'empilement sticky qui bloque la liste)
+  document.querySelectorAll('.sidebar .grp').forEach(h=>{
+    let n=h.nextElementSibling,vis=false;
+    while(n&&!n.classList.contains('grp')){if(n.classList.contains('item')&&n.style.display!=='none'){vis=true;break;}n=n.nextElementSibling;}
+    h.style.display=vis?'':'none';
+  });
+  let note=document.getElementById('navnote');
+  if(!note){note=document.createElement('div');note.id='navnote';note.style.cssText='padding:14px 16px;color:#8a97a6;font-size:13px;line-height:1.5;display:none';document.getElementById('nav').appendChild(note);}
+  if(q&&!any){note.style.display='';note.textContent='Aucun module ne contient « '+raw+' ».';}else{note.style.display='none';}
+}
+document.getElementById('search').addEventListener('input',applySearch);
 renderNav();show(curId());
 </script>
 <script src="/formation/cerfa.js"></script>
