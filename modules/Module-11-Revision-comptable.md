@@ -212,7 +212,7 @@ L'URSSAF appelle les cotisations en **deux temps** :
 | 6411 / 644 | Rémunération du dirigeant (le cas échéant) | X | |
 | **646** | Cotisations sociales personnelles de l'exploitant/dirigeant | X | |
 | 421 / 455 | Rémunération à payer / compte courant | | X |
-| 431 / 4486 | Organismes sociaux (URSSAF) | | X |
+| 431 / 4386 | Organismes sociaux (URSSAF) | | X |
 | 512 | Banque (au paiement) | | X |
 
 **c) LA PROVISION DE RÉGULARISATION À LA CLÔTURE (à ne JAMAIS oublier).**
@@ -222,10 +222,10 @@ On comptabilise le **complément de cotisations dû** au titre de l'exercice mai
 | Compte | Libellé | Débit | Crédit |
 |---|---|---|---|
 | **646** | Cotisations sociales (charge de l'exercice) | X | |
-| **4486** | Charges sociales à payer (ou **438** « Organismes sociaux – charges à payer ») | | X |
+| **4386** | Charges sociales à payer (ou **438** « Organismes sociaux – charges à payer ») | | X |
 
-- Si **trop-versé** attendu (avoir URSSAF) : produit à recevoir au **4487 / 4096**, en diminution de la charge.
-- En **EI**, le complément dû est constaté en **charges à payer** également (646 / 4486), tout en respectant le circuit du compte 108 pour le décaissement réel.
+- Si **trop-versé** attendu (avoir URSSAF) : produit à recevoir au **4387** (Organismes sociaux – produits à recevoir), en diminution de la charge.
+- En **EI**, le complément dû est constaté en **charges à payer** également (646 / 4386), tout en respectant le circuit du compte 108 pour le décaissement réel.
 
 > ❌ **L'erreur classique du collaborateur** : ne comptabiliser **que les cotisations payées dans l'année** et **oublier la provision de régularisation**. Résultat : la charge sociale de l'exercice est **sous-évaluée**, le **résultat surévalué**, et la base **IS/IR fausse**. À l'inverse, si l'URSSAF doit un avoir, oublier le produit à recevoir **sous-évalue** le résultat. ➡️ **Toujours rapprocher : cotisations comptabilisées (646 + 108) vs cotisations dues sur le revenu de l'exercice.**
 
@@ -246,11 +246,42 @@ On comptabilise le **complément de cotisations dû** au titre de l'exercice mai
 | Compte | Libellé | Débit | Crédit |
 |---|---|---|---|
 | 646 | Cotisations sociales personnelles dirigeant | 3 200 | |
-| 4486 (ou 438) | Charges sociales à payer | | 3 200 |
+| 4386 (ou 438) | Charges sociales à payer | | 3 200 |
 
 **Conséquence.** Sans cette écriture, la charge sociale 2026 (22 000 €) est **inférieure de 3 200 €** au réel → résultat **surévalué de 3 200 €** et IS gonflé indûment. Avec la provision, la charge de l'exercice reflète bien **25 200 €**.
 
-> 📌 En N+1, lors de la **régularisation** réelle par l'URSSAF, on **solde le 4486** par le paiement ; tout écart résiduel (estimation ≠ régularisation définitive) passe en ajustement de charge sur N+1.
+> 📌 En N+1, lors de la **régularisation** réelle par l'URSSAF, on **solde le 4386** par le paiement ; tout écart résiduel (estimation ≠ régularisation définitive) passe en ajustement de charge sur N+1.
+
+### 7.5 — Écritures de provision TNS : tous les cas de figure
+
+> Le rattachement social se fait toujours en **438 « Organismes sociaux »** : sous-compte **4386** (charges à payer = complément dû) ou **4387** (produits à recevoir = trop-versé). ⚠️ Ne pas utiliser 4486/4487, réservés à **l'État**.
+
+**À la clôture N — provisionner l'écart « dû − payé » :**
+
+| Cas à la clôture | Sens | Débit | Crédit |
+|---|---|---|---|
+| **Société** — cotisations **dues > payées** (complément) | charge à payer | **646** Cotisations sociales | **4386** Org. soc. – charges à payer |
+| **Société** — cotisations **payées > dues** (trop-versé / avoir) | produit à recevoir | **4387** Org. soc. – produits à recevoir | **646** Cotisations sociales |
+| **EI à l'IR** — complément dû | charge à payer (déductible) | **646** | **4386** *(décaissement réel via 108)* |
+| **EI à l'IR** — trop-versé | produit à recevoir | **4387** | **646** |
+| **Exercice déficitaire** — cotisation **minimale** due | charge à payer | **646** | **4386** *(≈ 1 100-1 200 €)* |
+| **1re année** d'activité — provisionnel forfaitaire faible | charge à payer | **646** | **4386** *(souvent le plus gros écart)* |
+| **Dividendes > 10 %** du capital (gérant majo) — cotisations TNS en plus | charge à payer | **646** | **4386** *(sur la fraction soumise)* |
+
+**L'année suivante N+1 — dénouer la provision :**
+
+| Opération | Débit | Crédit |
+|---|---|---|
+| Paiement du complément appelé par l'URSSAF | **4386** Charges à payer | **512** Banque |
+| Encaissement du trop-versé (avoir) | **512** Banque | **4387** Produits à recevoir |
+| Écart : provision **insuffisante** (régul. définitive > estimée) | **646** | **4386** |
+| Écart : provision **excédentaire** (régul. définitive < estimée) | **4386** | **646** |
+
+**Points de vigilance :**
+- **CSG/CRDS** : la part **non déductible** (CSG 2,4 % + CRDS 0,5 % ≈ **2,9 %**) est à **réintégrer extra-comptablement** sur la liasse ; la CSG déductible (6,8 %) reste déductible. La **provision** se passe pour le **total** — le retraitement est fiscal, pas comptable.
+- **EI à l'IR** : la provision **646 / 4386** est comptable ; le **décaissement réel** des cotisations personnelles passe par le **108** (compte de l'exploitant) et reste **déductible** du BIC/BNC.
+- **Toujours justifier** la provision au dossier : **appel/échéancier URSSAF** + **détail du calcul** (assiette × taux du § pas à pas). C'est la pièce qui tient en cas de contrôle.
+- **Le réflexe** : *cotisations comptabilisées (646 payées + provision) = cotisations dues sur le revenu de l'exercice*. Si ce n'est pas équilibré, la provision est mal calée.
 
 <div class="calc" data-calc="tns"></div>
 
