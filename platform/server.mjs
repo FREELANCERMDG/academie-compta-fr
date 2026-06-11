@@ -1009,7 +1009,7 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
 .legal{font-size:11px;color:#7a8694;font-style:italic;margin-top:26px;line-height:1.5}
 .bar{text-align:center;margin:18px 0}
 .btn{background:#E8A13A;color:#1c2733;border:none;padding:11px 20px;border-radius:9px;font-weight:bold;cursor:pointer;font-size:15px;font-family:Arial,sans-serif}
-@media print{body{background:#fff}.sheet{box-shadow:none;border:none;margin:0;max-width:none}.noprint{display:none!important}}
+@media print{@page{size:A4;margin:0}body{background:#fff}.sheet{box-shadow:none;border:none;margin:0;max-width:none;padding:14mm 16mm}.noprint{display:none!important}}
 </style></head><body>
 <div class="bar noprint" style="max-width:820px;margin:14px auto 0"><button class="btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button> <a class="btn" style="text-decoration:none;background:#fff;border:1px solid #cfd8e3;color:#1F4E78" href="/tableau-de-bord">← Mon espace</a></div>
 <div class="sheet">
