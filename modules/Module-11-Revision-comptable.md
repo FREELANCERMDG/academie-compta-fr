@@ -133,6 +133,50 @@ Le statut social découle de la **forme juridique** et de la **position de géra
 
 **Cas particulier — dividendes du dirigeant TNS.** Pour le **gérant majoritaire de SARL** et l'**associé unique d'EURL à l'IS**, la fraction des dividendes **supérieure à 10%** du montant (capital social + primes d'émission + sommes en compte courant d'associé) est **assujettie aux cotisations sociales TNS** (et non aux seuls prélèvements sociaux à 17,2%). Réflexe révision : sur une SARL à l'IS qui distribue, **vérifier le seuil des 10%** avant de boucler le social.
 
+#### 🧮 Calculer la cotisation TNS pas à pas (exemple chiffré)
+
+> **Fil conducteur :** un **artisan en EI**, revenu professionnel **2026 = 40 000 €**. La méthode est la même pour un gérant majoritaire (voir l'étape 6).
+
+**Étape 1 — Identifier le revenu professionnel (le point de départ).**
+- **EI / BIC-BNC** : le **bénéfice** professionnel de l'année.
+- **Gérant majoritaire** (SARL/EURL à l'IS) : la **rémunération** + la fraction de **dividendes > 10 %** du capital (étape 6).
+- Exemple : **40 000 €**.
+
+**Étape 2 — Calculer l'assiette sociale (abattement de 26 %).**
+- Assiette = 40 000 × **74 %** = **29 600 €** (assiette unique 2026, valable pour les cotisations **et** la CSG/CRDS).
+- Garde-fous : assiette **≥ plancher 845,86 €** ✔ ; l'**abattement est plafonné** (au-delà de 62 478 € de revenu, il ne grandit plus).
+- Repère utile : **PASS 2026 = 48 060 €** → l'assiette ≈ **62 % du PASS** (sert pour les cotisations plafonnées à 1 PASS).
+
+**Étape 3 — Appliquer chaque cotisation à sa base.**
+
+| Cotisation | Base (€) | Taux indicatif | Montant (€) |
+|---|---|---|---|
+| Maladie-maternité | 29 600 | ≈ 4 % | 1 184 |
+| Indemnités journalières | 29 600 | 0,5 % | 148 |
+| Retraite de base | 29 600 | 17,15 % | 5 076 |
+| Retraite complémentaire | 29 600 | 8,1 % | 2 398 |
+| Invalidité-décès | 29 600 | 1,3 % | 385 |
+| Allocations familiales | 29 600 | 0 % | 0 |
+| CSG-CRDS | 29 600 | 9,7 % | 2 871 |
+| Formation pro (CFP) | 48 060 (1 PASS) | 0,25 % | 120 |
+| **Total cotisations dues** | | | **≈ 12 180 €** |
+
+> ⚠️ **Maladie-maternité et allocations familiales sont PROGRESSIFS.** À ~62 % du PASS, ils sont **réduits** (maladie partielle, AF = 0 %). Ils montent avec le revenu : maladie jusqu'à ~**8,5 %**, AF jusqu'à **3,1 %** au-delà de ~110-300 % du PASS. Les autres lignes (retraite, invalidité-décès, CSG/CRDS, CFP) sont à **taux quasi fixe**.
+
+**Étape 4 — En déduire le poids réel.**
+- 12 180 / 40 000 ≈ **30 % ici**. Le ratio grimpe vers **40-45 %** sur les revenus élevés (maladie pleine + AF). La fourchette « 40-45 % » est donc un **haut de barème**, pas un taux unique : à revenu modeste, c'est nettement moins.
+
+**Étape 5 — Le plancher : la cotisation minimale.**
+- Même avec un bénéfice **faible ou nul**, des **cotisations minimales** restent dues (retraite de base, invalidité-décès, IJ…) → ordre de grandeur **~1 100 à 1 200 €/an**. Toujours la **provisionner** sur un dossier déficitaire.
+
+**Étape 6 — Gérant majoritaire : ajouter les dividendes > 10 %.**
+- Base supplémentaire = dividendes − 10 % × (capital social + primes + compte courant d'associé).
+- Exemple : capital 10 000 € → la fraction de dividendes **au-delà de 1 000 €** subit les **cotisations TNS** (mêmes taux que ci-dessus) ; le reste relève du **PFU 30 %**.
+
+➡️ Ce total est la cotisation **due sur le revenu de l'année**. On la compare à ce qui a été **réellement payé** (cotisations provisionnelles) : l'écart est la **régularisation** à provisionner à la clôture — c'est l'objet du § 7.3 ci-dessous.
+
+> 🔎 **Rappel méthode (à réciter) :** *revenu pro → × 74 % (assiette) → chaque cotisation × son taux (en surveillant 1 PASS) → + CSG/CRDS 9,7 % → total dû − déjà payé = régularisation.* Pour un chiffre **opposable**, toujours partir de l'**appel de cotisations URSSAF** du dossier ; ce calcul sert à **estimer et provisionner**.
+
 ---
 
 ### 7.3 Le mécanisme provisionnel / régularisation (le cœur du sujet)
