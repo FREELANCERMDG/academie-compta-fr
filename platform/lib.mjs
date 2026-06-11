@@ -136,7 +136,9 @@ export function parseCookies(req) {
   return out;
 }
 export function cookie(name, val, { maxAge = 0, secure = false } = {}) {
-  let s = `${name}=${encodeURIComponent(val)}; Path=/; HttpOnly; SameSite=Strict`;
+  // SameSite=Lax (et non Strict) : nécessaire pour que la session survive aux retours OAuth (Google Agenda)
+  // tout en restant protégé (HttpOnly + Secure + jetons CSRF sur tous les POST).
+  let s = `${name}=${encodeURIComponent(val)}; Path=/; HttpOnly; SameSite=Lax`;
   if (secure) s += '; Secure';
   if (maxAge) s += `; Max-Age=${maxAge}`;
   return s;
