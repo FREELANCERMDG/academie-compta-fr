@@ -95,6 +95,13 @@ async function postAdminPushRelance(req, res, sess, body) {
   let n = 0; for (const uid of userIds) n += await pushToUser(uid, { title, body: msg, url: '/tableau-de-bord' });
   return redirect(res, '/admin?acces=push_sent&e=' + encodeURIComponent(n));
 }
+function postAdminAccesMode(req, res, sess, body) {
+  if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const m = ['free', 'paid', ''].includes(body.mode) ? body.mode : '';
+  setSetting('acces_mode', m);
+  try { audit(db, sess.user.id, 'acces_mode', m || 'auto', ip(req)); } catch { }
+  return redirect(res, '/admin?acces=mode_' + (m || 'auto'));
+}
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
 // Émetteur 2FA en ASCII pur (certaines apps gèrent mal accents/tirets dans l'otpauth URI)
@@ -321,8 +328,10 @@ const cookieOpts = { maxAge: 8 * 3600, secure: PROD };
 const checkCsrf = (sess, body) => sess && body._csrf && safeEqual(sess.row.csrf, body._csrf);
 
 // --- Promo de lancement (annonce « bientôt gratuit ») ---
-function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
-function promoLive() { const p = cfg.promo; if (!promoActive() || !p || !p.acces_libre) return false; if (p.debut_libre) { const d = Date.parse(p.debut_libre); if (!isNaN(d) && Date.now() < d) return false; } return true; }
+// Mode d'accès piloté par l'admin : '' = automatique (selon la date promo), 'free' = tout débloqué, 'paid' = payant
+function accesMode() { try { return getSetting('acces_mode') || ''; } catch { return ''; } }
+function promoActive() { const o = accesMode(); if (o === 'paid') return false; if (o === 'free') return true; const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
+function promoLive() { const o = accesMode(); if (o === 'paid') return false; if (o === 'free') return true; const p = cfg.promo; if (!promoActive() || !p || !p.acces_libre) return false; if (p.debut_libre) { const d = Date.parse(p.debut_libre); if (!isNaN(d) && Date.now() < d) return false; } return true; }
 function promoAccesLibre() { return promoLive(); }
 function promoLabel() { return (cfg.promo && cfg.promo.label) || (promoLive() ? '🎁 GRATUIT 3 mois' : '🎁 Bientôt gratuit'); }
 // Date de fin de promo formatée FR (depuis la config) — évite toute date codée en dur dans le HTML.
@@ -951,7 +960,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : acces === 'google_ok' ? '<p class="ok">📅 Google Agenda connecté — les RDV de test créent maintenant le Meet automatiquement.</p>' : acces === 'google_err' ? '<p class="err" style="color:#c0392b">❌ Connexion Google échouée — vérifiez l\'URI de redirection et réessayez.</p>' : acces === 'google_noenv' ? '<p class="err" style="color:#c0392b">❌ GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET manquants dans Render.</p>' : acces === 'google_off' ? '<p class="ok">Google Agenda déconnecté.</p>' : acces === 'push_test' ? `<p class="ok">🔔 Notification de test envoyée à ${esc(accesEmail || '0')} appareil(s) — regardez votre téléphone.</p>` : acces === 'push_sent' ? `<p class="ok">🔔 Relance envoyée à ${esc(accesEmail || '0')} appareil(s).</p>` : acces === 'push_off' ? '<p class="err" style="color:#c0392b">❌ Push désactivé : définissez VAPID_PUBLIC et VAPID_PRIVATE dans Render.</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : acces === 'google_ok' ? '<p class="ok">📅 Google Agenda connecté — les RDV de test créent maintenant le Meet automatiquement.</p>' : acces === 'google_err' ? '<p class="err" style="color:#c0392b">❌ Connexion Google échouée — vérifiez l\'URI de redirection et réessayez.</p>' : acces === 'google_noenv' ? '<p class="err" style="color:#c0392b">❌ GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET manquants dans Render.</p>' : acces === 'google_off' ? '<p class="ok">Google Agenda déconnecté.</p>' : acces === 'push_test' ? `<p class="ok">🔔 Notification de test envoyée à ${esc(accesEmail || '0')} appareil(s) — regardez votre téléphone.</p>` : acces === 'push_sent' ? `<p class="ok">🔔 Relance envoyée à ${esc(accesEmail || '0')} appareil(s).</p>` : acces === 'push_off' ? '<p class="err" style="color:#c0392b">❌ Push désactivé : définissez VAPID_PUBLIC et VAPID_PRIVATE dans Render.</p>' : acces === 'mode_free' ? '<p class="ok">🔓 Mode GRATUIT activé — tous les modules débloqués pour tout le monde (apps incluses).</p>' : acces === 'mode_paid' ? '<p class="ok">🔒 Mode PAYANT activé — modules verrouillés selon les achats ; accès hors‑ligne expiré.</p>' : acces === 'mode_auto' ? '<p class="ok">↩️ Mode AUTOMATIQUE — accès selon la date de promo (config).</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -1100,6 +1109,13 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="cible" value="accueil">
     <textarea name="message" rows="3" maxlength="2000" required placeholder="Message affiché sur l'accueil du site…" style="width:100%">${esc(b ? b.message : suggestion)}</textarea>
     <p style="margin:6px 0 0"><button class="btn small" type="submit">🌐 Publier sur l'accueil</button> <span class="muted" style="font-size:12px">— remplace la bannière précédente. « Retirer » la masque.</span></p></form></section>`; })()}
+  ${(() => { const am = accesMode(); const etat = am === 'paid' ? '🔒 PAYANT (verrouillé selon les achats)' : am === 'free' ? '🔓 GRATUIT (tout débloqué)' : '↩️ Automatique — actuellement ' + (promoLive() ? 'gratuit (promo en cours)' : 'payant'); const col = am === 'paid' ? '#f87171' : am === 'free' ? '#34d399' : '#E8A13A'; return `<section class="card" style="border-left:4px solid ${col}"><h2>🔐 Mode d'accès de la formation</h2>
+  <p>État actuel : <b>${etat}</b></p>
+  <p class="muted" style="font-size:13px">Le changement s'applique <b>instantanément à toutes les apps Android installées</b> — rien à réinstaller. En mode payant, le contenu non payé se verrouille et l'accès hors‑ligne expire.</p>
+  <form method="post" action="/admin/acces-mode" class="inline" style="margin:0 6px 6px 0">${csrfField(sess)}<input type="hidden" name="mode" value="free"><button class="btn small" type="submit">🔓 Tout débloquer (gratuit)</button></form>
+  <form method="post" action="/admin/acces-mode" class="inline" style="margin:0 6px 6px 0" onsubmit="return confirm('Passer en mode PAYANT ? Les modules non payés seront verrouillés et l\\'accès hors‑ligne expirera.')">${csrfField(sess)}<input type="hidden" name="mode" value="paid"><button class="btn small ghost" type="submit" style="color:#f87171">🔒 Passer en payant</button></form>
+  <form method="post" action="/admin/acces-mode" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="mode" value=""><button class="btn small ghost" type="submit">↩️ Mode automatique (date)</button></form>
+  </section>`; })()}
   <section class="card"><h2>📅 Google Agenda / Meet — RDV de test final</h2>
   <p class="muted" style="font-size:13px">Quand un apprenant programme son <b>test final en visio</b>, la plateforme crée l'événement <b>directement dans votre Google Agenda</b> (${esc(FORMATEUR_EMAIL)}) avec le <b>lien Meet généré automatiquement</b> et l'invitation envoyée aux deux parties.</p>
   ${googleConnected() ? `<p class="ok">✅ Google Agenda <b>connecté</b> — création automatique des Meet active.</p>
@@ -2060,6 +2076,7 @@ const server = http.createServer(async (req, res) => {
       if (!checkCsrf(sess, body)) return send(res, 403, layout('403', '<h1>Jeton invalide</h1>', sess));
       if (p === '/admin/push-test') return postAdminPushTest(req, res, sess);
       if (p === '/admin/push-relance') return postAdminPushRelance(req, res, sess, body);
+      if (p === '/admin/acces-mode') return postAdminAccesMode(req, res, sess, body);
       if (p === '/2fa-activer') return post2faActiver(req, res, sess, body);
       if (p === '/2fa') return post2fa(req, res, sess, body);
       if (!authed(sess)) return redirect(res, '/connexion');
@@ -2106,7 +2123,7 @@ const authed = sess => !!(sess && sess.user && !sess.row.pending_2fa);
 function hasActive(uid) { return !!db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(uid, new Date().toISOString()); }
 // Promo « gratuit » : on octroie EXPLICITEMENT tous les modules (PACK_COMPLET) à l'apprenant,
 // avec une expiration calée sur la fin de la promo. Idempotent + actif seulement si la promo est ouverte.
-function promoExpiryISO() { const p = cfg.promo; return (p && p.jusqu_au) ? (p.jusqu_au + 'T23:59:59.999Z') : null; }
+function promoExpiryISO() { if (accesMode() === 'free') { return new Date(Date.now() + 90 * 86400000).toISOString(); } const p = cfg.promo; return (p && p.jusqu_au) ? (p.jusqu_au + 'T23:59:59.999Z') : null; }
 function grantPromoModules(uid, ipStr) {
   if (!uid || !promoLive()) return false;
   const exp = promoExpiryISO(); if (!exp) return false;
