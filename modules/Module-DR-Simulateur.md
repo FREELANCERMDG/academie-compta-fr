@@ -1,4 +1,4 @@
-# 3.17 — 🗂️ Le Dossier de Révision (DR) complet : de la balance à la liasse
+# 4.11 — 🗂️ Le Dossier de Révision (DR) complet : de la balance à la liasse
 
 **Niveau :** vérification **expert**, guidage **débutant** · **Durée :** 3–4 h · **Prérequis :** 3.7 Révision comptable
 
