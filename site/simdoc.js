@@ -473,8 +473,194 @@
     return h+"</div>";
   }
 
+  /* ===== DOSSIER DE RÉVISION COMPLET → LIASSE (guide cabinet, 7 cycles) =====
+     Un seul dossier cohérent : SARL ATELIER RAVINALA, IS, RSI, clôture 31/12/2026. */
+  function drHead(){ return "<div class='row'><span class='k'>Dossier</span><span class='v'>SARL ATELIER RAVINALA — IS · réel simplifié</span></div><div class='row'><span class='k'>Clôture</span><span class='v'>31/12/2026</span></div>"; }
+  function srcDR1(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle BANQUE (F)</div>"
+    +"<div class='row'><span class='k'>Solde 512 en compta (avant OD)</span><span class='v'>18 870 D</span></div>"
+    +"<div class='row'><span class='k'>Solde du relevé bancaire au 31/12</span><span class='v'>21 350</span></div>"
+    +"<div class='row'><span class='k'>Chèque n°812 émis, non débité par la banque</span><span class='v'>3 100</span></div>"
+    +"<div class='row'><span class='k'>Remise de chèques créditée par la banque le 02/01</span><span class='v'>560</span></div>"
+    +"<div class='row'><span class='k'>Frais bancaires du 31/12 <b>non comptabilisés</b></span><span class='v'>60</span></div>"
+    +"</div><p class='sd-note'>💡 Méthode cabinet : on passe d'abord les <b>OD côté compta</b> (frais non saisis), puis on prouve : <b>relevé − chèques non débités + remises en cours = solde 512</b>. Archiver l'état de rapprochement au dossier F.</p>"; }
+  function formDR1(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Rapprochement bancaire</div><div class='cf-body'>"
+      +lineFill("OD à passer : frais bancaires (627 D / 512 C)","","dr_bqod",60,{ph:"…"})
+      +lineFill("Solde 512 corrigé (18 870 − OD)","","dr_bqsolde",18810,{ph:"…"})
+      +lineFill("Banque corrigée : 21 350 − 3 100 + 560","","dr_bqrap",18810,{ph:"…"})
+      +lineRO("Conclusion : les deux soldes doivent être ÉGAUX","",18810)
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR2(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle IMMOBILISATIONS (B)</div>"
+    +"<div class='row'><span class='k'>Matériel ancien : brut</span><span class='v'>20 000</span></div>"
+    +"<div class='row'><span class='k'>↳ amortissements cumulés au 01/01</span><span class='v'>12 000</span></div>"
+    +"<div class='row'><span class='k'>↳ linéaire 5 ans (20 %)</span><span class='v'>dotation pleine année</span></div>"
+    +"<div class='row'><span class='k'><b>Acquisition 01/04/2026</b> : matériel</span><span class='v'>12 000 HT</span></div>"
+    +"<div class='row'><span class='k'>↳ linéaire 5 ans, mise en service 01/04</span><span class='v'>prorata 9/12</span></div>"
+    +"<div class='row'><span class='k'>Cessions de l'exercice</span><span class='v'>aucune</span></div>"
+    +"</div><p class='sd-note'>💡 Contrôles du dossier B : fichier des immos = balance (comptes 2x/28x), dotation recalculée, <b>prorata temporis</b> sur les entrées de l'année. Ces chiffres alimentent le tableau des amortissements de la liasse (2033-C).</p>"; }
+  function formDR2(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Amortissements 2026</div><div class='cf-body'>"
+      +lineFill("Dotation matériel ancien (20 000 × 20 %)","","dr_iman",4000,{ph:"…"})
+      +lineFill("Dotation acquisition (12 000 × 20 % × 9/12)","","dr_imnf",1800,{ph:"…"})
+      +lineFill("DOTATION TOTALE 2026 (6811)","","dr_imtot",5800,{ph:"…"})
+      +lineFill("Amortissements cumulés au 31/12 (12 000 + dotation)","","dr_imcum",17800,{ph:"…"})
+      +lineFill("VNC au 31/12 (32 000 brut − cumulés)","","dr_imvnc",14200,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR3(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle CUT-OFF — stocks, clients, fournisseurs (C/D/G)</div>"
+    +"<div class='row'><span class='k'>Stock marchandises au 01/01</span><span class='v'>7 200</span></div>"
+    +"<div class='row'><span class='k'>Inventaire physique au 31/12</span><span class='v'>9 400</span></div>"
+    +"<div class='row'><span class='k'>Facture EDF de décembre <b>reçue en janvier</b></span><span class='v'>2 350 HT + TVA 470</span></div>"
+    +"<div class='row'><span class='k'>Prestation livrée en décembre, <b>non encore facturée</b></span><span class='v'>1 900 HT</span></div>"
+    +"<div class='row'><span class='k'>Assurance payée le 01/10/2026 (couvre 12 mois)</span><span class='v'>2 400</span></div>"
+    +"<div class='row'><span class='k'>Client RAKOTO douteux : créance TTC 3 600 (HT 3 000), risque</span><span class='v'>50 %</span></div>"
+    +"</div><p class='sd-note'>💡 Le cut-off rattache chaque charge/produit au BON exercice : <b>FNP</b> (408), <b>FAE</b> (418), <b>CCA</b> (486), <b>PCA</b> (487), dépréciation clients (491, calculée sur le <b>HT</b>).</p>"; }
+  function formDR3(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Écritures d'inventaire</div><div class='cf-body'>"
+      +lineFill("Variation de stock : impact sur le résultat (SF − SI)","","dr_costk",2200,{ph:"+ si stock final > initial"})
+      +lineFill("FNP — facture non parvenue HT (6061 D / 408 C)","","dr_cofnp",2350,{ph:"…"})
+      +lineFill("TVA sur FNP (44586 D)","","dr_cotva",470,{ph:"…"})
+      +lineFill("FAE — facture à établir HT (418 D / 706 C)","","dr_cofae",1900,{ph:"…"})
+      +lineFill("CCA — assurance (2 400 × 9/12) (486 D / 616 C)","","dr_cocca",1800,{ph:"…"})
+      +lineFill("Dépréciation client RAKOTO (3 000 × 50 %) (68174 D / 491 C)","","dr_codep",1500,{ph:"sur le HT !"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR4(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle SOCIAL & TNS (L)</div>"
+    +"<div class='row'><span class='k'>Congés acquis non pris au 31/12 (brut)</span><span class='v'>4 200</span></div>"
+    +"<div class='row'><span class='k'>Taux de charges sociales retenu</span><span class='v'>45 %</span></div>"
+    +"<div class='row'><span class='k'>Gérant majoritaire (TNS) — rémunération 2026</span><span class='v'>24 000</span></div>"
+    +"<div class='row'><span class='k'>↳ cotisations payées à l'URSSAF en 2026 (646)</span><span class='v'>5 200</span></div>"
+    +"<div class='row'><span class='k'>↳ taux forfaitaire (revenu &lt; 1 PASS 48 060)</span><span class='v'>29 %</span></div>"
+    +"<div class='row'><span class='k'>IK gérant : 6 CV — 8 400 km pro</span><span class='v'>(d × 0,374) + 1 457</span></div>"
+    +"</div><p class='sd-note'>💡 Réflexes du dossier L : provision CP = brut <b>+ charges</b> ; TNS = cotisations <b>dues sur le revenu 2026</b> vs payées → <b>provision 646/4386</b> ; IK validées avec la <b>carte grise (case P.6)</b>.</p>"; }
+  function formDR4(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Social & TNS</div><div class='cf-body'>"
+      +lineFill("Charges sociales sur CP (4 200 × 45 %)","","dr_socpch",1890,{ph:"…"})
+      +lineFill("Provision congés payés TOTALE (brut + charges)","","dr_socp",6090,{ph:"…"})
+      +lineFill("Cotisations TNS dues 2026 (24 000 × 29 %)","","dr_sotns",6960,{ph:"…"})
+      +lineFill("Provision TNS à comptabiliser (dues − payées) (646 D / 4386 C)","","dr_soprov",1760,{ph:"…"})
+      +lineFill("Indemnités kilométriques (8 400 × 0,374 + 1 457)","","dr_soik",4598.6,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR5(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle CADRAGE TVA (L3)</div>"
+    +"<div class='row'><span class='k'>CA facturé à 20 % (HT)</span><span class='v'>96 000</span></div>"
+    +"<div class='row'><span class='k'>CA facturé à 10 % (HT)</span><span class='v'>14 000</span></div>"
+    +"<div class='row'><span class='k'>Solde créditeur 44571 (TVA collectée)</span><span class='v'>20 600</span></div>"
+    +"<div class='row'><span class='k'>TVA déductible <b>facturée</b> sur l'exercice (hors AN/OD)</span><span class='v'>8 970</span></div>"
+    +"<div class='sec'>⚠️ Règle liasse (cases 374 / 378 de la 2033-D)</div>"
+    +"<div class='row'><span class='k'>Case 374 = TVA collectée <b>FACTURÉE</b> sur l'exercice — PAS le solde du compte ! (hors à-nouveaux et OD de déclaration)</span><span class='v'>🔴</span></div>"
+    +"</div><p class='sd-note'>💡 C'est l'une des <b>zones rouges</b> remplies à la main dans les logiciels : 374 (collectée) et 378 (déductible) = TVA <b>de l'exercice</b>, hors à-nouveaux et hors OD de déclaration mensuelle.</p>"; }
+  function formDR5(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Cadrage TVA collectée</div><div class='cf-body'>"
+      +lineFill("TVA théorique 20 % (96 000 × 20 %)","","dr_tv20",19200,{ph:"…"})
+      +lineFill("TVA théorique 10 % (14 000 × 10 %)","","dr_tv10",1400,{ph:"…"})
+      +lineFill("TOTAL TVA théorique","","dr_tvtot",20600,{ph:"…"})
+      +lineFill("Écart avec le 44571 (20 600)","","dr_tvec",0,{ph:"0 si cadré"})
+      +lineFill("→ Case 374 de la liasse (TVA collectée facturée)","","dr_tv374",20600,{ph:"…"})
+      +lineFill("→ Case 378 de la liasse (TVA déductible exercice)","","dr_tv378",8970,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR6(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle FISCAL — du comptable au fiscal (IS calcul)</div>"
+    +"<div class='row'><span class='k'>Résultat comptable avant IS (après TOUTES les OD ci-dessus)</span><span class='v'>21 540</span></div>"
+    +"<div class='row'><span class='k'>Taxe sur les véhicules de société (63514)</span><span class='v'>850</span></div>"
+    +"<div class='row'><span class='k'>Amendes et pénalités (671200)</span><span class='v'>290</span></div>"
+    +"<div class='row'><span class='k'>Amortissement excédentaire véhicule de tourisme</span><span class='v'>1 200</span></div>"
+    +"<div class='row'><span class='k'>PME éligible au taux réduit (CA &lt; 10 M€, capital libéré…)</span><span class='v'>oui</span></div>"
+    +"</div><p class='sd-note'>💡 Comme l'onglet « IS calcul » du DR cabinet : résultat comptable + <b>réintégrations</b> − déductions = <b>résultat fiscal</b> → IS <b>15 %</b> jusqu'à 42 500 € puis 25 %.</p>"; }
+  function formDR6(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail — Résultat fiscal & IS</div><div class='cf-body'>"
+      +lineFill("Total des réintégrations (TVS + amendes + amort. excédentaire)","","dr_fire",2340,{ph:"…"})
+      +lineFill("RÉSULTAT FISCAL (21 540 + réintégrations)","","dr_firf",23880,{ph:"…"})
+      +lineFill("IS dû (résultat ≤ 42 500 → 15 %)","","dr_fiis",3582,{ph:"…"})
+      +lineFill("Résultat NET comptable (21 540 − IS)","","dr_finet",17958,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDR7(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>LIASSE 2033 — les cases « rouges » (saisie manuelle)</div>"
+    +"<div class='row'><span class='k'>Tableau d'emprunt : capital restant dû au 31/12/2026</span><span class='v'>24 000</span></div>"
+    +"<div class='row'><span class='k'>↳ dont remboursements prévus en 2027 (part &lt; 1 an)</span><span class='v'>6 000</span></div>"
+    +"<div class='row'><span class='k'>Effectif moyen (dossier concerné par la CVAE)</span><span class='v'>2 salariés</span></div>"
+    +"<div class='row'><span class='k'>Déficits antérieurs reportables</span><span class='v'>néant</span></div>"
+    +"<div class='sec'>Reports des cycles précédents</div>"
+    +"<div class='row'><span class='k'>Amort. excédentaire VP (cycle Fiscal)</span><span class='v'>1 200</span></div>"
+    +"<div class='row'><span class='k'>TVS + amendes (cycle Fiscal)</span><span class='v'>1 140</span></div>"
+    +"<div class='row'><span class='k'>Résultat fiscal (cycle Fiscal)</span><span class='v'>23 880</span></div>"
+    +"<div class='row'><span class='k'>TVA collectée facturée / déductible exercice (cycle TVA)</span><span class='v'>20 600 / 8 970</span></div>"
+    +"</div><p class='sd-note'>🔴 Ces cases ne se remplissent PAS toutes seules dans les logiciels : <b>195</b> (dettes à +1 an, à prendre du <b>tableau d'emprunt</b>), <b>318/324</b> (réintégrations), <b>352/356</b> (résultat fiscal/déficits), <b>374/378</b> (TVA), <b>376</b> (effectif CVAE), et la <b>2033-F</b> (capital) si le dossier permanent n'est pas servi.</p>"; }
+  function formDR7(){ var h="<div class='cf'>";
+    h+=marianne("LIASSE RÉEL SIMPLIFIÉ — CASES À SERVIR MANUELLEMENT","Synthèse des zones rouges (2033-A / B / D / E)","N° 2033");
+    h+="<div class='cf-sec'><div class='cf-st'>2033-A — Bilan</div><div class='cf-body'>"
+      +lineFill("Case 195 — dettes à PLUS d'un an (CRD 24 000 − part 2027)","195","dr_li195",18000,{ph:"tableau d'emprunt"})
+      +"</div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>2033-B — Résultat fiscal</div><div class='cf-body'>"
+      +lineFill("Case 318 — amortissements excédentaires (art. 39-4)","318","dr_li318",1200,{ph:"…"})
+      +lineFill("Case 324 — impôts et taxes non déductibles (TVS + amendes)","324","dr_li324",1140,{ph:"…"})
+      +lineFill("Case 352 — RÉSULTAT FISCAL avant imputation des déficits","352","dr_li352",23880,{ph:"…"})
+      +lineFill("Case 356 — déficits antérieurs reportables","356","dr_li356",0,{ph:"0 si néant"})
+      +"</div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>2033-D / 2033-E — Divers</div><div class='cf-body'>"
+      +lineFill("Case 374 — TVA collectée FACTURÉE sur l'exercice","374","dr_li374",20600,{ph:"hors AN et OD !"})
+      +lineFill("Case 378 — TVA déductible sur biens et services (exercice)","378","dr_li378",8970,{ph:"hors AN et OD !"})
+      +lineFill("Case 376 (2033-E) — effectif moyen (CVAE)","376","dr_li376",2,{ph:"nb de salariés"})
+      +"</div></div>";
+    return h+"</div>"; }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
+    dr: {
+      titre:"Dossier de Révision complet → liasse", sous:"Le guide cabinet : on révise cycle par cycle, on cadre, puis on sert les cases manuelles de la liasse. Vérification niveau expert, guidée pas à pas.",
+      tabs:[{id:"bq",label:"1. Banque",sub:"rapprochement"},{id:"im",label:"2. Immos",sub:"amortissements"},{id:"co",label:"3. Cut-off",sub:"FNP·FAE·CCA"},{id:"so",label:"4. Social/TNS",sub:"CP·646·IK"},{id:"tv",label:"5. TVA",sub:"cadrage·374/378"},{id:"fi",label:"6. Fiscal",sub:"réint.·IS"},{id:"li",label:"7. Liasse 🔴",sub:"cases manuelles"}],
+      active:"bq",
+      panes:{
+        bq:{ srcCap:"Dossier (cycle Banque)", src:srcDR1, wide:true, formCap:"Feuille de travail F — Rapprochement", form:formDR1,
+          tuto:["Passez d'abord l'<b>OD des frais bancaires</b> non comptabilisés (627 / 512).",
+                "Calculez le <b>solde 512 corrigé</b>.",
+                "Reconstituez la banque : <b>relevé − chèques non débités + remises en cours</b>.",
+                "Les deux montants doivent être <b>égaux</b> → le cycle Banque est justifié. <b>Vérifier</b>."],
+          lien:"Comme dans le classeur DR du cabinet : onglet Banque BQ F — l'état de rapprochement est archivé comme justificatif." },
+        im:{ srcCap:"Dossier (cycle Immobilisations)", src:srcDR2, wide:true, formCap:"Feuille de travail B — Amortissements", form:formDR2,
+          tuto:["Dotation de l'ancien matériel : <b>pleine année</b> (20 000 × 20 %).",
+                "Dotation de l'acquisition du 01/04 : <b>prorata 9/12</b>.",
+                "Total des dotations 6811, puis <b>cumul fin d'exercice</b> et <b>VNC</b>.",
+                "Ces montants alimenteront le tableau immobilisations/amortissements de la liasse (2033-C). <b>Vérifier</b>."] },
+        co:{ srcCap:"Dossier (cycle Cut-off)", src:srcDR3, wide:true, formCap:"Feuille de travail C/D/G — Inventaire", form:formDR3,
+          tuto:["<b>Stock</b> : l'inventaire physique fait foi → impact résultat = SF − SI.",
+                "<b>FNP</b> : la facture EDF appartient à 2026 (HT en charge, TVA en 44586).",
+                "<b>FAE</b> : la prestation livrée en décembre est un produit 2026.",
+                "<b>CCA</b> : l'assurance couvre 9 mois de 2027 → on neutralise 9/12.",
+                "<b>Dépréciation client</b> : risque 50 % sur le <b>HT</b> (jamais sur le TTC). <b>Vérifier</b>."] },
+        so:{ srcCap:"Dossier (cycle Social & TNS)", src:srcDR4, wide:true, formCap:"Feuille de travail L — Social", form:formDR4,
+          tuto:["<b>Provision CP</b> : brut des congés acquis + <b>charges sociales</b> (45 %).",
+                "<b>TNS</b> : cotisations DUES sur le revenu 2026 (taux forfaitaire 29 % sous 1 PASS).",
+                "Provision TNS = dues − payées → écriture <b>646 / 4386</b>.",
+                "<b>IK</b> : barème voiture 6 CV — vérifier la <b>case P.6</b> de la carte grise. <b>Vérifier</b>."],
+          lien:"Voir Module 11 §7 (TNS pas à pas) et le calculateur IK du module 1P." },
+        tv:{ srcCap:"Dossier (cycle TVA)", src:srcDR5, wide:true, formCap:"Feuille de travail L3 — Cadrage TVA", form:formDR5,
+          tuto:["TVA théorique par taux : <b>base × taux</b>.",
+                "Total théorique, comparé au <b>44571</b> → écart (ici 0 = cadré).",
+                "⚠️ Cases liasse <b>374/378</b> : TVA <b>FACTURÉE sur l'exercice</b>, PAS le solde (hors à-nouveaux et OD de déclaration). <b>Vérifier</b>."],
+          lien:"Entraînez-vous aussi sur VOS écritures : menu 🧪 Logiciel → Cadrage TVA." },
+        fi:{ srcCap:"Dossier (cycle Fiscal)", src:srcDR6, wide:true, formCap:"Feuille de travail — IS calcul", form:formDR6,
+          tuto:["Additionnez les <b>réintégrations</b> : TVS + amendes + amortissement excédentaire VP.",
+                "<b>Résultat fiscal</b> = comptable + réintégrations − déductions.",
+                "<b>IS</b> : 15 % jusqu'à 42 500 € (PME), 25 % au-delà.",
+                "<b>Résultat net</b> = comptable − IS → c'est lui qui ira au bilan. <b>Vérifier</b>."] },
+        li:{ srcCap:"Dossier (synthèse) + tableau d'emprunt", src:srcDR7, wide:true, formCap:"Liasse 2033 — les cases à servir À LA MAIN", form:formDR7,
+          tuto:["Case <b>195</b> : dettes à <b>+ d'un an</b> = capital restant dû − échéances N+1 → toujours depuis le <b>tableau d'emprunt</b>.",
+                "Cases <b>318/324</b> : reportez les réintégrations du cycle Fiscal.",
+                "Case <b>352</b> : le résultat fiscal ; case <b>356</b> : déficits antérieurs (0 si néant).",
+                "Cases <b>374/378</b> : la TVA <b>facturée</b> de l'exercice (cycle TVA) — hors AN/OD.",
+                "Case <b>376</b> : effectif moyen si dossier CVAE. <b>Vérifier</b> → liasse prête pour la revue de l'expert-comptable !"],
+          lien:"Si le dossier permanent du logiciel n'est pas servi : remplir aussi la 2033-F (composition du capital) à la main." }
+      }
+    },
     cadrage: {
       titre:"Cadrage TVA — le contrôle mensuel du cabinet", sous:"On vérifie que la TVA collectée comptabilisée correspond au CA par taux, on justifie l'écart, on corrige, PUIS on déclare.",
       tabs:[{id:"cadr",label:"Cadrage TVA",sub:"CA × taux vs 44571"}],
