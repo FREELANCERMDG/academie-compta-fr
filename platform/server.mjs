@@ -175,9 +175,17 @@ function visitesTotaux() {
 // Carte publique « Visites du site » (page d'accueil, visible par tous)
 function visitesPublicCard() {
   const { vTot, vToday, v7 } = visitesTotaux();
+  // Détail par province (provinces localisées uniquement — on n'affiche pas le bucket « non détectée » au public)
+  const vMG = db.prepare("SELECT region, SUM(n) AS t FROM visites WHERE pays='MG' AND region<>'' GROUP BY region ORDER BY t DESC").all();
+  const shown = vMG.reduce((s, r) => s + r.t, 0);
+  const prov = vMG.length
+    ? `<h3 style="margin-bottom:6px">🇲🇬 Nos visiteurs à Madagascar — par province</h3><div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part</th></tr>
+   ${vMG.map(r => `<tr><td>📍 ${esc(r.region)}</td><td>${r.t}</td><td>${shown ? Math.round(r.t * 100 / shown) : 0} %</td></tr>`).join('')}</table></div>`
+    : `<h3 style="margin-bottom:6px">🇲🇬 Nos visiteurs à Madagascar — par province</h3><p class="muted" style="font-size:13px">📍 Localisation des visiteurs en cours de collecte…</p>`;
   return `<section class="card"><h2>📊 Visites du site</h2>
   <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
-  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD).</p></section>`;
+  ${prov}
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Localisation approximative (zone Cloudflare / géolocalisation IP).</p></section>`;
 }
 
 // --- Progression carrière (niveau calculé côté serveur, autoritatif) ---
