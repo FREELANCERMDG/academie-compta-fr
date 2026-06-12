@@ -372,7 +372,7 @@ function landingHero(sess) {
     <hr>
     <div class="srow"><div class="ring" style="--p:70"><i>N3</i></div>
      <div><div style="font-weight:800;color:#fff">Niveau Réviseur</div><div class="muted" style="font-size:12px">Progression du parcours cabinet</div>
-      <div style="margin-top:5px"><span class="skill">Saisie</span><span class="skill">TVA</span><span class="skill">Liasse</span><span class="skill">Révision</span></div></div>
+      <div style="margin-top:5px"><span class="skill">Saisie</span><span class="skill">Révision</span><span class="skill">Fiscalité</span><span class="skill">Préparation bilan</span></div></div>
     </div>
     <div class="muted" style="font-size:10.5px;text-align:center;margin-top:12px">Aperçu de votre espace d'apprentissage</div>
    </div>
