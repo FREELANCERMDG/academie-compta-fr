@@ -142,8 +142,8 @@
     if (!greeted) {
       greeted = true;
       add(PROMO
-        ? 'Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>🎁 <b>Offre de lancement : TOUS les modules sont GRATUITS pendant 3 mois&nbsp;!</b> Profitez-en. Une question ou besoin d\'aide (inscription, accès, modules, attestation…) ? Je suis là 😊'
-        : 'Bonjour 👋 Je suis l\'assistant de l\'<b>Académie Compta FR</b>.<br>Posez votre question (prix, inscription, accès…) ou choisissez un sujet ci-dessous. 🎁 <b>Le Module 1 est gratuit&nbsp;!</b>',
+        ? 'Bonjour 👋 Je suis votre assistant <b>Compta FR</b> — un expert-comptable français (20 ans d\'expérience) à votre service.<br>🎁 <b>Offre de lancement : TOUS les modules GRATUITS pendant 3 mois&nbsp;!</b><br>Posez-moi une question sur la <b>formation</b> (inscription, accès, attestation…) <b>ou sur la comptabilité</b> (TVA, écriture, bilan, liasse…). 😊'
+        : 'Bonjour 👋 Je suis votre assistant <b>Compta FR</b> — un expert-comptable français (20 ans d\'expérience).<br>Posez-moi une question sur la <b>formation</b> (prix, inscription, accès…) <b>ou sur la comptabilité française</b> (TVA, écriture, bilan, liasse…). 🎁 <b>Le Module 1 est gratuit&nbsp;!</b>',
         'bot');
       renderChips();
     }
@@ -168,14 +168,34 @@
     'Une question ? Je réponds 24h/24, gratuitement.'
   ];
   var i = 0, speakOn = false;
-  function voices() { try { return window.speechSynthesis ? speechSynthesis.getVoices() : []; } catch (e) { return []; } }
+  var _voice = null;
+  function pickVoice() {
+    try {
+      var vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+      if (!vs.length) return null;
+      var fr = vs.filter(function (v) { return /^fr/i.test(v.lang); });
+      if (!fr.length) return null;
+      var pref = ['google français', 'amélie', 'amelie', 'thomas', 'audrey', 'virginie', 'microsoft', 'natural'];
+      for (var i = 0; i < pref.length; i++) {
+        for (var j = 0; j < fr.length; j++) { if (fr[j].name.toLowerCase().indexOf(pref[i]) >= 0) return fr[j]; }
+      }
+      for (var k = 0; k < fr.length; k++) { if (fr[k].localService) return fr[k]; }
+      return fr[0];
+    } catch (e) { return null; }
+  }
+  function loadVoices() { _voice = pickVoice(); }
+  try { if (window.speechSynthesis) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; } } catch (e) {}
+  function cleanForSpeech(t) {
+    try { return (t || '').replace(/[\u{1F000}-\u{1FAFF}☀-➿←-⇿️‍]/gu, '').replace(/\s+/g, ' ').trim(); }
+    catch (e) { return (t || '').replace(/[^\x20-\xFF]/g, '').replace(/\s+/g, ' ').trim(); }
+  }
   function speak(t) {
     if (!speakOn || !window.speechSynthesis) return;
     try {
-      var u = new SpeechSynthesisUtterance(t.replace(/[👋🤖]/g, '').trim());
-      u.lang = 'fr-FR'; u.rate = 1.02; u.pitch = 1.05;
-      var fr = voices().filter(function (v) { return /fr/i.test(v.lang); });
-      if (fr.length) u.voice = fr[0];
+      var u = new SpeechSynthesisUtterance(cleanForSpeech(t));
+      u.lang = 'fr-FR'; u.rate = 0.97; u.pitch = 1.0; u.volume = 1;
+      if (!_voice) loadVoices();
+      if (_voice) u.voice = _voice;
       speechSynthesis.cancel(); speechSynthesis.speak(u);
     } catch (e) {}
   }
