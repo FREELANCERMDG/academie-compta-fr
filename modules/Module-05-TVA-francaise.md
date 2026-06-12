@@ -132,6 +132,39 @@ Dans **Pennylane** (Fiscalité → TVA) ou **ACD**, ces lignes sont **pré‑rem
 - **CA3** : [formulaire 3310‑CA3‑SD + notice](https://www.impots.gouv.fr/formulaire/3310-ca3-sd/tva-et-taxes-assimilees-regime-du-reel-normal-mini-reel)
 - **CA12** : 3517‑S‑SD (régime simplifié) — sur impots.gouv.fr
 
+### 🖥️ Déclarer la TVA directement sur impots.gouv.fr — le tuto complet (mode EFI)
+
+> Deux canaux de télédéclaration existent : **EDI** (le logiciel du cabinet — Pennylane, ACD… — transmet à la DGFiP via un partenaire EDI : c'est la voie normale en cabinet) et **EFI** = saisir la déclaration **directement sur impots.gouv.fr**, dans l'espace professionnel du client. L'EFI sert pour les **petits dossiers** (LMNP, indépendants, micro sortie de franchise), en **secours** si l'EDI est indisponible, et pour **consulter le compte fiscal**. Voici toutes les démarches.
+
+**Étape 1 — Créer l'espace professionnel (une seule fois)**
+1. Aller sur **impots.gouv.fr** → bouton **« Votre espace professionnel »** → **« Création de mon espace professionnel »**.
+2. Choisir le **mode simplifié** (l'entreprise gère son propre espace — cas le plus courant) : saisir le **SIREN**, une **adresse e-mail** et un **mot de passe**.
+3. La DGFiP envoie un **code d'activation PAR COURRIER POSTAL** au siège de l'entreprise (compter quelques jours, à anticiper avant une échéance !).
+4. À réception : retourner sur impots.gouv.fr → **« Activer mon espace »** (le code est valable **60 jours**), puis renseigner les **coordonnées bancaires** (IBAN) pour les paiements.
+> Le **mode expert** existe pour les cabinets/mandataires qui gèrent **plusieurs** dossiers (adhésion aux services pour le compte de tiers, avec mandat).
+
+**Étape 2 — Vérifier l'accès aux services**
+Dans l'espace professionnel, contrôler que les services **« Déclarer la TVA »**, **« Payer la TVA »** et **« Consulter le compte fiscal »** sont actifs (en mode simplifié, ils le sont automatiquement pour son propre SIREN).
+
+**Étape 3 — Mettre en place le mandat de prélèvement B2B (avant le 1er paiement)**
+Le paiement de la TVA passe **obligatoirement** par un **prélèvement SEPA interentreprises (B2B)** : imprimer le **mandat** généré lors de l'enregistrement du compte bancaire et le **remettre à la banque** AVANT la première échéance (sinon le prélèvement est rejeté → pénalités).
+
+**Étape 4 — Déclarer (CA3 ou CA12)**
+1. Espace professionnel → menu **« Déclarer »** → **« TVA »**.
+2. Choisir la **période** (mois/trimestre pour la CA3 ; exercice pour la CA12).
+3. Remplir le formulaire en ligne — **les mêmes lignes que le CERFA** vu plus haut : bases par taux (08, 9B…), TVA déductible (19, 20), crédit reporté (22)… D'où l'importance du **cadrage préalable** !
+4. **Valider** → un **accusé de réception** s'affiche : l'**enregistrer en PDF** au dossier (c'est la preuve de dépôt).
+
+**Étape 5 — Payer (dans la foulée)**
+Après validation, l'écran propose le **paiement** : le montant est prélevé (mandat B2B) à l'**échéance**. On peut aussi passer par « Payer » → « TVA » si la déclaration et le paiement sont dissociés.
+
+**Étape 6 — Les échéances à connaître**
+- **CA3 mensuelle** : entre le **15 et le 24** du mois suivant (la date exacte dépend du SIREN/de la forme juridique — elle est affichée dans l'espace).
+- **CA12** : le **2e jour ouvré après le 1er mai** (exercice civil) + **acomptes** de juillet (55 %) et décembre (40 %).
+- **Crédit de TVA** : demande de **remboursement** en ligne (formulaire **3519** joint à la CA3, ou cadre dédié de la CA12).
+
+> 🇲🇬 **Réflexe cabinet (offshore) :** le collaborateur **prépare et cadre** ; la télétransmission part en **EDI depuis le logiciel** après validation du chef de mission. On n'utilise l'EFI que ponctuellement — mais **savoir faire toute la démarche sur impots.gouv.fr** est indispensable (petits dossiers, dépannage, contrôle de l'avis et du compte fiscal). Toujours **archiver l'accusé de réception**.
+
 ---
 
 ## 6. Cas particuliers de TVA
