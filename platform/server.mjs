@@ -1687,6 +1687,22 @@ function postInscription(req, res, sess, body) {
   } catch { }
   // Promo en cours : on débloque TOUS les modules gratuitement dès l'inscription (jusqu'à la fin de la promo).
   grantPromoModules(id, ip(req));
+  // E-mail de bienvenue automatique (si Brevo configuré) — n'interrompt jamais l'inscription en cas d'échec.
+  if (mailConfigured()) {
+    const waS = ((cfg.societe || {}).whatsapp || '');
+    sendEmail(v.email, 'Bienvenue sur Académie Compta FR 🎓', `<div style="font-family:Arial,Helvetica,sans-serif;color:#1c2733;max-width:560px">
+      <h2 style="color:#16307a">Bienvenue ${esc(v.prenom || '')} ! 🎉</h2>
+      <p>Votre compte est créé. Vous pouvez commencer <b>tout de suite</b> :</p>
+      <ol style="line-height:1.8">
+        <li>Connectez-vous et ouvrez la <b>formation</b> — le <b>Module 1 est gratuit</b>${promoLive() ? ' (et pendant la promo, TOUS les modules sont débloqués !)' : ''}.</li>
+        <li>Avancez leçon par leçon : cours, <b>simulateurs interactifs</b>, quiz auto-corrigés, suivi de progression.</li>
+        <li>Terminez <b>tous les modules</b> puis passez le <b>test final en visio</b> avec le formateur → <b>attestation signée et tamponnée</b>.</li>
+      </ol>
+      <p><a href="${BASE_URL}/connexion" style="display:inline-block;background:#16307a;color:#fff;padding:11px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Commencer ma formation →</a></p>
+      ${waS ? `<p style="font-size:13px;color:#555">Une question ? WhatsApp : <b>${esc(waS)}</b></p>` : ''}
+      <hr style="border:none;border-top:1px solid #eee;margin:18px 0">
+      <p style="color:#888;font-size:12px">${esc((cfg.societe || {}).nom || 'Académie Compta FR')} — academie-compta-fr.mg</p></div>`).catch(() => { });
+  }
   if (twofaRequired('apprenant')) { // 2FA non requise pour les apprenants : connexion directe
     db.prepare('UPDATE sessions SET user_id=?, pending_2fa=1 WHERE id=?').run(id, sess.sid);
     return redirect(res, '/2fa-setup-redirect');
