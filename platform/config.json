@@ -68,6 +68,12 @@
     "twofa_obligatoire": true,
     "_note": "Mettre true en production pour imposer la double authentification (2FA) à tous les utilisateurs."
   },
+  "presentiel": {
+    "prix_module": 80000,
+    "horaires": "2 h/jour, lun.–ven. 8h30–10h30",
+    "lieu": "Ambobibao (Antananarivo), près de MCB Banque, à côté de la station Total",
+    "contact": "032 73 622 59"
+  },
   "acces": {
     "illimite": false,
     "duree_jours": 365,
@@ -87,7 +93,7 @@
     "label": "🎁 Gratuit 3 mois",
     "prix_ref": "100 000 Ar",
     "places_max": 0,
-    "banniere": "🎁 Ailleurs : jusqu'à 100 000 Ar par module. Ici : 100 % GRATUIT à partir d'aujourd'hui 09/06/2026 à 19h, et pendant 3 MOIS — tous les modules + ATTESTATION à la clé ! Inscrivez-vous maintenant.",
+    "banniere": "🎁 Ailleurs : jusqu'à 100 000 Ar par module. Ici : 100 % GRATUIT pendant 3 MOIS — tous les modules + ATTESTATION à la clé ! Inscrivez-vous maintenant.",
     "banniere_live": "🎉 C'EST PARTI ! TOUS les modules sont DÉBLOQUÉS gratuitement pendant 3 mois (jusqu'au 09/09/2026) — attestation à la clé. Inscrivez-vous et commencez maintenant !",
     "_note": "actif=true : affiche la bannière + remplace les prix par 'label'. acces_libre=true ET maintenant >= debut_libre (ISO UTC) : l'accès gratuit à TOUS les modules s'ouvre automatiquement, jusqu'à jusqu_au (AAAA-MM-JJ, fin de journée). Avant debut_libre : 'Bientôt gratuit', accès normal (Module 1 gratuit). 16:00Z = 19h00 Antananarivo (UTC+3). banniere_live = texte affiché une fois l'offre ouverte."
   },

@@ -174,7 +174,14 @@ const checkCsrf = (sess, body) => sess && body._csrf && safeEqual(sess.row.csrf,
 function promoActive() { const p = cfg.promo; if (!p || !p.actif) return false; if (p.jusqu_au) { try { return new Date().toISOString().slice(0, 10) <= p.jusqu_au; } catch { return true; } } return true; }
 function promoLive() { const p = cfg.promo; if (!promoActive() || !p || !p.acces_libre) return false; if (p.debut_libre) { const d = Date.parse(p.debut_libre); if (!isNaN(d) && Date.now() < d) return false; } return true; }
 function promoAccesLibre() { return promoLive(); }
-function promoLabel() { return promoLive() ? '🎁 GRATUIT 3 mois' : '🎁 Bientôt gratuit'; }
+function promoLabel() { return (cfg.promo && cfg.promo.label) || (promoLive() ? '🎁 GRATUIT 3 mois' : '🎁 Bientôt gratuit'); }
+// Date de fin de promo formatée FR (depuis la config) — évite toute date codée en dur dans le HTML.
+function fmtDateFR(iso) { const s = (iso || '').slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s.split('-').reverse().join('/') : ''; }
+function promoFinFR() { return fmtDateFR(cfg.promo && cfg.promo.jusqu_au); }
+// Prix mini d'un module à l'unité (dérivé des offres, jamais codé en dur).
+function prixMiniModule() { const ps = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length === 1 && o.code !== 'PROMO_PACK' && o.prix > 0).map(o => o.prix); return ps.length ? Math.min(...ps) : 30000; }
+function presentielPrixModule() { return (cfg.presentiel && cfg.presentiel.prix_module) || 80000; }
+function visioPrix() { const o = (cfg.offres || []).find(o => o.code === 'VISIO_1H'); return (o && o.prix) || 25000; }
 function joursRestantsPromo() { const j = cfg.promo && cfg.promo.jusqu_au; if (!j) return null; const ms = Date.parse(j + 'T23:59:59Z') - Date.now(); return ms > 0 ? Math.ceil(ms / 86400000) : 0; }
 function promoBanText() {
   const p = cfg.promo || {};
@@ -219,7 +226,7 @@ function layout(title, body, sess) {
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><nav>${nav}</nav></header>${promoBan}
-${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;🎁 Module&nbsp;1 100&nbsp;% gratuit&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
+${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
 <script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" defer></script></body></html>`;
@@ -280,10 +287,10 @@ function pageAccueil(sess) {
   <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Aussi en présentiel à Antananarivo (renforcement)</h2>
-  <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>80 000 Ar/module</b>.</p>
+  <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>${money(presentielPrixModule())}/module</b>.</p>
   <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
-  <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu'au <b>09/09/2026</b> — sans aucun paiement.</p>
+  <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu’au <b>${promoFinFR()}</b> — sans aucun paiement.</p>
   <ol style="line-height:1.9;margin:8px 0 12px">
   <li><b>Inscrivez-vous gratuitement</b> (2 min).</li>
   <li><b>Suivez les 6 modules</b> : Pennylane, TVA, liasse, simulateurs… de la saisie au bilan des PME françaises.</li>
@@ -313,7 +320,7 @@ function pageDecouverte(sess) {
   ${videoBloc}
   <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
   <section class="card"><h2>Ce qui est inclus</h2>
-  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite (à partir de 30 000 Ar / module)</li>
+  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite${promoLive() ? ' — et TOUS les modules gratuits pendant la promo' : ' (à partir de ' + money(prixMiniModule()) + ' / module)'}</li>
   <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
   <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
   <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
@@ -402,7 +409,7 @@ function pagePresentiel(sess) {
   <h2>📋 Infos pratiques</h2>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
     <div class="offre" style="text-align:center"><div style="font-size:24px">⏰</div><b>2 h / jour</b><div class="muted" style="font-size:13px">Lundi → Vendredi<br>8h30 – 10h30</div></div>
-    <div class="offre" style="text-align:center"><div style="font-size:24px">💰</div><b>80 000 Ar</b><div class="muted" style="font-size:13px">par module</div></div>
+    <div class="offre" style="text-align:center"><div style="font-size:24px">💰</div><b>${money(presentielPrixModule())}</b><div class="muted" style="font-size:13px">par module</div></div>
     <div class="offre" style="text-align:center"><div style="font-size:24px">👥</div><b>4 personnes</b><div class="muted" style="font-size:13px">par module (petit groupe)</div></div>
     <div class="offre" style="text-align:center"><div style="font-size:24px">📍</div><b>Dans nos bureaux</b><div class="muted" style="font-size:13px">Ambobibao (Antananarivo), près de MCB Banque, à côté de la station Total</div></div>
   </div></section>
@@ -428,7 +435,7 @@ function pageProgramme(sess) {
   const tHtml = temoins.length ? `<section class="card"><h2>Ils témoignent</h2><div class="temoins">${temoins.map(t => `<div class="temoin"><p>« ${esc(t.texte)} »</p><div class="who">${esc(t.nom)}</div><div class="role">${esc(t.role)}</div></div>`).join('')}</div></section>` : '';
   return layout('Programme', `
   <section class="hero"><h1>Programme de la formation</h1>
-  <p class="lead">Découvrez le contenu <b>gratuitement</b>. Seul le <b>Module 1</b> est offert en intégralité ; les modules 2, 3 et 4 sont consultables en aperçu (objectifs).</p>
+  <p class="lead">Découvrez le contenu <b>gratuitement</b>. ${promoLive() ? '🎁 <b>Pendant la promo, TOUS les modules sont offerts</b> (jusqu’au ' + promoFinFR() + ') — inscrivez-vous gratuitement et accédez à tout.' : 'Seul le <b>Module 1</b> est offert en intégralité ; les modules 2 à 6 sont consultables en aperçu (objectifs).'}</p>
   <img class="illus" src="/public/photos/programme.png" alt="Formation en comptabilité française — PCG, écritures, clôture, fiscalité, cas pratiques" width="1536" height="1024" loading="lazy">
   <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (inscription gratuite)</a> <a class="btn ghost" href="/inscription">S'inscrire</a></p>${stats}${fiscaliteBadge()}</section>
   ${formateurCard()}
@@ -477,13 +484,13 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de 30 000 Ar / module</b>.</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, les Modules 2 à 6 sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
   <article class="prose">${teaserHtml(code)}</article>
   <section class="card lockcard"><h2>🔒 Contenu complet réservé aux inscrits</h2>
-  <p>Le cours détaillé, les procédures pas-à-pas, cas pratiques, checklists et le quiz de ce module sont accessibles après inscription et paiement.</p>
+  <p>Le cours détaillé, les procédures pas-à-pas, cas pratiques, checklists et le quiz de ce module sont accessibles ${promoLive() ? 'GRATUITEMENT après une simple inscription (promo jusqu’au ' + promoFinFR() + ')' : 'après inscription et paiement'}.</p>
   <a class="btn" href="/inscription">S'inscrire pour débloquer</a> <a class="btn ghost" href="/apercu?m=mod1">Voir un module gratuit</a></section>`, sess);
 }
 
@@ -491,7 +498,7 @@ function pageInscription(sess, err, val = {}) {
   return layout('Inscription', `
   <h1>Inscription</h1>
   <p class="muted">Conditions : ${esc(cfg.conditions.diplome_requis)}.</p>
-  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 6)</b> <b>gratuitement, jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
+  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 6)</b> <b>gratuitement, jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
   <p class="muted" style="font-size:13px">🔐 Connexion simple et sécurisée par <b>email + mot de passe</b> — aucune application à installer.</p>
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
   <form method="post" action="/inscription" class="card form" autocomplete="off">
@@ -651,18 +658,18 @@ function pageDashboard(sess) {
   <p class="muted" style="font-size:12px">Montez en niveau en réussissant les simulateurs (saisie, factures, TVA, révision, chef de mission). Suivi sur cet appareil.</p>
   <script>(function(){function g(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}var P=g('fce_progress_v1'),EX=g('fce_exo_v1'),SI=g('fce_sim_v1'),TV=g('fce_tva_v1'),AU=g('fce_audit_v1');var exoN=Object.keys(EX).filter(function(k){return EX[k]}).length;var fac=(SI.d1||0)>=6;var tvaN=Object.keys(TV).filter(function(k){return TV[k]}).length;var rev=!!AU.a2,chef=!!AU.a1;var qz=P.quiz||{},fin=qz.final,cert=!!(fin&&fin.total&&fin.score/fin.total>=0.7);var B=[{k:'🧮',n:'Saisie',ok:exoN>=4},{k:'🏢',n:'Factures',ok:fac},{k:'🧾',n:'TVA',ok:tvaN>=1},{k:'🔍',n:'Révision',ok:rev},{k:'👔',n:'Chef de mission',ok:chef},{k:'🏅',n:'Certifié',ok:cert}];var L=['Recrue','Collaborateur','Collaborateur confirmé','Réviseur','Chef de mission'];var lvl=0;if(exoN>=4||fac)lvl=1;if(lvl>=1&&fac&&tvaN>=1)lvl=2;if(lvl>=2&&rev)lvl=3;if(lvl>=3&&chef&&cert)lvl=4;var nxt=['Validez 4 exercices de saisie (Module 3.12).','Terminez le Simulateur Cabinet (3.13) et la déclaration de TVA (3.14).','Détectez les anomalies de révision (6.9).','Validez le travail du collaborateur (6.9) et réussissez le quiz final.'];var c=document.getElementById('career');try{fetch('/progression',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'_csrf=${sess.row.csrf}&prog='+encodeURIComponent(JSON.stringify({prog:P,exo:EX,sim:SI,tva:TV,audit:AU}))});}catch(e){}if(!c)return;var h='<div style=\"font-size:22px;font-weight:800;color:#fff\">'+L[lvl]+' <span class=\"muted\" style=\"font-size:14px;font-weight:400\">(niveau '+(lvl+1)+'/5)</span></div>';h+='<div style=\"background:rgba(255,255,255,.08);border-radius:99px;height:14px;overflow:hidden;margin:10px 0\"><div style=\"height:100%;width:'+(lvl/4*100)+'%;background:var(--grad);transition:width .7s\"></div></div>';h+='<div class=\"grid\" style=\"grid-template-columns:repeat(auto-fit,minmax(120px,1fr))\">'+B.map(function(b){return '<div class=\"offre\" style=\"text-align:center;opacity:'+(b.ok?'1':'.4')+'\"><div style=\"font-size:28px\">'+b.k+'</div><div style=\"font-weight:700;font-size:13px;color:#fff\">'+b.n+'</div><div class=\"muted\" style=\"font-size:11px\">'+(b.ok?'✅ obtenu':'🔒 à débloquer')+'</div></div>'}).join('')+'</div>';h+=(lvl<4)?'<p class=\"muted\" style=\"margin-top:10px\">🎯 Prochain objectif : '+nxt[lvl]+'</p>':'<p class=\"ok\" style=\"margin-top:10px\">🏆 Niveau maximum atteint — prêt pour le cabinet !</p>';c.innerHTML=h;})();</script></section>
   <section class="card"><h2>Accès à la formation</h2>
-  <p>Le <b>Module 1 est gratuit</b>. Chaque autre module se débloque à <b>${money(30000)}</b> après paiement.</p>
+  <p>${promoLive() ? '🎁 <b>Pendant la promo, TOUS les modules sont débloqués gratuitement</b> (jusqu’au ' + promoFinFR() + ') — rien à payer.' : 'Le <b>Module 1 est gratuit</b>. Les autres modules se débloquent à partir de <b>' + money(prixMiniModule()) + '</b> après paiement.'}</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
   <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 ${(u.role === 'admin' || u.attestation_ok) ? 'Mon attestation' : 'Attestation (entretien final)'}</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${(u.role !== 'admin') ? (u.attestation_ok
     ? `<p class="ok" style="font-size:13px;margin:8px 0 0">✅ Attestation débloquée — vous pouvez la télécharger (signée/tamponnée).</p>`
     : `<p class="muted" style="font-size:13px;margin:8px 0 0">🎓 Votre attestation sera délivrée <b>après un entretien/test final</b> avec le formateur. Terminez l'évaluation finale puis demandez votre entretien depuis la page Attestation.</p>`) : ''}</section>
   <section class="card"><h2>🎥 Visio formation complémentaire</h2>
-  <p>Séance individuelle avec le formateur en visioconférence — <b>${money(25000)} / heure</b>.</p>
-  ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(25000)})</button></form>`}
+  <p>Séance individuelle avec le formateur en visioconférence — <b>${money(visioPrix())} / heure</b>.</p>
+  ${hasVisio(u.id) ? `<p class="ok">Accès visio actif ✅</p>${(cfg.visio && cfg.visio.lien) ? `<a class="btn" target="_blank" rel="noopener" href="${esc(cfg.visio.lien)}">Rejoindre la visio</a> ` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(waLink('Bonjour, ma visio est réglée — je souhaite planifier une séance de formation complémentaire.'))}">📅 Planifier via WhatsApp</a>` : `<form method="post" action="/choisir" class="form" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="VISIO_1H"><button class="btn" type="submit">Réserver 1 h de visio (${money(visioPrix())})</button></form>`}
   </section>
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Renforcez votre formation en présentiel</h2>
-  <p>Séances <b>en présentiel dans nos bureaux à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels du métier (<b>Pennylane</b>, <b>Silae</b>, <b>Sage 50</b>) : saisie & travaux journaliers, travaux périodiques & fiscaux, préparation du bilan. <b>2 h/jour</b> (lun.–ven., 8h30–10h30) · <b>80 000 Ar/module</b>.</p>
+  <p>Séances <b>en présentiel dans nos bureaux à Antananarivo</b>, en <b>petit groupe (4 personnes max)</b>, sur les logiciels du métier (<b>Pennylane</b>, <b>Silae</b>, <b>Sage 50</b>) : saisie & travaux journaliers, travaux périodiques & fiscaux, préparation du bilan. <b>2 h/jour</b> (lun.–ven., 8h30–10h30) · <b>${money(presentielPrixModule())}/module</b>.</p>
   <p><a class="btn" href="/presentiel">Voir le détail</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   <section class="card"><h2>Débloquer un module (paiement)</h2>
   <form method="post" action="/choisir" class="form">${csrfField(sess)}
@@ -679,7 +686,7 @@ function pageDashboard(sess) {
     <p class="muted" style="margin:4px 0;font-size:13px;white-space:pre-wrap">${esc(d.message)}</p>
     ${d.reponse ? `<div style="border-left:3px solid var(--accent);background:rgba(255,255,255,.05);padding:8px 11px;border-radius:0 8px 8px 0;margin-top:6px"><b style="color:var(--accent)">↳ Réponse du formateur</b> <span class="muted" style="font-size:11px">${esc((d.repondu_le || '').slice(0, 10))}</span><p style="margin:5px 0 0;white-space:pre-wrap">${esc(d.reponse)}</p></div>` : '<p class="muted" style="font-size:12px;margin:4px 0 0">⏳ En attente de réponse du formateur.</p>'}</div>`).join('') : '<p class="muted">Vous n\'avez pas encore posé de question.</p>'}</section>
   <section class="card"><h2>Mes inscriptions</h2>
-  ${ins.length ? `<table><tr><th>Offre</th><th>Montant</th><th>Statut</th><th>Accès jusqu'au</th></tr>${ins.map(i => `<tr><td>${esc(i.titre)}</td><td>${money(i.prix)}</td><td>${esc(i.statut)}</td><td>${i.statut === 'active' ? (i.expire_le ? fmtDate(i.expire_le) : 'illimité') : '—'}</td></tr>`).join('')}</table>` : '<p class="muted">Aucune inscription.</p>'}</section>`, sess);
+  ${ins.length ? `<table><tr><th>Offre</th><th>Montant</th><th>Statut</th><th>Accès jusqu’au</th></tr>${ins.map(i => `<tr><td>${esc(i.titre)}</td><td>${money(i.prix)}</td><td>${esc(i.statut)}</td><td>${i.statut === 'active' ? (i.expire_le ? fmtDate(i.expire_le) : 'illimité') : '—'}</td></tr>`).join('')}</table>` : '<p class="muted">Aucune inscription.</p>'}</section>`, sess);
 }
 
 function pagePaiement(sess, ins, err) {
@@ -852,7 +859,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
-  ${(function () { const a = annonceActive(); const suggestion = "🎁 Bonne nouvelle ! Pendant la promo, TOUS les modules (1 à 6) sont GRATUITS jusqu'au " + ((((cfg.promo) || {}).jusqu_au || '').slice(0, 10)) + ". Connectez-vous et profitez-en — attestation de fin de formation à la clé !"; return `<section class="card"><h2>📣 Message aux apprenants (annonce dans leur espace)</h2>
+  ${(function () { const a = annonceActive(); const suggestion = "🎁 Bonne nouvelle ! Pendant la promo, TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + ((((cfg.promo) || {}).jusqu_au || '').slice(0, 10)) + ". Connectez-vous et profitez-en — attestation de fin de formation à la clé !"; return `<section class="card"><h2>📣 Message aux apprenants (annonce dans leur espace)</h2>
   ${a ? `<p class="muted" style="font-size:12px">Annonce actuellement affichée à tous les apprenants (publiée le ${esc((a.cree_le || '').slice(0, 10))}) :</p><div class="offre" style="margin:6px 0"><p style="margin:0;white-space:pre-wrap">${esc(a.message)}</p></div><form method="post" action="/admin/annonce-off" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small ghost" type="submit">Désactiver l'annonce</button></form>` : '<p class="muted">Aucune annonce active pour le moment.</p>'}
   <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}
     <textarea name="message" rows="4" maxlength="2000" required placeholder="Votre message aux apprenants…" style="width:100%">${esc(a ? a.message : suggestion)}</textarea>
@@ -889,7 +896,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
   <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
-  ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu'au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
+  ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
   <p class="muted" style="font-size:12px"><b>🎓 Attestation</b> : l'apprenant ne peut télécharger son attestation (signée/tamponnée) qu'<b>après votre validation</b> ci-dessous — à faire une fois l'<b>entretien/test final</b> réussi.</p>
   <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th><th>Dernier vu</th><th>🎓 Attestation</th></tr>
   ${users.map(u => `<tr><td>${(u.vu_le && u.vu_le > _cut5) ? '🟢 ' : ''}${esc(u.prenom)} ${esc(u.nom)}</td><td>${esc(u.email)}</td><td>${esc(u.niveau_etudes)}</td><td>${u.niveau_nom ? esc(u.niveau_nom) + (u.badges ? ` · ${u.badges}🎖️` : '') : '—'}</td><td>${modulesCell(u)}</td><td>${u.twofa ? 'oui' : 'non'}</td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc(dateMG(u.vu_le)) : '—'}</td>
@@ -1093,13 +1100,13 @@ function chatSystemPrompt() {
     "PÉRIMÈTRE STRICT : tu parles UNIQUEMENT de cette formation et de son fonctionnement. Pour toute question hors sujet (actualité, code informatique, devoirs, conseil fiscal/juridique PERSONNALISÉ d'un dossier...), refuse poliment et propose de contacter un conseiller sur WhatsApp " + wa + ". Ne donne JAMAIS de conseil fiscal ou juridique personnalisé.",
     "N'INVENTE JAMAIS de prix ni de chiffres : utilise uniquement les informations ci-dessous. Si tu ne sais pas, dis-le simplement et renvoie vers WhatsApp " + wa + " ou la page Programme.",
     "INFORMATIONS OFFICIELLES :",
-    "- 6 modules. Le Module 1 (Fondamentaux) est 100 % GRATUIT après une inscription gratuite.",
-    "- Offres payantes :",
+    promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 6 modules. Le Module 1 (Fondamentaux) est 100 % GRATUIT après une inscription gratuite.",
+    promoLive() ? "- Tarifs HORS PROMO (à titre indicatif seulement, NE PAS demander de payer pendant la promo) :" : "- Offres payantes :",
     off,
     "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement. Le Module 1 reste gratuit.",
     "- Sécurité : connexion par email + mot de passe (double authentification réservée à l'admin) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
     "- Parrainage : chaque inscrit a un code ; quand un filleul débloque un accès payant, le parrain gagne " + bonus + " jours d'accès offerts.",
-    "- Paiement : Orange Money ou carte bancaire ; l'accès est activé après validation.",
+    "- Paiement : " + (((cfg.paiements_manuels || []).filter(m => m.actif).map(m => m.nom).join(', ') || 'Orange Money') + (carteActive() ? ', ou carte bancaire' : '')) + " ; l'accès est activé après validation.",
     "- Prérequis : " + dipl + " (attestation sur l'honneur).",
     "- 100 % pratique : simulateurs interactifs type logiciel (interface inspirée de Pennylane, recolorée), CERFA réels à remplir, cas pratiques de cabinet. Attestation de fin de formation délivrée après un entretien/test final validé par le formateur.",
     "OPTION EN PRÉSENTIEL (page /presentiel) — formation complémentaire en personne :",
@@ -1107,7 +1114,7 @@ function chatSystemPrompt() {
     "- 3 modules : (1) Saisie & travaux journaliers, (2) Travaux périodiques & fiscaux, (3) Préparation & finalisation du bilan.",
     "- Pratique sur Pennylane ; intégration des écritures sur Silae & Sage 50.",
     "- Rythme : 2 h par jour, du lundi au vendredi, de 8h30 à 10h30. Petit groupe : 4 personnes maximum par module.",
-    "- Tarif présentiel : 80 000 Ar par module (différent des tarifs en ligne ci-dessus).",
+    "- Tarif présentiel : " + money(presentielPrixModule()) + " par module (différent des tarifs en ligne ci-dessus).",
     "- Contact présentiel (inscription / dates) : 032 73 622 59 (appel ou WhatsApp). Détails sur la page /presentiel.",
     "- Contact humain (en ligne) : WhatsApp " + wa + ".",
     "FORMAT : texte simple (pas de markdown lourd, pas de tableaux). Termine si utile par une invitation à s'inscrire ou à contacter sur WhatsApp."
