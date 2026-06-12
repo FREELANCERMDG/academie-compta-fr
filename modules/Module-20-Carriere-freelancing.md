@@ -108,6 +108,23 @@ Parcours type :
 
 ---
 
+## 💻 11. Valoriser votre expérience e-learning (LMS) — un atout recherché
+
+Regardez les offres d'emploi (cabinets, organismes de formation, postes hybrides) : on y demande de plus en plus une **« expérience en formation digitale »** et la **« maîtrise des outils e-learning (Teach Up, Didask, LMS…) »**.
+
+**Bonne nouvelle : vous l'avez déjà.** Cette formation EST un **LMS** (Learning Management System = plateforme de gestion de formation en ligne) : parcours par modules, microlearning, simulateurs interactifs, quiz auto-corrigés, suivi de progression, badges, évaluation certifiante à distance.
+
+**Comment le dire sur le CV :**
+- *« Formation certifiante suivie à 100 % en distanciel sur un LMS : parcours e-learning de 6 modules, simulateurs métier interactifs, évaluations en ligne et test final en visioconférence. »*
+- Rubrique compétences : *« À l'aise avec les environnements e-learning / LMS, la visioconférence (Google Meet) et les outils de formation digitale. »*
+
+**Comment le dire en entretien :**
+> « Je me suis formé entièrement à distance sur une plateforme LMS — j'ai l'habitude d'apprendre et de travailler en autonomie dans un environnement digital : leçons en ligne, simulateurs, quiz, suivi de progression. C'est exactement le mode de fonctionnement d'un collaborateur externalisé. »
+
+**Si le poste touche à la formation** (tuteur, formateur interne, conception de supports) : précisez que vous savez ce qu'est un **parcours e-learning efficace** (modules courts, mise en pratique immédiate, évaluation continue) — vous l'avez vécu côté apprenant, c'est la meilleure école pour en concevoir.
+
+---
+
 ## ✅ Checklist « se lancer en freelance »
 - [ ] Compétences cœur maîtrisées (Modules 4–11)
 - [ ] Au moins 1 outil cabinet maîtrisé + Pennylane

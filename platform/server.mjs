@@ -435,6 +435,15 @@ function pageProgramme(sess) {
   ${modulesSection}
   <section class="card"><h2>Inclus également</h2><ul><li>10 cas pratiques complets corrigés</li><li>Évaluation finale certifiante (/100)</li><li>Quiz interactifs et cas pratiques corrigés</li><li><b>Attestation de fin de formation</b> délivrée par <b>${esc((cfg.societe || {}).nom || '')}</b>${(cfg.societe || {}).rcs ? ` (${esc(cfg.societe.rcs)})` : ''}</li></ul></section>
   ${tHtml}
+  <section class="card"><h2>💻 Une vraie plateforme e-learning (LMS)</h2>
+  <p class="muted">Académie Compta FR est un <b>LMS complet</b> (Learning Management System), conçu selon les standards des outils e-learning du marché (type Teach Up, Didask…) :</p>
+  <div class="grid">
+    <div class="offre"><h3>🧩 Microlearning</h3><p class="muted">Des leçons courtes et progressives, organisées en 6 modules — on avance pas à pas.</p></div>
+    <div class="offre"><h3>🛠️ Learning by doing</h3><p class="muted">Simulateurs, logiciel comptable intégré, CERFA réels : on apprend en FAISANT.</p></div>
+    <div class="offre"><h3>📊 Suivi & badges</h3><p class="muted">Progression en temps réel, quiz auto-corrigés (corrigés débloqués après l'essai), parcours « cabinet » avec niveaux.</p></div>
+    <div class="offre"><h3>🎓 Évaluation certifiante</h3><p class="muted">Évaluation finale + test en visio avec le formateur → attestation signée et tamponnée.</p></div>
+  </div>
+  <p class="muted" style="font-size:13px">💼 Bonus carrière : les offres d'emploi demandent souvent une « expérience e-learning / maîtrise des outils LMS » — suivre cette formation 100 % en ligne vous donne précisément cette expérience, à valoriser sur votre CV (on vous montre comment dans le module Carrière).</p></section>
   <section class="card"><h2>🧮 Notre système : des simulateurs interactifs</h2>
   <p class="muted">Ici, pas de théorie sèche : vous vous entraînez sur des <b>simulateurs intégrés</b>, exactement comme dans un vrai cabinet d'externalisation — rapprochement bancaire, CERFA réels, calculateurs fiscaux &amp; sociaux et matrice de saisie.</p>
   <img src="/public/img/simulateurs-systeme.svg?v=${ASSET_V}" alt="Aperçu de nos simulateurs : rapprochement bancaire, CERFA réels et calculateurs" loading="lazy" style="width:100%;height:auto;display:block;border-radius:14px;border:1px solid rgba(255,255,255,.12);margin:6px 0 16px">
