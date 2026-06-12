@@ -280,6 +280,10 @@ async function trackVisit(req, p) {
   try {
     if (!VISIT_PAGES.has(p)) return;
     const jour = new Date().toISOString().slice(0, 10);
+    // Visiteur UNIQUE : on ne compte chaque IP (hachée) qu'une seule fois (jamais de recomptage des IP déjà vues)
+    const k = ipHash(ip(req) || 'noip');
+    const ins = db.prepare('INSERT OR IGNORE INTO visites_seen(k,jour) VALUES(?,?)').run(k, jour);
+    if (ins.changes === 0) return;   // IP déjà envoyée précédemment → pas un nouveau visiteur
     const pays = (((fromProxy(req) && req.headers['x-orig-country']) || req.headers['cf-ipcountry'] || 'XX')).toString().toUpperCase().slice(0, 2);
     let region = '';
     if (pays === 'MG') {
@@ -309,8 +313,8 @@ function visitesPublicCard() {
     ? `<h3 style="margin-bottom:6px">🇲🇬 Nos visiteurs à Madagascar — par province</h3><div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part</th></tr>
    ${vMG.map(r => `<tr><td>📍 ${esc(r.region)}</td><td>${r.t}</td><td>${shown ? Math.round(r.t * 100 / shown) : 0} %</td></tr>`).join('')}</table></div>`
     : `<h3 style="margin-bottom:6px">🇲🇬 Nos visiteurs à Madagascar — par province</h3><p class="muted" style="font-size:13px">📍 Localisation des visiteurs en cours de collecte…</p>`;
-  return `<section class="card"><h2>📊 Visites du site</h2>
-  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
+  return `<section class="card"><h2>📊 Visiteurs du site</h2>
+  <div class="stats"><div class="stat"><b>${vTot}</b><span>visiteurs uniques</span></div><div class="stat"><b>${vToday}</b><span>nouveaux aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div></div>
   ${prov}
   <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Localisation approximative (zone Cloudflare / géolocalisation IP).</p></section>`;
 }
@@ -531,10 +535,10 @@ function coursesCarousel() {
   <div class="hscroll">${cards}</div>`;
 }
 function installAppCard() {
-  const play = (process.env.PLAY_URL || (cfg.app && cfg.app.play_url) || '').trim();
-  const ctas = play
-    ? `<a class="btn" href="${esc(play)}" target="_blank" rel="noopener">▶ Télécharger sur Google Play</a> <button class="btn ghost" id="installApp" type="button">📲 Installer (iPhone / sans store)</button>`
-    : `<button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone · <i>bientôt sur Google&nbsp;Play</i></span>`;
+  const apk = (process.env.APK_URL || (cfg.app && cfg.app.android_url) || '').trim();
+  const ctas = apk
+    ? `<a class="btn" href="${esc(apk)}" target="_blank" rel="noopener">📥 Télécharger l'app Android</a> <button class="btn ghost" id="installApp" type="button">📲 Installer (iPhone / navigateur)</button>`
+    : `<button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone · <i>APK Android bientôt</i></span>`;
   return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff;background:linear-gradient(160deg,rgba(56,232,255,.08),rgba(124,108,255,.05))">
    <h2>📱 ${promoLive() ? 'Inscrivez‑vous en ligne, révisez hors‑ligne' : 'Emportez votre formation partout'}</h2>
    <p class="muted" style="margin-bottom:8px">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone, <b>en 5 secondes</b> :</p>
@@ -1025,7 +1029,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const nInscr = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c;
   const provLabel = r => r ? `📍 ${esc(r)}` : '📍 Province non détectée';
   const visitesHtml = `<section class="card"><h2>📊 Visites du site &amp; inscrits</h2>
-  <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div><div class="stat"><b>${nInscr}</b><span>apprenants inscrits</span></div></div>
+  <div class="stats"><div class="stat"><b>${vTot}</b><span>visiteurs uniques</span></div><div class="stat"><b>${vToday}</b><span>nouveaux aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div><div class="stat"><b>${nInscr}</b><span>apprenants inscrits</span></div></div>
   ${vMGtot ? `<h3>🇲🇬 Visiteurs à Madagascar — par province</h3><div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part MG</th></tr>
   ${vMG.map(r => `<tr><td>${provLabel(r.region)}</td><td>${r.t}</td><td>${vMGtot ? Math.round(r.t * 100 / vMGtot) : 0} %</td></tr>`).join('')}
   <tr style="font-weight:800;border-top:2px solid #16307a"><td>Total Madagascar</td><td>${vMGtot}</td><td>${vTot ? Math.round(vMGtot * 100 / vTot) : 0} % du total</td></tr></table></div>
@@ -1951,8 +1955,9 @@ const server = http.createServer(async (req, res) => {
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/.well-known/assetlinks.json') {
-        // Liaison Play Store (TWA) : activée quand TWA_PACKAGE + TWA_SHA256 sont définis dans Render
-        const pkg = (process.env.TWA_PACKAGE || '').trim(), fps = (process.env.TWA_SHA256 || '').trim();
+        // Liaison app Android (TWA) — distribution APK directe / Uptodown : empreinte de la clé de signature (surchargée par env).
+        const pkg = (process.env.TWA_PACKAGE || 'mg.academiecomptafr.app').trim();
+        const fps = (process.env.TWA_SHA256 || '93:50:28:0F:D9:9B:A4:37:5B:94:B3:11:45:56:38:57:D7:01:37:09:78:C6:69:E6:C6:F8:56:BE:6D:85:07:92').trim();
         if (!pkg || !fps) return send(res, 404, '404');
         const body = JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: pkg, sha256_cert_fingerprints: fps.split(',').map(s => s.trim()).filter(Boolean) } }]);
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });

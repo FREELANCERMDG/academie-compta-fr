@@ -107,6 +107,9 @@ export function openDB() {
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_cab_taches ON cab_taches(dossier_id, periode)"); } catch { }
   // Cache géolocalisation IP → province (IP hachée, jamais stockée en clair — RGPD)
   try { db.exec("CREATE TABLE IF NOT EXISTS ip_region(k TEXT PRIMARY KEY, region TEXT, ts TEXT)"); } catch { }
+  // Visiteurs UNIQUES : on ne compte chaque IP (hachée) qu'une seule fois — amorcé avec les IP déjà connues
+  try { db.exec("CREATE TABLE IF NOT EXISTS visites_seen(k TEXT PRIMARY KEY, jour TEXT)"); } catch { }
+  try { db.exec("INSERT OR IGNORE INTO visites_seen(k,jour) SELECT k, substr(COALESCE(ts,''),1,10) FROM ip_region"); } catch { }
   // Abonnements aux notifications push (Web Push / VAPID)
   try { db.exec("CREATE TABLE IF NOT EXISTS push_subs(id TEXT PRIMARY KEY, user_id TEXT, endpoint TEXT UNIQUE, p256dh TEXT, auth TEXT, cree_le TEXT)"); } catch { }
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_push_user ON push_subs(user_id)"); } catch { }
