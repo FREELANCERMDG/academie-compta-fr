@@ -612,11 +612,71 @@
       +"</div></div>";
     return h+"</div>"; }
 
+  /* ----- DR : cycles complémentaires (Emprunt J, Capitaux propres H, Bilan final) ----- */
+  function srcDRem(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle EMPRUNT (J)</div>"
+    +"<div class='row'><span class='k'>Emprunt bancaire souscrit en 2024</span><span class='v'>30 000</span></div>"
+    +"<div class='row'><span class='k'><b>Capital restant dû au 31/12/2026</b> (tableau d'emprunt)</span><span class='v'>24 000</span></div>"
+    +"<div class='row'><span class='k'>↳ dont échéances en capital prévues en 2027</span><span class='v'>6 000</span></div>"
+    +"<div class='row'><span class='k'>Taux d'intérêt annuel</span><span class='v'>4,5 %</span></div>"
+    +"<div class='row'><span class='k'>Dernière échéance payée</span><span class='v'>30/09/2026</span></div>"
+    +"</div><p class='sd-note'>💡 Dossier J : cadrer le solde 164 avec le <b>tableau d'emprunt</b>, comptabiliser les <b>ICNE</b> (intérêts courus du 01/10 au 31/12 : 661 D / 1688 C) et préparer la ventilation <b>− d'1 an / + d'1 an</b> (case 195 de la liasse !).</p>"; }
+  function formDRem(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail J — Emprunt & ICNE</div><div class='cf-body'>"
+      +lineRO("Solde du 164 à cadrer (tableau d'emprunt)","",24000)
+      +lineFill("ICNE au 31/12 (24 000 × 4,5 % × 3/12) (661 D / 1688 C)","","dr_emicne",270,{ph:"…"})
+      +lineFill("Part à MOINS d'un an (échéances 2027)","","dr_emct",6000,{ph:"…"})
+      +lineFill("Part à PLUS d'un an (→ case 195 de la liasse)","","dr_emlt",18000,{ph:"…"})
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDRh(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>Cycle CAPITAUX PROPRES (H)</div>"
+    +"<div class='row'><span class='k'>Capital social (entièrement libéré)</span><span class='v'>10 000</span></div>"
+    +"<div class='row'><span class='k'>Réserve légale au 01/01/2026</span><span class='v'>650</span></div>"
+    +"<div class='row'><span class='k'>Report à nouveau au 01/01/2026</span><span class='v'>2 650</span></div>"
+    +"<div class='row'><span class='k'>Résultat 2025 à affecter (PV d'AG du 30/06/2026)</span><span class='v'>3 000</span></div>"
+    +"<div class='row'><span class='k'>↳ décision : réserve légale (5 %), dividendes</span><span class='v'>1 500</span></div>"
+    +"<div class='row'><span class='k'>↳ solde</span><span class='v'>en report à nouveau</span></div>"
+    +"</div><p class='sd-note'>💡 Dossier H : obtenir le <b>PV d'AG</b>, cadrer les variations de capitaux propres avec l'affectation votée, vérifier <b>réserve légale ≤ 10 % du capital</b> et que les capitaux propres ne sont pas <b>&lt; ½ du capital</b> (procédure d'alerte).</p>"; }
+  function formDRh(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>Feuille de travail H — Affectation du résultat 2025</div><div class='cf-body'>"
+      +lineFill("Dotation réserve légale (3 000 × 5 %)","","dr_hrl",150,{ph:"plafond : 10 % du capital"})
+      +lineFill("Réserve légale au 31/12 (650 + dotation)","","dr_hrlf",800,{ph:"…"})
+      +lineFill("Part affectée au report à nouveau (3 000 − 150 − 1 500)","","dr_hran",1350,{ph:"…"})
+      +lineFill("Report à nouveau au 31/12 (2 650 + affectation)","","dr_hranf",4000,{ph:"…"})
+      +lineRO("Contrôle : capitaux propres > ½ capital ?","",1)
+      +"</div></div>";
+    return h+"</div>"; }
+  function srcDRbi(){ return "<div class='sd-card sd-src'>"+drHead()
+    +"<div class='sec'>POST-BILAN → BILAN au 31/12/2026 (tous cycles intégrés)</div>"
+    +"<div class='row'><span class='k'>Immobilisations nettes <i>(cycle 2)</i></span><span class='v'>14 200</span></div>"
+    +"<div class='row'><span class='k'>Stock final <i>(cycle 3)</i></span><span class='v'>9 400</span></div>"
+    +"<div class='row'><span class='k'>Clients 22 600 + FAE TTC 2 280 − dépréciation 1 500 <i>(cycle 3)</i></span><span class='v'>23 380</span></div>"
+    +"<div class='row'><span class='k'>CCA <i>(cycle 3)</i></span><span class='v'>1 800</span></div>"
+    +"<div class='row'><span class='k'>VMP (relevé de portefeuille — donné)</span><span class='v'>10 420</span></div>"
+    +"<div class='row'><span class='k'>Banque 512 <i>(cycle 1)</i></span><span class='v'>18 810</span></div>"
+    +"<div class='sec'>Côté passif (éléments donnés ou issus des cycles)</div>"
+    +"<div class='row'><span class='k'>Capital 10 000 · Réserve légale 800 · RAN 4 000 <i>(cycle 7)</i></span><span class='v'>—</span></div>"
+    +"<div class='row'><span class='k'>Résultat net de l'exercice <i>(cycle 8)</i></span><span class='v'>17 958</span></div>"
+    +"<div class='row'><span class='k'>Emprunt 24 000 + ICNE 270 <i>(cycle 6)</i></span><span class='v'>—</span></div>"
+    +"<div class='row'><span class='k'>Fournisseurs 5 100 + FNP TTC 2 820 <i>(cycle 3)</i></span><span class='v'>7 920</span></div>"
+    +"<div class='row'><span class='k'>IS dû 3 582 · provision TNS 1 760 · provision CP 6 090 · TVA à décaisser 1 630</span><span class='v'>—</span></div>"
+    +"</div><p class='sd-note'>💡 L'étape « post-bilan » : toutes les <b>OD d'inventaire</b> des cycles précédents sont intégrées → on assemble le bilan. <b>S'il ne tombe pas juste (ACTIF = PASSIF), un cycle est faux</b> : c'est LE contrôle final avant la liasse.</p>"; }
+  function formDRbi(){ var h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>BILAN au 31/12/2026 — assemblage final</div><div class='cf-body'>"
+      +lineFill("CAPITAUX PROPRES (capital + RL + RAN + résultat)","","dr_bicp",32758,{ph:"10 000 + 800 + 4 000 + 17 958"})
+      +lineFill("Emprunts et dettes financières (164 + 1688)","","dr_biemp",24270,{ph:"…"})
+      +lineFill("Dettes fiscales et sociales (IS + TNS + CP + TVA)","","dr_bidfs",13062,{ph:"3 582 + 1 760 + 6 090 + 1 630"})
+      +lineFill("TOTAL ACTIF (somme des 6 postes d'actif)","","dr_biact",78010,{ph:"…"})
+      +lineFill("TOTAL PASSIF (CP + emprunts + fournisseurs + dettes fisc./soc.)","","dr_bipas",78010,{ph:"doit ÉGALER l'actif !"})
+      +"</div></div>";
+    return h+"</div>"; }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
     dr: {
       titre:"Dossier de Révision complet → liasse", sous:"Le guide cabinet : on révise cycle par cycle, on cadre, puis on sert les cases manuelles de la liasse. Vérification niveau expert, guidée pas à pas.",
-      tabs:[{id:"bq",label:"1. Banque",sub:"rapprochement"},{id:"im",label:"2. Immos",sub:"amortissements"},{id:"co",label:"3. Cut-off",sub:"FNP·FAE·CCA"},{id:"so",label:"4. Social/TNS",sub:"CP·646·IK"},{id:"tv",label:"5. TVA",sub:"cadrage·374/378"},{id:"fi",label:"6. Fiscal",sub:"réint.·IS"},{id:"li",label:"7. Liasse 🔴",sub:"cases manuelles"}],
+      tabs:[{id:"bq",label:"1. Banque",sub:"rapprochement"},{id:"im",label:"2. Immos",sub:"amortissements"},{id:"co",label:"3. Cut-off",sub:"FNP·FAE·CCA"},{id:"so",label:"4. Social/TNS",sub:"CP·646·IK"},{id:"tv",label:"5. TVA",sub:"cadrage·374/378"},{id:"em",label:"6. Emprunt",sub:"ICNE·195"},{id:"h",label:"7. Capitaux",sub:"PV d'AG"},{id:"fi",label:"8. Fiscal",sub:"réint.·IS"},{id:"bi",label:"9. Bilan",sub:"ACTIF = PASSIF"},{id:"li",label:"10. Liasse 🔴",sub:"cases manuelles"}],
       active:"bq",
       panes:{
         bq:{ srcCap:"Dossier (cycle Banque)", src:srcDR1, wide:true, formCap:"Feuille de travail F — Rapprochement", form:formDR1,
@@ -647,11 +707,28 @@
                 "Total théorique, comparé au <b>44571</b> → écart (ici 0 = cadré).",
                 "⚠️ Cases liasse <b>374/378</b> : TVA <b>FACTURÉE sur l'exercice</b>, PAS le solde (hors à-nouveaux et OD de déclaration). <b>Vérifier</b>."],
           lien:"Entraînez-vous aussi sur VOS écritures : menu 🧪 Logiciel → Cadrage TVA." },
+        em:{ srcCap:"Dossier (cycle Emprunt)", src:srcDRem, wide:true, formCap:"Feuille de travail J — Emprunt", form:formDRem,
+          tuto:["Cadrez le solde du <b>164</b> avec le capital restant dû du <b>tableau d'emprunt</b>.",
+                "Comptabilisez les <b>ICNE</b> : intérêts courus du 01/10 au 31/12 (661 D / 1688 C).",
+                "Ventilez la dette : <b>− d'1 an</b> (échéances 2027) / <b>+ d'1 an</b> — c'est ce qui servira la <b>case 195</b> de la liasse. <b>Vérifier</b>."],
+          lien:"Zone rouge de la liasse : la case 195 vient TOUJOURS du tableau d'emprunt, jamais du solde brut." },
+        h:{ srcCap:"Dossier (cycle Capitaux propres)", src:srcDRh, wide:true, formCap:"Feuille de travail H — Capitaux propres", form:formDRh,
+          tuto:["Obtenez le <b>PV d'AG</b> : c'est LA pièce du cycle H.",
+                "Dotez la <b>réserve légale</b> : 5 % du résultat à affecter, dans la limite de <b>10 % du capital</b>.",
+                "Affectez le solde : dividendes votés, puis <b>report à nouveau</b>.",
+                "Contrôlez : capitaux propres &lt; ½ du capital ? → procédure d'alerte à signaler. <b>Vérifier</b>."] },
         fi:{ srcCap:"Dossier (cycle Fiscal)", src:srcDR6, wide:true, formCap:"Feuille de travail — IS calcul", form:formDR6,
           tuto:["Additionnez les <b>réintégrations</b> : TVS + amendes + amortissement excédentaire VP.",
                 "<b>Résultat fiscal</b> = comptable + réintégrations − déductions.",
                 "<b>IS</b> : 15 % jusqu'à 42 500 € (PME), 25 % au-delà.",
                 "<b>Résultat net</b> = comptable − IS → c'est lui qui ira au bilan. <b>Vérifier</b>."] },
+        bi:{ srcCap:"Dossier (post-bilan : tous cycles intégrés)", src:srcDRbi, wide:true, formCap:"BILAN final — le contrôle ultime", form:formDRbi,
+          tuto:["Reprenez les soldes <b>après OD</b> de chaque cycle (ils sont rappelés à gauche avec leur cycle d'origine).",
+                "Assemblez les <b>capitaux propres</b> : capital + réserve légale + RAN (cycle 7) + <b>résultat net</b> (cycle 8).",
+                "Emprunts = capital restant dû <b>+ ICNE</b> (cycle 6).",
+                "Additionnez les <b>dettes fiscales et sociales</b> : IS + provision TNS + provision CP + TVA à décaisser.",
+                "<b>TOTAL ACTIF = TOTAL PASSIF</b> : s'ils diffèrent, un cycle est faux — retournez-y ! <b>Vérifier</b>."],
+          lien:"C'est l'étape « post-bilan » : OD d'inventaire intégrées → bilan équilibré → on peut servir la liasse." },
         li:{ srcCap:"Dossier (synthèse) + tableau d'emprunt", src:srcDR7, wide:true, formCap:"Liasse 2033 — les cases à servir À LA MAIN", form:formDR7,
           tuto:["Case <b>195</b> : dettes à <b>+ d'un an</b> = capital restant dû − échéances N+1 → toujours depuis le <b>tableau d'emprunt</b>.",
                 "Cases <b>318/324</b> : reportez les réintégrations du cycle Fiscal.",

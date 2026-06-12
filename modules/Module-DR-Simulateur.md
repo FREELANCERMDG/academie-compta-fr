@@ -24,9 +24,13 @@
 
 ---
 
-## 2) 🛠️ SIMULATEUR — déroulez un DR complet (7 cycles, un seul dossier)
+## 2) 🛠️ SIMULATEUR — déroulez un DR TYPE 2026 complet (10 cycles, un seul dossier)
 
-Le dossier **SARL ATELIER RAVINALA** (IS, réel simplifié, clôture 31/12/2026) traverse les 7 onglets : chaque cycle a son **tutoriel 📘**, ses **données**, sa **feuille de travail** à remplir et sa **vérification** — les chiffres **se recoupent d'un cycle à l'autre** jusqu'à la liasse (c'est ça, le niveau expert).
+Le dossier **SARL ATELIER RAVINALA** (IS, réel simplifié, clôture 31/12/2026) traverse les **10 onglets du DR** — exactement le chemin d'un débutant guidé jusqu'au travail d'expert :
+
+**① Banque → ② Immos → ③ Cut-off → ④ Social/TNS → ⑤ Cadrage TVA → ⑥ Emprunt (ICNE) → ⑦ Capitaux propres (PV d'AG) → ⑧ Fiscal/IS → ⑨ POST-BILAN → BILAN (Actif = Passif) → ⑩ LIASSE (cases manuelles)**
+
+Chaque cycle a son **tutoriel 📘**, ses **données**, sa **feuille de travail** et sa **vérification**. Le niveau expert est dans la cohérence : les chiffres **se recoupent d'un cycle à l'autre** (la dotation du cycle ② et la provision TNS du cycle ④ se retrouvent dans le résultat du cycle ⑧, l'ICNE du cycle ⑥ dans le bilan du cycle ⑨, le tableau d'emprunt dans la case 195 du cycle ⑩…) — et le **bilan doit tomber juste à l'euro près** avant de servir la liasse.
 
 <div class="simdoc" data-sim="dr"></div>
 
