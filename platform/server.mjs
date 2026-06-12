@@ -339,7 +339,7 @@ function apercuModulesSection() {
     const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
     const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : (promoActive() ? promoBadgeHtml(prixModRaw(m.code)) : `<b class="tarif">${esc(prixMod(m.code))}</b>`);
     const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le Module 1 (inscription gratuite)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
-    return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}<br><span style="display:inline-block;margin-top:3px;font-size:11.5px;font-weight:700;color:#1e7d46;background:#e9f7ef;border:1px solid #bfe6cd;border-radius:20px;padding:1px 9px">${({mod2:"🎥 100 % pratique sur <b>Pennylane</b> — le logiciel phare des cabinets français (vidéos pas à pas)",mod6:"🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante"})[m.code]||"🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel, inspirée de Pennylane)"}</span></span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
+    return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}<br><span style="display:inline-block;margin-top:3px;font-size:11.5px;font-weight:700;color:#1e7d46;background:#e9f7ef;border:1px solid #bfe6cd;border-radius:20px;padding:1px 9px">${({mod2:"🎥 100 % pratique sur un <b>outil métier de référence (comme Pennylane)</b> — vidéos pas à pas",mod6:"🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante"})[m.code]||"🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel métier, comme Pennylane)"}</span></span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
   }).join('');
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><p style="text-align:center;color:#d7e3ee;margin:0 0 14px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : chaque module s'appuie sur des <b style="color:#fff">simulateurs interactifs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), des <b style="color:#fff">CERFA réels</b> et des écritures à compléter.</p><div class="prog">${rows}</div></section>`;
 }
@@ -354,7 +354,7 @@ function landingHero(sess) {
    <div>
     <span class="htag">${tag}</span>
     <h1>Maîtrisez la <span class="g">compta française.</span><br>Travaillez <span class="g">sans frontières.</span></h1>
-    <p class="lead">La plateforme qui forme les comptables malgaches à la <b>comptabilité française externalisée</b> : Pennylane, TVA, liasse fiscale, dossier de révision — sur de <b>vrais simulateurs façon cabinet</b>, jusqu'à l'<b>attestation certifiante</b>.</p>
+    <p class="lead">La plateforme qui forme les comptables malgaches à la <b>comptabilité française externalisée</b> : <b>outils métier (comme Pennylane)</b>, <b>opérations courantes des TPE &amp; PME françaises</b>, <b>révision</b> et <b>préparation du bilan</b> — sur de <b>vrais simulateurs façon cabinet</b>, jusqu'à l'<b>attestation certifiante</b>.</p>
     <div class="cta-row">${ctas}</div>
     <div class="statline">
      <div class="s"><b>${MODULES.length}</b><span>Modules complets</span></div>
@@ -379,13 +379,13 @@ function landingHero(sess) {
   </section>`;
 }
 function categoryChips() {
-  const cats = [['🧮', 'Fondamentaux', 'mod1'], ['🖥️', 'Pennylane', 'mod2'], ['🔁', 'Opérations &amp; révision', 'mod3'], ['🧾', 'Fiscalité &amp; clôture', 'mod4'], ['📊', 'Liasse fiscale', 'mod5'], ['🏢', 'Cabinet &amp; carrière', 'mod6']];
+  const cats = [['🧮', 'Fondamentaux', 'mod1'], ['🖥️', 'Outils métier', 'mod2'], ['🔁', 'Opérations courantes', 'mod3'], ['🧾', 'Fiscalité &amp; clôture', 'mod4'], ['📊', 'Liasse &amp; bilan', 'mod5'], ['🏢', 'Cabinet &amp; carrière', 'mod6']];
   return `<div class="sec-head"><h2>🧭 Parcourir par thème</h2><a href="/programme">Tout voir →</a></div>
   <div class="catrow">${cats.map(c => `<a class="catchip" href="/apercu?m=${esc(c[2])}"><span class="ic">${c[0]}</span><span>${c[1]}</span></a>`).join('')}</div>`;
 }
 function coursesCarousel() {
   const EMO = { mod1: '🧮', mod2: '🖥️', mod3: '🔁', mod4: '🧾', mod5: '📊', mod6: '🎓' };
-  const TAG = { mod1: 'Fondamentaux &amp; PCG', mod2: 'Pennylane — vidéos', mod3: 'Opérations &amp; révision', mod4: 'Fiscalité &amp; clôture', mod5: 'Liasse fiscale', mod6: 'Pratique &amp; certification' };
+  const TAG = { mod1: 'Fondamentaux &amp; PCG', mod2: 'Outils métier (type Pennylane)', mod3: 'Opérations courantes TPE/PME', mod4: 'Fiscalité &amp; clôture', mod5: 'Liasse &amp; bilan', mod6: 'Pratique &amp; certification' };
   const cards = MODULES.map(m => {
     const emo = EMO[m.code] || '📘';
     const bdg = m.gratuit ? '<span class="bdg free">Gratuit</span>' : '<span class="bdg">Inclus</span>';
