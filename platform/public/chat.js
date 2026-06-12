@@ -272,6 +272,24 @@
       if (b.parentNode && !isStandalone()) { b.style.transition = 'opacity .4s'; b.style.opacity = '0'; setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 450); }
     }, 14000);
   }
+  function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent || ''); }
+  function installHint() {
+    if (isIOS()) return 'Sur iPhone : touchez « Partager » puis « Sur l\'écran d\'accueil ».';
+    return 'Dans Chrome : menu ⋮ en haut à droite, puis « Installer l\'application ».';
+  }
+  function wireCard() {
+    var btn = document.getElementById('installApp');
+    if (!btn) return;
+    if (isStandalone()) {
+      var arr = document.querySelectorAll('.pwa-only'); for (var i = 0; i < arr.length; i++) arr[i].style.display = 'none';
+      return;
+    }
+    btn.addEventListener('click', function () {
+      if (deferred) { deferred.prompt(); deferred.userChoice.then(function () { deferred = null; }); }
+      else { var h = document.getElementById('installHint'); if (h) h.textContent = installHint(); }
+    });
+  }
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; showInstall(); });
-  window.addEventListener('appinstalled', function () { try { localStorage.setItem('acf_install_off', '1'); } catch (e) {} var b = document.getElementById('acf-install'); if (b && b.parentNode) b.parentNode.removeChild(b); });
+  window.addEventListener('appinstalled', function () { try { localStorage.setItem('acf_install_off', '1'); } catch (e) {} var b = document.getElementById('acf-install'); if (b && b.parentNode) b.parentNode.removeChild(b); var c = document.getElementById('installCard'); if (c) c.style.display = 'none'; });
+  try { wireCard(); } catch (e) {}
 })();

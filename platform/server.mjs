@@ -398,6 +398,13 @@ function coursesCarousel() {
   return `<div class="sec-head"><h2>📚 Modules en vedette</h2><a href="/programme">Voir tout le programme →</a></div>
   <div class="hscroll">${cards}</div>`;
 }
+function installAppCard() {
+  return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff">
+   <h2>📱 Installez l'application</h2>
+   <p class="muted">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone : accès en 1 tap, en <b>plein écran</b>, et même <b>hors‑ligne</b>. Compatible <b>Android</b> et <b>iPhone</b> — aucune boutique requise.</p>
+   <p style="margin-bottom:0"><button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" id="installHint" style="font-size:13px;display:inline-block;margin-top:6px"></span></p>
+  </section>`;
+}
 function pageAccueil(sess) {
   const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const lsoc = cfg.societe || {};
@@ -411,6 +418,7 @@ function pageAccueil(sess) {
   <p style="text-align:center;margin:6px 0 0">${fiscaliteBadge()} <a class="btn ghost small" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${categoryChips()}
   ${coursesCarousel()}
+  ${installAppCard()}
   ${visitesPublicCard()}
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
