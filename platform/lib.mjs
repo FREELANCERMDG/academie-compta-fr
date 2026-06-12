@@ -110,6 +110,7 @@ export function openDB() {
   // Abonnements aux notifications push (Web Push / VAPID)
   try { db.exec("CREATE TABLE IF NOT EXISTS push_subs(id TEXT PRIMARY KEY, user_id TEXT, endpoint TEXT UNIQUE, p256dh TEXT, auth TEXT, cree_le TEXT)"); } catch { }
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_push_user ON push_subs(user_id)"); } catch { }
+  try { db.exec('ALTER TABLE users ADD COLUMN push_notif_le TEXT'); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');

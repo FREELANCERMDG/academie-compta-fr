@@ -102,6 +102,53 @@ function postAdminAccesMode(req, res, sess, body) {
   try { audit(db, sess.user.id, 'acces_mode', m || 'auto', ip(req)); } catch { }
   return redirect(res, '/admin?acces=mode_' + (m || 'auto'));
 }
+
+// --- Relance automatique quotidienne (le coach relance seul les apprenants inactifs) ---
+const PUSH_HOUR_UTC = Math.max(0, Math.min(23, parseInt(process.env.PUSH_HOUR_UTC || '15', 10) || 15)); // 15h UTC = 18h Madagascar (EAT)
+function pushAutoEnabled() { return getSetting('push_auto') !== '0'; } // activé par défaut
+function relanceFor(u) {
+  const pre = (u.prenom || '').trim(), p = pre ? (pre + ', ') : '';
+  const lessons = u.lessons || 0;
+  let days = null; try { const last = u.vu_le || u.cree_le; if (last) days = Math.floor((Date.now() - new Date(last).getTime()) / 86400000); } catch { }
+  let body;
+  if (lessons === 0) body = p + 'prêt à démarrer ? Le Module 1 vous attend — 10 min pour commencer ! 🚀';
+  else if (days != null && days >= 7) body = p + 'ça fait ' + days + ' jours… reprenez là où vous vous êtes arrêté, vous y étiez presque ! 🔥';
+  else body = p + 'reprenez votre formation — votre progression vous attend 💪';
+  return { title: '🎓 Académie Compta FR', body };
+}
+async function pushDailyRelance(force) {
+  if (!pushEnabled() || (!force && !pushAutoEnabled())) return 0;
+  if (!force) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (getSetting('push_last_relance') === today) return 0;          // déjà fait aujourd'hui
+    if (new Date().getUTCHours() < PUSH_HOUR_UTC) return 0;           // pas encore l'heure
+    setSetting('push_last_relance', today);                          // marque fait (évite double envoi)
+  }
+  const cutInactive = new Date(Date.now() - 3 * 86400000).toISOString();  // inactif ≥ 3 j
+  const cutNotif = new Date(Date.now() - 4 * 86400000).toISOString();     // pas relancé depuis ≥ 4 j (anti-spam)
+  const rows = db.prepare(`SELECT DISTINCT u.id, u.prenom, u.attestation_ok, u.vu_le, u.cree_le, p.lessons
+    FROM users u JOIN push_subs s ON s.user_id=u.id LEFT JOIN progression p ON p.user_id=u.id
+    WHERE u.role='apprenant' AND COALESCE(u.attestation_ok,0)=0
+      AND (u.vu_le IS NULL OR u.vu_le < ?) AND (u.push_notif_le IS NULL OR u.push_notif_le < ?)`).all(cutInactive, cutNotif);
+  let sent = 0;
+  for (const u of rows) {
+    const m = relanceFor(u);
+    const n = await pushToUser(u.id, { title: m.title, body: m.body, url: '/tableau-de-bord', tag: 'relance' });
+    if (n > 0) { sent++; try { db.prepare('UPDATE users SET push_notif_le=? WHERE id=?').run(new Date().toISOString(), u.id); } catch { } }
+  }
+  if (sent) { try { audit(db, null, 'push_relance_auto', String(sent), ''); } catch { } }
+  return sent;
+}
+function postAdminPushAuto(req, res, sess, body) {
+  if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  setSetting('push_auto', body.on === '1' ? '1' : '0');
+  return redirect(res, '/admin?acces=push_auto_' + (body.on === '1' ? 'on' : 'off'));
+}
+// Planification : vérifie toutes les 20 min si l'heure quotidienne est atteinte (robuste aux redémarrages)
+try {
+  setInterval(() => { pushDailyRelance().catch(() => { }); }, 20 * 60 * 1000).unref();
+  setTimeout(() => { pushDailyRelance().catch(() => { }); }, 60 * 1000).unref();
+} catch { }
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
 // Émetteur 2FA en ASCII pur (certaines apps gèrent mal accents/tirets dans l'otpauth URI)
@@ -960,7 +1007,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vusRecent = users.filter(u => u.vu_le && u.vu_le > _cut30 && u.vu_le <= _cut5);
   const grantOffres = (cfg.offres || []).filter(o => Array.isArray(o.modules) && o.modules.length > 0 && o.code !== 'PROMO_PACK');
   const offresOpts = grantOffres.map(o => `<option value="${esc(o.code)}">${esc(o.titre)} (${o.modules.length === 1 ? '1 module' : o.modules.length + ' modules'})</option>`).join('');
-  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : acces === 'google_ok' ? '<p class="ok">📅 Google Agenda connecté — les RDV de test créent maintenant le Meet automatiquement.</p>' : acces === 'google_err' ? '<p class="err" style="color:#c0392b">❌ Connexion Google échouée — vérifiez l\'URI de redirection et réessayez.</p>' : acces === 'google_noenv' ? '<p class="err" style="color:#c0392b">❌ GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET manquants dans Render.</p>' : acces === 'google_off' ? '<p class="ok">Google Agenda déconnecté.</p>' : acces === 'push_test' ? `<p class="ok">🔔 Notification de test envoyée à ${esc(accesEmail || '0')} appareil(s) — regardez votre téléphone.</p>` : acces === 'push_sent' ? `<p class="ok">🔔 Relance envoyée à ${esc(accesEmail || '0')} appareil(s).</p>` : acces === 'push_off' ? '<p class="err" style="color:#c0392b">❌ Push désactivé : définissez VAPID_PUBLIC et VAPID_PRIVATE dans Render.</p>' : acces === 'mode_free' ? '<p class="ok">🔓 Mode GRATUIT activé — tous les modules débloqués pour tout le monde (apps incluses).</p>' : acces === 'mode_paid' ? '<p class="ok">🔒 Mode PAYANT activé — modules verrouillés selon les achats ; accès hors‑ligne expiré.</p>' : acces === 'mode_auto' ? '<p class="ok">↩️ Mode AUTOMATIQUE — accès selon la date de promo (config).</p>' : '';
+  const accesMsg = acces === 'ok' ? `<p class="ok">✅ Accès accordé à <b>${esc(accesEmail || '')}</b>.</p>` : acces === 'nouser' ? '<p class="err" style="color:#c0392b">❌ Aucun compte inscrit avec cet email.</p>' : acces === 'err' ? '<p class="err" style="color:#c0392b">❌ Erreur : offre invalide.</p>' : acces === 'promo' ? `<p class="ok">🎁 Promo : tous les modules débloqués pour <b>${esc(accesEmail || '0')}</b> apprenant(s) qui n'en avaient pas encore.</p>` : acces === 'annonce' ? '<p class="ok">📣 Annonce publiée — visible par tous les apprenants dans leur espace.</p>' : acces === 'annonce_off' ? '<p class="ok">Annonce désactivée.</p>' : acces === 'att_ok' ? '<p class="ok">🎓 Attestation validée — l\'apprenant peut désormais la télécharger (signée/tamponnée).</p>' : acces === 'att_off' ? '<p class="ok">🎓 Validation d\'attestation annulée — l\'attestation n\'est plus téléchargeable.</p>' : acces === 'banniere' ? '<p class="ok">🌐 Bannière publiée sur la page d\'accueil — visible par tous les visiteurs.</p>' : acces === 'banniere_off' ? '<p class="ok">Bannière d\'accueil retirée.</p>' : acces === 'google_ok' ? '<p class="ok">📅 Google Agenda connecté — les RDV de test créent maintenant le Meet automatiquement.</p>' : acces === 'google_err' ? '<p class="err" style="color:#c0392b">❌ Connexion Google échouée — vérifiez l\'URI de redirection et réessayez.</p>' : acces === 'google_noenv' ? '<p class="err" style="color:#c0392b">❌ GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET manquants dans Render.</p>' : acces === 'google_off' ? '<p class="ok">Google Agenda déconnecté.</p>' : acces === 'push_test' ? `<p class="ok">🔔 Notification de test envoyée à ${esc(accesEmail || '0')} appareil(s) — regardez votre téléphone.</p>` : acces === 'push_sent' ? `<p class="ok">🔔 Relance envoyée à ${esc(accesEmail || '0')} appareil(s).</p>` : acces === 'push_off' ? '<p class="err" style="color:#c0392b">❌ Push désactivé : définissez VAPID_PUBLIC et VAPID_PRIVATE dans Render.</p>' : acces === 'mode_free' ? '<p class="ok">🔓 Mode GRATUIT activé — tous les modules débloqués pour tout le monde (apps incluses).</p>' : acces === 'mode_paid' ? '<p class="ok">🔒 Mode PAYANT activé — modules verrouillés selon les achats ; accès hors‑ligne expiré.</p>' : acces === 'mode_auto' ? '<p class="ok">↩️ Mode AUTOMATIQUE — accès selon la date de promo (config).</p>' : acces === 'push_auto_on' ? '<p class="ok">🤖 Relance automatique ACTIVÉE — le coach relancera seul les apprenants inactifs chaque jour.</p>' : acces === 'push_auto_off' ? '<p class="ok">Relance automatique désactivée.</p>' : '';
   const pend = db.prepare(`SELECT p.*, u.email, o.titre FROM paiements p JOIN users u ON u.id=p.user_id JOIN inscriptions i ON i.id=p.inscription_id JOIN offres o ON o.code=i.offre_code WHERE p.statut='en_verification' ORDER BY p.cree_le DESC`).all();
   const dem = db.prepare(`SELECT d.*, u.email, u.tel FROM demandes d JOIN users u ON u.id=d.user_id WHERE d.statut='nouvelle' ORDER BY d.cree_le DESC`).all();
   // --- Statistiques de visites ---
@@ -1134,7 +1181,8 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   <section class="card"><h2>🔔 Notifications push (rappels sur le téléphone)</h2>
   ${pushEnabled()
     ? `<p class="ok">✅ Push activé · <b>${db.prepare('SELECT COUNT(*) c FROM push_subs').get().c}</b> appareil(s) abonné(s).</p>
-    <p style="margin:6px 0"><form method="post" action="/admin/push-test" class="inline">${csrfField(sess)}<button class="btn small ghost" type="submit">🔔 M'envoyer un test</button></form></p>
+    <p class="muted" style="font-size:13px;margin:4px 0">🤖 <b>Relance automatique : ${pushAutoEnabled() ? 'ACTIVÉE' : 'désactivée'}</b> — chaque jour vers <b>${(PUSH_HOUR_UTC + 3) % 24}h</b> (Madagascar), cible les apprenants <b>inactifs ≥ 3 jours</b> (au plus 1 rappel / 4 jours, jamais les attestés).${getSetting('push_last_relance') ? ' Dernière : <b>' + esc(getSetting('push_last_relance')) + '</b>.' : ''}</p>
+    <p style="margin:6px 0"><form method="post" action="/admin/push-auto" class="inline" style="margin:0 8px 0 0">${csrfField(sess)}<input type="hidden" name="on" value="${pushAutoEnabled() ? '0' : '1'}"><button class="btn small ghost" type="submit">${pushAutoEnabled() ? '⏸️ Désactiver la relance auto' : '🤖 Activer la relance auto'}</button></form><form method="post" action="/admin/push-test" class="inline">${csrfField(sess)}<button class="btn small ghost" type="submit">🔔 M'envoyer un test</button></form></p>
     <form method="post" action="/admin/push-relance" class="form">${csrfField(sess)}
      <div class="row"><label>Titre<input name="title" value="🎓 Académie Compta FR" maxlength="80"></label>
      <label>Cible<select name="mode"><option value="inactifs">Apprenants inactifs (≥ 3 jours)</option><option value="tous">Tous les abonnés</option></select></label></div>
@@ -2076,6 +2124,7 @@ const server = http.createServer(async (req, res) => {
       if (!checkCsrf(sess, body)) return send(res, 403, layout('403', '<h1>Jeton invalide</h1>', sess));
       if (p === '/admin/push-test') return postAdminPushTest(req, res, sess);
       if (p === '/admin/push-relance') return postAdminPushRelance(req, res, sess, body);
+      if (p === '/admin/push-auto') return postAdminPushAuto(req, res, sess, body);
       if (p === '/admin/acces-mode') return postAdminAccesMode(req, res, sess, body);
       if (p === '/2fa-activer') return post2faActiver(req, res, sess, body);
       if (p === '/2fa') return post2fa(req, res, sess, body);
