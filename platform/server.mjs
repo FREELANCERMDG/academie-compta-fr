@@ -308,7 +308,7 @@ function layout(title, body, sess) {
 ${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
-<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" defer></script></body></html>`;
+<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" defer></script></body></html>`;
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
 const money = n => Number(n).toLocaleString('fr-FR') + ' ' + esc(cfg.site.devise);
@@ -1221,7 +1221,32 @@ p{line-height:1.7;margin:10px 0;font-size:16px}
 }
 
 // --- Assistant IA (agent Claude) : base de connaissance + route /api/chat ---
-function chatSystemPrompt() {
+// --- Coach IA : suivi de la progression de l'apprenant + interventions motivantes ---
+function learnerProgress(sess) {
+  if (!sess || !sess.user || sess.user.role !== 'apprenant') return null;
+  const u = sess.user;
+  let p = {}; try { p = db.prepare('SELECT * FROM progression WHERE user_id=?').get(u.id) || {}; } catch { }
+  const last = p.maj_le || u.vu_le || u.cree_le;
+  let days = null; try { if (last) days = Math.floor((Date.now() - new Date(last).getTime()) / 86400000); } catch { }
+  return { prenom: (u.prenom || '').trim(), niveau: p.niveau || 0, niveauNom: p.niveau_nom || 'Recrue', badges: p.badges || 0, lessons: p.lessons || 0, days, attest: !!u.attestation_ok };
+}
+function learnerContext(sess) {
+  const L = learnerProgress(sess); if (!L) return '';
+  const since = (L.days == null) ? 'inconnue' : (L.days <= 0 ? "aujourd'hui" : (L.days === 1 ? 'hier' : 'il y a ' + L.days + ' jours'));
+  return "CONTEXTE APPRENANT (confidentiel — sers-t'en pour PERSONNALISER et MOTIVER, sans réciter les chiffres bêtement) : prénom=" + (L.prenom || '?') + " ; niveau=" + L.niveauNom + " (" + (L.niveau + 1) + "/5) ; leçons terminées=" + L.lessons + " ; badges=" + L.badges + "/6 ; dernière activité=" + since + " ; attestation=" + (L.attest ? 'validée' : 'pas encore') + ". RÔLE DE COACH : appelle-le par son prénom, félicite ses progrès, encourage-le, propose UNE prochaine étape concrète, et s'il est inactif depuis plusieurs jours motive-le gentiment à reprendre. Reste positif et bienveillant.";
+}
+// Message proactif (bulle de motivation) selon l'avancement — chaîne courte ou '' pour les visiteurs
+function coachNudge(sess) {
+  const L = learnerProgress(sess); if (!L) return '';
+  const p = L.prenom ? (L.prenom + ', ') : '';
+  if (L.attest) return '🎓 Bravo ' + (L.prenom || '') + ' ! Ton attestation est validée. Continue à t\'entraîner sur le logiciel cabinet 💪';
+  if (L.lessons === 0) return '👋 ' + p + 'prêt à démarrer ? Le Module 1 t\'attend — 10 min pour commencer ! 🚀';
+  if (L.days != null && L.days >= 3) return '🔥 ' + p + 'ça fait ' + L.days + ' jours… reprends là où tu t\'es arrêté, tu y étais presque !';
+  if (L.niveau >= 3) return '🎉 ' + p + 'niveau ' + L.niveauNom + ' atteint ! Plus qu\'un effort pour l\'attestation. On continue ?';
+  if (L.lessons >= 1) return '💪 ' + p + 'déjà ' + L.lessons + ' leçon' + (L.lessons > 1 ? 's' : '') + ' ! Prochaine étape : enchaîne la suivante.';
+  return '😊 ' + p + 'une question sur la formation ou la compta ? Je suis là pour t\'aider.';
+}
+function chatSystemPrompt(learner) {
   const s = cfg.societe || {}, wa = s.whatsapp || '';
   const off = (cfg.offres || []).map(o => `- ${o.titre} : ${o.prix ? money(o.prix) : 'inclus'}`).join('\n');
   const acc = cfg.acces || {};
@@ -1232,6 +1257,7 @@ function chatSystemPrompt() {
     "DOUBLE MISSION :",
     "(A) FORMER — réponds aux questions techniques de COMPTABILITÉ FRANÇAISE comme un expert de métier qui forme son collaborateur. Tu maîtrises et expliques : le PCG et le plan de comptes, la partie double et les journaux, la TVA (CA3/CA12, taux 20 / 10 / 5,5 / 2,1 %, collectée/déductible, autoliquidation, intracommunautaire, cadrage), le lettrage, le rapprochement bancaire, les immobilisations et amortissements (linéaire / dégressif), les provisions, les écritures d'inventaire et de cut-off (FNP, FAE, CCA, PCA, charges à payer, produits à recevoir), la clôture, le DOSSIER DE RÉVISION (justification des comptes par cycle, suivi du compte 471, cadrage TVA), la LIASSE FISCALE (2050 à 2059 au réel normal, 2033-A à G au réel simplifié), l'IS et l'IR, le BIC et le BNC, les cotisations TNS, et les spécificités (LMNP/LMP, SCI, BTP/autoliquidation, services à la personne).",
     "(B) RENSEIGNER — réponds aussi aux demandes d'INFORMATION sur la formation (en ligne et présentiel), l'inscription, l'accès, le paiement, le parrainage (infos officielles ci-dessous). Si le visiteur hésite sur le format, présente brièvement EN LIGNE et EN PRÉSENTIEL et aide-le à choisir.",
+    "MAÎTRISE COMPLÈTE (comme un expert qui a vu 20 ans de dossiers variés) : tu sais traiter TOUS LES CAS. Toutes formes juridiques (micro, EI, EURL, SARL, SAS/SASU, SA, SNC, SCI, holding, association). Tous régimes fiscaux (IR / IS, micro-BIC/BNC, réel simplifié, réel normal) et de TVA (franchise en base, RSI, RN mensuel/trimestriel, sur débits/encaissements, autoliquidation, intracommunautaire/DEB-DES, marge). Toutes activités (négoce, prestations de services, BNC libéral, BA agricole, LMNP/LMP, e-commerce, BTP/sous-traitance, professions réglementées, SAP). Et tous les cas particuliers : immobilisations & cessions, crédit-bail, subventions d'investissement, provisions & dépréciations, écritures d'inventaire (FNP, FAE, CCA, PCA, stocks, en-cours), comptes courants d'associés, rémunération du dirigeant (TNS vs assimilé salarié), paie & charges sociales, intégration fiscale, crédits d'impôt, écarts de conversion, OD de TVA et de paie. Si un cas est rare ou ambigu : RAISONNE étape par étape, pose les bonnes questions, expose les options et leurs conséquences, et précise les hypothèses retenues. N'esquive aucun cas comptable français : explique toujours la méthode.",
     "PÉDAGOGIE (essentiel) : explique CLAIREMENT et PROGRESSIVEMENT. Illustre avec des EXEMPLES CHIFFRÉS et les ÉCRITURES correspondantes, avec les numéros de comptes du PCG. Exemple de notation à utiliser : « Débit 607 Achats 1 000,00 / Débit 44566 TVA déductible 200,00 / Crédit 401 Fournisseur 1 200,00 ». Adapte le niveau (du débutant à l'expert) et donne toujours le RÉFLEXE CABINET (la méthode pratique), pas seulement la théorie.",
     "PRÉCISION & PRUDENCE : cite les comptes et les taux EXACTS. Rappelle que les taux, seuils et barèmes ÉVOLUENT chaque année (loi de finances) — invite à vérifier l'année en cours. Tu peux EXPLIQUER les règles et donner des exemples GÉNÉRIQUES sans réserve (c'est ton rôle de formateur). En revanche ne rends JAMAIS un avis fiscal ou juridique PERSONNALISÉ et engageant sur un dossier RÉEL précis (responsabilité professionnelle) : pour un cas réel, recommande de faire valider par un expert-comptable inscrit à l'Ordre et propose le contact WhatsApp " + wa + ".",
     "HORS SUJET : pour ce qui n'a aucun rapport avec la comptabilité/fiscalité française ou la formation (actualité, informatique, divertissement, devoirs sans lien…), décline poliment et recentre.",
@@ -1256,8 +1282,9 @@ function chatSystemPrompt() {
     "- Tarif présentiel : " + money(presentielPrixModule()) + " par module (différent des tarifs en ligne ci-dessus).",
     "- Contact présentiel (inscription / dates) : 032 73 622 59 (appel ou WhatsApp). Détails sur la page /presentiel.",
     "- Contact humain (en ligne) : WhatsApp " + wa + ".",
-    "FORMAT : texte clair et lisible. Tu peux utiliser des retours à la ligne et des listes simples ; pour les écritures, garde la notation « Débit <compte> <libellé> <montant> / Crédit <compte> <libellé> <montant> », une ligne par mouvement. Évite le markdown lourd et les gros tableaux. Termine une réponse technique par une question ou un réflexe utile ; une réponse commerciale par une invitation à s'inscrire ou à écrire sur WhatsApp."
-  ].join('\n');
+    "FORMAT : texte clair et lisible. Tu peux utiliser des retours à la ligne et des listes simples ; pour les écritures, garde la notation « Débit <compte> <libellé> <montant> / Crédit <compte> <libellé> <montant> », une ligne par mouvement. Évite le markdown lourd et les gros tableaux. Termine une réponse technique par une question ou un réflexe utile ; une réponse commerciale par une invitation à s'inscrire ou à écrire sur WhatsApp.",
+    learner || ""
+  ].filter(Boolean).join('\n');
 }
 
 // Clé API de l'assistant : variable d'env LLM_API_KEY, sinon "Secret File" Render (fichier monté à la racine ou /etc/secrets/).
@@ -1271,6 +1298,7 @@ function llmApiKey() {
 
 async function postApiChat(req, res, body) {
   const J = (obj, code) => { try { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(obj)); } catch { } };
+  const sess = getSession(req);
   try {
     const KEY = llmApiKey();
     if (!KEY || typeof fetch !== 'function') return J({ disabled: true });
@@ -1289,7 +1317,7 @@ async function postApiChat(req, res, body) {
       r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-        body: JSON.stringify({ model, max_tokens: 800, system: chatSystemPrompt(), messages: msgs }),
+        body: JSON.stringify({ model, max_tokens: 800, system: chatSystemPrompt(learnerContext(sess)), messages: msgs }),
         signal: ctl.signal
       });
     } finally { clearTimeout(to); }

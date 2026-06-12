@@ -6,6 +6,7 @@
   var SC = document.currentScript || document.querySelector('script[src*="chat.js"]');
   var WA = ((SC && SC.getAttribute('data-wa')) || (window.ACF_CHAT && window.ACF_CHAT.wa) || '').replace(/\D/g, '');
   var PROMO = !!(SC && SC.getAttribute('data-promo') === '1');
+  var COACH = (SC && SC.getAttribute('data-coach')) || '';
   var waUrl = function (t) { return WA ? ('https://wa.me/' + WA + '?text=' + encodeURIComponent(t || 'Bonjour, je souhaite des informations sur la formation.')) : '/programme'; };
 
   // ----- Base de connaissances (intentions) -----
@@ -79,6 +80,9 @@
     '@keyframes acfcin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
     '.acfc-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#46d17a;margin-right:5px;vertical-align:middle;animation:acfcblip 1.9s infinite}',
     '@keyframes acfcblip{0%{box-shadow:0 0 0 0 rgba(70,209,122,.6)}70%{box-shadow:0 0 0 6px rgba(70,209,122,0)}100%{box-shadow:0 0 0 0 rgba(70,209,122,0)}}',
+    '#acfc-nudge{position:fixed;left:18px;bottom:84px;z-index:9997;max-width:252px;background:#fff;color:#23303f;border:1px solid #e4eaf2;border-radius:14px;border-bottom-left-radius:4px;padding:11px 30px 11px 13px;font-size:13px;line-height:1.45;box-shadow:0 12px 34px rgba(20,40,70,.30);cursor:pointer;transition:opacity .4s;animation:acfcin .3s ease}',
+    '#acfc-nudge .nx{position:absolute;top:4px;right:7px;border:none;background:none;font-size:16px;color:#9aa7b8;cursor:pointer;line-height:1;padding:0}',
+    '#acfc-nudge:after{content:"";position:absolute;left:18px;bottom:-7px;width:0;height:0;border:7px solid transparent;border-top-color:#fff;border-bottom:0}',
     '@media(prefers-reduced-motion:reduce){#acfc-l,.acfc-dot,.acfc-typ{animation:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
@@ -154,6 +158,23 @@
   panel.querySelector('#acfc-x').onclick = close;
   panel.querySelector('#acfc-s').onclick = send;
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+
+  /* Coach proactif : bulle de motivation selon la progression de l'apprenant */
+  if (COACH) {
+    var coachShown = false;
+    var showCoach = function () {
+      if (coachShown || panel.classList.contains('open')) return;
+      try { if (sessionStorage.getItem('acfc_coach') === '1') return; } catch (e) {}
+      coachShown = true; try { sessionStorage.setItem('acfc_coach', '1'); } catch (e) {}
+      var n = document.createElement('div'); n.id = 'acfc-nudge';
+      n.innerHTML = '<button class="nx" aria-label="Fermer">×</button>' + escH(COACH);
+      n.querySelector('.nx').onclick = function (e) { e.stopPropagation(); if (n.parentNode) n.parentNode.removeChild(n); };
+      n.onclick = function () { if (n.parentNode) n.parentNode.removeChild(n); open(); };
+      document.body.appendChild(n);
+      setTimeout(function () { if (n.parentNode && !panel.classList.contains('open')) { n.style.opacity = '0'; setTimeout(function () { if (n.parentNode) n.parentNode.removeChild(n); }, 450); } }, 15000);
+    };
+    setTimeout(showCoach, 6500);
+  }
 })();
 
 /* === Assistant vitrine de l'accueil : il bouge et il parle === */
