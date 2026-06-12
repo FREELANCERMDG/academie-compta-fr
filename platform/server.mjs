@@ -287,7 +287,11 @@ function layout(title, body, sess) {
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(cfg.site.nom_plateforme)}</title>
 <meta name="description" content="${esc(desc)}">
-<meta name="theme-color" content="#1F4E78">
+<meta name="theme-color" content="#0b0f24">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Compta FR">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(cfg.site.nom_plateforme)}">
 <meta property="og:title" content="${esc(cfg.site.nom_plateforme)}">
@@ -1772,6 +1776,13 @@ const server = http.createServer(async (req, res) => {
       trackVisit(req, p).catch(() => {});
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
+      if (p === '/sw.js') {
+        try {
+          const fp = path.join(DIR, 'public', 'sw.js');
+          res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-cache', 'Service-Worker-Allowed': '/', 'X-Content-Type-Options': 'nosniff' });
+          return fs.createReadStream(fp).pipe(res);
+        } catch { return send(res, 404, '404'); }
+      }
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
       if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
       if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nDisallow: /cabinet\nDisallow: /reinitialiser\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
