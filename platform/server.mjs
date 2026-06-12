@@ -309,7 +309,7 @@ function layout(title, body, sess) {
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><input type="checkbox" id="navtog" class="navtog" aria-hidden="true"><label for="navtog" class="navbtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></label><nav id="navmenu">${nav}</nav></header>${promoBan}
-${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, même hors‑ligne&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, même hors‑ligne&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
+${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
 <script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" defer></script></body></html>`;
@@ -399,15 +399,19 @@ function coursesCarousel() {
   <div class="hscroll">${cards}</div>`;
 }
 function installAppCard() {
+  const play = (process.env.PLAY_URL || (cfg.app && cfg.app.play_url) || '').trim();
+  const ctas = play
+    ? `<a class="btn" href="${esc(play)}" target="_blank" rel="noopener">▶ Télécharger sur Google Play</a> <button class="btn ghost" id="installApp" type="button">📲 Installer (iPhone / sans store)</button>`
+    : `<button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone · <i>bientôt sur Google&nbsp;Play</i></span>`;
   return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff;background:linear-gradient(160deg,rgba(56,232,255,.08),rgba(124,108,255,.05))">
    <h2>📱 Emportez votre formation partout — installez l'appli</h2>
    <p class="muted" style="margin-bottom:8px">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone, <b>en 5 secondes</b> :</p>
    <ul style="margin:0 0 14px;line-height:1.8;list-style:none;padding:0">
      <li>⚡ <b>Accès en 1 tap</b> — comme une vraie application, plein écran sans barre de navigateur</li>
-     <li>📶 <b>Révisez même hors‑ligne</b> (dans le bus, en coupure réseau…)</li>
-     <li>🪶 <b>Légère &amp; rapide</b> — gratuite, sans boutique, sans pub, sans inscription en plus</li>
+     <li>🚀 <b>Démarrage instantané</b>, même en connexion lente</li>
+     <li>🪶 <b>Légère &amp; rapide</b> — gratuite, sans pub, sans inscription en plus</li>
    </ul>
-   <p style="margin-bottom:0"><button class="btn" id="installApp" type="button">📲 Installer maintenant</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone</span> <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
+   <p style="margin-bottom:0">${ctas} <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
   </section>`;
 }
 function pageAccueil(sess) {

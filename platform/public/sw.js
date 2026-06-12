@@ -3,7 +3,9 @@
    - GET /public/* : cache d'abord (les assets sont versionnés par ?v=, donc jamais périmés)
    - navigations (pages HTML) : réseau d'abord, repli cache hors-ligne
    - on ne touche jamais aux POST ni au cross-origin */
-const CACHE = 'acf-v1';
+const CACHE = 'acf-v2';
+// Routes protégées / payantes : JAMAIS mises en cache (le contenu reste en ligne, paywall serveur respecté)
+const PROTECTED = /^\/(formation|tableau-de-bord|logiciel|cabinet|admin|communaute|api|deconnexion|reinitialiser|connexion|2fa)\b/;
 const ASSETS = [
   '/public/app.css', '/public/chat.js', '/public/icon-192.png', '/public/icon-512.png',
   '/public/favicon.png', '/public/manifest.webmanifest', '/public/logo.jpg'
@@ -42,7 +44,12 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // Pages : réseau d'abord (toujours frais quand en ligne), repli cache hors-ligne
+  // Pages protégées / payantes : RÉSEAU UNIQUEMENT (jamais en cache → pas d'accès hors-ligne au contenu payant)
+  if (req.mode === 'navigate' && PROTECTED.test(url.pathname)) {
+    e.respondWith(fetch(req));
+    return;
+  }
+  // Pages publiques (accueil, programme, présentiel…) : réseau d'abord, repli cache hors-ligne
   if (req.mode === 'navigate') {
     e.respondWith(
       fetch(req)
