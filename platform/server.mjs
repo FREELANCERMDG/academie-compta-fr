@@ -478,7 +478,7 @@ function installAppCard() {
     ? `<a class="btn" href="${esc(play)}" target="_blank" rel="noopener">▶ Télécharger sur Google Play</a> <button class="btn ghost" id="installApp" type="button">📲 Installer (iPhone / sans store)</button>`
     : `<button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone · <i>bientôt sur Google&nbsp;Play</i></span>`;
   return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff;background:linear-gradient(160deg,rgba(56,232,255,.08),rgba(124,108,255,.05))">
-   <h2>📱 Emportez votre formation partout — installez l'appli</h2>
+   <h2>📱 ${promoLive() ? 'Inscrivez‑vous en ligne, révisez hors‑ligne' : 'Emportez votre formation partout'}</h2>
    <p class="muted" style="margin-bottom:8px">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone, <b>en 5 secondes</b> :</p>
    <ul style="margin:0 0 14px;line-height:1.8;list-style:none;padding:0">
      <li>⚡ <b>Accès en 1 tap</b> — comme une vraie application, plein écran sans barre de navigateur</li>

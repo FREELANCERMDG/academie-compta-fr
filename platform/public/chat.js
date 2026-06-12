@@ -275,9 +275,16 @@
     }, 14000);
   }
   function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent || ''); }
-  function installHint() {
-    if (isIOS()) return 'Sur iPhone : touchez « Partager » puis « Sur l\'écran d\'accueil ».';
-    return 'Dans Chrome : menu ⋮ en haut à droite, puis « Installer l\'application ».';
+  function showInstallHelp() {
+    var h = document.getElementById('installHint');
+    var msg = isIOS()
+      ? '📲 Sur iPhone : touchez le bouton <b>Partager</b> (carré avec une flèche ↑) en bas de Safari, puis <b>« Sur l\'écran d\'accueil »</b>.'
+      : '📲 Dans <b>Chrome</b> : touchez le menu <b>⋮</b> (en haut à droite), puis <b>« Installer l\'application »</b> (ou « Ajouter à l\'écran d\'accueil »).';
+    if (h) {
+      h.innerHTML = msg;
+      h.style.cssText = 'display:block;margin-top:10px;background:rgba(56,232,255,.10);border:1px solid rgba(56,232,255,.35);border-radius:10px;padding:11px 13px;color:#e6f2fb;font-size:13.5px;line-height:1.55';
+      try { h.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+    } else { alert(isIOS() ? 'Sur iPhone : Partager → Sur l\'écran d\'accueil' : 'Chrome : menu ⋮ → Installer l\'application'); }
   }
   function wireCard() {
     var btn = document.getElementById('installApp');
@@ -288,7 +295,7 @@
     }
     btn.addEventListener('click', function () {
       if (deferred) { deferred.prompt(); deferred.userChoice.then(function () { deferred = null; }); }
-      else { var h = document.getElementById('installHint'); if (h) h.textContent = installHint(); }
+      else { showInstallHelp(); }
     });
   }
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; showInstall(); });
