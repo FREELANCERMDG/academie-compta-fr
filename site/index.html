@@ -178,6 +178,58 @@ header .logo{letter-spacing:.2px}
   .main{padding-top:18px}
   .sidebar{box-shadow:6px 0 30px rgba(10,25,50,.25)}
 }
+
+/* ============================================================
+   THEME FUTURISTE (override sombre) — coque sombre/neon + feuille de cours lumineuse
+   ============================================================ */
+:root{--neon:#38e8ff;--neon2:#7c6cff}
+body{background:
+    radial-gradient(1100px 600px at 88% -6%, rgba(124,108,255,.22), transparent 60%),
+    radial-gradient(900px 500px at -6% 8%, rgba(56,232,255,.12), transparent 55%),
+    linear-gradient(160deg,#0b0f24,#141a3a 55%,#1b1247) !important;
+  background-attachment:fixed;color:#e6ecfa}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(120,170,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,170,255,.06) 1px,transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(1200px 820px at 50% 0,#000 30%,transparent 86%);
+  mask-image:radial-gradient(1200px 820px at 50% 0,#000 30%,transparent 86%)}
+header,.layout{position:relative;z-index:1}
+
+/* Barre du haut : verre sombre + neon */
+header{background:rgba(10,13,32,.72) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(56,232,255,.18) !important;box-shadow:0 10px 32px -14px rgba(56,232,255,.40)}
+header .logo{color:#fff;text-shadow:0 0 16px rgba(56,232,255,.40)}
+header .logo span{color:#aab4d4}
+#search{background:rgba(255,255,255,.08) !important;border:1px solid rgba(56,232,255,.28) !important;color:#eaf0fb}
+#search::placeholder{color:#8e9bbd}
+#search:focus{box-shadow:0 0 0 3px rgba(56,232,255,.30) !important}
+.progbar{background:rgba(255,255,255,.12)}
+.progbar i{background:linear-gradient(90deg,#38e8ff,#7c6cff) !important;box-shadow:0 0 12px rgba(56,232,255,.6)}
+.progwrap{color:#cdd6ee}
+
+/* Sommaire (sidebar) : verre sombre */
+.sidebar{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02)) !important;border-right:1px solid rgba(56,232,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sidebar .grp{background:rgba(13,18,42,.94) !important;color:#8ea3c9 !important;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar a.item{color:#cdd6ee !important}
+.sidebar a.item:hover{background:rgba(56,232,255,.08) !important}
+.sidebar a.item.active{background:linear-gradient(90deg,rgba(56,232,255,.16),rgba(124,108,255,.06)) !important;box-shadow:inset 0 0 0 1px rgba(56,232,255,.30) !important;color:#fff !important;border-left-color:var(--neon) !important}
+.sidebar a.item .dot{border-color:#52608a}
+.sidebar a.item.done{color:#7ee0aa !important}
+.sidebar a.item.done .dot{background:#34d399;border-color:#34d399}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(124,170,255,.30);border:2px solid transparent}
+.crumbs{color:#8ea3c9 !important}
+
+/* Feuille de cours : reste claire et lisible (CERFA/simulateurs/quiz intacts), encadrée de neon */
+.content.card{background:#fff !important;border:1px solid rgba(56,232,255,.30) !important;
+  box-shadow:0 26px 64px rgba(0,0,0,.48),0 0 0 1px rgba(56,232,255,.12),0 0 44px -14px rgba(56,232,255,.38) !important}
+.quiz{background:#fff !important;border:1px solid rgba(56,232,255,.25) !important;box-shadow:0 18px 48px rgba(0,0,0,.42),0 0 30px -12px rgba(56,232,255,.30) !important}
+
+/* Barre de navigation bas : fondu sombre */
+.pagebar{background:linear-gradient(180deg,rgba(11,15,36,0),rgba(11,15,36,.88) 45%) !important;border-top-color:rgba(56,232,255,.15) !important}
+.btn.sec{background:rgba(255,255,255,.06) !important;color:#e7ecfa !important;border:1px solid rgba(56,232,255,.25) !important}
+.btn.sec:hover{background:rgba(255,255,255,.12) !important}
+
+@media(max-width:860px){.sidebar{background:#0d1330 !important}}
+@media(prefers-reduced-motion:reduce){body::before{display:none}}
 </style>
 </head>
 <body>
