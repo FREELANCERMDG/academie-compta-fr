@@ -118,9 +118,8 @@ MANIFEST = [
     ("modules/Module-17-Qualite-controle-interne.md", "m17", "Module 6 — Pratique métier, qualité, carrière & certification", "6.4 Qualité & contrôle", "m17"),
     ("modules/Module-20-Carriere-freelancing.md", "m20", "Module 6 — Pratique métier, qualité, carrière & certification", "6.5 Carrière & freelancing", "m20"),
     ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Pratique métier, qualité, carrière & certification", "6.6 Cas pratiques corrigés", None),
-    ("evaluations/Evaluation-finale.md", "eval", "Module 6 — Pratique métier, qualité, carrière & certification", "6.7 Évaluation finale", "final"),
-    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Pratique métier, qualité, carrière & certification", "6.8 Simulations d'entretien", None),
-    ("modules/Module-PRAT8-ChefMission.md", "pr8", "Module 6 — Pratique métier, qualité, carrière & certification", "6.9 🔍 Réviseur & Chef de mission (simulateur)", None),
+    ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Pratique métier, qualité, carrière & certification", "6.7 Simulations d'entretien", None),
+    ("modules/Module-PRAT8-ChefMission.md", "pr8", "Module 6 — Pratique métier, qualité, carrière & certification", "6.8 🔍 Réviseur & Chef de mission (simulateur)", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),

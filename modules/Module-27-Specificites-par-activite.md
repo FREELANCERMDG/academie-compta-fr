@@ -15,49 +15,24 @@
 
 ---
 
-## 2) 🛋️ LMNP — Loueur en Meublé Non Professionnel
-**Logique :** louer un logement **meublé** = activité **commerciale** → **BIC** (et **non** revenus fonciers).
-**Non professionnel si** : recettes annuelles **≤ 23 000 €** **OU** ≤ aux autres revenus d'activité du foyer.
-
-| Régime | Quand | Effet |
-|---|---|---|
-| **Micro‑BIC** | sous les seuils | abattement forfaitaire (meublé classique **50 %**, tourisme non classé réduit) |
-| **Réel** | au‑delà / sur option | **amortissement du bien** déductible → résultat souvent ≈ 0 |
-
-**Le gros avantage du réel = l'amortissement** (par **composants**, hors **terrain** non amortissable) **+ mobilier** (5–10 ans) → réduit fortement le résultat. ⚠️ L'amortissement **ne peut pas créer de déficit** : l'excédent est **reporté** (amortissements réputés différés, sans limite de durée).
-**TVA :** location meublée d'habitation **exonérée** (art. 261 D CGI) → pas de TVA, **sauf para‑hôtellerie** (≥ 3 services type hôtel).
-**Écriture type :** loyer 700 € encaissé → **512 D / 706 (ou 7083) C** ; dotation : **6811 D / 2813‑2815 C**.
-> ⚠️ **Nouveauté (LF 2025) :** pour le LMNP au réel, les **amortissements déduits sont réintégrés** dans le calcul de la **plus‑value** à la revente → vigilance sur la sortie.
+## 2) 🛋️ LMNP — Loueur en Meublé Non Professionnel (rappel express)
+**À retenir :** meublé = **BIC** (pas du foncier) ; **non pro** si recettes **≤ 23 000 €** ou ≤ aux autres revenus d'activité du foyer ; au **réel**, l'**amortissement** du bien réduit fortement le résultat (sans créer de déficit) ; loyers en **706/7083**, dotation **6811/2813**.
+> 📘 **Détails complets, plan de comptes et cas pratique : leçon [4.7 LMNP](#)** (micro‑BIC vs réel, para‑hôtellerie, réintégration des amortissements dans la plus‑value — LF 2025).
 
 ---
 
-## 3) 🏨 LMP — Loueur en Meublé Professionnel
-**Professionnel si** : recettes **> 23 000 €** **ET** > aux autres revenus d'activité du foyer.
-- **Déficits imputables sur le revenu global** (sans limite) → avantage majeur.
-- **Plus‑values professionnelles** (court/long terme), **exonération art. 151 septies** possible (activité ≥ 5 ans, recettes sous seuils).
-- **Cotisations sociales** (SSI) au lieu des prélèvements sociaux.
-- **IFI :** biens **exonérés** (considérés professionnels) si conditions réunies.
-> Le **basculement LMNP↔LMP** se vérifie **chaque année** (les seuils se comparent au foyer fiscal).
+## 3) 🏨 LMP — Loueur en Meublé Professionnel (rappel express)
+**À retenir :** **pro** si recettes **> 23 000 €** **ET** > aux autres revenus d'activité du foyer ; **déficits imputables sur le revenu global**, **plus‑values professionnelles**, **cotisations SSI/TNS** (au lieu des PS 17,2 %), **exonération IFI** possible. Le **basculement LMNP↔LMP** se vérifie **chaque année**.
+> 📘 **Détails complets et plan de comptes : leçon [4.8 LMP](#)** (art. 151 septies, social TNS, écritures de plus‑value).
 
 ---
 
-## 4) 🏛️ SCI — Société Civile Immobilière
-**Objet civil** (gérer/louer de l'immobilier). **Deux fiscalités très différentes :**
+## 4) 🏛️ SCI — Société Civile Immobilière (rappel express)
+**À retenir :** objet civil (louer de l'immobilier en **nu**). **IR par défaut** (semi‑transparente : résultat **foncier** imposé chez les associés, **2072** → **2044**, **pas d'amortissement**, sortie de cash via les **comptes courants 455** non re‑taxés) ; **IS sur option** (amortissement déductible **6811/2813**, mais **plus‑value professionnelle** à la revente).
 
 <div class="cerfa" data-form="2072"></div>
 
-**A. SCI à l'IR (par défaut — « semi‑transparente »)**
-- Le résultat est imposé **chez les associés** (location nue = **revenus fonciers**).
-- **Déclarations :** la SCI dépose la **2072**, chaque associé reporte sa quote‑part sur sa **2044**.
-- **Pas d'amortissement** de l'immeuble.
-- **Comptes :** loyers **752/706**, charges **614**, intérêts d'emprunt **661**, **comptes courants d'associés 455**.
-
-**B. SCI à l'IS (sur option, irrévocable)**
-- **Amortissement de l'immeuble déductible** (6811/2813) → résultat fiscal réduit.
-- ⚠️ Mais à la revente : **plus‑value professionnelle** (réintégration des amortissements) → addition salée.
-
-**TVA :** location **nue d'habitation exonérée** ; **locaux professionnels** → **option TVA** possible (récupération de la TVA sur travaux).
-**Écriture (IR) :** loyer nu 1 000 € → **512 D / 752 C** ; intérêts d'emprunt **661** ; **pas** de dotation.
+> 📘 **Détails complets (tableaux IR vs IS, cas chiffrés, comptes 752/661/455) : leçon [4.9 SCI](#)**.
 
 ---
 
@@ -69,13 +44,9 @@
 
 ---
 
-## 6) 🧹 SAP — Services À la Personne
-**Activités :** ménage, garde d'enfants, soutien scolaire, aide aux personnes âgées/handicapées, jardinage, petit bricolage…
-- **Déclaration/agrément SAP** (DREETS) → permet au **client particulier** un **crédit d'impôt de 50 %**.
-- **Obligation :** délivrer chaque année une **attestation fiscale** au client (pour son crédit d'impôt).
-- **TVA (taux selon prestation) :** **5,5 %** (aide aux personnes âgées/handicapées, garde d'enfants), **10 %** (jardinage, petits travaux ménagers), **soutien scolaire / cours à domicile : exonéré** si organisme **agréé** (art. 261‑4‑4° CGI), sinon **20 %** ; certaines structures **exonérées**.
-- **Comptes :** ventes **706**, à **ventiler par taux de TVA** (44571 par taux).
-**Exemple :** ménage **100 € TTC** (TVA 5,5 %) → après **crédit d'impôt 50 %**, coût réel client ≈ **50 €** ➜ argument commercial fort.
+## 6) 🧹 SAP — Services À la Personne (rappel express)
+**À retenir :** **agrément/déclaration SAP** (DREETS) → **crédit d'impôt 50 %** pour le client particulier (avec **attestation fiscale** annuelle obligatoire) ; **TVA multi‑taux** (5,5 % aide aux personnes / garde d'enfants, 10 % jardinage/petits travaux, soutien scolaire **exonéré** si agréé, sinon 20 %) ; ventes **706** à **ventiler par taux**.
+> 📘 **Détails complets (NOVA, plafonds, avance immédiate URSSAF, CERFA 11620) : leçon [4.10 SAP](#)**.
 
 ---
 
