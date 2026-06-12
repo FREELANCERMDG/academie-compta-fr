@@ -364,7 +364,7 @@ function landingHero(sess) {
     </div>
    </div>
    <div class="showcard">
-    <div class="srow"><div class="bot">🤖</div><div><div style="font-weight:800;color:#fff">Assistant Compta&nbsp;FR</div><div class="muted" style="font-size:12.5px">Bonjour 👋 Prêt pour le parcours cabinet&nbsp;?</div></div></div>
+    <div class="srow"><div class="bot" id="asstBot">🤖</div><div style="flex:1;min-width:0"><div style="font-weight:800;color:#fff">Assistant Compta&nbsp;FR <button type="button" class="asst-listen" id="asstListen" title="Écouter à voix haute" aria-label="Écouter l'assistant">🔊</button></div><div class="muted asst-msg" id="asstMsg" style="font-size:12.5px">Bonjour 👋 je suis votre assistant Compta&nbsp;FR.</div></div></div>
     <div style="margin-top:14px;font-size:13px;color:#dde4f5">Continuer : <b>Module 1 — Bases du PCG</b></div>
     <div class="pbar"><i style="width:18%"></i></div>
     <div class="muted" style="font-size:11.5px">Étape 1/6 · ~10 min</div>

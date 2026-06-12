@@ -155,3 +155,46 @@
   panel.querySelector('#acfc-s').onclick = send;
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
 })();
+
+/* === Assistant vitrine de l'accueil : il bouge et il parle === */
+(function () {
+  var bot = document.getElementById('asstBot'), msg = document.getElementById('asstMsg'), btn = document.getElementById('asstListen');
+  if (!bot || !msg) return;
+  var L = [
+    'Bonjour 👋 je suis votre assistant Compta FR.',
+    'Prêt à démarrer le parcours cabinet ?',
+    'On commence par les bases du PCG, en douceur.',
+    'Saisie, TVA, révision, préparation du bilan : je vous guide pas à pas.',
+    'Une question ? Je réponds 24h/24, gratuitement.'
+  ];
+  var i = 0, speakOn = false;
+  function voices() { try { return window.speechSynthesis ? speechSynthesis.getVoices() : []; } catch (e) { return []; } }
+  function speak(t) {
+    if (!speakOn || !window.speechSynthesis) return;
+    try {
+      var u = new SpeechSynthesisUtterance(t.replace(/[👋🤖]/g, '').trim());
+      u.lang = 'fr-FR'; u.rate = 1.02; u.pitch = 1.05;
+      var fr = voices().filter(function (v) { return /fr/i.test(v.lang); });
+      if (fr.length) u.voice = fr[0];
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  if (btn) btn.addEventListener('click', function () {
+    speakOn = !speakOn; btn.classList.toggle('on', speakOn); btn.textContent = speakOn ? '🔈' : '🔊';
+    if (speakOn) speak(L[i]); else if (window.speechSynthesis) { try { speechSynthesis.cancel(); } catch (e) {} }
+  });
+  var reduce = false; try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (reduce) { msg.textContent = L[0]; return; }
+  function type(text, done) {
+    bot.classList.add('talking'); msg.innerHTML = '';
+    var span = document.createElement('span'), caret = document.createElement('span');
+    caret.className = 'asst-caret'; msg.appendChild(span); msg.appendChild(caret);
+    speak(text);
+    var n = 0, iv = setInterval(function () {
+      n++; span.textContent = text.slice(0, n);
+      if (n >= text.length) { clearInterval(iv); bot.classList.remove('talking'); setTimeout(function () { if (caret.parentNode) caret.parentNode.removeChild(caret); }, 500); if (done) setTimeout(done, 2400); }
+    }, 40);
+  }
+  function loop() { type(L[i], function () { i = (i + 1) % L.length; loop(); }); }
+  setTimeout(loop, 700);
+})();

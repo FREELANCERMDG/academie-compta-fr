@@ -291,3 +291,16 @@ th{box-shadow:inset 0 -2px 0 rgba(56,232,255,.35)}
 .catchip:hover{transform:translateY(-3px);border-color:rgba(56,232,255,.40);box-shadow:0 0 24px -6px rgba(56,232,255,.38)}
 .catchip .ic{font-size:26px;filter:drop-shadow(0 0 12px rgba(56,232,255,.4))}
 .catchip span{font-size:12.5px;color:#dde4f5;font-weight:600;text-align:center}
+
+/* ===== Assistant animé (il bouge et il parle) ===== */
+.showcard .bot{animation:botFloat 3.6s ease-in-out infinite;will-change:transform}
+@keyframes botFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-6px) rotate(-5deg)}55%{transform:translateY(-1px) rotate(4deg)}80%{transform:translateY(-4px) rotate(-2deg)}}
+.showcard .bot.talking{animation:botFloat 3.6s ease-in-out infinite, botPulse .5s ease-in-out infinite}
+@keyframes botPulse{0%,100%{box-shadow:0 0 24px rgba(56,232,255,.45)}50%{box-shadow:0 0 40px rgba(56,232,255,.95),0 0 0 6px rgba(56,232,255,.10)}}
+.asst-msg{min-height:2.7em}
+.asst-caret{display:inline-block;width:2px;height:1em;background:var(--neon);vertical-align:-2px;margin-left:1px;box-shadow:0 0 6px var(--neon);animation:caretBlink 1s steps(1) infinite}
+@keyframes caretBlink{50%{opacity:0}}
+.asst-listen{border:1px solid rgba(56,232,255,.35);background:rgba(56,232,255,.10);color:#bdecff;border-radius:8px;width:24px;height:24px;line-height:1;font-size:13px;cursor:pointer;vertical-align:middle;margin-left:6px;padding:0;transition:transform .12s,box-shadow .12s}
+.asst-listen:hover{transform:scale(1.12);box-shadow:0 0 14px rgba(56,232,255,.5)}
+.asst-listen.on{background:var(--neon);color:#04210f;box-shadow:0 0 16px rgba(56,232,255,.7)}
+@media(prefers-reduced-motion:reduce){.showcard .bot,.showcard .bot.talking{animation:none}.asst-caret{animation:none}}
