@@ -43,6 +43,12 @@ Le cadrage annuel **compare la TVA réellement comptabilisée** avec la **TVA th
 - Un écart vient souvent d'une **transaction non traitée**, d'un **mauvais taux** ou d'un **compte d'attente** mal soldé.
 - Conserver le **tableau de cadrage** comme justificatif du dossier.
 
+## 🛠️ Simulateur — faites le cadrage du dossier
+
+À partir de l'**extrait de balance** (à gauche), remplissez la **feuille de cadrage** (à droite) : TVA théorique par taux, écart avec le 44571, OD de correction et TVA à décaisser. Suivez le **tutoriel 📘**, puis **Vérifier** (le corrigé se débloque après).
+
+<div class="simdoc" data-sim="cadrage"></div>
+
 ## 🧪 À vous de jouer — faites VOTRE cadrage dans le Logiciel
 
 La plateforme intègre un **outil de cadrage TVA comme en cabinet**, branché sur **vos propres écritures** du logiciel sandbox :

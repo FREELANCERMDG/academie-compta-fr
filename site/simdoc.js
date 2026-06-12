@@ -429,8 +429,64 @@
     return h+"</div>";
   }
 
+  /* ===== CADRAGE TVA — comme en cabinet (CA × taux vs 44571) ===== */
+  var CADR={ denom:"SARL BISTRO & CO", periode:"mai 2026",
+    lignes:[ {cpt:"707000",lib:"Ventes de marchandises",taux:"20 %",base:84000,tva:16800},
+             {cpt:"706000",lib:"Prestations de services",taux:"10 %",base:25600,tva:2560},
+             {cpt:"707100",lib:"Ventes taux réduit",taux:"5,5 %",base:12400,tva:682},
+             {cpt:"708300",lib:"Locations (exonérées)",taux:"0 %",base:3000,tva:0} ],
+    coll:19442, ded:9750 };
+  CADR.totBase=CADR.lignes.reduce(function(s,x){return s+x.base;},0);
+  CADR.theo=CADR.lignes.reduce(function(s,x){return s+x.tva;},0);          // 20 042
+  CADR.ecart=CADR.theo-CADR.coll;                                          // 600
+  CADR.decaisse=CADR.theo-CADR.ded;                                        // 10 292
+  function srcCADR(){ var r=CADR;
+    return "<div class='sd-card sd-src'>"
+      +"<div class='row'><span class='k'>Dossier</span><span class='v'>"+esc(r.denom)+"</span></div>"
+      +"<div class='row'><span class='k'>Période</span><span class='v'>TVA — "+esc(r.periode)+" (régime réel, débits)</span></div>"
+      +"<div class='sec'>Balance — comptes de produits (soldes créditeurs HT)</div>"
+      +r.lignes.map(function(x){return "<div class='row'><span class='k'>"+esc(x.cpt)+" "+esc(x.lib)+" <b>("+esc(x.taux)+")</b></span><span class='v'>"+eur(x.base)+"</span></div>";}).join("")
+      +"<div class='row'><span class='k'><b>Total des produits</b></span><span class='v'>"+eur(r.totBase)+"</span></div>"
+      +"<div class='sec'>Balance — comptes de TVA</div>"
+      +"<div class='row'><span class='k'>44571 TVA collectée (solde créditeur)</span><span class='v'>"+eur(r.coll)+"</span></div>"
+      +"<div class='row'><span class='k'>44566 TVA déductible (solde débiteur)</span><span class='v'>"+eur(r.ded)+"</span></div>"
+      +"<div class='sec'>Indice trouvé en révision</div>"
+      +"<div class='row'><span class='k'>Facture PRESTA-128 du 28/05 : prestation <b>6 000 € à 10 %</b> saisie <b>411 D 6 000 / 706 C 6 000</b>… <b>sans ligne de TVA</b></span><span class='v'>⚠️</span></div>"
+      +"</div><p class='sd-note'>💡 Le cadrage répond à UNE question : <b>la TVA collectée comptabilisée correspond-elle au chiffre d'affaires par taux ?</b> Tout écart doit être expliqué et corrigé AVANT la CA3.</p>";
+  }
+  function formCADR(){ var r=CADR, h="<div class='cf'>";
+    h+="<div class='cf-sec'><div class='cf-st'>1 · TVA collectée THÉORIQUE (base HT × taux)</div><div class='cf-body'>"
+      +lineFill("707000 Ventes 20 % — 84 000 × 20 %","","c20",16800,{ph:"…"})
+      +lineFill("706000 Prestations 10 % — 25 600 × 10 %","","c10",2560,{ph:"…"})
+      +lineFill("707100 Taux réduit 5,5 % — 12 400 × 5,5 %","","c55",682,{ph:"…"})
+      +lineRO("708300 Locations exonérées — 3 000 × 0 %","",0)
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TOTAL TVA THÉORIQUE</b></span>"+eurIn(fill("ctheo",r.theo,{ph:"somme des 3 lignes"}))+"</div></div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>2 · Rapprochement avec la comptabilité</div><div class='cf-body'>"
+      +lineRO("TVA collectée COMPTABILISÉE (solde 44571)","",r.coll)
+      +lineFill("ÉCART DE CADRAGE (théorique − 44571)","","cecart",r.ecart,{ph:"à justifier"})
+      +lineFill("OD de correction : 411 D / 44571 C (facture PRESTA-128 : 6 000 × 10 %)","","cod",600,{ph:"montant de l'OD"})
+      +"</div></div>";
+    h+="<div class='cf-sec'><div class='cf-st'>3 · TVA à décaisser (après correction)</div><div class='cf-body'>"
+      +lineRO("TVA collectée corrigée (44571 + OD)","",r.theo)
+      +lineRO("TVA déductible (44566)","",r.ded)
+      +"<div class='cf-line' style='border-top:1px dashed #cfd8e3;padding-top:7px;margin-top:7px'><span class='cf-lab'><b>TVA À DÉCAISSER (collectée corrigée − déductible) → 44551</b></span>"+eurIn(fill("cdec",r.decaisse,{ph:"…"}))+"</div></div></div>";
+    return h+"</div>";
+  }
+
   /* ---------- Registre des simulations ---------- */
   var SIMS = {
+    cadrage: {
+      titre:"Cadrage TVA — le contrôle mensuel du cabinet", sous:"On vérifie que la TVA collectée comptabilisée correspond au CA par taux, on justifie l'écart, on corrige, PUIS on déclare.",
+      tabs:[{id:"cadr",label:"Cadrage TVA",sub:"CA × taux vs 44571"}],
+      active:"cadr",
+      panes:{ cadr:{ srcCap:"Dossier — extrait de balance (mai 2026)", src:srcCADR, wide:true, formCap:"Tableau de cadrage TVA (feuille de travail cabinet)", form:formCADR,
+        tuto:["Calculez la <b>TVA théorique</b> de chaque ligne : <b>base HT × taux</b> (84 000 × 20 %…).",
+              "Additionnez → <b>TOTAL TVA théorique</b>.",
+              "Comparez au <b>solde du 44571</b> : <b>écart = théorique − comptabilisé</b>.",
+              "Cherchez la cause dans le dossier (ici : la facture <b>PRESTA-128</b> saisie sans TVA) et chiffrez l'<b>OD de correction</b>.",
+              "Terminez par la <b>TVA à décaisser</b> : collectée corrigée − déductible. Puis <b>Vérifier</b>."],
+        lien:"Réflexe cabinet : pas de CA3 sans cadrage — l'écart non justifié = risque de rappel. Entraînez-vous ensuite sur VOS écritures : menu 🧪 Logiciel → Cadrage TVA." } }
+    },
     das2: {
       titre:"Pratique — Simulateur interactif", sous:"Fiscalité : remplir un formulaire officiel à partir du dossier.",
       tabs:[{id:"das2",label:"DAS2",sub:"honoraires"},{id:"iris",label:"IS",sub:"2065 / 2572"},{id:"acis",label:"Acompte IS",sub:"2571"},{id:"cfe",label:"CFE",sub:"1447"},{id:"cif",label:"Crédit formation",sub:"dirigeant"}],
