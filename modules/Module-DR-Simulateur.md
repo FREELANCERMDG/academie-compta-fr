@@ -59,29 +59,9 @@ Dans les logiciels (Pennylane, ACD, Quadra…), la liasse se pré-remplit depuis
 | **A1 / A2** | Cotisations **personnelles de l'exploitant** (dont le **644 non déductible**) | Comptes 644 / 646 |
 | **A5** | Cotisations sociales **obligatoires hors CSG/CRDS** | Compte 646 (obligatoires) |
 | **A6 / A9** | Cotisations **facultatives** / **obligatoires** | 646 facultatif → A6 · 646 obligatoire → A9 |
-| **A7 / A8** | Dont **Madelin** / dont **nouveaux PER** | Feuille Madelin du DR (plafonds §4) |
+| **A7 / A8** | Dont **Madelin** / dont **nouveaux PER** | Feuille Madelin du DR |
 
 > 📌 Réflexe : pour chaque case manuelle, **noter au DR la source du chiffre** (tableau d'emprunt, cadrage TVA, feuille Madelin…) — c'est ce que vérifie le réviseur.
-
----
-
-## 4) 📅 Le DR type 2018 → 2026 : ce qui a changé (loi de finances)
-
-Si votre cabinet utilise un classeur DR ancien (type 2018), **mettez à jour ces paramètres** :
-
-| Paramètre | DR 2018 | **2026** |
-|---|---|---|
-| **PASS** | 39 732 € | **48 060 €** (PMSS 4 005 €) |
-| **IS** | 28 % / 33,1/3 % | **15 %** jusqu'à 42 500 € (PME) puis **25 %** |
-| **Barème IK** (5 CV, ≤ 5 000 km) | d × 0,543 | **d × 0,636** (barème non revalorisé depuis 2023 — vérifier l'arrêté annuel) |
-| **Cotisation minimale TNS** | 1 104 € | ≈ **1 200 €** (indicatif — voir appel URSSAF) |
-| **Assiette TNS** | revenu net | **assiette unique : revenu × 74 %** (réforme 2026, abattement 26 %) |
-| **DSI** | à préparer | **supprimée** (volet social intégré à la déclaration 2042) |
-| **Taxe d'apprentissage / formation** | provisions 6312 / 6333 (0,50 % + 0,18 %…) | **CUFPA** collectée **mensuellement par l'URSSAF via la DSN** → plus de provision annuelle ; seul le **solde TA 0,09 %** se règle via **SOLTéA** (mai) ; TA 0,68 % (0,44 % Alsace-Moselle), CFP 0,55 % (<11) / 1 % (≥11) |
-| **Madelin (plafonds)** | 10 % PASS = 3 973 € | retraite : 10 % du revenu (≤ 8 PASS) + 15 % tranche 1-8 PASS, **mini 10 % PASS = 4 806 €** ; santé/prévoyance : 3,75 % revenu + 7 % PASS, plafonné à 3 % × 8 PASS = **11 534 €** |
-| **Crédit d'impôt apprentissage** | case dédiée | **supprimé** (2019) |
-| **Crédit formation dirigeant** | heures × SMIC | **clos au 31/12/2024** |
-| **CVAE** | 1,5 % | en extinction — taux max **0,28 %** en 2026, suppression prévue 2030 |
 
 ---
 
@@ -98,7 +78,7 @@ Si votre cabinet utilise un classeur DR ancien (type 2018), **mettez à jour ces
 2. Que met-on en case **374** — le solde du 44571 ?
 3. Pourquoi la dépréciation client se calcule-t-elle sur le **HT** ?
 4. Provision TNS : quelle est la formule ?
-5. Citez 2 paramètres du DR 2018 devenus obsolètes.
+5. Que contrôle-t-on à l'étape POST-BILAN avant de servir la liasse ?
 
 **Seuil : 4/5.**
-**Corrigé :** 1) du **tableau d'emprunt** (capital restant dû − part à moins d'un an). 2) **Non** : la TVA collectée **facturée sur l'exercice**, hors à-nouveaux et OD de déclaration. 3) la TVA est récupérée par ailleurs — seule la perte HT appauvrit l'entreprise. 4) cotisations **dues** sur le revenu de l'année − cotisations **payées** → 646 / 4386. 5) DSI supprimée, crédit apprentissage supprimé, CIF clos 2024, provisions TA/FPC remplacées par la CUFPA mensuelle (DSN), barème IK/PASS revalorisés.
+**Corrigé :** 1) du **tableau d'emprunt** (capital restant dû − part à moins d'un an). 2) **Non** : la TVA collectée **facturée sur l'exercice**, hors à-nouveaux et OD de déclaration. 3) la TVA est récupérée par ailleurs — seule la perte HT appauvrit l'entreprise. 4) cotisations **dues** sur le revenu de l'année − cotisations **payées** → 646 / 4386. 5) que le **bilan est équilibré** (TOTAL ACTIF = TOTAL PASSIF) après intégration de toutes les OD d'inventaire — sinon un cycle est faux et on y retourne.
