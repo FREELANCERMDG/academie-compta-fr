@@ -343,6 +343,57 @@ function apercuModulesSection() {
   }).join('');
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><p style="text-align:center;color:#d7e3ee;margin:0 0 14px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : chaque module s'appuie sur des <b style="color:#fff">simulateurs interactifs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), des <b style="color:#fff">CERFA réels</b> et des écritures à compléter.</p><div class="prog">${rows}</div></section>`;
 }
+// --- Landing moderne (style SaaS e-learning) ---
+function landingHero(sess) {
+  const logged = !!(sess && sess.user);
+  const ctas = logged
+    ? `<a class="btn" href="/tableau-de-bord">Continuer ma formation →</a><a class="btn ghost" href="/cabinet">🏢 Espace cabinet</a>`
+    : `<a class="btn" href="/inscription">Créer mon compte gratuit →</a><a class="btn ghost" href="/programme">Voir le programme</a>`;
+  const tag = promoLive() ? '🎁 Tous les modules gratuits jusqu’au ' + promoFinFR() : '✨ Formation 100 % pratique — logiciel & simulateurs';
+  return `<section class="hero2">
+   <div>
+    <span class="htag">${tag}</span>
+    <h1>Maîtrisez la <span class="g">compta française.</span><br>Travaillez <span class="g">sans frontières.</span></h1>
+    <p class="lead">La plateforme qui forme les comptables malgaches à la <b>comptabilité française externalisée</b> : Pennylane, TVA, liasse fiscale, dossier de révision — sur de <b>vrais simulateurs façon cabinet</b>, jusqu'à l'<b>attestation certifiante</b>.</p>
+    <div class="cta-row">${ctas}</div>
+    <div class="statline">
+     <div class="s"><b>${MODULES.length}</b><span>Modules complets</span></div>
+     <div class="s"><b>60+</b><span>Leçons &amp; vidéos</span></div>
+     <div class="s"><b>15+</b><span>Simulateurs intégrés</span></div>
+     <div class="s"><b>100%</b><span>Pratique cabinet</span></div>
+    </div>
+   </div>
+   <div class="showcard">
+    <div class="srow"><div class="bot">🤖</div><div><div style="font-weight:800;color:#fff">Assistant Compta&nbsp;FR</div><div class="muted" style="font-size:12.5px">Bonjour 👋 Prêt pour le parcours cabinet&nbsp;?</div></div></div>
+    <div style="margin-top:14px;font-size:13px;color:#dde4f5">Continuer : <b>Module 1 — Bases du PCG</b></div>
+    <div class="pbar"><i style="width:18%"></i></div>
+    <div class="muted" style="font-size:11.5px">Étape 1/6 · ~10 min</div>
+    <p style="margin:12px 0 0"><a class="btn" style="display:block;text-align:center" href="${logged ? '/tableau-de-bord' : '/inscription'}">${logged ? 'Reprendre' : 'Commencer gratuitement'}</a></p>
+    <hr>
+    <div class="srow"><div class="ring" style="--p:70"><i>N3</i></div>
+     <div><div style="font-weight:800;color:#fff">Niveau Réviseur</div><div class="muted" style="font-size:12px">Progression du parcours cabinet</div>
+      <div style="margin-top:5px"><span class="skill">Saisie</span><span class="skill">TVA</span><span class="skill">Liasse</span><span class="skill">Révision</span></div></div>
+    </div>
+    <div class="muted" style="font-size:10.5px;text-align:center;margin-top:12px">Aperçu de votre espace d'apprentissage</div>
+   </div>
+  </section>`;
+}
+function categoryChips() {
+  const cats = [['🧮', 'Fondamentaux', 'mod1'], ['🖥️', 'Pennylane', 'mod2'], ['🔁', 'Opérations &amp; révision', 'mod3'], ['🧾', 'Fiscalité &amp; clôture', 'mod4'], ['📊', 'Liasse fiscale', 'mod5'], ['🏢', 'Cabinet &amp; carrière', 'mod6']];
+  return `<div class="sec-head"><h2>🧭 Parcourir par thème</h2><a href="/programme">Tout voir →</a></div>
+  <div class="catrow">${cats.map(c => `<a class="catchip" href="/apercu?m=${esc(c[2])}"><span class="ic">${c[0]}</span><span>${c[1]}</span></a>`).join('')}</div>`;
+}
+function coursesCarousel() {
+  const EMO = { mod1: '🧮', mod2: '🖥️', mod3: '🔁', mod4: '🧾', mod5: '📊', mod6: '🎓' };
+  const TAG = { mod1: 'Fondamentaux &amp; PCG', mod2: 'Pennylane — vidéos', mod3: 'Opérations &amp; révision', mod4: 'Fiscalité &amp; clôture', mod5: 'Liasse fiscale', mod6: 'Pratique &amp; certification' };
+  const cards = MODULES.map(m => {
+    const emo = EMO[m.code] || '📘';
+    const bdg = m.gratuit ? '<span class="bdg free">Gratuit</span>' : '<span class="bdg">Inclus</span>';
+    return `<a class="ccard" href="/apercu?m=${esc(m.code)}"><div class="thumb">${emo}${bdg}</div><div class="cbody"><h4>${esc(m.titre)}</h4><div class="meta">🛠️ ${TAG[m.code] || '100 % pratique'}</div></div></a>`;
+  }).join('');
+  return `<div class="sec-head"><h2>📚 Modules en vedette</h2><a href="/programme">Voir tout le programme →</a></div>
+  <div class="hscroll">${cards}</div>`;
+}
 function pageAccueil(sess) {
   const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const lsoc = cfg.societe || {};
@@ -352,11 +403,10 @@ function pageAccueil(sess) {
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
-  <section class="hero"><h1>Formation en comptabilité française externalisée</h1>
-  <p class="lead">Plateforme de formation en ligne pour <b>futurs collaborateurs, réviseurs et superviseurs</b> externalisés en <b>comptabilité française</b>. Cours, quiz, cas pratiques, suivi et certification. <b>Passez les étapes d'évaluation et obtenez votre attestation de fin de formation.</b></p>
-  <img class="illus" src="/public/photos/hero.png" alt="Cabinet comptable externalisé — expertise, fiabilité, performance" width="1672" height="941" loading="lazy">
-  <p><a class="btn" href="/inscription">Créer mon compte</a> <a class="btn ghost" href="/programme">Voir le programme (gratuit)</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
-  ${fiscaliteBadge()}</section>
+  ${landingHero(sess)}
+  <p style="text-align:center;margin:6px 0 0">${fiscaliteBadge()} <a class="btn ghost small" href="/decouverte">▶ Visite guidée (1 min)</a></p>
+  ${categoryChips()}
+  ${coursesCarousel()}
   ${visitesPublicCard()}
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
