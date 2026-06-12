@@ -309,7 +309,7 @@ function layout(title, body, sess) {
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><input type="checkbox" id="navtog" class="navtog" aria-hidden="true"><label for="navtog" class="navbtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></label><nav id="navmenu">${nav}</nav></header>${promoBan}
-${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
+${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, même hors‑ligne&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, même hors‑ligne&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
 <script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" defer></script></body></html>`;
@@ -399,10 +399,15 @@ function coursesCarousel() {
   <div class="hscroll">${cards}</div>`;
 }
 function installAppCard() {
-  return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff">
-   <h2>📱 Installez l'application</h2>
-   <p class="muted">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone : accès en 1 tap, en <b>plein écran</b>, et même <b>hors‑ligne</b>. Compatible <b>Android</b> et <b>iPhone</b> — aucune boutique requise.</p>
-   <p style="margin-bottom:0"><button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" id="installHint" style="font-size:13px;display:inline-block;margin-top:6px"></span></p>
+  return `<section class="card pwa-only" id="installCard" style="border-left:4px solid #38e8ff;background:linear-gradient(160deg,rgba(56,232,255,.08),rgba(124,108,255,.05))">
+   <h2>📱 Emportez votre formation partout — installez l'appli</h2>
+   <p class="muted" style="margin-bottom:8px">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone, <b>en 5 secondes</b> :</p>
+   <ul style="margin:0 0 14px;line-height:1.8;list-style:none;padding:0">
+     <li>⚡ <b>Accès en 1 tap</b> — comme une vraie application, plein écran sans barre de navigateur</li>
+     <li>📶 <b>Révisez même hors‑ligne</b> (dans le bus, en coupure réseau…)</li>
+     <li>🪶 <b>Légère &amp; rapide</b> — gratuite, sans boutique, sans pub, sans inscription en plus</li>
+   </ul>
+   <p style="margin-bottom:0"><button class="btn" id="installApp" type="button">📲 Installer maintenant</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone</span> <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
   </section>`;
 }
 function pageAccueil(sess) {
@@ -1784,6 +1789,14 @@ const server = http.createServer(async (req, res) => {
       trackVisit(req, p).catch(() => {});
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
+      if (p === '/.well-known/assetlinks.json') {
+        // Liaison Play Store (TWA) : activée quand TWA_PACKAGE + TWA_SHA256 sont définis dans Render
+        const pkg = (process.env.TWA_PACKAGE || '').trim(), fps = (process.env.TWA_SHA256 || '').trim();
+        if (!pkg || !fps) return send(res, 404, '404');
+        const body = JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: pkg, sha256_cert_fingerprints: fps.split(',').map(s => s.trim()).filter(Boolean) } }]);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
+        return res.end(body);
+      }
       if (p === '/sw.js') {
         try {
           const fp = path.join(DIR, 'public', 'sw.js');
