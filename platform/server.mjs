@@ -399,7 +399,7 @@ function pageAccueil(sess) {
   const lsoc = cfg.societe || {};
   const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
     { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": [{ "@type": "Country", "name": "Madagascar" }, { "@type": "City", "name": "Antananarivo" }, { "@type": "City", "name": "Tamatave (Toamasina)" }, { "@type": "City", "name": "Antsirabe" }, { "@type": "City", "name": "Majunga (Mahajanga)" }] },
-    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules, logiciel Pennylane, TVA, liasse fiscale, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
+    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
@@ -422,7 +422,7 @@ function pageAccueil(sess) {
   <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu’au <b>${promoFinFR()}</b> — sans aucun paiement.</p>
   <ol style="line-height:1.9;margin:8px 0 12px">
   <li><b>Inscrivez-vous gratuitement</b> (2 min).</li>
-  <li><b>Suivez les 6 modules</b> : Pennylane, TVA, liasse, simulateurs… de la saisie au bilan des PME françaises.</li>
+  <li><b>Suivez les 6 modules</b> : outils métier (comme Pennylane), opérations courantes TPE/PME, TVA, révision, liasse &amp; bilan… de la saisie à la préparation du bilan des PME françaises.</li>
   <li><b>Passez l'évaluation</b> et obtenez votre <b>attestation de fin de formation</b>.</li>
   </ol>
   <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/apercu?m=mod1">Découvrir le Module 1</a></p></section>` : `<section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${prixAffiche(o.prix)}</p></div>`).join('')}</div>
@@ -530,7 +530,7 @@ function pagePresentiel(sess) {
 
   <section class="card" style="text-align:center">
   <h2>🖥️ Pratique sur les logiciels du métier</h2>
-  <p style="font-size:17px"><b>Pratique sur</b> <span style="color:#1F4E78;font-weight:800">Pennylane</span></p>
+  <p style="font-size:17px"><b>Pratique sur</b> <span style="color:#1F4E78;font-weight:800">les outils métier (comme Pennylane)</span></p>
   <p><b>Intégration des écritures</b> sur <b style="color:#0a7">Silae</b> &amp; <b style="color:#5a8f3c">Sage 50</b></p>
   <p class="muted">Simulation via Silae &amp; Sage 50</p></section>
 
@@ -613,7 +613,7 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, les Modules 2 à 6 sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez les <b>Modules 2 à 6</b> (Pennylane, opérations & révision, fiscalité & clôture, liasse fiscale, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, les Modules 2 à 6 sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez les <b>Modules 2 à 6</b> (outils métier comme Pennylane, opérations courantes TPE/PME, fiscalité & clôture, liasse & bilan, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
