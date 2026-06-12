@@ -82,14 +82,53 @@ function touchSeen(uid) {
   try { db.prepare('UPDATE users SET vu_le=? WHERE id=?').run(new Date().toISOString(), uid); } catch {}
 }
 
-// --- Suivi des visites (agrégé par jour + pays, sans donnée personnelle) ---
+// --- Provinces de Madagascar (les 22 régions + faritany historiques → 6 provinces) ---
+const MG_PROVINCES = ['Antananarivo', 'Antsiranana', 'Fianarantsoa', 'Mahajanga', 'Toamasina', 'Toliara'];
+const MG_REGION_TO_PROV = {
+  // Antananarivo
+  analamanga: 'Antananarivo', bongolava: 'Antananarivo', itasy: 'Antananarivo', vakinankaratra: 'Antananarivo',
+  // Antsiranana
+  diana: 'Antsiranana', sava: 'Antsiranana',
+  // Fianarantsoa
+  'amoroni mania': 'Fianarantsoa', "amoron'i mania": 'Fianarantsoa', 'atsimo atsinanana': 'Fianarantsoa',
+  'haute matsiatra': 'Fianarantsoa', ihorombe: 'Fianarantsoa', vatovavy: 'Fianarantsoa', fitovinany: 'Fianarantsoa', 'vatovavy fitovinany': 'Fianarantsoa',
+  // Mahajanga
+  betsiboka: 'Mahajanga', boeny: 'Mahajanga', melaky: 'Mahajanga', sofia: 'Mahajanga',
+  // Toamasina
+  'alaotra mangoro': 'Toamasina', analanjirofo: 'Toamasina', atsinanana: 'Toamasina',
+  // Toliara
+  androy: 'Toliara', anosy: 'Toliara', 'atsimo andrefana': 'Toliara', menabe: 'Toliara',
+};
+// Normalise un nom de région/ville Cloudflare vers l'une des 6 provinces malgaches
+function mgProvince(raw) {
+  const s = (raw || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+province$/, '').replace(/[^a-z' ]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!s) return '';
+  for (const p of MG_PROVINCES) if (s.includes(p.toLowerCase())) return p;
+  if (MG_REGION_TO_PROV[s]) return MG_REGION_TO_PROV[s];
+  for (const [k, v] of Object.entries(MG_REGION_TO_PROV)) if (s.includes(k)) return v;
+  // Quelques grandes villes → province
+  if (/antananarivo|tana|antsirabe/.test(s)) return 'Antananarivo';
+  if (/antsiranana|diego|nosy be/.test(s)) return 'Antsiranana';
+  if (/fianarantsoa|manakara|farafangana/.test(s)) return 'Fianarantsoa';
+  if (/mahajanga|majunga/.test(s)) return 'Mahajanga';
+  if (/toamasina|tamatave/.test(s)) return 'Toamasina';
+  if (/toliara|tulear|fort dauphin|taolagnaro/.test(s)) return 'Toliara';
+  return '';
+}
+
+// --- Suivi des visites (agrégé par jour + pays + province MG, sans donnée personnelle) ---
 const VISIT_PAGES = new Set(['/', '/programme', '/emploi', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
 function trackVisit(req, p) {
   try {
     if (!VISIT_PAGES.has(p)) return;
     const jour = new Date().toISOString().slice(0, 10);
     const pays = (((fromProxy(req) && req.headers['x-orig-country']) || req.headers['cf-ipcountry'] || 'XX')).toString().toUpperCase().slice(0, 2);
-    db.prepare('INSERT INTO visites(jour,pays,n) VALUES(?,?,1) ON CONFLICT(jour,pays) DO UPDATE SET n=n+1').run(jour, pays);
+    let region = '';
+    if (pays === 'MG') {
+      const raw = (fromProxy(req) && req.headers['x-orig-region']) || req.headers['cf-region'] || req.headers['x-orig-city'] || req.headers['cf-ipcity'] || '';
+      region = mgProvince(raw);
+    }
+    db.prepare('INSERT INTO visites(jour,pays,region,n) VALUES(?,?,?,1) ON CONFLICT(jour,pays,region) DO UPDATE SET n=n+1').run(jour, pays, region);
   } catch {}
 }
 // Totaux de visites (réutilisés en page d'accueil + admin)
@@ -736,13 +775,19 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   const vTot = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites').get().t;
   const vToday = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour=?').get(_jour).t;
   const v7 = db.prepare('SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE jour>=?').get(_j7).t;
-  const vPays = db.prepare('SELECT pays, SUM(n) AS t FROM visites GROUP BY pays ORDER BY t DESC LIMIT 20').all();
+  // Madagascar détaillé par province ; les autres pays sont masqués (agrégés)
+  const vMG = db.prepare("SELECT region, SUM(n) AS t FROM visites WHERE pays='MG' GROUP BY region ORDER BY t DESC").all();
+  const vMGtot = vMG.reduce((s, r) => s + r.t, 0);
+  const vAutres = db.prepare("SELECT COALESCE(SUM(n),0) AS t FROM visites WHERE pays<>'MG'").get().t;
   const nInscr = db.prepare("SELECT COUNT(*) c FROM users WHERE role='apprenant'").get().c;
+  const provLabel = r => r ? `📍 ${esc(r)}` : '📍 Province non détectée';
   const visitesHtml = `<section class="card"><h2>📊 Visites du site &amp; inscrits</h2>
   <div class="stats"><div class="stat"><b>${vTot}</b><span>visites totales</span></div><div class="stat"><b>${vToday}</b><span>aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div><div class="stat"><b>${nInscr}</b><span>apprenants inscrits</span></div></div>
-  ${vPays.length ? `<h3>🌍 D'où viennent les visiteurs</h3><div class="tbl"><table><tr><th>Pays</th><th>Visites</th><th>Part</th></tr>
-  ${vPays.map(r => `<tr><td>${paysFlag(r.pays)} ${esc(paysNom(r.pays))}</td><td>${r.t}</td><td>${vTot ? Math.round(r.t * 100 / vTot) : 0} %</td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune visite enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
-  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). Le pays provient de Cloudflare. Pour des stats avancées (sources de trafic, parcours), consultez Cloudflare Analytics.</p></section>`;
+  ${vMGtot ? `<h3>🇲🇬 Visiteurs à Madagascar — par province</h3><div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part MG</th></tr>
+  ${vMG.map(r => `<tr><td>${provLabel(r.region)}</td><td>${r.t}</td><td>${vMGtot ? Math.round(r.t * 100 / vMGtot) : 0} %</td></tr>`).join('')}
+  <tr style="font-weight:800;border-top:2px solid #16307a"><td>Total Madagascar</td><td>${vMGtot}</td><td>${vTot ? Math.round(vMGtot * 100 / vTot) : 0} % du total</td></tr></table></div>
+  <p class="muted" style="font-size:12px">🌍 Autres pays (masqués) : <b>${vAutres}</b> visite${vAutres > 1 ? 's' : ''}.</p>` : '<p class="muted">Aucune visite Madagascar enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). La province vient de Cloudflare (en-tête <code>cf-region</code> / <code>x-orig-region</code>). Si elle reste « non détectée », activez les en-têtes de localisation Cloudflare (ou faites transmettre <code>request.cf.region</code> par le Worker).</p></section>`;
   // --- Sécurité : détection de partage de compte (IP distinctes / 30 jours) ---
   const _j30 = new Date(Date.now() - 30 * 86400000).toISOString();
   const partage = db.prepare(`SELECT u.email, COUNT(DISTINCT j.ip) AS nip, COUNT(*) AS nlog, MAX(j.ts) AS last

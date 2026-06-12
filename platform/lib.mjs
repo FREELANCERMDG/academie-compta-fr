@@ -82,6 +82,16 @@ export function openDB() {
   try { db.exec('ALTER TABLE users ADD COLUMN attestation_le TEXT'); } catch { }
   // table : réglages clé/valeur (ex. jeton Google Agenda pour les RDV visio)
   try { db.exec('CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, value TEXT)'); } catch { }
+  // Visites : ajout d'une colonne "region" (province pour Madagascar) — rebuild si schéma ancien
+  try {
+    const cols = db.prepare("PRAGMA table_info(visites)").all().map(c => c.name);
+    if (!cols.includes('region')) {
+      db.exec(`ALTER TABLE visites RENAME TO visites_old;
+        CREATE TABLE visites(jour TEXT, pays TEXT, region TEXT DEFAULT '', n INTEGER DEFAULT 0, PRIMARY KEY(jour, pays, region));
+        INSERT INTO visites(jour,pays,region,n) SELECT jour,pays,'',n FROM visites_old;
+        DROP TABLE visites_old;`);
+    }
+  } catch { }
   // === Logiciel comptable (sandbox pédagogique) : moteur partie double ===
   try { db.exec("CREATE TABLE IF NOT EXISTS cpta_dossiers(id TEXT PRIMARY KEY, user_id TEXT, nom TEXT, ex_debut TEXT, ex_fin TEXT, cree_le TEXT)"); } catch { }
   try { db.exec("CREATE TABLE IF NOT EXISTS cpta_ecritures(id TEXT PRIMARY KEY, dossier_id TEXT, journal TEXT, date TEXT, libelle TEXT, piece TEXT, cree_le TEXT)"); } catch { }
