@@ -102,10 +102,10 @@
   var panel = document.createElement('div');
   panel.id = 'acfc-p'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Assistant d\'information');
   panel.innerHTML =
-    '<div id="acfc-h"><div class="av">' + robot(26) + '</div><div><div class="ti">Assistant Académie Compta FR</div><div class="su"><span class="acfc-dot"></span>En ligne · réponses immédiates</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
+    '<div id="acfc-h"><div class="av">' + robot(26) + '</div><div><div class="ti">Assistant Compta FR · Expert</div><div class="su"><span class="acfc-dot"></span>Expert-comptable FR · 20 ans d\'expérience</div></div><button id="acfc-x" aria-label="Fermer">×</button></div>' +
     '<div id="acfc-m" aria-live="polite"></div>' +
     '<div id="acfc-chips"></div>' +
-    '<div id="acfc-f"><input id="acfc-i" placeholder="Votre question…" autocomplete="off"><button id="acfc-s" aria-label="Envoyer">➤</button></div>' +
+    '<div id="acfc-f"><input id="acfc-i" placeholder="TVA, écriture, bilan, liasse… votre question" autocomplete="off"><button id="acfc-s" aria-label="Envoyer">➤</button></div>' +
     '<div id="acfc-foot">🔒 Sans cookie de pistage · vos messages restent sur cette page</div>';
   document.body.appendChild(launcher); document.body.appendChild(panel);
 
