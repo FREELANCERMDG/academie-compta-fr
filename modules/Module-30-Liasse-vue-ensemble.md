@@ -19,7 +19,8 @@
 | **IS — réel simplifié** | **2065** | **2033‑A → 2033‑G** |
 | **IR / BIC — réel normal** | **2031** | **2050 → 2059‑G** |
 | **IR / BIC — réel simplifié** | **2031** | **2033‑A → 2033‑G** |
-| **Sociétés de personnes (BIC)** | **2036** | selon régime |
+| **Sociétés de personnes (BIC)** (SNC, EURL à l'IR…) | **2031** | selon régime (2050→2059‑G ou 2033‑A→G) |
+| **Sociétés civiles de moyens (SCM)** | **2036** | — |
 | **BNC — déclaration contrôlée** | **2035** | **2035‑A / ‑B / ‑E** |
 | **BA — réel simplifié agricole** | **2139** | **2139‑A à ‑G** |
 | **BA — réel normal agricole** | **2143** | **2144 → 2154** |

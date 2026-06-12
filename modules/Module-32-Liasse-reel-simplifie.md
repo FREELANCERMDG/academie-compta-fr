@@ -26,10 +26,10 @@
 
 <div class="cerfa" data-form="2033b"></div>
 - **Partie haute** : compte de résultat simplifié (produits − charges = **résultat comptable**).
-- **Partie basse** : **réintégrations (+)** (amendes, TVS, amort. VP excédentaire, rémunération exploitant pour les sociétés IR…) et **déductions (−)** (plus‑values LT, produits non imposables…).
+- **Partie basse** : **réintégrations (+)** (amendes, taxes sur l'affectation des véhicules de tourisme (ex‑TVS : taxe CO2 + taxe polluants), amort. VP excédentaire, rémunération exploitant pour les sociétés IR…) et **déductions (−)** (plus‑values LT, produits non imposables…).
 - **Résultat fiscal** = résultat comptable + réintégrations − déductions.
 
-> **Exemple.** Résultat comptable 18 000 €. Réintégrations : amendes 300 + TVS 900 = **+1 200**. Déductions : 0. **Résultat fiscal = 19 200 €**.
+> **Exemple.** Résultat comptable 18 000 €. Réintégrations : amendes 300 + taxes véhicules (ex‑TVS) 900 = **+1 200**. Déductions : 0. **Résultat fiscal = 19 200 €**.
 
 ### 🛠️ Simulateur interactif — 2033-B (réel simplifié)
 À partir du dossier (à gauche), complétez le **2033-B** : réintégrations, déductions, **résultat fiscal = comptable + réintégrations − déductions**. Tutoriel en tête, puis **Vérifier**.
@@ -39,7 +39,7 @@
 ---
 
 ## 3) Différences clés RSI vs réel normal
-- **Moins de tableaux** (7 contre une douzaine).
+- **Moins de tableaux** : 7 (2033‑A à G) contre **18** (2050 à 2059‑G) au réel normal.
 - **Bilan & CR simplifiés** (postes regroupés).
 - **Pas d'état des échéances** (2057) ni de détail aussi fin des provisions.
 - **Mêmes principes fiscaux** (réintégrations/déductions, plus‑values, CVAE).

@@ -16,12 +16,12 @@
 **Spécificités à intégrer :**
 - **Stocks vivants** (animaux, récoltes) : valorisation particulière (cours du jour / coût de revient).
 - **Aides PAC** : **subventions d'exploitation (74)**, rattachées au bon exercice.
-- **DPI / DPA** (déductions pour investissement / pour aléas) → réintégrations/déductions spécifiques.
+- **DEP** (déduction pour épargne de précaution, art. 73 du CGI — remplace les anciennes DPI/DPA depuis 2019) → déductions/réintégrations spécifiques.
 - **Moyenne triennale** et **étalement** des revenus exceptionnels.
 - **Social : MSA** (pas l'URSSAF).
 - **TVA agricole** : remboursement forfaitaire **ou** régime simplifié agricole (**CA12A**).
 
-> **Exemple (réel simplifié).** Recettes 180 000, charges 150 000, variation de stock vivant +5 000 → résultat **35 000 €** sur la **2139‑B** ; DPA pratiquée −8 000 → résultat fiscal **27 000 €**.
+> **Exemple (réel simplifié).** Recettes 180 000, charges 150 000, variation de stock vivant +5 000 → résultat **35 000 €** sur la **2139‑B** ; DEP pratiquée −8 000 → résultat fiscal **27 000 €**.
 
 ### 🛠️ Simulateur interactif — 2139 (bénéfices agricoles)
 À partir du dossier d'une exploitation (à gauche), complétez la **2139** : total produits, total charges, **résultat fiscal BA = produits − charges**. Tutoriel en tête, puis **Vérifier**.
@@ -54,7 +54,7 @@
 <div class="simdoc" data-sim="liasse" data-tab="sci"></div>
 
 ### 📝 Comment remplir le 2072‑S — pas à pas (vrai CERFA n° 2072‑S‑SD)
-La SCI à l'IR **ne paie pas l'impôt** : la 2072‑S calcule le **résultat à répartir** ; chaque associé reporte sa quote‑part sur sa **2044** → **2042**. Dépôt **dématérialisé obligatoire** (avant début mai).
+La SCI à l'IR **ne paie pas l'impôt** : la 2072‑S calcule le **résultat à répartir** ; chaque associé reporte sa quote‑part sur sa **2044** → **2042**. Dépôt **dématérialisé obligatoire**, au plus tard le **2e jour ouvré suivant le 1er mai** (+ 15 jours calendaires en télédéclaration EDI).
 
 1. **Annexe 2072‑S‑A1 (le détail, cadre VII)** — pour **chaque immeuble** : **loyers bruts encaissés** ; **charges déductibles** (frais de gestion, taxe foncière, assurance, travaux…) ; **intérêts d'emprunt** ; **revenu net** de l'immeuble.
 2. **Cadre I — Résultat net à répartir (page 1)** — **R1** Revenus bruts (total des immeubles) ; **R2** Paiement sur travaux ; **R3** Frais et charges *autres* que les intérêts ; **R4** Intérêts d'emprunts ; **R5** **Revenu net (+) ou déficit net (−)** = R1 − R3 − R4 (± R2).
