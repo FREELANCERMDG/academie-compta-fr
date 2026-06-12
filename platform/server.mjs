@@ -1221,7 +1221,7 @@ function ensureDossier(uid) {
 }
 function cptaBalance(did) { return db.prepare('SELECT compte, SUM(debit) d, SUM(credit) c FROM cpta_lignes WHERE dossier_id=? GROUP BY compte ORDER BY compte').all(did).map(r => ({ compte: r.compte, nom: pcgNom(r.compte), debit: r.d || 0, credit: r.c || 0, solde: (r.d || 0) - (r.c || 0) })); }
 function cptaResultat(did) { const b = cptaBalance(did); let ch = 0, pr = 0; for (const r of b) { const cl = r.compte.charAt(0); if (cl === '6') ch += r.debit - r.credit; else if (cl === '7') pr += r.credit - r.debit; } return { charges: ch, produits: pr, resultat: pr - ch }; }
-function cptaNav(active) { const items = [['/logiciel', 'Accueil'], ['/logiciel/saisie', '🖊️ Saisie'], ['/logiciel/grand-livre', '📒 Grand livre'], ['/logiciel/balance', '⚖️ Balance'], ['/logiciel/etats', '📊 États']]; return '<p style="margin:0 0 12px">' + items.map(i => i[0] === active ? `<b>${esc(i[1])}</b>` : `<a href="${i[0]}">${esc(i[1])}</a>`).join(' &nbsp;·&nbsp; ') + '</p>'; }
+function cptaNav(active) { const items = [['/logiciel', 'Accueil'], ['/logiciel/saisie', '🖊️ Saisie'], ['/logiciel/grand-livre', '📒 Grand livre'], ['/logiciel/balance', '⚖️ Balance'], ['/logiciel/cadrage-tva', '🧾 Cadrage TVA'], ['/logiciel/etats', '📊 États']]; return '<p style="margin:0 0 12px">' + items.map(i => i[0] === active ? `<b>${esc(i[1])}</b>` : `<a href="${i[0]}">${esc(i[1])}</a>`).join(' &nbsp;·&nbsp; ') + '</p>'; }
 
 function pageLogiciel(sess) {
   const u = sess.user, d = ensureDossier(u.id);
@@ -1296,6 +1296,52 @@ function pageEtats(sess) {
    <div class="grid"><div><h3>ACTIF</h3><table style="width:100%;border-collapse:collapse">${liR(actif, 'd') || '<tr><td class="muted">—</td></tr>'}<tr style="font-weight:800;border-top:2px solid #16307a"><td>TOTAL ACTIF</td><td style="text-align:right">${eurf(totA)}</td></tr></table></div>
    <div><h3>PASSIF</h3><table style="width:100%;border-collapse:collapse">${liR(passif, 'c')}<tr><td>Résultat de l'exercice</td><td style="text-align:right">${eurf(r.resultat)}</td></tr><tr style="font-weight:800;border-top:2px solid #16307a"><td>TOTAL PASSIF</td><td style="text-align:right">${eurf(totP)}</td></tr></table></div></div>
    <p class="muted" style="font-size:12px">${Math.abs(totA - totP) < 0.01 ? '✅ Bilan équilibré : ACTIF = PASSIF.' : '⚠️ Bilan déséquilibré (vérifiez vos écritures).'}</p></section>`, sess);
+}
+// Cadrage TVA « comme en cabinet » : base HT par taux (comptes 7x) → TVA collectée théorique,
+// comparée au 4457x comptabilisé ; écart, diagnostic et TVA à décaisser théorique.
+function pageCadrageTva(sess, url) {
+  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id);
+  const produits = b.filter(x => x.compte.charAt(0) === '7' && Math.abs(x.credit - x.debit) > 0.004);
+  const TAUX = ['20', '10', '5.5', '2.1', '0'];
+  const sel = {};
+  for (const r of produits) { let t = url.searchParams.get('t_' + r.compte) || '20'; if (!TAUX.includes(t)) t = '20'; sel[r.compte] = t; }
+  let totBase = 0, totTheo = 0;
+  const rows = produits.map(r => {
+    const base = r.credit - r.debit, tx = parseFloat(sel[r.compte]), theo = Math.round(base * tx) / 100;
+    totBase += base; totTheo += theo;
+    return `<tr><td><a href="/logiciel/grand-livre?c=${esc(r.compte)}">${esc(r.compte)}</a></td><td>${esc(r.nom)}</td><td style="text-align:right">${eurf(base)}</td>
+      <td style="text-align:center"><select name="t_${esc(r.compte)}" style="padding:4px 6px;border-radius:6px">${TAUX.map(t => `<option value="${t}"${sel[r.compte] === t ? ' selected' : ''}>${t.replace('.', ',')} %${t === '0' ? ' (exo)' : ''}</option>`).join('')}</select></td>
+      <td style="text-align:right;font-weight:600">${eurf(theo)}</td></tr>`;
+  }).join('');
+  const coll = b.filter(x => x.compte.startsWith('4457')).reduce((s, x) => s + (x.credit - x.debit), 0);
+  const ded = b.filter(x => x.compte.startsWith('44562') || x.compte.startsWith('44566')).reduce((s, x) => s + (x.debit - x.credit), 0);
+  const autoliq = b.filter(x => x.compte.startsWith('4452')).reduce((s, x) => s + (x.credit - x.debit), 0);
+  const ecart = totTheo - coll, ok = Math.abs(ecart) <= 1;
+  const aDecaisser = coll - ded;
+  return layout('Cadrage TVA', `<h1>🧾 Cadrage de TVA collectée</h1>${cptaNav('/logiciel/cadrage-tva')}
+  <section class="card"><p class="muted" style="font-size:13px;margin-top:0"><b>La méthode cabinet :</b> ① ventiler le chiffre d'affaires (classe 7) par <b>taux de TVA</b> → ② calculer la <b>TVA théorique</b> (base × taux) → ③ la comparer à la <b>TVA collectée comptabilisée</b> (comptes 4457x) → ④ <b>justifier tout écart</b> avant de préparer la CA3.</p>
+  ${produits.length ? `<form method="get" action="/logiciel/cadrage-tva">
+  <table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left">Compte</th><th style="text-align:left">Intitulé</th><th style="text-align:right">Base HT (solde)</th><th>Taux</th><th style="text-align:right">TVA théorique</th></tr>
+  ${rows}
+  <tr style="font-weight:800;border-top:2px solid #16307a"><td colspan="2">TOTAL</td><td style="text-align:right">${eurf(totBase)}</td><td></td><td style="text-align:right">${eurf(totTheo)}</td></tr></table>
+  <p style="margin:10px 0 0"><button class="btn small" type="submit">🔄 Recalculer avec ces taux</button> <span class="muted" style="font-size:12px">— choisissez le taux applicable à chaque compte de produits (comme dans le tableur de cadrage du cabinet).</span></p></form>
+  <div class="offre" style="margin-top:14px;border-left:4px solid ${ok ? '#1e7d46' : '#c0392b'}">
+    <table style="width:100%;border-collapse:collapse">
+      <tr><td>TVA collectée <b>théorique</b> (CA × taux)</td><td style="text-align:right;font-weight:700">${eurf(totTheo)}</td></tr>
+      <tr><td>TVA collectée <b>comptabilisée</b> (4457x)</td><td style="text-align:right;font-weight:700">${eurf(coll)}</td></tr>
+      <tr style="border-top:1px solid var(--line)"><td><b>Écart de cadrage</b></td><td style="text-align:right;font-weight:800;color:${ok ? '#1f8a4c' : '#c0392b'}">${eurf(ecart)}</td></tr>
+    </table>
+    <p style="margin:8px 0 0;font-weight:700">${ok ? '✅ TVA cadrée (écart ≤ 1 € : arrondis).' : '⚠️ Écart à justifier AVANT la déclaration.'}</p>
+    ${ok ? '' : `<p class="muted" style="font-size:13px;margin:6px 0 0"><b>Causes classiques :</b> taux mal affecté ci-dessus (vente à 10 % taxée à 20 %…) · écriture de vente passée <b>sans TVA</b> (ou l'inverse) · <b>avoir</b> non ventilé · OD de TVA manquante · produits <b>hors champ</b> (75/76/77) à mettre à 0 % · décalage <b>encaissements/débits</b> (prestations). Ouvrez le <a href="/logiciel/grand-livre?c=44571">grand livre du 44571</a> et pointez ligne à ligne.</p>`}
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px">
+    <div class="offre"><div class="muted" style="font-size:12px">TVA déductible comptabilisée (44562 + 44566)</div><b style="font-size:18px">${eurf(ded)}</b></div>
+    ${Math.abs(autoliq) > 0.004 ? `<div class="offre"><div class="muted" style="font-size:12px">TVA autoliquidée (4452x) — neutre si reprise en déductible</div><b style="font-size:18px">${eurf(autoliq)}</b></div>` : ''}
+    <div class="offre"><div class="muted" style="font-size:12px">${aDecaisser >= 0 ? 'TVA à décaisser théorique (→ 44551)' : 'Crédit de TVA théorique (→ 44567)'}</div><b style="font-size:18px;color:${aDecaisser >= 0 ? '#9a5b00' : '#1f8a4c'}">${eurf(Math.abs(aDecaisser))}</b></div>
+  </div>
+  <p class="muted" style="font-size:12px;margin-top:12px">📌 <b>Réflexe cabinet :</b> on <b>cadre la TVA chaque mois AVANT la CA3</b> et on archive le cadrage au dossier de révision (cycle TVA). Un écart non justifié = risque de rappel en cas de contrôle.</p>`
+    : `<p class="muted">Aucun produit (classe 7) saisi pour l'instant. <a href="/logiciel/saisie">Saisissez d'abord des ventes →</a> puis revenez cadrer la TVA.</p>`}
+  </section>`, sess);
 }
 function postLogicielSaisie(req, res, sess, body) {
   if (!authed(sess)) return redirect(res, '/connexion');
@@ -1420,6 +1466,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/logiciel/grand-livre') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageGrandLivre(sess, (url.searchParams.get('c') || '').replace(/\s/g, ''))); }
       if (p === '/logiciel/balance') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageBalance(sess)); }
       if (p === '/logiciel/etats') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageEtats(sess)); }
+      if (p === '/logiciel/cadrage-tva') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageCadrageTva(sess, url)); }
       if (p === '/communaute/messages') {
         if (!authed(sess) || !forumAccess(sess)) { res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end('[]'); }
         const out = forumMsgsSince(url.searchParams.get('since') || '').map(forumMsgJSON);

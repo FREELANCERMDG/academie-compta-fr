@@ -42,3 +42,11 @@ Le cadrage annuel **compare la TVA réellement comptabilisée** avec la **TVA th
 - Pas de validation de TVA **sans cadrage** : c'est le point de contrôle qui évite les redressements.
 - Un écart vient souvent d'une **transaction non traitée**, d'un **mauvais taux** ou d'un **compte d'attente** mal soldé.
 - Conserver le **tableau de cadrage** comme justificatif du dossier.
+
+## 🧪 À vous de jouer — faites VOTRE cadrage dans le Logiciel
+
+La plateforme intègre un **outil de cadrage TVA comme en cabinet**, branché sur **vos propres écritures** du logiciel sandbox :
+
+1. Saisissez quelques ventes (et la TVA collectée) dans le **🧪 Logiciel** (menu du haut) → **Saisie**.
+2. Ouvrez **<a href="/logiciel/cadrage-tva" target="_blank" rel="noopener">🧾 Cadrage TVA</a>** : affectez un **taux** à chaque compte de produits, l'outil calcule la **TVA théorique**, la compare au **4457x comptabilisé** et vous donne l'**écart à justifier** + la **TVA à décaisser** théorique.
+3. Provoquez un écart exprès (une vente saisie sans TVA) et observez le diagnostic — c'est exactement le contrôle fait chaque mois en cabinet avant la CA3.
