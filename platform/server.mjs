@@ -408,7 +408,7 @@ function installAppCard() {
    <p class="muted" style="margin-bottom:8px">Mettez <b>Académie Compta FR</b> sur l'écran d'accueil de votre téléphone, <b>en 5 secondes</b> :</p>
    <ul style="margin:0 0 14px;line-height:1.8;list-style:none;padding:0">
      <li>⚡ <b>Accès en 1 tap</b> — comme une vraie application, plein écran sans barre de navigateur</li>
-     <li>🚀 <b>Démarrage instantané</b>, même en connexion lente</li>
+     ${promoLive() ? '<li>📶 <b>Révisez même hors‑ligne</b> pendant la période gratuite</li>' : '<li>🚀 <b>Démarrage instantané</b>, même en connexion lente</li>'}
      <li>🪶 <b>Légère &amp; rapide</b> — gratuite, sans pub, sans inscription en plus</li>
    </ul>
    <p style="margin-bottom:0">${ctas} <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
@@ -1145,7 +1145,10 @@ window.addEventListener('afterprint',function(){try{document.body.style.display=
   html = html.replace('<header>', '<header>' + courseBack);
   html = html.replace('</body>', inject + '</body>');
   securityHeaders(res, { courseCSP: true, prod: PROD });
-  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate' });
+  // Hors-ligne autorisé UNIQUEMENT pendant la promo gratuite : on transmet l'échéance (ms) au service worker.
+  // Après l'échéance → 0 → le cours n'est jamais mis en cache et le cache existant est purgé (contenu bloqué).
+  const promoUntil = promoAccesLibre() ? (Date.parse(promoExpiryISO() || '') || 0) : 0;
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate', 'X-Promo-Until': String(promoUntil) });
   res.end(html);
 }
 
