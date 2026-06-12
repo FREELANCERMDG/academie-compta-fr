@@ -19,7 +19,7 @@ La **saisie d'une facture** (achat ou vente) dans Pennylane — de la pièce jus
 
 **Achat — facture fournisseur (TVA déductible)**
 
-<table class="ecr"><caption>Journal ACH · 15/01/2025 · Facture fournisseur OVH n°F2025-014</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>626100</td><td>Frais de télécoms / hébergement</td><td class="d">100,00</td><td class="c"></td></tr><tr><td>445660</td><td>TVA déductible 20 %</td><td class="d">20,00</td><td class="c"></td></tr><tr><td>401OVH</td><td>OVH SAS</td><td class="d"></td><td class="c">120,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">120,00</td><td class="c">120,00</td></tr></tbody></table>
+<table class="ecr"><caption>Journal ACH · 15/01/2025 · Facture fournisseur OVH n°F2025-014</caption><thead><tr><th>Compte</th><th>Libellé</th><th class="d">Débit</th><th class="c">Crédit</th></tr></thead><tbody><tr><td>613500</td><td>Location mobilière — hébergement serveur</td><td class="d">100,00</td><td class="c"></td></tr><tr><td>445660</td><td>TVA déductible 20 %</td><td class="d">20,00</td><td class="c"></td></tr><tr><td>401OVH</td><td>OVH SAS</td><td class="d"></td><td class="c">120,00</td></tr><tr class="tot"><td></td><td>Total</td><td class="d">120,00</td><td class="c">120,00</td></tr></tbody></table>
 
 **Vente — facture client (TVA collectée)**
 
