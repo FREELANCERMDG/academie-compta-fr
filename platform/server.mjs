@@ -238,7 +238,7 @@ function layout(title, body, sess) {
   const wa = (soc.whatsapp || '').replace(/\D/g, '');
   const waBtn = wa ? `<a class="wa" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite des informations sur la formation en comptabilité française externalisée.')}" target="_blank" rel="noopener" title="Contact WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.02zm-7.01 15.22h-.004a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31c-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>` : '';
   const nav = u
-    ? `<a href="/programme">Programme</a><a href="/presentiel">Présentiel</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/logiciel">🧪 Logiciel</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
+    ? `<a href="/programme">Programme</a><a href="/presentiel">Présentiel</a><a href="/emploi">Emploi</a><a href="/communaute">Communauté</a><a href="/cabinet">🏢 Cabinet</a><a href="/logiciel">🧪 Logiciel</a><a href="/tableau-de-bord">Mon espace</a>${u.role === 'admin' ? '<a href="/formation">Formation</a><a href="/admin">Admin</a>' : ''}<a href="/deconnexion">Déconnexion</a>`
     : `<a href="/programme">Programme</a><a href="/presentiel">Présentiel</a><a href="/emploi">Emploi</a><a href="/connexion">Connexion</a><a class="cta" href="/inscription">S'inscrire</a>`;
   const desc = 'Plateforme de formation en ligne pour futurs collaborateurs, réviseurs et superviseurs externalisés en comptabilité française, partout à Madagascar — Antananarivo, Tamatave, Antsirabe, Majunga. Cours, quiz, cas pratiques, certification.';
   const og = `${BASE_URL}/public/og-image.png`;
@@ -1280,17 +1280,24 @@ function ensureDossier(uid) {
   if (!d) { const id = rid(10); db.prepare('INSERT INTO cpta_dossiers(id,user_id,nom,ex_debut,ex_fin,cree_le) VALUES(?,?,?,?,?,?)').run(id, uid, "Ma société d'entraînement", '2026-01-01', '2026-12-31', new Date().toISOString()); d = db.prepare('SELECT * FROM cpta_dossiers WHERE id=?').get(id); }
   return d;
 }
+// Dossier « actif » du collaborateur (sélection persistée) — sinon le premier (sandbox historique)
+function currentDossier(uid) {
+  const sel = db.prepare('SELECT cab_dossier FROM users WHERE id=?').get(uid);
+  if (sel && sel.cab_dossier) { const d = db.prepare('SELECT * FROM cpta_dossiers WHERE id=? AND user_id=?').get(sel.cab_dossier, uid); if (d) return d; }
+  return ensureDossier(uid);
+}
 function cptaBalance(did) { return db.prepare('SELECT compte, SUM(debit) d, SUM(credit) c FROM cpta_lignes WHERE dossier_id=? GROUP BY compte ORDER BY compte').all(did).map(r => ({ compte: r.compte, nom: pcgNom(r.compte), debit: r.d || 0, credit: r.c || 0, solde: (r.d || 0) - (r.c || 0) })); }
 function cptaResultat(did) { const b = cptaBalance(did); let ch = 0, pr = 0; for (const r of b) { const cl = r.compte.charAt(0); if (cl === '6') ch += r.debit - r.credit; else if (cl === '7') pr += r.credit - r.debit; } return { charges: ch, produits: pr, resultat: pr - ch }; }
-function cptaNav(active) { const items = [['/logiciel', 'Accueil'], ['/logiciel/saisie', '🖊️ Saisie'], ['/logiciel/grand-livre', '📒 Grand livre'], ['/logiciel/balance', '⚖️ Balance'], ['/logiciel/cadrage-tva', '🧾 Cadrage TVA'], ['/logiciel/etats', '📊 États']]; return '<p style="margin:0 0 12px">' + items.map(i => i[0] === active ? `<b>${esc(i[1])}</b>` : `<a href="${i[0]}">${esc(i[1])}</a>`).join(' &nbsp;·&nbsp; ') + '</p>'; }
+function cptaNav(active) { const items = [['/cabinet', '🏢 Cabinet'], ['/logiciel', 'Accueil'], ['/logiciel/saisie', '🖊️ Saisie'], ['/logiciel/grand-livre', '📒 Grand livre'], ['/logiciel/balance', '⚖️ Balance'], ['/logiciel/cadrage-tva', '🧾 Cadrage TVA'], ['/logiciel/etats', '📊 États']]; return '<p style="margin:0 0 12px">' + items.map(i => i[0] === active ? `<b>${esc(i[1])}</b>` : `<a href="${i[0]}">${esc(i[1])}</a>`).join(' &nbsp;·&nbsp; ') + '</p>'; }
 
 function pageLogiciel(sess) {
-  const u = sess.user, d = ensureDossier(u.id);
+  const u = sess.user, d = currentDossier(u.id);
   const nbE = db.prepare('SELECT COUNT(*) c FROM cpta_ecritures WHERE dossier_id=?').get(d.id).c;
   const tot = db.prepare('SELECT SUM(debit) d, SUM(credit) c FROM cpta_lignes WHERE dossier_id=?').get(d.id);
   const r = cptaResultat(d.id), eq = Math.abs((tot.d || 0) - (tot.c || 0)) < 0.005;
   return layout('Logiciel', `<h1>🧪 Logiciel comptable <span class="muted" style="font-size:13px;font-weight:400">· sandbox d'entraînement</span></h1>
-  <p class="muted">Votre société d'entraînement : <b>${esc(d.nom)}</b> · exercice ${esc(d.ex_debut)} → ${esc(d.ex_fin)}. Saisissez de <b>vraies écritures</b> et voyez le <b>grand livre</b>, la <b>balance</b> et le <b>bilan</b> se calculer tout seuls.</p>
+  <p class="muted">Dossier actif : <b>${esc(d.nom)}</b> · exercice ${esc(d.ex_debut)} → ${esc(d.ex_fin)}. <a href="/cabinet">🏢 Changer de dossier / Espace cabinet →</a></p>
+  <p class="muted">Saisissez de <b>vraies écritures</b> et voyez le <b>grand livre</b>, la <b>balance</b> et le <b>bilan</b> se calculer tout seuls.</p>
   <div class="grid">
    <a class="offre" href="/logiciel/saisie" style="text-decoration:none"><h3>🖊️ Saisie</h3><p class="muted">Passer une écriture par journal</p></a>
    <a class="offre" href="/logiciel/grand-livre" style="text-decoration:none"><h3>📒 Grand livre</h3><p class="muted">Le détail compte par compte</p></a>
@@ -1304,7 +1311,7 @@ function pageLogiciel(sess) {
   </section>`, sess);
 }
 function pageLogicielSaisie(sess, msg) {
-  const d = ensureDossier(sess.user.id);
+  const d = currentDossier(sess.user.id);
   const recent = db.prepare('SELECT * FROM cpta_ecritures WHERE dossier_id=? ORDER BY cree_le DESC LIMIT 15').all(d.id);
   const lineRow = '<tr><td><input class="cc" placeholder="ex. 607" autocomplete="off" style="width:100%"></td><td><input class="cl" placeholder="libellé" style="width:100%"></td><td><input class="cd" inputmode="decimal" placeholder="0,00" style="width:100%;text-align:right"></td><td><input class="cr" inputmode="decimal" placeholder="0,00" style="width:100%;text-align:right"></td><td style="text-align:center"><button type="button" class="rm" title="Supprimer" style="border:none;background:#fbe7e7;color:#c0392b;border-radius:6px;width:26px;height:26px;cursor:pointer">×</button></td></tr>';
   return layout('Saisie', `<h1>🖊️ Nouvelle écriture</h1>${cptaNav('/logiciel/saisie')}
@@ -1326,13 +1333,13 @@ function pageLogicielSaisie(sess, msg) {
   <script src="/public/logiciel.js?v=${ASSET_V}" defer></script>`, sess);
 }
 function pageBalance(sess) {
-  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id);
+  const d = currentDossier(sess.user.id), b = cptaBalance(d.id);
   const td = b.reduce((s, r) => s + r.debit, 0), tc = b.reduce((s, r) => s + r.credit, 0);
   return layout('Balance', `<h1>⚖️ Balance générale</h1>${cptaNav('/logiciel/balance')}
   <section class="card">${b.length ? `<table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left">Compte</th><th style="text-align:left">Intitulé</th><th style="text-align:right">Débit</th><th style="text-align:right">Crédit</th><th style="text-align:right">Solde</th></tr>${b.map(r => `<tr><td><a href="/logiciel/grand-livre?c=${esc(r.compte)}">${esc(r.compte)}</a></td><td>${esc(r.nom)}</td><td style="text-align:right">${eurf(r.debit)}</td><td style="text-align:right">${eurf(r.credit)}</td><td style="text-align:right">${eurf(r.solde)}</td></tr>`).join('')}<tr style="font-weight:800;border-top:2px solid #16307a"><td colspan="2">TOTAUX</td><td style="text-align:right">${eurf(td)}</td><td style="text-align:right">${eurf(tc)}</td><td style="text-align:right">${eurf(td - tc)}</td></tr></table><p class="muted" style="font-size:12px">${Math.abs(td - tc) < 0.005 ? '✅ Balance équilibrée.' : '⚠️ Déséquilibre de ' + eurf(td - tc) + ' € — une écriture est fausse.'}</p>` : '<p class="muted">Aucune écriture. <a href="/logiciel/saisie">Saisir une écriture →</a></p>'}</section>`, sess);
 }
 function pageGrandLivre(sess, compte) {
-  const d = ensureDossier(sess.user.id);
+  const d = currentDossier(sess.user.id);
   if (compte) {
     const ls = db.prepare('SELECT l.*, e.date d, e.journal j, e.libelle el FROM cpta_lignes l JOIN cpta_ecritures e ON e.id=l.ecriture_id WHERE l.dossier_id=? AND l.compte=? ORDER BY e.date, e.cree_le').all(d.id, compte);
     let s = 0; const rows = ls.map(l => { s += l.debit - l.credit; return `<tr><td>${esc(l.d)}</td><td>${esc(l.j)}</td><td>${esc(l.el || l.libelle)}</td><td style="text-align:right;color:#1554b8">${l.debit ? eurf(l.debit) : ''}</td><td style="text-align:right;color:#9a5b00">${l.credit ? eurf(l.credit) : ''}</td><td style="text-align:right;font-weight:700">${eurf(s)}</td></tr>`; }).join('');
@@ -1342,7 +1349,7 @@ function pageGrandLivre(sess, compte) {
   return layout('Grand livre', `<h1>📒 Grand livre</h1>${cptaNav('/logiciel/grand-livre')}<section class="card"><p class="muted">Choisissez un compte :</p>${b.length ? `<div class="prog">${b.map(r => `<div class="pitem"><span><a href="/logiciel/grand-livre?c=${esc(r.compte)}">${esc(r.compte)} ${esc(r.nom)}</a></span><b>${eurf(r.solde)}</b></div>`).join('')}</div>` : '<p class="muted">Aucune écriture.</p>'}</section>`, sess);
 }
 function pageEtats(sess) {
-  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id), r = cptaResultat(d.id);
+  const d = currentDossier(sess.user.id), b = cptaBalance(d.id), r = cptaResultat(d.id);
   const charges = b.filter(x => x.compte.charAt(0) === '6'), produits = b.filter(x => x.compte.charAt(0) === '7');
   const actif = b.filter(x => x.solde > 0.005 && '2345'.includes(x.compte.charAt(0)));
   const passif = b.filter(x => x.solde < -0.005 && '145'.includes(x.compte.charAt(0)));
@@ -1361,7 +1368,7 @@ function pageEtats(sess) {
 // Cadrage TVA « comme en cabinet » : base HT par taux (comptes 7x) → TVA collectée théorique,
 // comparée au 4457x comptabilisé ; écart, diagnostic et TVA à décaisser théorique.
 function pageCadrageTva(sess, url) {
-  const d = ensureDossier(sess.user.id), b = cptaBalance(d.id);
+  const d = currentDossier(sess.user.id), b = cptaBalance(d.id);
   const produits = b.filter(x => x.compte.charAt(0) === '7' && Math.abs(x.credit - x.debit) > 0.004);
   const TAUX = ['20', '10', '5.5', '2.1', '0'];
   const sel = {};
@@ -1406,7 +1413,7 @@ function pageCadrageTva(sess, url) {
 }
 function postLogicielSaisie(req, res, sess, body) {
   if (!authed(sess)) return redirect(res, '/connexion');
-  const d = ensureDossier(sess.user.id);
+  const d = currentDossier(sess.user.id);
   const journal = String(body.journal || 'OD').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4) || 'OD';
   const date = (String(body.date || '').slice(0, 10)) || new Date().toISOString().slice(0, 10);
   const lib = String(body.libelle || '').trim().slice(0, 160);
@@ -1426,18 +1433,210 @@ function postLogicielSaisie(req, res, sess, body) {
 }
 function postLogicielSuppr(req, res, sess, body) {
   if (!authed(sess)) return redirect(res, '/connexion');
-  const d = ensureDossier(sess.user.id);
+  const d = currentDossier(sess.user.id);
   const e = db.prepare('SELECT id FROM cpta_ecritures WHERE id=? AND dossier_id=?').get(body.id, d.id);
   if (e) { db.prepare('DELETE FROM cpta_lignes WHERE ecriture_id=?').run(e.id); db.prepare('DELETE FROM cpta_ecritures WHERE id=?').run(e.id); }
   return redirect(res, '/logiciel/saisie');
 }
 function postLogicielReset(req, res, sess, body) {
   if (!authed(sess)) return redirect(res, '/connexion');
-  const d = ensureDossier(sess.user.id);
+  const d = currentDossier(sess.user.id);
   db.prepare('DELETE FROM cpta_lignes WHERE dossier_id=?').run(d.id);
   db.prepare('DELETE FROM cpta_ecritures WHERE dossier_id=?').run(d.id);
   audit(db, sess.user.id, 'cpta_reset', '', ip(req));
   return redirect(res, '/logiciel');
+}
+
+// ============================================================
+// === ESPACE CABINET — cockpit multi-dossiers (chef de mission) ===
+// ============================================================
+const CAB_FORMES = ['Micro-entreprise', 'Entreprise individuelle', 'EURL', 'SARL', 'SAS', 'SASU', 'SA', 'SNC', 'SCI', 'Association', 'Autre'];
+const CAB_FISC = ['IR', 'IS'];
+const CAB_TVA = ['Franchise en base', 'Réel simplifié', 'Réel normal mensuel', 'Réel normal trimestriel'];
+const CAB_ACTIV = ['BIC — commercial', 'BIC — prestations de services', 'BNC — libéral', 'BA — agricole', 'LMNP / LMP', 'SCI', "Services à la personne", 'Autre'];
+const CAB_STATUTS = [['actif', '🟢 Actif'], ['ajour', '✅ À jour'], ['retard', '🔴 En retard'], ['attente', '⏳ Attente client'], ['archive', '📦 Archivé']];
+const cabStatutLabel = s => (CAB_STATUTS.find(x => x[0] === s) || CAB_STATUTS[0])[1];
+const CAB_CHECK = [
+  ['pieces', '📥 Pièces du mois collectées (achats, ventes, banque)'],
+  ['banque', '🏦 Banque saisie & rapprochée'],
+  ['tva', '🧾 TVA cadrée (collectée / déductible)'],
+  ['c471', "🟠 Compte 471 d'attente soldé"],
+  ['lettrage', '🔗 Clients / fournisseurs lettrés'],
+  ['paie', '👥 Paie & charges sociales saisies'],
+  ['od', '🧮 OD du mois (abonnements, FNP/FAE, OD de TVA)'],
+  ['revue', '🔍 Revue & validation chef de mission'],
+];
+function cabPeriode() { return new Date().toISOString().slice(0, 7); }
+function cabPeriodeFR(per) { const [y, m] = (per || '').split('-'); const MN = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']; return (MN[+m] || '') + ' ' + (y || ''); }
+function cabChecklist(did, per) {
+  const rows = db.prepare('SELECT cle, fait FROM cab_taches WHERE dossier_id=? AND periode=?').all(did, per);
+  const m = {}; for (const r of rows) m[r.cle] = r.fait;
+  return CAB_CHECK.map(([cle, lib]) => ({ cle, libelle: lib, fait: !!m[cle] }));
+}
+function cptaSoldePrefix(did, prefix) { const r = db.prepare('SELECT COALESCE(SUM(debit-credit),0) s FROM cpta_lignes WHERE dossier_id=? AND compte LIKE ?').get(did, prefix + '%'); return r.s || 0; }
+function cabHealth(did) {
+  const tot = db.prepare('SELECT COALESCE(SUM(debit),0) d, COALESCE(SUM(credit),0) c FROM cpta_lignes WHERE dossier_id=?').get(did);
+  const eq = Math.abs((tot.d || 0) - (tot.c || 0)) < 0.005;
+  const s471 = cptaSoldePrefix(did, '471');
+  const tvaColl = -cptaSoldePrefix(did, '4457');   // crédit → collectée
+  const tvaDed = cptaSoldePrefix(did, '4456');     // débit → déductible
+  const nbEcr = db.prepare('SELECT COUNT(*) c FROM cpta_ecritures WHERE dossier_id=?').get(did).c;
+  const per = cabPeriode(), ch = cabChecklist(did, per), done = ch.filter(t => t.fait).length;
+  const r = cptaResultat(did);
+  return { eq, s471, tvaColl, tvaDed, tvaNet: tvaColl - tvaDed, nbEcr, per, done, total: ch.length, resultat: r.resultat };
+}
+function dossiersOf(uid) { return db.prepare("SELECT * FROM cpta_dossiers WHERE user_id=? ORDER BY (COALESCE(statut,'actif')='archive'), cree_le").all(uid); }
+function cabOwnDossier(uid, id) { return db.prepare('SELECT * FROM cpta_dossiers WHERE id=? AND user_id=?').get(id, uid); }
+const selOpts = (arr, cur) => arr.map(o => { const v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o; return `<option value="${esc(v)}"${v === cur ? ' selected' : ''}>${esc(l)}</option>`; }).join('');
+
+function pageCabinet(sess) {
+  const uid = sess.user.id, ds = dossiersOf(uid), actifId = currentDossier(uid).id;
+  const H = ds.map(d => ({ d, h: cabHealth(d.id) }));
+  const aTraiter = H.filter(x => (x.d.statut || 'actif') !== 'archive' && (x.h.done < x.h.total || (x.h.nbEcr > 0 && !x.h.eq) || Math.abs(x.h.s471) > 0.005));
+  const nbActifs = ds.filter(d => (d.statut || 'actif') !== 'archive').length;
+  const desequ = H.filter(x => x.h.nbEcr > 0 && !x.h.eq).length;
+  const a471 = H.filter(x => Math.abs(x.h.s471) > 0.005).length;
+  const card = (d, h) => `<div class="offre"${d.id === actifId ? ' style="border-color:rgba(56,232,255,.45);box-shadow:0 0 0 1px rgba(56,232,255,.25),0 0 22px rgba(56,232,255,.10)"' : ''}>
+     <p style="margin:0 0 6px;display:flex;justify-content:space-between;gap:8px;align-items:center"><b style="font-size:15px;color:#fff">${esc(d.nom)}</b><span class="pill" style="padding:3px 10px;font-size:11px">${cabStatutLabel(d.statut || 'actif')}</span></p>
+     <p class="muted" style="font-size:12px;margin:0 0 8px">${esc(d.forme || '—')} · ${esc(d.regime_fiscal || '?')} · TVA ${esc(d.regime_tva || '—')}${d.id === actifId ? ' · <span style="color:#38e8ff">● dossier actif</span>' : ''}</p>
+     <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px;margin-bottom:10px">
+       <span class="pill" style="padding:3px 9px">📒 ${h.nbEcr} écr.</span>
+       <span class="pill" style="padding:3px 9px">${h.eq ? '⚖️ équilibré' : '⚠️ déséquilibré'}</span>
+       <span class="pill" style="padding:3px 9px">${Math.abs(h.s471) > 0.005 ? '🟠 471 = ' + eurf(h.s471) + ' €' : '🟠 471 soldé'}</span>
+       <span class="pill" style="padding:3px 9px">✔️ ${h.done}/${h.total}</span>
+     </div>
+     <p style="margin:0;display:flex;gap:6px;flex-wrap:wrap">
+       <a class="btn small" href="/cabinet/dossier?id=${esc(d.id)}">Ouvrir</a>
+       <form method="post" action="/cabinet/ouvrir" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><input type="hidden" name="next" value="/logiciel/saisie"><button class="btn small ghost" type="submit">🖊️ Saisir</button></form>
+     </p></div>`;
+  return layout('Espace cabinet', `<h1>🏢 Espace cabinet <span class="muted" style="font-size:13px;font-weight:400">· cockpit chef de mission</span></h1>
+  <p class="muted">Gérez <b>tous vos dossiers clients</b> comme en cabinet d'externalisation : tableau de bord, checklist mensuelle, suivi du compte 471, cadrage TVA — puis basculez dans le moteur comptable pour saisir.</p>
+  <section class="card"><h2>📊 Tableau de bord chef de mission</h2>
+   <div class="stats">
+     <div class="stat"><b>${nbActifs}</b><span>dossiers actifs</span></div>
+     <div class="stat"><b>${aTraiter.length}</b><span>à traiter ce mois</span></div>
+     <div class="stat"><b>${desequ}</b><span>déséquilibrés</span></div>
+     <div class="stat"><b>${a471}</b><span>471 à solder</span></div>
+   </div>
+   ${aTraiter.length ? `<h3 style="margin-bottom:6px">🗂️ Dossiers à traiter (${cabPeriodeFR(cabPeriode())})</h3><div class="tbl"><table><tr><th>Dossier</th><th>Checklist</th><th>Équilibre</th><th>471</th><th></th></tr>
+   ${aTraiter.map(x => `<tr><td>${esc(x.d.nom)}</td><td>${x.h.done}/${x.h.total}</td><td>${x.h.eq ? '✅' : '⚠️'}</td><td>${Math.abs(x.h.s471) > 0.005 ? '🟠 ' + eurf(x.h.s471) + ' €' : '✅'}</td><td><a href="/cabinet/dossier?id=${esc(x.d.id)}">Traiter →</a></td></tr>`).join('')}</table></div>` : (ds.length ? '<p class="ok">✅ Tous les dossiers sont à jour ce mois-ci.</p>' : '<p class="muted">Aucun dossier pour l\'instant — créez votre premier dossier client ci-dessous.</p>')}
+  </section>
+  <section class="card"><h2>📁 Mes dossiers</h2>
+   <p><a class="btn" href="/cabinet/nouveau">+ Nouveau dossier client</a></p>
+   ${ds.length ? `<div class="grid">${ds.map(d => card(d, cabHealth(d.id))).join('')}</div>` : ''}
+  </section>`, sess);
+}
+
+function cabDossierForm(sess, d) {
+  d = d || {};
+  const isNew = !d.id;
+  return `<form method="post" action="/cabinet/dossier" class="form">${csrfField(sess)}${isNew ? '' : `<input type="hidden" name="id" value="${esc(d.id)}">`}
+   <label>Nom du dossier / société<input name="nom" required maxlength="80" value="${esc(d.nom || '')}" placeholder="ex. ABC TRANSPORT"></label>
+   <div class="row"><label>Forme juridique<select name="forme">${selOpts(CAB_FORMES, d.forme || 'SARL')}</select></label>
+   <label>Régime fiscal<select name="regime_fiscal">${selOpts(CAB_FISC, d.regime_fiscal || 'IS')}</select></label></div>
+   <div class="row"><label>Régime de TVA<select name="regime_tva">${selOpts(CAB_TVA, d.regime_tva || 'Réel normal mensuel')}</select></label>
+   <label>Activité<select name="activite">${selOpts(CAB_ACTIV, d.activite || 'BIC — commercial')}</select></label></div>
+   <div class="row"><label>Début d'exercice<input type="date" name="ex_debut" value="${esc(d.ex_debut || '2026-01-01')}"></label>
+   <label>Clôture<input type="date" name="ex_fin" value="${esc(d.ex_fin || '2026-12-31')}"></label></div>
+   <div class="row"><label>Collaborateur affecté<input name="collaborateur" maxlength="60" value="${esc(d.collaborateur || ((sess.user.prenom || '') + ' ' + (sess.user.nom || '')).trim())}"></label>
+   <label>SIREN/SIRET (facultatif)<input name="siren" maxlength="20" value="${esc(d.siren || '')}"></label></div>
+   ${isNew ? '' : `<label>Statut du dossier<select name="statut">${selOpts(CAB_STATUTS, d.statut || 'actif')}</select></label>`}
+   <p style="margin-top:14px"><button class="btn" type="submit">${isNew ? 'Créer le dossier' : 'Enregistrer'}</button> <a class="btn ghost" href="/cabinet">Annuler</a></p>
+  </form>`;
+}
+function pageCabinetNew(sess) {
+  return layout('Nouveau dossier', `<h1>➕ Nouveau dossier client</h1>
+  <p style="margin:0 0 12px"><a href="/cabinet">← Espace cabinet</a></p>
+  <section class="card">${cabDossierForm(sess, null)}</section>`, sess);
+}
+function pageCabinetDossier(sess, id, per) {
+  const uid = sess.user.id, d = cabOwnDossier(uid, id);
+  if (!d) return layout('Dossier', '<h1>Dossier introuvable</h1><p><a href="/cabinet">← Espace cabinet</a></p>', sess);
+  per = /^\d{4}-\d{2}$/.test(per || '') ? per : cabPeriode();
+  const h = cabHealth(d.id), ch = cabChecklist(d.id, per), actif = currentDossier(uid).id === d.id;
+  const l471 = db.prepare("SELECT e.date dt, e.libelle el, l.libelle ll, l.compte, l.debit, l.credit FROM cpta_lignes l JOIN cpta_ecritures e ON e.id=l.ecriture_id WHERE l.dossier_id=? AND l.compte LIKE '471%' ORDER BY e.date, e.cree_le").all(d.id);
+  const checkRow = t => `<label class="row2" style="cursor:pointer"><span style="display:flex;align-items:center;gap:10px"><form method="post" action="/cabinet/tache" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><input type="hidden" name="per" value="${esc(per)}"><input type="hidden" name="cle" value="${esc(t.cle)}"><button type="submit" title="Cocher/décocher" style="width:24px;height:24px;border-radius:7px;border:1px solid var(--line);background:${t.fait ? 'var(--ok)' : 'rgba(255,255,255,.05)'};color:#04210f;font-weight:900;cursor:pointer">${t.fait ? '✓' : ''}</button></form><span style="${t.fait ? 'opacity:.55;text-decoration:line-through' : ''}">${esc(t.libelle)}</span></span></label>`;
+  const shift = (sg) => { const [y, m] = per.split('-').map(Number); let nm = m + sg, ny = y; if (nm < 1) { nm = 12; ny--; } if (nm > 12) { nm = 1; ny++; } return ny + '-' + String(nm).padStart(2, '0'); };
+  const prevPer = shift(-1), nextPer = shift(1);
+  return layout('Dossier ' + d.nom, `<h1>📁 ${esc(d.nom)} <span class="pill" style="font-size:12px">${cabStatutLabel(d.statut || 'actif')}</span></h1>
+  <p style="margin:0 0 12px"><a href="/cabinet">← Espace cabinet</a> · ${esc(d.forme || '—')} · ${esc(d.regime_fiscal || '?')} · TVA ${esc(d.regime_tva || '—')} · exercice ${esc(d.ex_debut)} → ${esc(d.ex_fin)} · 👤 ${esc(d.collaborateur || '—')}</p>
+  <section class="card"><h2>📊 Santé du dossier</h2>
+   <div class="stats">
+     <div class="stat"><b>${h.nbEcr}</b><span>écritures</span></div>
+     <div class="stat"><b style="color:${h.eq ? '#34d399' : '#f87171'}">${h.eq ? '✅' : '⚠️'}</b><span>équilibre</span></div>
+     <div class="stat"><b style="color:${Math.abs(h.s471) > 0.005 ? '#f59e0b' : '#34d399'}">${eurf(h.s471)}</b><span>compte 471</span></div>
+     <div class="stat"><b>${eurf(h.tvaNet)}</b><span>TVA nette (estim.)</span></div>
+     <div class="stat"><b style="color:${h.resultat >= 0 ? '#34d399' : '#f87171'}">${eurf(h.resultat)}</b><span>résultat</span></div>
+   </div>
+   <p style="margin:6px 0 0;display:flex;gap:8px;flex-wrap:wrap">
+     <form method="post" action="/cabinet/ouvrir" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><input type="hidden" name="next" value="/logiciel/saisie"><button class="btn" type="submit">🖊️ Saisir des écritures</button></form>
+     <form method="post" action="/cabinet/ouvrir" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><input type="hidden" name="next" value="/logiciel/cadrage-tva"><button class="btn ghost" type="submit">🧾 Cadrer la TVA</button></form>
+     <form method="post" action="/cabinet/ouvrir" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><input type="hidden" name="next" value="/logiciel/etats"><button class="btn ghost" type="submit">📊 Bilan & résultat</button></form>
+     ${actif ? '<span class="pill" style="align-self:center">● dossier actif dans le moteur</span>' : ''}
+   </p></section>
+  <section class="card"><h2>✔️ Checklist mensuelle <span class="muted" style="font-size:13px;font-weight:400">— ${cabPeriodeFR(per)}</span></h2>
+   <p style="margin:0 0 8px"><a class="btn ghost small" href="/cabinet/dossier?id=${esc(d.id)}&per=${prevPer}">← ${esc(cabPeriodeFR(prevPer))}</a> <a class="btn ghost small" href="/cabinet/dossier?id=${esc(d.id)}&per=${nextPer}">${esc(cabPeriodeFR(nextPer))} →</a> <span class="muted" style="font-size:12px">avancement ${ch.filter(t => t.fait).length}/${ch.length}</span></p>
+   <div>${ch.map(checkRow).join('')}</div>
+   <p class="muted" style="font-size:12px;margin-top:10px">📌 Réflexe cabinet : on coche au fur et à mesure ; un dossier n'est « bon à réviser » que lorsque la checklist du mois est complète.</p></section>
+  <section class="card"><h2>🟠 Suivi du compte 471 (attente)</h2>
+   ${l471.length ? `<div class="tbl"><table><tr><th>Date</th><th>Libellé</th><th style="text-align:right">Débit</th><th style="text-align:right">Crédit</th></tr>
+   ${l471.map(l => `<tr><td>${esc(l.dt)}</td><td>${esc(l.ll || l.el)}</td><td style="text-align:right">${l.debit ? eurf(l.debit) : ''}</td><td style="text-align:right">${l.credit ? eurf(l.credit) : ''}</td></tr>`).join('')}
+   <tr style="font-weight:800;border-top:2px solid #16307a"><td colspan="2">Solde 471</td><td colspan="2" style="text-align:right">${eurf(h.s471)} €</td></tr></table></div>
+   <p class="muted" style="font-size:12px;margin-top:8px">${Math.abs(h.s471) > 0.005 ? "⚠️ Le 471 doit être <b>soldé</b> avant la révision : chaque ligne d'attente doit être reclassée dans le bon compte (OD)." : '✅ Compte 471 soldé.'}</p>`
+    : '<p class="muted">Aucun mouvement sur un compte 471 — rien en attente. 👍</p>'}</section>
+  <details class="card"><summary style="font-weight:700;color:#fff;cursor:pointer">⚙️ Modifier la fiche du dossier</summary><div style="margin-top:12px">${cabDossierForm(sess, d)}
+   <form method="post" action="/cabinet/suppr" onsubmit="return confirm('Supprimer définitivement ce dossier et toutes ses écritures ?')" style="margin-top:10px">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn ghost small" type="submit" style="color:#f87171">🗑 Supprimer ce dossier</button></form></div></details>`, sess);
+}
+function postCabinetDossier(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const uid = sess.user.id;
+  const v = (k, max) => String(body[k] || '').trim().slice(0, max || 80);
+  const nom = v('nom', 80); if (!nom) return redirect(res, '/cabinet/nouveau');
+  const fields = { forme: v('forme'), regime_fiscal: v('regime_fiscal'), regime_tva: v('regime_tva'), activite: v('activite'), collaborateur: v('collaborateur', 60), siren: v('siren', 20), ex_debut: v('ex_debut', 10) || '2026-01-01', ex_fin: v('ex_fin', 10) || '2026-12-31' };
+  const statut = (CAB_STATUTS.find(s => s[0] === v('statut')) || ['actif'])[0];
+  if (body.id) {
+    const d = cabOwnDossier(uid, body.id); if (!d) return redirect(res, '/cabinet');
+    db.prepare('UPDATE cpta_dossiers SET nom=?,forme=?,regime_fiscal=?,regime_tva=?,activite=?,collaborateur=?,siren=?,ex_debut=?,ex_fin=?,statut=? WHERE id=? AND user_id=?')
+      .run(nom, fields.forme, fields.regime_fiscal, fields.regime_tva, fields.activite, fields.collaborateur, fields.siren, fields.ex_debut, fields.ex_fin, statut, body.id, uid);
+    return redirect(res, '/cabinet/dossier?id=' + encodeURIComponent(body.id));
+  }
+  const id = rid(10);
+  db.prepare('INSERT INTO cpta_dossiers(id,user_id,nom,ex_debut,ex_fin,cree_le,forme,regime_fiscal,regime_tva,activite,collaborateur,siren,statut) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)')
+    .run(id, uid, nom, fields.ex_debut, fields.ex_fin, new Date().toISOString(), fields.forme, fields.regime_fiscal, fields.regime_tva, fields.activite, fields.collaborateur, fields.siren, 'actif');
+  audit(db, uid, 'cab_dossier_new', nom, ip(req));
+  return redirect(res, '/cabinet/dossier?id=' + encodeURIComponent(id));
+}
+function postCabinetOpen(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const d = cabOwnDossier(sess.user.id, body.id);
+  if (d) db.prepare('UPDATE users SET cab_dossier=? WHERE id=?').run(d.id, sess.user.id);
+  const next = /^\/logiciel(\/[a-z-]*)?$/.test(body.next || '') ? body.next : '/logiciel';
+  return redirect(res, next);
+}
+function postCabinetTache(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const uid = sess.user.id, d = cabOwnDossier(uid, body.id);
+  const per = /^\d{4}-\d{2}$/.test(body.per || '') ? body.per : cabPeriode();
+  const cle = String(body.cle || '').slice(0, 20);
+  if (d && CAB_CHECK.some(c => c[0] === cle)) {
+    const ex = db.prepare('SELECT id, fait FROM cab_taches WHERE dossier_id=? AND periode=? AND cle=?').get(d.id, per, cle);
+    if (ex) db.prepare('UPDATE cab_taches SET fait=?, maj_le=? WHERE id=?').run(ex.fait ? 0 : 1, new Date().toISOString(), ex.id);
+    else db.prepare('INSERT INTO cab_taches(id,dossier_id,periode,cle,libelle,fait,maj_le) VALUES(?,?,?,?,?,1,?)').run(rid(10), d.id, per, cle, '', new Date().toISOString());
+  }
+  return redirect(res, '/cabinet/dossier?id=' + encodeURIComponent(body.id) + '&per=' + encodeURIComponent(per));
+}
+function postCabinetSuppr(req, res, sess, body) {
+  if (!authed(sess)) return redirect(res, '/connexion');
+  const uid = sess.user.id, d = cabOwnDossier(uid, body.id);
+  if (d) {
+    db.prepare('DELETE FROM cpta_lignes WHERE dossier_id=?').run(d.id);
+    db.prepare('DELETE FROM cpta_ecritures WHERE dossier_id=?').run(d.id);
+    db.prepare('DELETE FROM cab_taches WHERE dossier_id=?').run(d.id);
+    db.prepare('DELETE FROM cpta_dossiers WHERE id=? AND user_id=?').run(d.id, uid);
+    db.prepare('UPDATE users SET cab_dossier=NULL WHERE id=? AND cab_dossier=?').run(uid, d.id);
+    audit(db, uid, 'cab_dossier_suppr', d.nom, ip(req));
+  }
+  return redirect(res, '/cabinet');
 }
 
 const server = http.createServer(async (req, res) => {
@@ -1453,7 +1652,7 @@ const server = http.createServer(async (req, res) => {
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
       if (p === '/apple-touch-icon.png' || p === '/apple-touch-icon-precomposed.png') return serveStatic(res, path.join(DIR, 'public'), 'icon-512.png');
-      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nDisallow: /reinitialiser\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
+      if (p === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /tableau-de-bord\nDisallow: /formation\nDisallow: /communaute\nDisallow: /logiciel\nDisallow: /cabinet\nDisallow: /reinitialiser\nSitemap: https://academie-compta-fr.mg/sitemap.xml\n'); }
       if (p === '/sitemap.xml') {
         const urls = ['/', '/programme', '/emploi', '/decouverte', '/mentions-legales', '/inscription', '/connexion'].concat(MODULES.map(m => '/apercu?m=' + m.code));
         const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>https://academie-compta-fr.mg${u.replace(/&/g, '&amp;')}</loc></url>`).join('\n') + '\n</urlset>';
@@ -1528,6 +1727,9 @@ const server = http.createServer(async (req, res) => {
       if (p === '/logiciel/balance') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageBalance(sess)); }
       if (p === '/logiciel/etats') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageEtats(sess)); }
       if (p === '/logiciel/cadrage-tva') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageCadrageTva(sess, url)); }
+      if (p === '/cabinet') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageCabinet(sess)); }
+      if (p === '/cabinet/nouveau') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageCabinetNew(sess)); }
+      if (p === '/cabinet/dossier') { if (!authed(sess)) return redirect(res, '/connexion'); return send(res, 200, pageCabinetDossier(sess, (url.searchParams.get('id') || ''), url.searchParams.get('per') || '')); }
       if (p === '/communaute/messages') {
         if (!authed(sess) || !forumAccess(sess)) { res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end('[]'); }
         const out = forumMsgsSince(url.searchParams.get('since') || '').map(forumMsgJSON);
@@ -1627,6 +1829,10 @@ const server = http.createServer(async (req, res) => {
       if (p === '/logiciel/saisie') return postLogicielSaisie(req, res, sess, body);
       if (p === '/logiciel/ecriture-suppr') return postLogicielSuppr(req, res, sess, body);
       if (p === '/logiciel/reset') return postLogicielReset(req, res, sess, body);
+      if (p === '/cabinet/dossier') return postCabinetDossier(req, res, sess, body);
+      if (p === '/cabinet/ouvrir') return postCabinetOpen(req, res, sess, body);
+      if (p === '/cabinet/tache') return postCabinetTache(req, res, sess, body);
+      if (p === '/cabinet/suppr') return postCabinetSuppr(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);

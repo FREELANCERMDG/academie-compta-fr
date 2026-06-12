@@ -98,6 +98,13 @@ export function openDB() {
   try { db.exec("CREATE TABLE IF NOT EXISTS cpta_lignes(id TEXT PRIMARY KEY, ecriture_id TEXT, dossier_id TEXT, compte TEXT, libelle TEXT, debit REAL DEFAULT 0, credit REAL DEFAULT 0)"); } catch { }
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_cpta_lignes_dossier ON cpta_lignes(dossier_id)"); } catch { }
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_cpta_ecritures_dossier ON cpta_ecritures(dossier_id)"); } catch { }
+  // === Espace cabinet : métadonnées dossier + checklist mensuelle + dossier actif ===
+  for (const col of ['forme TEXT', 'regime_fiscal TEXT', 'regime_tva TEXT', 'cloture TEXT', 'collaborateur TEXT', "statut TEXT DEFAULT 'actif'", 'siren TEXT', 'activite TEXT']) {
+    try { db.exec('ALTER TABLE cpta_dossiers ADD COLUMN ' + col); } catch { }
+  }
+  try { db.exec('ALTER TABLE users ADD COLUMN cab_dossier TEXT'); } catch { }
+  try { db.exec("CREATE TABLE IF NOT EXISTS cab_taches(id TEXT PRIMARY KEY, dossier_id TEXT, periode TEXT, cle TEXT, libelle TEXT, fait INTEGER DEFAULT 0, maj_le TEXT)"); } catch { }
+  try { db.exec("CREATE INDEX IF NOT EXISTS idx_cab_taches ON cab_taches(dossier_id, periode)"); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');
