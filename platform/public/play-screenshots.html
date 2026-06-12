@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Captures d'écran Play Store — Académie Compta FR</title>
+<style>
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0b0f24;color:#e6ecfa;text-align:center;padding:24px}
+  h1{font-size:18px;color:#fff}
+  .row{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start;margin-top:14px}
+  .card{background:rgba(255,255,255,.03);border:1px solid rgba(56,232,255,.2);border-radius:16px;padding:14px}
+  svg{width:230px;height:auto;border-radius:12px;display:block}
+  button{margin-top:12px;background:linear-gradient(135deg,#7c6cff,#38e8ff);color:#06121f;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:800;cursor:pointer}
+  p.muted{color:#9aa7c4;font-size:13px;max-width:620px;margin:14px auto}
+</style></head>
+<body>
+<h1>3 captures d'écran (1080 × 1920) — Google Play</h1>
+<p class="muted">Clique « Télécharger » sous chaque image. Téléverse-les comme « Captures d'écran — Téléphone » dans Play Console (minimum 2).</p>
+<div class="row" id="root"></div>
+
+<script>
+var ROBOT = '<g transform="TRANSFORM">' +
+  '<line x1="22" y1="13" x2="19" y2="5" stroke="#9fdbe0" stroke-width="2.2" stroke-linecap="round"/><circle cx="18.5" cy="4" r="2.9" fill="url(#rT)"/>' +
+  '<line x1="42" y1="13" x2="45" y2="5" stroke="#9fdbe0" stroke-width="2.2" stroke-linecap="round"/><circle cx="45.5" cy="4" r="2.9" fill="url(#rT)"/>' +
+  '<rect x="6" y="26" width="7" height="14" rx="3.5" fill="url(#rT)"/><rect x="51" y="26" width="7" height="14" rx="3.5" fill="url(#rT)"/>' +
+  '<rect x="12" y="12" width="40" height="38" rx="15" fill="url(#rH)" stroke="#7fcfd6" stroke-width="1.6"/>' +
+  '<rect x="17" y="20" width="30" height="22" rx="11" fill="#0e2a4a"/>' +
+  '<circle cx="26" cy="29" r="5.2" fill="url(#rE)" stroke="#3ee6ee" stroke-width="1.6"/>' +
+  '<circle cx="38" cy="29" r="5.2" fill="url(#rE)" stroke="#3ee6ee" stroke-width="1.6"/>' +
+  '<circle cx="27.5" cy="27.3" r="1.5" fill="#eafdff"/><circle cx="39.5" cy="27.3" r="1.5" fill="#eafdff"/>' +
+  '<path d="M28 36.5 q4 3 8 0" stroke="#3ee6ee" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+  '<ellipse cx="26" cy="18" rx="9" ry="3" fill="#ffffff" opacity="0.55"/></g>';
+
+var DEFS = '<defs>' +
+  '<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0f24"/><stop offset="0.55" stop-color="#141a3a"/><stop offset="1" stop-color="#1b1247"/></linearGradient>' +
+  '<linearGradient id="ttl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38e8ff"/><stop offset="0.55" stop-color="#aab6ff"/><stop offset="1" stop-color="#E8A13A"/></linearGradient>' +
+  '<linearGradient id="scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10162e"/><stop offset="1" stop-color="#0c1126"/></linearGradient>' +
+  '<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#78aaff" stroke-opacity="0.06" stroke-width="1"/></pattern>' +
+  '<radialGradient id="rH" cx="40%" cy="26%" r="82%"><stop offset="0" stop-color="#fff"/><stop offset="0.68" stop-color="#eef7f9"/><stop offset="1" stop-color="#cde9ec"/></radialGradient>' +
+  '<linearGradient id="rT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ee3e9"/><stop offset="1" stop-color="#1fb4c0"/></linearGradient>' +
+  '<radialGradient id="rE" cx="50%" cy="38%" r="72%"><stop offset="0" stop-color="#1d3e62"/><stop offset="1" stop-color="#0a1f38"/></radialGradient>' +
+  '</defs>';
+
+function frame(headline, inner){
+  return '<svg id="SVGID" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">' + DEFS +
+    '<rect width="1080" height="1920" fill="url(#bg)"/><rect width="1080" height="1920" fill="url(#grid)"/>' +
+    '<text x="540" y="150" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="800" fill="url(#ttl)">' + headline + '</text>' +
+    // phone
+    '<rect x="290" y="300" width="500" height="1380" rx="56" fill="#070b1c" stroke="#2a3566" stroke-width="3"/>' +
+    '<rect x="306" y="316" width="468" height="1348" rx="42" fill="url(#scr)"/>' +
+    '<rect x="476" y="334" width="128" height="20" rx="10" fill="#0b1024"/>' +
+    inner +
+    '<text x="540" y="1800" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="30" fill="#9fb0d6">academie-compta-fr.mg</text>' +
+    '</svg>';
+}
+
+// --- Écran 1 : hero ---
+var s1 = frame('Devenez comptable',
+  '<text x="540" y="420" text-anchor="middle" font-family="Segoe UI, Arial" font-size="26" font-weight="700" fill="#bdecff">ACADÉMIE COMPTA FR</text>' +
+  ROBOT.replace('TRANSFORM','translate(430,470) scale(3.4)') +
+  '<text x="540" y="830" text-anchor="middle" font-family="Segoe UI, Arial" font-size="40" font-weight="800" fill="#ffffff">Maîtrisez la</text>' +
+  '<text x="540" y="884" text-anchor="middle" font-family="Segoe UI, Arial" font-size="40" font-weight="800" fill="url(#ttl)">compta française</text>' +
+  '<text x="540" y="950" text-anchor="middle" font-family="Segoe UI, Arial" font-size="24" fill="#c4cfe8">pour des cabinets français,</text>' +
+  '<text x="540" y="984" text-anchor="middle" font-family="Segoe UI, Arial" font-size="24" fill="#c4cfe8">depuis Madagascar.</text>' +
+  '<rect x="360" y="1080" width="360" height="78" rx="39" fill="url(#rT)"/><text x="540" y="1132" text-anchor="middle" font-family="Segoe UI, Arial" font-size="30" font-weight="800" fill="#06121f">Commencer</text>');
+
+// --- Écran 2 : modules ---
+function modRow(y, dot, t){
+  return '<rect x="346" y="'+y+'" width="388" height="120" rx="18" fill="#ffffff" fill-opacity="0.04" stroke="#38e8ff" stroke-opacity="0.18"/>' +
+    '<circle cx="406" cy="'+(y+60)+'" r="26" fill="'+dot+'"/>' +
+    '<text x="452" y="'+(y+70)+'" font-family="Segoe UI, Arial" font-size="28" font-weight="700" fill="#e6ecfa">'+t+'</text>';
+}
+var s2 = frame('6 modules 100% pratiques',
+  '<text x="540" y="430" text-anchor="middle" font-family="Segoe UI, Arial" font-size="30" font-weight="800" fill="#ffffff">Votre parcours</text>' +
+  modRow(490,'#38e8ff','Fondamentaux &amp; PCG') +
+  modRow(630,'#7c6cff','Outils métier (Pennylane)') +
+  modRow(770,'#38e8ff','TVA &amp; opérations') +
+  modRow(910,'#E8A13A','Fiscalité &amp; clôture') +
+  modRow(1050,'#34d399','Liasse &amp; bilan') +
+  modRow(1190,'#7c6cff','Cabinet &amp; carrière') +
+  '<rect x="380" y="1360" width="320" height="64" rx="12" fill="#E8A13A"/><text x="540" y="1402" text-anchor="middle" font-family="Segoe UI, Arial" font-size="26" font-weight="800" fill="#3a2600">Attestation à la clé</text>');
+
+// --- Écran 3 : assistant ---
+function bubble(x,y,w,lines,me){
+  var fill = me ? '#1f4e78' : '#ffffff'; var fop = me ? '1' : '0.06'; var col = me ? '#ffffff' : '#dfe7f5';
+  var st = me ? '' : ' stroke="#38e8ff" stroke-opacity="0.25"';
+  var h = 60 + lines.length*40;
+  var t='';
+  for(var i=0;i<lines.length;i++){ t += '<text x="'+(x+24)+'" y="'+(y+50+i*40)+'" font-family="Segoe UI, Arial" font-size="26" fill="'+col+'">'+lines[i]+'</text>'; }
+  return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="20" fill="'+fill+'" fill-opacity="'+fop+'"'+st+'/>'+t;
+}
+var s3 = frame('Un expert, 24h/24',
+  '<rect x="346" y="400" width="388" height="92" rx="18" fill="#0e1a36"/>' +
+  ROBOT.replace('TRANSFORM','translate(360,408) scale(1.3)') +
+  '<text x="452" y="438" font-family="Segoe UI, Arial" font-size="26" font-weight="800" fill="#ffffff">Assistant Compta FR</text>' +
+  '<text x="452" y="470" font-family="Segoe UI, Arial" font-size="20" fill="#7ee0aa">Expert-comptable · en ligne</text>' +
+  bubble(360,540,360,['Bonjour, je suis votre','expert-comptable. Une','question ?'],false) +
+  bubble(420,760,300,['C\'est quoi le cadrage','de TVA ?'],true) +
+  bubble(360,930,400,['On compare la TVA','théorique (base × taux)','à la TVA comptabilisée,','puis on justifie l\'écart.'],false) +
+  '<text x="540" y="1560" text-anchor="middle" font-family="Segoe UI, Arial" font-size="28" fill="#c4cfe8">Toutes vos questions de compta,</text>' +
+  '<text x="540" y="1598" text-anchor="middle" font-family="Segoe UI, Arial" font-size="28" font-weight="800" fill="url(#ttl)">expliquées simplement.</text>');
+
+var shots = [['Accueil',s1],['Programme',s2],['Assistant',s3]];
+var root = document.getElementById('root');
+shots.forEach(function(sh, idx){
+  var id = 'sc'+(idx+1);
+  var html = sh[1].replace('SVGID', id);
+  var d = document.createElement('div'); d.className='card';
+  d.innerHTML = html + '<button onclick="dl(\''+id+'\','+(idx+1)+')">⬇️ Télécharger ' + sh[0] + '</button>';
+  root.appendChild(d);
+});
+function dl(id, n){
+  var svg=document.getElementById(id);
+  var xml=new XMLSerializer().serializeToString(svg);
+  var img=new Image();
+  img.onload=function(){
+    var c=document.createElement('canvas'); c.width=1080; c.height=1920;
+    c.getContext('2d').drawImage(img,0,0,1080,1920);
+    var a=document.createElement('a'); a.download='play-screenshot-'+n+'.png'; a.href=c.toDataURL('image/png'); a.click();
+  };
+  img.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(xml)));
+}
+</script>
+</body></html>
