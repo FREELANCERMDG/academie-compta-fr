@@ -87,6 +87,8 @@
     '#acf-install:hover{filter:brightness(1.06)}',
     '#acf-push{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:9996;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#34d399,#38e8ff);color:#06121f;border:none;border-radius:30px;padding:11px 18px;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(56,232,255,.4);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;animation:acfcin .35s ease}',
     '#acf-push:hover{filter:brightness(1.06)}',
+    '#acf-upd{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:9997;display:flex;align-items:center;gap:10px;background:#10162c;color:#e6ecfa;border:1px solid rgba(56,232,255,.35);border-radius:12px;padding:10px 14px;font-size:13.5px;box-shadow:0 12px 34px rgba(0,0,0,.5);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;animation:acfcin .3s ease}',
+    '#acf-upd button{background:linear-gradient(135deg,#7c6cff,#38e8ff);color:#06121f;border:none;border-radius:8px;padding:7px 13px;font-weight:800;cursor:pointer;font-size:13px}',
     '@media(prefers-reduced-motion:reduce){#acfc-l,.acfc-dot,.acfc-typ{animation:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
@@ -254,8 +256,27 @@
 
 /* === PWA : service worker + bouton « Installer l'application » (Android/iOS) === */
 (function () {
+  function showUpdateToast() {
+    if (document.getElementById('acf-upd')) return;
+    var d = document.createElement('div'); d.id = 'acf-upd';
+    d.innerHTML = '🔄 Nouvelle version disponible <button type="button">Mettre à jour</button>';
+    d.querySelector('button').onclick = function () { try { location.reload(); } catch (e) {} };
+    document.body.appendChild(d);
+    setTimeout(function () { if (d.parentNode) { d.style.transition = 'opacity .4s'; d.style.opacity = '0'; setTimeout(function () { if (d.parentNode) d.parentNode.removeChild(d); }, 450); } }, 20000);
+  }
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () { try { navigator.serviceWorker.register('/sw.js'); } catch (e) {} });
+    window.addEventListener('load', function () {
+      try {
+        navigator.serviceWorker.register('/sw.js').then(function (reg) {
+          reg.addEventListener('updatefound', function () {
+            var nw = reg.installing; if (!nw) return;
+            nw.addEventListener('statechange', function () {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateToast();
+            });
+          });
+        });
+      } catch (e) {}
+    });
   }
   var deferred = null;
   function isStandalone() { try { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; } catch (e) { return false; } }

@@ -25,9 +25,11 @@ const BASE_URL = (process.env.BASE_URL || cfg.site.base_url || `http://localhost
 const ASSET_V = Date.now();
 const db = openDB();
 
-// --- Notifications push (Web Push / VAPID) — activé si VAPID_PUBLIC + VAPID_PRIVATE sont définis ---
-const VAPID_PUBLIC = (process.env.VAPID_PUBLIC || '').trim();
-const VAPID_PRIVATE = (process.env.VAPID_PRIVATE || '').trim();
+// --- Notifications push (Web Push / VAPID) ---
+// Clés par défaut intégrées (push actif immédiatement). Pour la PRODUCTION, définissez VOS clés
+// dans Render (VAPID_PUBLIC / VAPID_PRIVATE) — elles remplacent ces valeurs. Régénérez : npx web-push generate-vapid-keys
+const VAPID_PUBLIC = (process.env.VAPID_PUBLIC || 'BFanLywzhi8YXk56Y0SwpozXO4kNpDjLxn0d2mKiNY0DCqUL7sHpj-csrKI46QMpAKCpeeZNeF8D9al9nTlVgps').trim();
+const VAPID_PRIVATE = (process.env.VAPID_PRIVATE || 'ZtvXCcKUzpBV4KdQgV-E28OvMbg7nBPa87Jtf4viGX4').trim();
 const VAPID_SUBJECT = (process.env.VAPID_SUBJECT || ('mailto:' + ((cfg.societe && cfg.societe.email) || 'contact@academie-compta-fr.mg'))).trim();
 let _webpush = null;
 try {
