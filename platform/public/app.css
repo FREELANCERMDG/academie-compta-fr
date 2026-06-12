@@ -168,58 +168,72 @@ details.macc[open]>summary{border-color:var(--accent2);background:rgba(255,255,2
 .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
 
 /* ============================================================
-   COUCHE FUTURISTE (modérée) — effets ajoutés par-dessus le thème
+   COUCHE FUTURISTE (affirmée) — effets ajoutés par-dessus le thème
    Réutilise les classes existantes ; n'altère pas la structure.
    ============================================================ */
-:root{ --neon:#38e8ff; --neon2:#7c6cff; --gridline:rgba(124,170,255,.05); }
+:root{ --neon:#38e8ff; --neon2:#7c6cff; --gridline:rgba(120,180,255,.10); }
 
-/* Grille technologique subtile + halo flottant en fond (sous le contenu) */
+/* Grille technologique visible + halo néon flottant en fond (sous le contenu) */
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
   background-image:linear-gradient(var(--gridline) 1px,transparent 1px),linear-gradient(90deg,var(--gridline) 1px,transparent 1px);
-  background-size:48px 48px;
-  -webkit-mask-image:radial-gradient(1200px 760px at 50% -8%,#000 25%,transparent 78%);
-  mask-image:radial-gradient(1200px 760px at 50% -8%,#000 25%,transparent 78%)}
-body::after{content:"";position:fixed;top:-32%;left:50%;width:120vw;height:62vh;transform:translateX(-50%);z-index:-2;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(56,232,255,.09),transparent 70%);animation:floatGlow 16s ease-in-out infinite alternate}
-@keyframes floatGlow{from{transform:translateX(-52%) translateY(0)}to{transform:translateX(-48%) translateY(22px)}}
+  background-size:42px 42px;
+  -webkit-mask-image:radial-gradient(1300px 900px at 50% -6%,#000 35%,transparent 92%);
+  mask-image:radial-gradient(1300px 900px at 50% -6%,#000 35%,transparent 92%)}
+body::after{content:"";position:fixed;top:-34%;left:50%;width:130vw;height:66vh;transform:translateX(-50%);z-index:-2;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(56,232,255,.16),transparent 68%);animation:floatGlow 16s ease-in-out infinite alternate}
+@keyframes floatGlow{from{transform:translateX(-52%) translateY(0)}to{transform:translateX(-48%) translateY(26px)}}
 
-/* Liseré néon animé sous la barre du haut */
-.top{position:relative}
-.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--neon),var(--accent2),transparent);background-size:220% 100%;
-  animation:scanLine 7s linear infinite;opacity:.85}
-@keyframes scanLine{from{background-position:0 0}to{background-position:220% 0}}
+/* Barre du haut : fond plus dense + double liseré néon animé + marque qui brille */
+.top{position:relative;box-shadow:0 1px 0 rgba(56,232,255,.10),0 10px 30px -12px rgba(56,232,255,.25)}
+.top .brand{text-shadow:0 0 18px rgba(56,232,255,.45)}
+.top nav a{position:relative}
+.top nav a:not(.cta)::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:2px;background:linear-gradient(90deg,var(--neon),var(--accent2));transition:right .25s ease;border-radius:2px}
+.top nav a:not(.cta):hover::after{right:0}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--neon),var(--accent2),var(--accent),transparent);background-size:240% 100%;
+  animation:scanLine 6s linear infinite;opacity:.95;box-shadow:0 0 12px rgba(56,232,255,.4)}
+@keyframes scanLine{from{background-position:0 0}to{background-position:240% 0}}
 
-/* Cartes : équerres néon dans le coin + lueur au survol */
-.card{position:relative}
-.card::before{content:"";position:absolute;top:0;left:0;width:58px;height:2px;background:linear-gradient(90deg,var(--neon),transparent);border-radius:18px 0 0 0}
-.card::after{content:"";position:absolute;top:0;left:0;width:2px;height:58px;background:linear-gradient(180deg,var(--neon),transparent);border-radius:18px 0 0 0}
-.card:hover{border-color:rgba(56,232,255,.26);box-shadow:0 14px 40px rgba(0,0,0,.32),0 0 0 1px rgba(56,232,255,.10),0 0 34px rgba(56,232,255,.07)}
+/* Cartes : contour néon PERMANENT + équerres lumineuses + bloom au survol */
+.card{position:relative;border-color:rgba(56,232,255,.16);
+  box-shadow:0 16px 44px rgba(0,0,0,.34),0 0 0 1px rgba(56,232,255,.10),0 0 30px -10px rgba(56,232,255,.30)}
+.card::before{content:"";position:absolute;top:-1px;left:-1px;width:74px;height:3px;background:linear-gradient(90deg,var(--neon),transparent);border-radius:18px 0 0 0;box-shadow:0 0 12px rgba(56,232,255,.6)}
+.card::after{content:"";position:absolute;top:-1px;left:-1px;width:3px;height:74px;background:linear-gradient(180deg,var(--neon),transparent);border-radius:18px 0 0 0;box-shadow:0 0 12px rgba(56,232,255,.6)}
+.card:hover{border-color:rgba(56,232,255,.42);box-shadow:0 18px 50px rgba(0,0,0,.40),0 0 0 1px rgba(56,232,255,.28),0 0 48px -6px rgba(56,232,255,.30)}
+.card h2{position:relative;padding-left:14px}
+.card h2::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:4px;border-radius:3px;background:linear-gradient(180deg,var(--neon),var(--accent2));box-shadow:0 0 12px rgba(56,232,255,.6)}
 
-/* Titres : léger halo lumineux */
-.hero h1{filter:drop-shadow(0 0 26px rgba(124,108,255,.32))}
-h1,.card h2{text-shadow:0 0 18px rgba(124,108,255,.14)}
+/* Titres : halo lumineux marqué */
+.hero h1{filter:drop-shadow(0 0 30px rgba(56,232,255,.45)) drop-shadow(0 0 60px rgba(124,108,255,.30))}
+h1{text-shadow:0 0 22px rgba(56,232,255,.28)}
+.card h2{text-shadow:0 0 16px rgba(56,232,255,.22)}
 
-/* Boutons primaires : balayage lumineux au survol */
-.btn:not(.ghost){position:relative;overflow:hidden}
+/* Boutons primaires : lueur permanente + balayage au survol */
+.btn:not(.ghost){position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(124,108,255,.40),0 0 18px -2px rgba(56,232,255,.35)}
+.btn:not(.ghost):hover{box-shadow:0 14px 34px rgba(124,108,255,.50),0 0 26px rgba(56,232,255,.45)}
 .btn:not(.ghost)::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-130%) skewX(-20deg);transition:transform .6s ease}
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-130%) skewX(-20deg);transition:transform .6s ease}
 .btn:not(.ghost):hover::after{transform:translateX(130%) skewX(-20deg)}
 
-/* Pills / badges / stats : touche néon */
-.pill{box-shadow:0 0 0 1px rgba(56,232,255,.14),0 0 16px rgba(56,232,255,.08)}
-.pill .dot{background:var(--neon);box-shadow:0 0 10px var(--neon)}
-.stat b{filter:drop-shadow(0 0 12px rgba(124,108,255,.38))}
+/* Pills / badges / stats : néon affirmé */
+.pill{box-shadow:0 0 0 1px rgba(56,232,255,.22),0 0 18px rgba(56,232,255,.14)}
+.pill .dot{background:var(--neon);box-shadow:0 0 12px var(--neon)}
+.stat{border-color:rgba(56,232,255,.18);box-shadow:0 0 0 1px rgba(56,232,255,.08),0 0 22px -8px rgba(56,232,255,.35)}
+.stat b{filter:drop-shadow(0 0 14px rgba(56,232,255,.5))}
 
 /* Offres / cartes-liens : relèvement + bord néon au survol */
 .offre{transition:transform .15s,border-color .15s,box-shadow .15s}
-.offre:hover{transform:translateY(-3px);border-color:rgba(56,232,255,.28);box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 20px rgba(56,232,255,.07)}
+.offre:hover{transform:translateY(-3px);border-color:rgba(56,232,255,.38);box-shadow:0 14px 32px rgba(0,0,0,.38),0 0 26px -4px rgba(56,232,255,.30)}
 
-/* Champs en focus : néon cyan */
-.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(56,232,255,.20)}
+/* Items de programme : flèche néon */
+.pitem:hover{border-color:var(--neon);box-shadow:-6px 0 22px rgba(56,232,255,.30)}
 
-/* En-tête de tableau : fin liseré néon */
-th{box-shadow:inset 0 -2px 0 rgba(56,232,255,.22)}
+/* Champs : bord cyan léger au repos, néon vif au focus */
+.form input,.form select,.form textarea{border-color:rgba(56,232,255,.20)}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(56,232,255,.28),0 0 18px rgba(56,232,255,.20)}
+
+/* En-tête de tableau : liseré néon */
+th{box-shadow:inset 0 -2px 0 rgba(56,232,255,.35)}
 
 @media(prefers-reduced-motion:reduce){ body::after,.top::after{animation:none} }
-@media print{ body::before,body::after,.top::after,.card::before,.card::after{display:none!important} }
+@media print{ body::before,body::after,.top::after,.card::before,.card::after,.card h2::before{display:none!important} }

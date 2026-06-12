@@ -105,6 +105,8 @@ export function openDB() {
   try { db.exec('ALTER TABLE users ADD COLUMN cab_dossier TEXT'); } catch { }
   try { db.exec("CREATE TABLE IF NOT EXISTS cab_taches(id TEXT PRIMARY KEY, dossier_id TEXT, periode TEXT, cle TEXT, libelle TEXT, fait INTEGER DEFAULT 0, maj_le TEXT)"); } catch { }
   try { db.exec("CREATE INDEX IF NOT EXISTS idx_cab_taches ON cab_taches(dossier_id, periode)"); } catch { }
+  // Cache géolocalisation IP → province (IP hachée, jamais stockée en clair — RGPD)
+  try { db.exec("CREATE TABLE IF NOT EXISTS ip_region(k TEXT PRIMARY KEY, region TEXT, ts TEXT)"); } catch { }
   try {
     const sans = db.prepare("SELECT id FROM users WHERE code_parrain IS NULL OR code_parrain=''").all();
     const exists = db.prepare('SELECT 1 FROM users WHERE code_parrain=?');

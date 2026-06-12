@@ -2,6 +2,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import {
   DIR, ROOT, cfg, loadEnv, openDB, hashPassword, verifyPassword, rid, genParrainCode,
   signSid, unsignSid, parseCookies, cookie, safeEqual, newTotpSecret, otpauthURI,
@@ -116,9 +117,39 @@ function mgProvince(raw) {
   return '';
 }
 
+// --- Géolocalisation IP → province (fallback quand Cloudflare n'envoie pas la région) ---
+// Source HTTPS sans clé (ipwho.is), résultat mis en cache par IP HACHÉE (RGPD : l'IP n'est jamais stockée en clair).
+const GEO_ON = (process.env.GEO_IP || '1') !== '0';   // désactivable via GEO_IP=0
+const _geoMem = new Map();                              // hash IP -> province (cache mémoire)
+let _geoMin = { t: 0, n: 0 };                           // throttle simple : 30 appels/min max
+function ipHash(ipStr) { return createHash('sha256').update('mggeo:' + ipStr).digest('hex').slice(0, 24); }
+async function geoProvince(ipStr) {
+  if (!GEO_ON) return '';
+  ipStr = (ipStr || '').trim();
+  if (!ipStr || ipStr === '::1' || ipStr.startsWith('127.') || ipStr.startsWith('10.') || ipStr.startsWith('192.168.') || ipStr.startsWith('::ffff:127')) return '';
+  const k = ipHash(ipStr);
+  if (_geoMem.has(k)) return _geoMem.get(k);
+  try { const row = db.prepare('SELECT region FROM ip_region WHERE k=?').get(k); if (row) { _geoMem.set(k, row.region || ''); return row.region || ''; } } catch {}
+  const now = Date.now();
+  if (now - _geoMin.t > 60000) _geoMin = { t: now, n: 0 };
+  if (_geoMin.n >= 30) return '';                        // quota minute atteint → on réessaiera au prochain passage
+  _geoMin.n++;
+  let prov = '';
+  try {
+    const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), 2500);
+    const r = await fetch('https://freeipapi.com/api/json/' + encodeURIComponent(ipStr), { signal: ctrl.signal, headers: { 'Accept': 'application/json' } });
+    clearTimeout(to);
+    const d = await r.json().catch(() => ({}));
+    if (d && (d.countryCode === 'MG')) prov = mgProvince(d.regionName || d.cityName || '');
+    try { db.prepare('INSERT INTO ip_region(k,region,ts) VALUES(?,?,?) ON CONFLICT(k) DO UPDATE SET region=excluded.region,ts=excluded.ts').run(k, prov, new Date().toISOString()); } catch {}
+    _geoMem.set(k, prov);
+  } catch { /* réseau indisponible → on laissera vide, réessai au prochain passage non mis en cache */ }
+  return prov;
+}
+
 // --- Suivi des visites (agrégé par jour + pays + province MG, sans donnée personnelle) ---
 const VISIT_PAGES = new Set(['/', '/programme', '/emploi', '/apercu', '/decouverte', '/mentions-legales', '/inscription', '/connexion']);
-function trackVisit(req, p) {
+async function trackVisit(req, p) {
   try {
     if (!VISIT_PAGES.has(p)) return;
     const jour = new Date().toISOString().slice(0, 10);
@@ -127,6 +158,7 @@ function trackVisit(req, p) {
     if (pays === 'MG') {
       const raw = (fromProxy(req) && req.headers['x-orig-region']) || req.headers['cf-region'] || req.headers['x-orig-city'] || req.headers['cf-ipcity'] || '';
       region = mgProvince(raw);
+      if (!region) region = await geoProvince(ip(req));   // fallback géoloc IP (autonome, sans Cloudflare)
     }
     db.prepare('INSERT INTO visites(jour,pays,region,n) VALUES(?,?,?,1) ON CONFLICT(jour,pays,region) DO UPDATE SET n=n+1').run(jour, pays, region);
   } catch {}
@@ -787,7 +819,7 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${vMG.map(r => `<tr><td>${provLabel(r.region)}</td><td>${r.t}</td><td>${vMGtot ? Math.round(r.t * 100 / vMGtot) : 0} %</td></tr>`).join('')}
   <tr style="font-weight:800;border-top:2px solid #16307a"><td>Total Madagascar</td><td>${vMGtot}</td><td>${vTot ? Math.round(vMGtot * 100 / vTot) : 0} % du total</td></tr></table></div>
   <p class="muted" style="font-size:12px">🌍 Autres pays (masqués) : <b>${vAutres}</b> visite${vAutres > 1 ? 's' : ''}.</p>` : '<p class="muted">Aucune visite Madagascar enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
-  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). La province vient de Cloudflare (en-tête <code>cf-region</code> / <code>x-orig-region</code>). Si elle reste « non détectée », activez les en-têtes de localisation Cloudflare (ou faites transmettre <code>request.cf.region</code> par le Worker).</p></section>`;
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). La province provient de Cloudflare (<code>cf-region</code>) ou, à défaut, d'une <b>géolocalisation de l'adresse IP</b> (IP <b>hachée</b>, jamais conservée en clair). À Madagascar, le trafic mobile est souvent rattaché par l'opérateur à Antananarivo : la province reste donc <b>approximative</b>. Le comptage par province ne démarre que <b>maintenant</b> — les visites passées restent en « non détectée ».</p></section>`;
   // --- Sécurité : détection de partage de compte (IP distinctes / 30 jours) ---
   const _j30 = new Date(Date.now() - 30 * 86400000).toISOString();
   const partage = db.prepare(`SELECT u.email, COUNT(DISTINCT j.ip) AS nip, COUNT(*) AS nlog, MAX(j.ts) AS last
@@ -1647,7 +1679,7 @@ const server = http.createServer(async (req, res) => {
     if (sess && sess.user && !sess.row.pending_2fa) touchSeen(sess.user.id); // présence "en ligne"
 
     if (req.method === 'GET') {
-      trackVisit(req, p);
+      trackVisit(req, p).catch(() => {});
       if (p === '/sante') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
       // Icônes demandées automatiquement par les navigateurs/iOS à la racine (évite des 404)
       if (p === '/favicon.ico') return serveStatic(res, path.join(DIR, 'public'), 'favicon.png');
