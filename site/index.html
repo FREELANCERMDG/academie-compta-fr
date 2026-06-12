@@ -218,10 +218,42 @@ header .logo span{color:#aab4d4}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(124,170,255,.30);border:2px solid transparent}
 .crumbs{color:#8ea3c9 !important}
 
-/* Feuille de cours : reste claire et lisible (CERFA/simulateurs/quiz intacts), encadrée de neon */
-.content.card{background:#fff !important;border:1px solid rgba(56,232,255,.30) !important;
-  box-shadow:0 26px 64px rgba(0,0,0,.48),0 0 0 1px rgba(56,232,255,.12),0 0 44px -14px rgba(56,232,255,.38) !important}
-.quiz{background:#fff !important;border:1px solid rgba(56,232,255,.25) !important;box-shadow:0 18px 48px rgba(0,0,0,.42),0 0 30px -12px rgba(56,232,255,.30) !important}
+/* Feuille de cours EN SOMBRE + prose ; widgets/documents (CERFA, simulateurs, ecritures) = ilots clairs proteges */
+.content.card{background:rgba(16,22,44,.88) !important;color:#dfe7f5 !important;border:1px solid rgba(56,232,255,.28) !important;
+  box-shadow:0 26px 64px rgba(0,0,0,.50),0 0 0 1px rgba(56,232,255,.10),0 0 46px -14px rgba(56,232,255,.36) !important}
+.content{color:#dfe7f5}
+.content h1,.content h2{color:#fff}
+.content h3{color:#bcd0ff}.content h4{color:#cdd9ef}
+.content strong{color:#fff}
+.content a:not([class]){color:#8fd9ff;border-bottom-color:rgba(143,217,255,.40)}
+.content a:not([class]):hover{border-bottom-color:#8fd9ff}
+.content blockquote{background:rgba(56,232,255,.07) !important;border-left-color:var(--neon) !important;color:#e7eefb !important;box-shadow:none !important}
+.content code{background:rgba(255,255,255,.08) !important;border-color:rgba(255,255,255,.14) !important;color:#ffd9a8 !important}
+.content hr{border-top-color:rgba(255,255,255,.12)}
+.content .tbl{border-color:rgba(255,255,255,.12)}
+.content tbody tr:nth-child(even){background:rgba(255,255,255,.04)}
+.content tbody tr:hover{background:rgba(56,232,255,.09)}
+.content td{border-color:rgba(255,255,255,.12)}
+.content details.corrige{background:rgba(232,161,58,.10) !important;border-color:rgba(232,161,58,.42) !important}
+.content details.corrige>summary{background:linear-gradient(180deg,rgba(232,161,58,.20),rgba(232,161,58,.10)) !important;color:#ffce8a !important;border-bottom-color:rgba(232,161,58,.30) !important}
+.content .corrige-seuil{color:#cdd9ef}
+.content mark.shl{color:#16263a}
+/* Quiz en sombre */
+.quiz{background:rgba(16,22,44,.88) !important;color:#dfe7f5 !important;border:1px solid rgba(56,232,255,.25) !important;box-shadow:0 18px 48px rgba(0,0,0,.46),0 0 30px -12px rgba(56,232,255,.30) !important}
+.quiz h3{color:#fff !important}
+.q{border-color:rgba(255,255,255,.12) !important;background:rgba(255,255,255,.03) !important}
+.q .opt{border-color:rgba(255,255,255,.14) !important;background:rgba(255,255,255,.045) !important;color:#dfe7f5}
+.q .opt:hover{background:rgba(56,232,255,.10) !important}
+.q .opt.correct{background:rgba(52,211,153,.18) !important;border-color:#34d399 !important}
+.q .opt.wrong{background:rgba(248,113,113,.16) !important;border-color:#f87171 !important}
+.q .exp{color:#bcd0ff !important}
+.score{color:#fff}
+/* ILOTS CLAIRS : documents/logiciels reels gardent leur fond clair + texte sombre */
+.content .simdoc, .content .sc, .content .cerfa-doc, .content table.ecr, .content .pj{color:#1c2733}
+/* on empeche le striping/hover/bordures sombres de fuiter dans les tableaux des simulateurs & ecritures */
+.content :is(.sc,.simdoc,table.ecr) tbody tr:nth-child(even){background:transparent !important}
+.content :is(.sc,.simdoc,table.ecr) tbody tr:hover{background:rgba(20,40,70,.05) !important}
+.content :is(.sc,.simdoc) td{border-color:#e6ecf7 !important}
 
 /* Barre de navigation bas : fondu sombre */
 .pagebar{background:linear-gradient(180deg,rgba(11,15,36,0),rgba(11,15,36,.88) 45%) !important;border-top-color:rgba(56,232,255,.15) !important}
