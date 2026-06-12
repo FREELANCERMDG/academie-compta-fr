@@ -102,3 +102,29 @@ self.addEventListener('fetch', (e) => {
       .catch(() => caches.match(req).then((hit) => hit || caches.match('/')))
   );
 });
+
+// --- Notifications push ---
+self.addEventListener('push', (e) => {
+  let data = {};
+  try { data = e.data ? e.data.json() : {}; } catch (_) { data = {}; }
+  const title = data.title || 'Académie Compta FR';
+  const opts = {
+    body: data.body || '',
+    icon: '/public/icon-192.png',
+    badge: '/public/icon-192.png',
+    data: { url: data.url || '/' },
+    vibrate: [80, 40, 80],
+    tag: data.tag || 'acf'
+  };
+  e.waitUntil(self.registration.showNotification(title, opts));
+});
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || '/';
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((cls) => {
+      for (const c of cls) { if ('focus' in c) { try { c.navigate(url); } catch (_) {} return c.focus(); } }
+      if (self.clients.openWindow) return self.clients.openWindow(url);
+    })
+  );
+});

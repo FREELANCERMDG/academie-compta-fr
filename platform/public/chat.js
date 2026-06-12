@@ -85,6 +85,8 @@
     '#acfc-nudge:after{content:"";position:absolute;left:18px;bottom:-7px;width:0;height:0;border:7px solid transparent;border-top-color:#fff;border-bottom:0}',
     '#acf-install{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:9996;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7c6cff,#38e8ff);color:#06121f;border:none;border-radius:30px;padding:11px 18px;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(56,232,255,.45);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;animation:acfcin .35s ease}',
     '#acf-install:hover{filter:brightness(1.06)}',
+    '#acf-push{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:9996;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#34d399,#38e8ff);color:#06121f;border:none;border-radius:30px;padding:11px 18px;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(56,232,255,.4);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;animation:acfcin .35s ease}',
+    '#acf-push:hover{filter:brightness(1.06)}',
     '@media(prefers-reduced-motion:reduce){#acfc-l,.acfc-dot,.acfc-typ{animation:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
@@ -303,4 +305,45 @@
     } catch (e) {}
   }
   try { appMode(); wireCard(); } catch (e) {}
+
+  // --- Notifications push ---
+  var SCp = document.currentScript || document.querySelector('script[src*="chat.js"]');
+  var VAPID = (SCp && SCp.getAttribute('data-vapid')) || '';
+  var AUTHED = !!(SCp && SCp.getAttribute('data-auth') === '1');
+  function urlB64ToUint8(base64) {
+    var pad = '='.repeat((4 - base64.length % 4) % 4);
+    var b64 = (base64 + pad).replace(/-/g, '+').replace(/_/g, '/');
+    var raw = atob(b64), arr = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+    return arr;
+  }
+  function subscribePush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !VAPID) return Promise.resolve(false);
+    return navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription().then(function (sub) {
+        if (sub) return sub;
+        return Notification.requestPermission().then(function (perm) {
+          if (perm !== 'granted') return null;
+          return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlB64ToUint8(VAPID) });
+        });
+      });
+    }).then(function (sub) {
+      if (!sub) return false;
+      return fetch('/api/push/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'sub=' + encodeURIComponent(JSON.stringify(sub)) })
+        .then(function () { try { localStorage.setItem('acf_push', '1'); } catch (e) {} return true; });
+    }).catch(function () { return false; });
+  }
+  function maybeShowPushBtn() {
+    if (!AUTHED || !VAPID || !('PushManager' in window) || !('Notification' in window)) return;
+    if (Notification.permission === 'granted') { subscribePush(); return; }   // déjà autorisé → resynchronise
+    if (Notification.permission === 'denied') return;
+    try { if (localStorage.getItem('acf_push') === '1') return; } catch (e) {}
+    if (document.getElementById('acf-push')) return;
+    var b = document.createElement('button'); b.id = 'acf-push'; b.type = 'button';
+    b.textContent = '🔔 Activer les rappels';
+    b.onclick = function () { subscribePush().then(function (ok) { if (ok && b.parentNode) b.parentNode.removeChild(b); }); };
+    document.body.appendChild(b);
+    setTimeout(function () { if (b.parentNode) { b.style.transition = 'opacity .4s'; b.style.opacity = '0'; setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 450); } }, 16000);
+  }
+  setTimeout(maybeShowPushBtn, 9000);
 })();

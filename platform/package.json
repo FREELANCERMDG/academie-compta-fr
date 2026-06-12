@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Plateforme e-learning — MG CONSULTING IT&ACT",
   "dependencies": {
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "web-push": "^3.6.7"
   }
 }
