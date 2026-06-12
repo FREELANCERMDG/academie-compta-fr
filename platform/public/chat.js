@@ -291,5 +291,16 @@
   }
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; showInstall(); });
   window.addEventListener('appinstalled', function () { try { localStorage.setItem('acf_install_off', '1'); } catch (e) {} var b = document.getElementById('acf-install'); if (b && b.parentNode) b.parentNode.removeChild(b); var c = document.getElementById('installCard'); if (c) c.style.display = 'none'; });
-  try { wireCard(); } catch (e) {}
+  // Mode application installée : active la barre du bas + surligne l'onglet actif
+  function appMode() {
+    if (isStandalone()) document.documentElement.classList.add('pwa-standalone');
+    try {
+      var pth = location.pathname, links = document.querySelectorAll('.appbar a[data-p]');
+      for (var i = 0; i < links.length; i++) {
+        var pp = links[i].getAttribute('data-p');
+        if (pp === '/' ? pth === '/' : pth.indexOf(pp) === 0) links[i].classList.add('on');
+      }
+    } catch (e) {}
+  }
+  try { appMode(); wireCard(); } catch (e) {}
 })();

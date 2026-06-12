@@ -284,7 +284,10 @@ function layout(title, body, sess) {
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
   const promoBan = promoActive() ? `<div style="background:linear-gradient(90deg,#E8A13A,#f6c172);color:#3a2600;text-align:center;padding:8px 14px;font-weight:700;font-size:13.5px;line-height:1.45">${esc(promoBanText())}${u ? '' : ' <a href="/inscription" style="color:#16307a;font-weight:800;text-decoration:underline">S\'inscrire →</a>'}</div>` : '';
-  return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  const appbar = u
+    ? `<nav class="appbar" aria-label="Navigation application"><a href="/" data-p="/"><span class="ic">🏠</span>Accueil</a><a href="/formation" data-p="/formation"><span class="ic">📚</span>Formation</a><a href="/cabinet" data-p="/cabinet"><span class="ic">🏢</span>Cabinet</a><a href="/tableau-de-bord" data-p="/tableau-de-bord"><span class="ic">👤</span>Espace</a></nav>`
+    : `<nav class="appbar" aria-label="Navigation application"><a href="/" data-p="/"><span class="ic">🏠</span>Accueil</a><a href="/programme" data-p="/programme"><span class="ic">📚</span>Programme</a><a href="/connexion" data-p="/connexion"><span class="ic">🔑</span>Connexion</a><a href="/inscription" data-p="/inscription"><span class="ic">✍️</span>S'inscrire</a></nav>`;
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)} — ${esc(cfg.site.nom_plateforme)}</title>
 <meta name="description" content="${esc(desc)}">
 <meta name="theme-color" content="#0b0f24">
@@ -312,7 +315,7 @@ function layout(title, body, sess) {
 ${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
-<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" defer></script></body></html>`;
+${appbar}<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" defer></script></body></html>`;
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
 const money = n => Number(n).toLocaleString('fr-FR') + ' ' + esc(cfg.site.devise);

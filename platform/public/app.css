@@ -351,3 +351,26 @@ th{box-shadow:inset 0 -2px 0 rgba(56,232,255,.35)}
   .btn{padding:12px 18px}
   .fbody{flex-direction:column}
 }
+
+/* ============================================================
+   MODE APPLICATION (PWA installée) — barre de navigation en bas + safe areas
+   ============================================================ */
+.appbar{display:none}
+.pwa-standalone .appbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;
+  justify-content:space-around;align-items:center;gap:2px;
+  background:rgba(9,12,30,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid rgba(56,232,255,.20);box-shadow:0 -10px 30px -14px rgba(56,232,255,.40);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+.pwa-standalone .appbar a{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;
+  color:#9fb0d6;font-size:11px;font-weight:600;text-decoration:none;padding:4px 0;border-radius:10px}
+.pwa-standalone .appbar a .ic{font-size:21px;line-height:1}
+.pwa-standalone .appbar a.on{color:#38e8ff}
+.pwa-standalone .appbar a.on .ic{filter:drop-shadow(0 0 8px rgba(56,232,255,.6))}
+/* Respect des encoches/barres système + décalage des boutons flottants au-dessus de la barre */
+.pwa-standalone body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+.pwa-standalone .top{padding-top:calc(12px + env(safe-area-inset-top))}
+.pwa-standalone .wa{bottom:calc(80px + env(safe-area-inset-bottom))}
+.pwa-standalone #acfc-l{bottom:calc(80px + env(safe-area-inset-bottom))}
+.pwa-standalone #acfc-p{bottom:calc(146px + env(safe-area-inset-bottom))}
+.pwa-standalone #acf-install{bottom:calc(82px + env(safe-area-inset-bottom))}
+@media(min-width:821px){ .pwa-standalone .appbar{display:none} .pwa-standalone body{padding-bottom:0} }
