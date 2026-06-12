@@ -109,6 +109,8 @@
   }
   var launcher = document.createElement('button');
   launcher.id = 'acfc-l'; launcher.setAttribute('aria-label', 'Ouvrir l\'assistant'); launcher.innerHTML = robot(40) + '<span class="badge">?</span>';
+  // Mascotte animée de l'accueil : on remplace l'emoji 🤖 par le même robot
+  try { var _ab = document.getElementById('asstBot'); if (_ab) _ab.innerHTML = robot(42); } catch (e) {}
   var panel = document.createElement('div');
   panel.id = 'acfc-p'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Assistant d\'information');
   panel.innerHTML =
