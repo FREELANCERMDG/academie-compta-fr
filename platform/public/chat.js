@@ -89,17 +89,23 @@
 
   // ----- Construction du widget -----
   function robot(px) {
-    return '<svg viewBox="0 0 64 64" width="' + px + '" height="' + px + '" style="display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))">' +
-      '<defs><radialGradient id="acfrH" cx="38%" cy="26%" r="85%"><stop offset="0" stop-color="#ffffff"/><stop offset="55%" stop-color="#dbe7f5"/><stop offset="100%" stop-color="#a6bedb"/></radialGradient>' +
-      '<linearGradient id="acfrE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8defff"/><stop offset="1" stop-color="#17a3d4"/></linearGradient></defs>' +
-      '<line x1="32" y1="6" x2="32" y2="15" stroke="#dbe7f5" stroke-width="2.4"/><circle cx="32" cy="5" r="3.3" fill="#E8A13A"/>' +
-      '<rect x="7" y="29" width="6" height="13" rx="3" fill="#9bb4d0"/><rect x="51" y="29" width="6" height="13" rx="3" fill="#9bb4d0"/>' +
-      '<rect x="13" y="16" width="38" height="34" rx="12" fill="url(#acfrH)" stroke="#8aa6c6" stroke-width="1"/>' +
-      '<rect x="18" y="23" width="28" height="15" rx="7.5" fill="#16307a"/>' +
-      '<circle cx="26" cy="30.5" r="3.6" fill="url(#acfrE)"/><circle cx="38" cy="30.5" r="3.6" fill="url(#acfrE)"/>' +
-      '<circle cx="24.8" cy="29.3" r="1.05" fill="#fff"/><circle cx="36.8" cy="29.3" r="1.05" fill="#fff"/>' +
-      '<path d="M25 43 q7 4.5 14 0" stroke="#8aa0bd" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-      '<ellipse cx="27" cy="21" rx="10" ry="3.4" fill="#ffffff" opacity=".5"/></svg>';
+    return '<svg viewBox="0 0 64 64" width="' + px + '" height="' + px + '" style="display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.30))">' +
+      '<defs>' +
+      '<radialGradient id="acfH" cx="40%" cy="26%" r="82%"><stop offset="0" stop-color="#ffffff"/><stop offset="68%" stop-color="#eef7f9"/><stop offset="100%" stop-color="#cde9ec"/></radialGradient>' +
+      '<linearGradient id="acfT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ee3e9"/><stop offset="1" stop-color="#1fb4c0"/></linearGradient>' +
+      '<radialGradient id="acfE" cx="50%" cy="38%" r="72%"><stop offset="0" stop-color="#1d3e62"/><stop offset="100%" stop-color="#0a1f38"/></radialGradient>' +
+      '</defs>' +
+      '<line x1="22" y1="13" x2="19" y2="5" stroke="#9fdbe0" stroke-width="2.2" stroke-linecap="round"/><circle cx="18.5" cy="4" r="2.9" fill="url(#acfT)"/>' +
+      '<line x1="42" y1="13" x2="45" y2="5" stroke="#9fdbe0" stroke-width="2.2" stroke-linecap="round"/><circle cx="45.5" cy="4" r="2.9" fill="url(#acfT)"/>' +
+      '<rect x="6" y="26" width="7" height="14" rx="3.5" fill="url(#acfT)"/><rect x="51" y="26" width="7" height="14" rx="3.5" fill="url(#acfT)"/>' +
+      '<rect x="12" y="12" width="40" height="38" rx="15" fill="url(#acfH)" stroke="#7fcfd6" stroke-width="1.6"/>' +
+      '<rect x="17" y="20" width="30" height="22" rx="11" fill="#0e2a4a"/>' +
+      '<circle cx="26" cy="29" r="5.2" fill="url(#acfE)" stroke="#3ee6ee" stroke-width="1.6"/>' +
+      '<circle cx="38" cy="29" r="5.2" fill="url(#acfE)" stroke="#3ee6ee" stroke-width="1.6"/>' +
+      '<circle cx="27.5" cy="27.3" r="1.5" fill="#eafdff"/><circle cx="39.5" cy="27.3" r="1.5" fill="#eafdff"/>' +
+      '<path d="M28 36.5 q4 3 8 0" stroke="#3ee6ee" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="20.5" cy="35" r="1.6" fill="#5ee3e9" opacity=".7"/><circle cx="43.5" cy="35" r="1.6" fill="#5ee3e9" opacity=".7"/>' +
+      '<ellipse cx="26" cy="18" rx="9" ry="3" fill="#ffffff" opacity=".55"/></svg>';
   }
   var launcher = document.createElement('button');
   launcher.id = 'acfc-l'; launcher.setAttribute('aria-label', 'Ouvrir l\'assistant'); launcher.innerHTML = robot(40) + '<span class="badge">?</span>';

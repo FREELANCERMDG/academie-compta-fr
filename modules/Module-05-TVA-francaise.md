@@ -180,6 +180,45 @@ Après validation, l'écran propose le **paiement** : le montant est prélevé (
   - Cadeaux > seuil unitaire (au-delà du plafond légal) ;
   - Dépenses sans facture conforme.
 
+### 🔁 TVA sur la marge (biens d'occasion, art & antiquités, voyages)
+
+**Le principe.** Certains **assujettis‑revendeurs** achètent des biens **sans TVA récupérable** (à un **particulier**, ou à une entreprise non redevable). Pour éviter de **taxer deux fois** un bien déjà « grevé » de TVA, on ne calcule **pas** la TVA sur le prix de vente total, mais **uniquement sur la MARGE** (art. **297 A du CGI**).
+
+**Qui est concerné ?**
+- **Négociants en biens d'occasion** (voitures, meubles, matériel…), **œuvres d'art**, **objets de collection** et **antiquités** ;
+- **Agences de voyages / tour‑opérateurs** (régime de la marge, art. 266‑1‑e) ;
+- Condition : le bien a été acheté à un **non‑redevable** (particulier, ou revendeur lui‑même sous le régime de la marge). Si vous achetez à un fournisseur qui facture la TVA → **régime normal**, pas la marge.
+
+**Les 2 méthodes :**
+| Méthode | Pour qui | Comment |
+|---|---|---|
+| **Au coup par coup** | cas général | marge calculée **bien par bien** (PV − PA) |
+| **Marge globale** | biens de **faible valeur** / lots | marge = (total ventes − total achats) **de la période** |
+
+**Le calcul (la marge est TTC).**
+> **TVA = marge TTC × taux / (1 + taux)** — au taux normal : **× 20 / 120**.
+
+**Exemple — voiture d'occasion** achetée **8 000 €** à un particulier, revendue **10 000 €** :
+- Marge TTC = 10 000 − 8 000 = **2 000 €**
+- TVA sur marge = 2 000 × 20 / 120 = **333,33 €**
+- Marge HT = 2 000 − 333,33 = **1 666,67 €**
+
+**Les écritures :**
+
+| Compte | Libellé | Débit | Crédit |
+|---|---|---:|---:|
+| 6071 (ou 607) | Achat du bien (au particulier, **sans TVA**) | 8 000,00 | |
+| 401 / 512 | Fournisseur / Banque | | 8 000,00 |
+| 512 / 411 | Encaissement / Client | 10 000,00 | |
+| 707 | Vente de marchandises | | 9 666,67 |
+| 44571 | TVA collectée **sur la marge** | | 333,33 |
+
+> ⚠️ **Règles d'or (réflexes cabinet) :**
+> - **Aucune TVA apparente** sur la facture de vente — mention obligatoire « **TVA sur marge — art. 297 A du CGI** » (si vous mentionnez la TVA, vous **perdez** le régime).
+> - **Pas de TVA déductible** sur l'achat (il n'y en avait pas).
+> - Sur la **CA3**, la base imposable déclarée = la **marge HT** (1 666,67 €), **pas** le prix de vente total.
+> - Conserver le **justificatif d'achat** prouvant que le vendeur était non‑redevable.
+
 ### 🇪🇺 Le numéro de TVA intracommunautaire (qui, format, vérification)
 **Qui ?** C'est l'**identifiant fiscal unique** attribué à chaque **assujetti à la TVA** pour ses opérations intra‑UE. Il doit figurer **sur la facture** dès qu'il y a une opération intracommunautaire — **celui du vendeur ET celui de l'acheteur** : livraison intracommunautaire de biens (exonérée, art. 262 ter I) et prestation de services B2B (autoliquidée par le preneur, art. 259‑1°).
 
