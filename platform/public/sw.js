@@ -6,7 +6,7 @@
    - autres routes protégées (espace, cabinet, admin…) : réseau uniquement (jamais hors-ligne)
    - pages publiques : réseau d'abord, repli cache hors-ligne
    - jamais de POST ni de cross-origin */
-const CACHE = 'acf-v3';
+const CACHE = 'acf-v4';
 const META_KEY = '/__promo_until__';
 const COURSE_KEY = '/__course__';
 // Routes protégées (hors /formation, géré à part) : jamais mises en cache
@@ -75,8 +75,10 @@ self.addEventListener('fetch', (e) => {
   try { url = new URL(req.url); } catch (_) { return; }
   if (url.origin !== self.location.origin) return;   // pas de cross-origin
 
-  // Assets statiques : cache d'abord, mise à jour en arrière-plan
-  if (url.pathname.startsWith('/public/')) {
+  // Assets statiques (cache d'abord, versionnés par ?v=) : /public/* ET les sous-ressources du cours
+  // (/formation/*.js des simulateurs/CERFA/quiz, images…) — pour que TOUT le cours marche hors-ligne.
+  // NB : ce sont du CODE, pas du contenu payant (le contenu, lui, est géré par handleCourse, borné à la promo).
+  if (url.pathname.startsWith('/public/') || (req.mode !== 'navigate' && url.pathname.startsWith('/formation/'))) {
     e.respondWith(
       caches.match(req).then((hit) => hit || fetch(req).then((res) => {
         const copy = res.clone();
