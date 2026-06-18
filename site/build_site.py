@@ -638,6 +638,7 @@ header .logo span{color:#aab4d4}
   <input id="search" placeholder="Rechercher un module ou un mot...">
   <button id="searchgo" title="Ouvrir le 1er module contenant ce mot">Valider</button>
   <div class="progwrap">Progression <div class="progbar"><i id="progi"></i></div><b id="progt">0%</b></div>
+  <button id="offbtn" onclick="prepareOffline(this)" title="Telecharger toute la formation pour la consulter sans connexion (pendant la periode gratuite)" style="margin-left:10px;background:rgba(56,232,255,.12);border:1px solid rgba(56,232,255,.35);color:#bdecff;border-radius:8px;padding:7px 11px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap">&#128229; Hors-ligne</button>
 </header>
 <div class="layout">
   <nav class="sidebar" id="nav"></nav>
@@ -808,6 +809,32 @@ renderNav();show(curId());
 <script src="/formation/simdoc.js"></script>
 <script src="/formation/calc.js"></script>
 <script src="/formation/rappro.js"></script>
+<script>
+/* Pre-cache hors-ligne : telecharge tout le cours d'un coup (le service worker met en cache) */
+function prepareOffline(btn){
+  if(!('serviceWorker' in navigator)){ btn.textContent='Non supporte'; return; }
+  btn.disabled=true; btn.textContent='⏳ Preparation...';
+  navigator.serviceWorker.register('/sw.js').catch(function(){}).then(function(){ return navigator.serviceWorker.ready; }).then(function(){
+    var set={};
+    try{ performance.getEntriesByType('resource').forEach(function(e){ try{ var u=new URL(e.name); if(u.origin===location.origin && (u.pathname.indexOf('/public/')===0 || u.pathname.indexOf('/formation/')===0)) set[u.pathname+u.search]=1; }catch(_){} }); }catch(_){}
+    try{ var all=''; for(var k in CONTENT){ all+=(CONTENT[k]||''); } var re=/(?:src|href)=\"([^\"]+)\"/g, m; while((m=re.exec(all))){ var v=m[1]; if(v.indexOf('/public/')===0 || v.indexOf('/formation/')===0) set[v]=1; } }catch(_){}
+    var list=Object.keys(set), total=list.length;
+    if(!total){ btn.textContent='✅ Deja hors-ligne'; btn.disabled=false; return; }
+    var idx=0, finished=0;
+    function pump(){
+      while(idx<list.length && (idx-finished)<5){
+        fetch(list[idx++]).catch(function(){}).then(function(){
+          finished++; btn.textContent='⏳ '+Math.round(finished*100/total)+'%';
+          if(finished>=total){ btn.textContent='✅ Disponible hors-ligne'; try{ localStorage.setItem('acf_offline_ready','1'); }catch(_){} setTimeout(function(){ btn.disabled=false; },800); }
+          else pump();
+        });
+      }
+    }
+    pump();
+  });
+}
+window.addEventListener('load', function(){ try{ if(localStorage.getItem('acf_offline_ready')==='1'){ var b=document.getElementById('offbtn'); if(b) b.textContent='✅ Hors-ligne pret'; } }catch(_){} });
+</script>
 </body>
 </html>"""
 
