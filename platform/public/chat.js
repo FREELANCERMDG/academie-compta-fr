@@ -279,8 +279,11 @@
     });
   }
   var deferred = null;
+  var _scdl = document.currentScript || document.querySelector('script[src*="chat.js"]');
+  var DL = !!(_scdl && _scdl.getAttribute('data-dl') === '1');   // téléchargements (app) activés ?
   function isStandalone() { try { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; } catch (e) { return false; } }
   function showInstall() {
+    if (!DL) return;                                              // installation désactivée pour l'instant
     if (document.getElementById('acf-install') || isStandalone()) return;
     try { if (localStorage.getItem('acf_install_off') === '1') return; } catch (e) {}
     var b = document.createElement('button'); b.id = 'acf-install'; b.type = 'button';

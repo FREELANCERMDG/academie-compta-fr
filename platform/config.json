@@ -4,6 +4,11 @@
     "devise": "Ar",
     "base_url": "https://academie-compta-fr.mg"
   },
+  "app": {
+    "_note": "downloads_enabled=false : masque l'installation de l'app ET le hors-ligne des cours (apprenants ne peuvent rien telecharger). Passer a true pour reactiver.",
+    "downloads_enabled": false,
+    "android_url": ""
+  },
   "societe": {
     "nom": "MG CONSULTING IT&ACT",
     "denomination": "MG Consulting IT & ACT",

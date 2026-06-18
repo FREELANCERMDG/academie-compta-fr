@@ -445,10 +445,10 @@ function layout(title, body, sess) {
 <link rel="manifest" href="/public/manifest.webmanifest">
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><input type="checkbox" id="navtog" class="navtog" aria-hidden="true"><label for="navtog" class="navbtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></label><nav id="navmenu">${nav}</nav></header>${promoBan}
-${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
+${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${downloadsEnabled() ? "📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;" : ""}${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${downloadsEnabled() ? "📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;" : ""}${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
-${appbar}<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" data-vapid="${esc(VAPID_PUBLIC)}" data-auth="${u ? '1' : ''}" defer></script></body></html>`;
+${appbar}<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" data-vapid="${esc(VAPID_PUBLIC)}" data-auth="${u ? '1' : ''}" data-dl="${downloadsEnabled() ? '1' : ''}" defer></script></body></html>`;
 }
 const csrfField = sess => `<input type="hidden" name="_csrf" value="${esc(sess.row.csrf)}">`;
 const money = n => Number(n).toLocaleString('fr-FR') + ' ' + esc(cfg.site.devise);
@@ -534,7 +534,10 @@ function coursesCarousel() {
   return `<div class="sec-head"><h2>📚 Modules en vedette</h2><a href="/programme">Voir tout le programme →</a></div>
   <div class="hscroll">${cards}</div>`;
 }
+// Téléchargements (app + cours hors-ligne) activés ? (réglage cfg.app.downloads_enabled — désactivé par défaut)
+function downloadsEnabled() { return !!(cfg.app && cfg.app.downloads_enabled); }
 function installAppCard() {
+  if (!downloadsEnabled()) return '';
   let apk = (process.env.APK_URL || (cfg.app && cfg.app.android_url) || '').trim();
   if (!apk) { try { if (fs.existsSync(path.join(DIR, 'public', 'AcademieComptaFR.apk'))) apk = '/public/AcademieComptaFR.apk?v=' + ASSET_V; } catch { } }
   const ctas = apk
@@ -1302,11 +1305,11 @@ window.addEventListener('afterprint',function(){try{document.body.style.display=
 `;
   const courseBack = `<a href="/tableau-de-bord" title="Retour à mon espace" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:#fff;padding:6px 11px;border-radius:7px;font:600 13px -apple-system,Segoe UI,Arial,sans-serif;text-decoration:none;white-space:nowrap;margin-right:4px">&#8592; Mon espace</a>`;
   html = html.replace('<header>', '<header>' + courseBack);
-  html = html.replace('</body>', inject + '</body>');
+  html = html.replace('</body>', inject + (downloadsEnabled() ? '' : '<style>#offbtn{display:none!important}</style>') + '</body>');
   securityHeaders(res, { courseCSP: true, prod: PROD });
-  // Hors-ligne autorisé UNIQUEMENT pendant la promo gratuite : on transmet l'échéance (ms) au service worker.
-  // Après l'échéance → 0 → le cours n'est jamais mis en cache et le cache existant est purgé (contenu bloqué).
-  const promoUntil = promoAccesLibre() ? (Date.parse(promoExpiryISO() || '') || 0) : 0;
+  // Hors-ligne autorisé UNIQUEMENT si téléchargements activés ET pendant la promo gratuite.
+  // Sinon → 0 → le cours n'est jamais mis en cache et le cache existant est purgé (pas de hors-ligne).
+  const promoUntil = (downloadsEnabled() && promoAccesLibre()) ? (Date.parse(promoExpiryISO() || '') || 0) : 0;
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache, must-revalidate', 'X-Promo-Until': String(promoUntil) });
   res.end(html);
 }
@@ -1991,6 +1994,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
       if (p === '/apercu') { const code = url.searchParams.get('m') || 'm01'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
+      if (p === '/public/AcademieComptaFR.apk' && !downloadsEnabled()) return send(res, 404, '404');
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
       if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12) }));
       if (p === '/connexion') return send(res, 200, pageConnexion(sess || ensureGuestSession(res, req), null));
