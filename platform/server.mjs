@@ -535,7 +535,8 @@ function coursesCarousel() {
   <div class="hscroll">${cards}</div>`;
 }
 function installAppCard() {
-  const apk = (process.env.APK_URL || (cfg.app && cfg.app.android_url) || '').trim();
+  let apk = (process.env.APK_URL || (cfg.app && cfg.app.android_url) || '').trim();
+  if (!apk) { try { if (fs.existsSync(path.join(DIR, 'public', 'AcademieComptaFR.apk'))) apk = '/public/AcademieComptaFR.apk?v=' + ASSET_V; } catch { } }
   const ctas = apk
     ? `<a class="btn" href="${esc(apk)}" target="_blank" rel="noopener">📥 Télécharger l'app Android</a> <button class="btn ghost" id="installApp" type="button">📲 Installer (iPhone / navigateur)</button>`
     : `<button class="btn" id="installApp" type="button">📲 Installer l'application</button> <span class="muted" style="font-size:12.5px">· Android &amp; iPhone · <i>APK Android bientôt</i></span>`;
@@ -1225,7 +1226,7 @@ function serveStatic(res, baseDir, relPath, { course = false } = {}) {
   const fp = path.join(baseDir, safe);
   if (!fp.startsWith(baseDir) || !fs.existsSync(fp) || fs.statSync(fp).isDirectory()) { send(res, 404, '404'); return; }
   const ext = path.extname(fp).toLowerCase();
-  const types = { '.css': 'text/css', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.html': 'text/html; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon', '.pdf': 'application/pdf' };
+  const types = { '.css': 'text/css', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.html': 'text/html; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon', '.pdf': 'application/pdf', '.apk': 'application/vnd.android.package-archive' };
   securityHeaders(res, { courseCSP: course, prod: PROD });
   // Cache : fichiers statiques mis en cache (CDN + navigateur) ; HTML jamais caché.
   const cc = ext === '.html' ? 'no-cache' : 'public, max-age=86400, stale-while-revalidate=604800';
