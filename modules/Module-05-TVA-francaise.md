@@ -125,6 +125,47 @@ Récapitule **toute l'année** et **régularise les 2 acomptes** déjà versés 
 - **Acomptes déjà payés** dans l'année → à **déduire**.
 - **Résultat** : **TVA due** (à payer) **ou crédit** = solde annuel.
 
+### 💶 Les ACOMPTES de TVA au réel simplifié (le point souvent oublié)
+
+Au réel simplifié, on ne déclare la TVA **qu'une fois par an** (CA12), mais on **paie 2 acomptes** dans l'année (avis **n° 3514**, pré‑rempli par l'administration) :
+
+| Acompte | Échéance | Montant |
+|---|---|---|
+| **1er acompte** | **juillet** | **55 %** de la TVA due de l'année précédente* |
+| **2e acompte** | **décembre** | **40 %** de la TVA due de l'année précédente* |
+| **Solde** | avec la **CA12** (début mai N+1) | TVA réelle de l'année **− acomptes déjà versés** |
+
+\* *base de référence = la **TVA due N‑1 AVANT déduction de la TVA sur immobilisations** (case spécifique de la CA12 N‑1). Les 2 acomptes = **95 %** de N‑1 ; le reste s'ajuste au solde.*
+
+**Exemple chiffré** — TVA due N‑1 = **4 000 €** :
+- Juillet : 55 % × 4 000 = **2 200 €** · Décembre : 40 % × 4 000 = **1 600 €** (total **3 800 €**).
+- CA12 de mai N+1 : si la TVA réelle de l'année = **4 500 €** → **solde = 4 500 − 3 800 = 700 € à payer**. *(Si la TVA réelle < acomptes → crédit/remboursement.)*
+
+**Cas particuliers à connaître :**
+- **Dispense d'acomptes** : si la TVA due N‑1 est **< 1 000 €**, **aucun acompte** — tout se paie avec la CA12.
+- **Modulation** : on peut **diminuer ou supprimer** un acompte si on estime la TVA plus faible (ex. activité en baisse). ⚠️ Mais si l'acompte versé est **inférieur de plus de 10 %** au montant réellement dû → **majoration de 5 % + intérêts**.
+- **1ʳᵉ année d'activité** (pas de N‑1 de référence) : l'entreprise **fixe elle‑même** ses acomptes ; chacun doit représenter **au moins 80 %** de la TVA réellement due au titre du semestre.
+- **Sortie du régime** : si la TVA due dépasse **15 000 €/an**, bascule **obligatoire** au réel normal (**CA3 mensuelle**) l'année suivante.
+
+**📅 CA12 E (exercice décalé)** : si l'exercice comptable **ne coïncide pas** avec l'année civile, on ne dépose pas une CA12 « mai », mais une **CA12 E** (même formulaire 3517‑S, option « E ») couvrant **l'exercice**, à déposer **dans les 3 mois de la clôture**. Les acomptes de juillet/décembre restent dus, calculés sur la TVA de l'**exercice précédent**.
+
+**✍️ Écritures comptables des acomptes :**
+
+| Date | Compte | Libellé | Débit | Crédit |
+|---|---|---|---:|---:|
+| 15/07 | 44581 | Acompte de TVA (juillet) | 2 200,00 | |
+| | 512 | Banque | | 2 200,00 |
+| 15/12 | 44581 | Acompte de TVA (décembre) | 1 600,00 | |
+| | 512 | Banque | | 1 600,00 |
+| CA12 (mai N+1) | 44571 | TVA collectée (soldée) | … | |
+| | 44566 | TVA déductible (soldée) | | … |
+| | 44581 | Acomptes imputés | | 3 800,00 |
+| | 44551 | TVA à décaisser (solde) | | 700,00 |
+
+> Le compte **44581 « Acomptes – régime simplifié d'imposition »** accumule les acomptes ; il est **soldé** lors de la CA12 contre la TVA due de l'année. Réflexe révision : en fin d'année, **44581 doit refléter exactement les 2 acomptes payés**, et tomber à **0** après la CA12.
+
+**🖥️ Côté impots.gouv.fr** : les avis d'acompte (3514) sont **pré‑remplis** dans l'espace professionnel (menu **Déclarer → TVA → acompte**). On peut **moduler** le montant en ligne avant l'échéance ; le paiement part en **prélèvement B2B**. La CA12 annuelle se fait au même endroit (période = exercice).
+
 ### 🔗 Lien avec le logiciel
 Dans **Pennylane** (Fiscalité → TVA) ou **ACD**, ces lignes sont **pré‑remplies** depuis la compta. Votre rôle : **vérifier chaque ligne** (08 = collectée 20 %, 20 = déductible ABS, 19 = immo, 22 = crédit reporté…) **avant** validation par le chef de mission.
 
