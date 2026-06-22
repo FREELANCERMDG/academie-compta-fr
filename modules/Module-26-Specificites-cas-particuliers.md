@@ -16,7 +16,25 @@
 
 **Astuce :** banquette arrière ➔ **VP** (pas de TVA) ; camionnette / 2 places société ➔ **VU** (TVA OK).
 **Carburant (TVA déductible) :** gazole **80 % VP / 100 % VU** ; essence alignée sur le gazole. Électricité (recharge) : 100 %.
-> Plafonds d'amortissement VP selon le taux de CO₂ (de 9 900 € à 30 000 € — à vérifier chaque année). Voir aussi les **taxes sur l'affectation des véhicules** (ex‑TVS).
+### 🚗 Amortissement plafonné des VP (art. 39‑4 CGI)
+
+La VP s'amortit **en totalité en comptabilité**, mais la fraction qui correspond à la valeur **au‑dessus d'un plafond** (lié au **CO₂**) est **non déductible** : c'est l'**amortissement excédentaire non déductible (AEND)**, à **réintégrer extra‑comptablement** chaque année (liasse, ligne **WE** du **2058‑A** / cadre réintégrations du **2033‑B**).
+
+| Émissions CO₂ (WLTP) | Plafond (base = prix **TTC**) |
+|---|---|
+| **< 20 g/km** (électrique) | **30 000 €** |
+| **20 à 49 g/km** (hybride rechargeable) | **20 300 €** |
+| **50 à ~159 g/km** | **18 300 €** |
+| **≥ ~160 g/km** (les plus polluants) | **9 900 €** |
+
+> 📅 Les **seuils de CO₂** sont révisés **chaque année** (loi de finances) — vérifier le millésime. 🚫 **Pas de plafond** pour les véhicules indispensables à l'activité : **taxis, VTC, auto‑écoles, ambulances, location**.
+
+**Calcul :** `AEND = amortissement comptable annuel − (plafond × taux d'amortissement)`.
+**Exemple :** VP **36 000 € TTC**, **120 g/km** (plafond **18 300 €**), linéaire 5 ans (20 %) → amort. comptable **7 200 €**, amort. déductible 18 300 × 20 % = **3 660 €** → **AEND à réintégrer = 3 540 €/an**.
+> ⚠️ À la **revente**, les AEND déjà réintégrés se **déduisent de la plus‑value** (anti double‑imposition).
+
+➕ Voir aussi les **taxes sur l'affectation des véhicules** (ex‑TVS : taxe CO₂ + taxe polluants).
+📘 **Écritures complètes, cas chiffré et revente : leçon 3.6 — Immobilisations § 8.**
 
 ---
 
