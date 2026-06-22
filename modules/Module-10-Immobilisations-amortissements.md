@@ -245,6 +245,54 @@ On déduit dans la limite du plafond → **5 000 €** déduits.
 
 <div class="calc" data-calc="lmnp-amort"></div>
 
+---
+
+## 🚗 8. Amortissement excédentaire des véhicules de tourisme (VP) — art. 39‑4 CGI
+
+Un cas **très fréquent en cabinet** : une société achète une **voiture particulière (VP, compte 2182)**. Elle l'amortit **normalement en comptabilité** sur sa valeur totale, **mais** une partie de cet amortissement n'est **pas déductible fiscalement** : la fraction qui correspond à la valeur **au‑dessus d'un plafond** fixé selon les **émissions de CO₂**. Cette part = l'**amortissement excédentaire non déductible (AEND)**, à **réintégrer extra‑comptablement** chaque année.
+
+> ⚠️ À ne pas confondre avec le §7 (LMNP, art. 39 C II) : ici il s'agit du **plafond VP lié au CO₂** (art. 39‑4 CGI), un cas totalement différent.
+
+### 8.1 Les plafonds (base = prix d'acquisition **TTC**, car la TVA n'est pas récupérable sur un VP)
+
+| Émissions de CO₂ (WLTP) | Plafond d'amortissement |
+|---|---|
+| **< 20 g/km** (électrique) | **30 000 €** |
+| **20 à 49 g/km** (hybride rechargeable) | **20 300 €** |
+| **50 à ~159 g/km** | **18 300 €** |
+| **≥ ~160 g/km** (les plus polluants) | **9 900 €** |
+
+> 📅 Les **seuils de CO₂** baissent chaque année (loi de finances) — **vérifier le millésime** sur impots.gouv.fr / BOFiP. Les montants des plafonds (9 900 / 18 300 / 20 300 / 30 000 €), eux, sont stables depuis plusieurs années.
+> 🚫 **Pas de plafond** pour les véhicules **indispensables à l'activité** : taxis, VTC, auto‑écoles, ambulances, location de véhicules.
+
+### 8.2 Le calcul de la part non déductible (AEND)
+
+Deux façons équivalentes :
+- **AEND = Amortissement comptable annuel − (Plafond × taux d'amortissement)**, ou
+- **AEND = Amortissement comptable × (Prix TTC − Plafond) / Prix TTC**
+
+**Exemple chiffré** — VP acheté **36 000 € TTC**, **120 g/km** → plafond **18 300 €**, amortissement **linéaire 5 ans (20 %)** :
+- Amortissement **comptable** (déduit du résultat comptable) = 36 000 × 20 % = **7 200 €/an**.
+- Amortissement **déductible** (plafonné) = 18 300 × 20 % = **3 660 €/an**.
+- **AEND à réintégrer = 7 200 − 3 660 = 3 540 €/an** (chaque année d'amortissement).
+
+### 8.3 Écritures et liasse
+
+L'amortissement se comptabilise **EN TOTALITÉ** (la limite est **fiscale**, pas comptable) :
+
+| Compte | Libellé | Débit | Crédit |
+|---|---|---:|---:|
+| 6811 | Dotation aux amortissements | 7 200,00 | |
+| 28182 | Amortissements du matériel de transport | | 7 200,00 |
+
+➡️ La part excédentaire (**3 540 €**) ne fait **aucune écriture** : elle se **réintègre extra‑comptablement** sur la **liasse** — ligne **WE du tableau 2058‑A** (réel normal) ou cadre **réintégrations du 2033‑B** (réel simplifié).
+
+### 8.4 La subtilité à la revente
+
+Quand le VP est cédé, la **VNC comptable** tient compte de **tous** les amortissements (déductibles **+** excédentaires). Mais comme les AEND ont déjà été **réintégrés** (donc imposés) au fil des ans, on les **déduit du calcul de la plus‑value** fiscale pour éviter une **double imposition** (déduction extra‑comptable de la fraction d'amortissement excédentaire correspondant au bien cédé).
+
+> 🇲🇬 **Réflexe cabinet :** repérer les **VP (compte 2182)** → relever le **CO₂ sur la carte grise** → calculer l'**AEND chaque année** → le consigner au **dossier de révision (cycle immobilisations)** et le **reporter en réintégration** sur la liasse (ligne WE). C'est une **réintégration oubliée très fréquente** en contrôle.
+
 ## ✅ Checklist immobilisations
 - [ ] Distinction charge/immo respectée (seuil 500 € HT)
 - [ ] TVA bien traitée (non déductible sur VP)
