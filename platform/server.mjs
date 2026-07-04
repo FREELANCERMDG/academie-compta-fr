@@ -1010,7 +1010,7 @@ const COUNTRY_NAMES = { FR: 'France', MG: 'Madagascar', BE: 'Belgique', CH: 'Sui
 const paysNom = c => COUNTRY_NAMES[c] || c || 'Inconnu';
 const paysFlag = c => (/^[A-Z]{2}$/.test(c) && c !== 'XX' && c !== 'T1') ? String.fromCodePoint(...[...c].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65)) : '🌍';
 
-function pageAdmin(sess, notif, acces, accesEmail) {
+function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
   const users = db.prepare("SELECT u.id,u.nom,u.prenom,u.email,u.niveau_etudes,u.twofa,u.cree_le,u.vu_le,u.attestation_ok,u.attestation_le, p.niveau_nom, p.badges FROM users u LEFT JOIN progression p ON p.user_id=u.id WHERE u.role!=? ORDER BY u.cree_le DESC LIMIT 200").all('admin');
   const _cut5 = new Date(Date.now() - 5 * 60000).toISOString(), _cut30 = new Date(Date.now() - 30 * 60000).toISOString();
   const enLigne = users.filter(u => u.vu_le && u.vu_le > _cut5);
@@ -1109,11 +1109,51 @@ function pageAdmin(sess, notif, acces, accesEmail) {
   ${_emp.map(o => `<tr><td>${esc(o.titre)}</td><td>${esc(o.entreprise || '')}</td><td>${esc((o.cree_le || '').slice(0, 10))}</td>
     <td><form method="post" action="/admin/emploi-retirer" class="inline" onsubmit="return confirm('Retirer cette offre ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(o.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>` : '<p class="muted">Aucune offre publiée.</p>'}
   <p class="muted" style="font-size:12px">Les offres apparaissent sur la page publique <b>/emploi</b>.</p></section>`;
+  // --- 🔎 Recherche d'un apprenant par email (diagnostic « ne peut pas se connecter ») ---
+  const q = (qRaw || '').trim();
+  let rechercheHtml = '';
+  {
+    const norm = q.toLowerCase().replace(/\s+/g, '');
+    let found = null, similars = [];
+    if (norm) {
+      found = db.prepare("SELECT * FROM users WHERE lower(replace(email,' ',''))=? AND role!='admin'").get(norm);
+      if (!found) {
+        const core = (norm.split('@')[0] || '').replace(/[^a-z0-9]/g, '').slice(0, 12);
+        if (core.length >= 4) similars = db.prepare("SELECT id,nom,prenom,email,email_verifie,cree_le,vu_le FROM users WHERE role!='admin' AND lower(email) LIKE ? ORDER BY cree_le DESC LIMIT 10").all('%' + core + '%');
+      }
+    }
+    const diag = (u) => u.vu_le
+      ? '<p class="muted" style="font-size:12px;margin:6px 0 0">✅ Ce compte <b>s\'est déjà connecté</b>. Si l\'apprenant n\'y arrive plus, c\'est le <b>mot de passe</b> → « Mot de passe oublié ? » (lien de réinitialisation par email).</p>'
+      : '<p class="muted" style="font-size:12px;margin:6px 0 0">❗ Compte créé mais <b>jamais aucune connexion réussie</b> → mot de passe erroné/oublié. Solution : « Mot de passe oublié ? » sur la page de connexion.</p>';
+    const foundHtml = found ? `<div class="offre" style="border-left:4px solid #1e7d46">
+      <p style="margin:0 0 4px"><b style="color:#1e7d46">✅ Compte trouvé</b></p>
+      <table style="font-size:13px"><tr><td style="padding:2px 10px 2px 0">👤 Nom</td><td><b>${esc(found.prenom || '')} ${esc(found.nom || '')}</b></td></tr>
+      <tr><td style="padding:2px 10px 2px 0">✉️ Email exact</td><td><code>${esc(found.email)}</code></td></tr>
+      <tr><td style="padding:2px 10px 2px 0">📧 Email vérifié</td><td>${found.email_verifie ? 'oui' : 'non'}</td></tr>
+      <tr><td style="padding:2px 10px 2px 0">📅 Inscrit le</td><td>${esc(dateMG(found.cree_le))}</td></tr>
+      <tr><td style="padding:2px 10px 2px 0">🕒 Dernière connexion</td><td>${found.vu_le ? esc(dateMG(found.vu_le)) : '<b style="color:#c0392b">jamais connecté(e)</b>'}</td></tr>
+      <tr><td style="padding:2px 10px 2px 0">📚 Accès</td><td>${modulesCell(found)}</td></tr></table>
+      ${diag(found)}</div>` : '';
+    const simRow = (u) => `<tr><td><code>${esc(u.email)}</code></td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc((u.vu_le || '').slice(0, 10)) : '<span style="color:#c0392b">jamais</span>'}</td></tr>`;
+    rechercheHtml = `<section class="card"><h2>🔎 Rechercher un apprenant par email</h2>
+    <form method="get" action="/admin" class="form" style="margin:0 0 8px">
+      <div class="row"><label style="flex:1">Email (ou une partie du nom)<input name="q" value="${esc(q)}" placeholder="prenom@exemple.com" autocomplete="off"></label></div>
+      <button class="btn" type="submit">Rechercher</button></form>
+    ${!norm ? '<p class="muted" style="font-size:13px">Saisissez un email pour savoir <b>immédiatement</b> si le compte existe (nom, date d\'inscription, dernière connexion, accès) — utile quand un apprenant « n\'arrive pas à se connecter ».</p>'
+      : found ? foundHtml
+      : similars.length ? `<p class="err" style="color:#c0392b">❌ Aucun compte avec exactement <b>${esc(q)}</b>. Emails <b>ressemblants</b> (faute de frappe probable à l'inscription) :</p>
+        <div class="tbl"><table><tr><th>Email inscrit</th><th>Inscrit le</th><th>Dernière connexion</th></tr>${similars.map(simRow).join('')}</table></div>
+        <p class="muted" style="font-size:12px">➡️ Le compte a sans doute été créé avec l'une de ces adresses. Demande à l'apprenant de se connecter avec l'email <b>exact</b> ci-dessus.</p>`
+      : `<p class="err" style="color:#c0392b">❌ Aucun compte pour <b>${esc(q)}</b>, ni email ressemblant.</p>
+        <p class="muted" style="font-size:13px">➡️ Le compte n'a <b>jamais été créé</b> (inscription non terminée) ou avec une adresse totalement différente. Fais-lui <b>créer un compte</b> sur <b>/inscription</b>.</p>`}
+    </section>`;
+  }
   return layout('Admin', `<h1>Administration</h1>
   <section class="card" style="border-left:4px solid #1e7d46;background:rgba(30,125,70,.08)"><h2 style="margin:0 0 6px">🟢 En ligne maintenant — ${enLigne.length} apprenant${enLigne.length > 1 ? 's' : ''}</h2>
   ${enLigne.length ? `<div class="prog">${enLigne.map(u => `<div class="pitem"><span>🟢 <b>${esc(u.prenom)} ${esc((u.nom || '').slice(0, 1))}.</b> <span class="muted" style="font-size:11px">${esc(u.email)}</span></span><b class="gratuit">${esc(dateMG(u.vu_le).slice(11))}</b></div>`).join('')}</div>` : '<p class="muted">Personne en ligne à l\'instant.</p>'}
   ${vusRecent.length ? `<p class="muted" style="font-size:12px;margin-top:8px">🕒 Vus il y a moins de 30 min : ${vusRecent.map(u => esc(u.prenom) + ' ' + esc((u.nom || '').slice(0, 1)) + '.').join(' · ')}</p>` : ''}
   <p class="muted" style="font-size:11px">« En ligne » = activité dans les 5 dernières minutes (heure de Madagascar). Le détail « Dernier vu » de chacun est dans le tableau des apprenants plus bas. Actualisez pour rafraîchir.</p></section>
+  ${rechercheHtml}
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
   <form method="post" action="/admin/notifier" class="form">${csrfField(sess)}
@@ -2060,7 +2100,7 @@ const server = http.createServer(async (req, res) => {
         const out = forumMsgsSince(url.searchParams.get('since') || '').map(forumMsgJSON);
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); return res.end(JSON.stringify(out));
       }
-      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'))); }
+      if (p === '/admin') { if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess)); return send(res, 200, pageAdmin(sess, url.searchParams.get('notif'), url.searchParams.get('acces'), url.searchParams.get('e'), url.searchParams.get('q'))); }
       if (p === '/admin/google/connect') {
         if (!authed(sess) || sess.user.role !== 'admin') return send(res, 403, layout('403', '<h1>Accès refusé</h1>', sess));
         if (!googleEnvOk()) return redirect(res, '/admin?acces=google_noenv');
