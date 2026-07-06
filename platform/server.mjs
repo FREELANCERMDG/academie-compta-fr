@@ -1133,7 +1133,8 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
       <tr><td style="padding:2px 10px 2px 0">📅 Inscrit le</td><td>${esc(dateMG(found.cree_le))}</td></tr>
       <tr><td style="padding:2px 10px 2px 0">🕒 Dernière connexion</td><td>${found.vu_le ? esc(dateMG(found.vu_le)) : '<b style="color:#c0392b">jamais connecté(e)</b>'}</td></tr>
       <tr><td style="padding:2px 10px 2px 0">📚 Accès</td><td>${modulesCell(found)}</td></tr></table>
-      ${diag(found)}</div>` : '';
+      ${diag(found)}
+      <form method="post" action="/admin/reset-link" class="inline" style="margin-top:10px">${csrfField(sess)}<input type="hidden" name="email" value="${esc(found.email)}"><button class="btn small" type="submit">🔗 Générer un lien de réinitialisation du mot de passe</button></form></div>` : '';
     const simRow = (u) => `<tr><td><code>${esc(u.email)}</code></td><td>${esc((u.cree_le || '').slice(0, 10))}</td><td>${u.vu_le ? esc((u.vu_le || '').slice(0, 10)) : '<span style="color:#c0392b">jamais</span>'}</td></tr>`;
     rechercheHtml = `<section class="card"><h2>🔎 Rechercher un apprenant par email</h2>
     <form method="get" action="/admin" class="form" style="margin:0 0 8px">
@@ -1148,11 +1149,35 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
         <p class="muted" style="font-size:13px">➡️ Le compte n'a <b>jamais été créé</b> (inscription non terminée) ou avec une adresse totalement différente. Fais-lui <b>créer un compte</b> sur <b>/inscription</b>.</p>`}
     </section>`;
   }
+  // --- 🔗 Lien de réinitialisation généré par l'admin (à envoyer par WhatsApp) ---
+  let resetLinkHtml = '';
+  if (acces === 'resetlink' && accesEmail) {
+    const ru = db.prepare("SELECT email, prenom, nom, tel, reset_token, reset_exp FROM users WHERE email=? AND role!='admin'").get(accesEmail);
+    if (ru && ru.reset_token && ru.reset_exp > new Date().toISOString()) {
+      const link = BASE_URL + '/reinitialiser?token=' + ru.reset_token;
+      const msg = 'Bonjour ' + (ru.prenom || '') + ', voici votre lien pour choisir un nouveau mot de passe sur ' + cfg.site.nom_plateforme + ' (valable 1 heure) : ' + link;
+      const waNum = (ru.tel || '').replace(/\D/g, '');
+      const waHref = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg);
+      resetLinkHtml = `<section class="card" style="border-left:4px solid #7c6cff;background:rgba(124,108,255,.06)">
+      <h2>🔗 Lien de réinitialisation généré</h2>
+      <p class="muted" style="font-size:13px">Pour <b>${esc(ru.prenom || '')} ${esc(ru.nom || '')}</b> — <code>${esc(ru.email)}</code>. Valable <b>1 heure</b>. Envoie-le à l'apprenant : en cliquant dessus, il/elle choisira un nouveau mot de passe (aucun email nécessaire).</p>
+      <input id="rlink" value="${esc(link)}" readonly onclick="this.select()" style="width:100%;padding:10px;border:1px solid #c5d2f5;border-radius:8px;font-family:monospace;font-size:12px;box-sizing:border-box">
+      <p style="margin:10px 0 0">
+        <button class="btn small" type="button" onclick="navigator.clipboard.writeText(document.getElementById('rlink').value);this.textContent='✅ Lien copié';">📋 Copier le lien</button>
+        <a class="btn small ghost" href="${esc(waHref)}" target="_blank" rel="noopener">📲 Envoyer par WhatsApp${waNum ? '' : ' (choisir le contact)'}</a>
+      </p>
+      <p class="muted" style="font-size:12px;margin-top:8px">⚠️ Lien <b>à usage unique</b> : dès que le mot de passe est changé, il expire. Regénérer invalide le précédent.</p>
+    </section>`;
+    } else {
+      resetLinkHtml = `<section class="card"><p class="err" style="color:#c0392b">❌ Lien introuvable ou expiré — regénère-le via la recherche ci-dessous.</p></section>`;
+    }
+  }
   return layout('Admin', `<h1>Administration</h1>
   <section class="card" style="border-left:4px solid #1e7d46;background:rgba(30,125,70,.08)"><h2 style="margin:0 0 6px">🟢 En ligne maintenant — ${enLigne.length} apprenant${enLigne.length > 1 ? 's' : ''}</h2>
   ${enLigne.length ? `<div class="prog">${enLigne.map(u => `<div class="pitem"><span>🟢 <b>${esc(u.prenom)} ${esc((u.nom || '').slice(0, 1))}.</b> <span class="muted" style="font-size:11px">${esc(u.email)}</span></span><b class="gratuit">${esc(dateMG(u.vu_le).slice(11))}</b></div>`).join('')}</div>` : '<p class="muted">Personne en ligne à l\'instant.</p>'}
   ${vusRecent.length ? `<p class="muted" style="font-size:12px;margin-top:8px">🕒 Vus il y a moins de 30 min : ${vusRecent.map(u => esc(u.prenom) + ' ' + esc((u.nom || '').slice(0, 1)) + '.').join(' · ')}</p>` : ''}
   <p class="muted" style="font-size:11px">« En ligne » = activité dans les 5 dernières minutes (heure de Madagascar). Le détail « Dernier vu » de chacun est dans le tableau des apprenants plus bas. Actualisez pour rafraîchir.</p></section>
+  ${resetLinkHtml}
   ${rechercheHtml}
   ${mailConfigured() ? `${notif != null ? `<p class="ok">📣 Notification envoyée à ${esc(notif)} apprenant(s).</p>` : ''}
   <section class="card"><h2>📣 Notifier les apprenants d'une mise à jour</h2>
@@ -2206,6 +2231,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/cabinet/suppr') return postCabinetSuppr(req, res, sess, body);
       if (p === '/admin/notifier') return postAdminNotifier(req, res, sess, body);
       if (p === '/admin/acces') return postAdminAcces(req, res, sess, body);
+      if (p === '/admin/reset-link') return postAdminResetLink(req, res, sess, body);
       if (p === '/admin/acces-retirer') return postAdminAccesRetirer(req, res, sess, body);
       if (p === '/admin/acces-modifier') return postAdminAccesModifier(req, res, sess, body);
       if (p === '/admin/emploi-ajouter') return postEmploiAjouter(req, res, sess, body);
@@ -2655,6 +2681,19 @@ function postAdminAcces(req, res, sess, body) {
   audit(db, sess.user.id, 'acces_offert', email + ' · ' + offre.code + ' · ' + jours + 'j', ip(req));
   rewardParrain(user.id);
   return redirect(res, '/admin?acces=ok&e=' + encodeURIComponent(email) + '&o=' + encodeURIComponent(offre.code) + '&j=' + jours);
+}
+
+// Génère un lien de réinitialisation de mot de passe (admin) — à transmettre par WhatsApp
+// quand l'apprenant ne reçoit pas l'email (délivrabilité Gmail à Madagascar).
+function postAdminResetLink(req, res, sess, body) {
+  if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
+  const norm = (body.email || '').trim().toLowerCase().replace(/\s+/g, '');
+  const user = norm ? db.prepare("SELECT id, email FROM users WHERE lower(replace(email,' ',''))=? AND role!='admin'").get(norm) : null;
+  if (!user) return redirect(res, '/admin?acces=nouser');
+  const token = rid(28), exp = new Date(Date.now() + 3600000).toISOString();
+  db.prepare('UPDATE users SET reset_token=?, reset_exp=? WHERE id=?').run(token, exp, user.id);
+  audit(db, sess.user.id, 'pwreset_lien_admin', user.email, ip(req));
+  return redirect(res, '/admin?acces=resetlink&e=' + encodeURIComponent(user.email));
 }
 
 // Retirer un accès accordé/payé (révocation immédiate).
