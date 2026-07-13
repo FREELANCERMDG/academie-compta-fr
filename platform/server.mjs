@@ -599,7 +599,7 @@ function pageAccueil(sess) {
   const lsoc = cfg.societe || {};
   const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
     { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": [{ "@type": "Country", "name": "Madagascar" }, { "@type": "City", "name": "Antananarivo" }, { "@type": "City", "name": "Tamatave (Toamasina)" }, { "@type": "City", "name": "Antsirabe" }, { "@type": "City", "name": "Majunga (Mahajanga)" }] },
-    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, simulateurs et certification. Module 1 gratuit.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
+    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, simulateurs et certification.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
@@ -650,7 +650,7 @@ function pageDecouverte(sess) {
   ${videoBloc}
   <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
   <section class="card"><h2>Ce qui est inclus</h2>
-  <ul><li>📚 <b>6 modules</b>, dont le <b>Module 1 gratuit</b> tout de suite${promoLive() ? ' — et TOUS les modules gratuits pendant la promo' : ' (à partir de ' + money(prixMiniModule()) + ' / module)'}</li>
+  <ul><li>📚 <b>6 modules</b> complets, 100 % pratiques${promoLive() ? ' — TOUS gratuits pendant la promo' : ' — à partir de ' + money(prixMiniModule()) + ' / module'}</li>
   <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
   <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
   <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
@@ -821,7 +821,7 @@ function pageApercu(sess, code) {
   <article class="prose">${teaserHtml(code)}</article>
   <section class="card lockcard"><h2>🔒 Contenu complet réservé aux inscrits</h2>
   <p>Le cours détaillé, les procédures pas-à-pas, cas pratiques, checklists et le quiz de ce module sont accessibles ${promoLive() ? 'GRATUITEMENT après une simple inscription (promo jusqu’au ' + promoFinFR() + ')' : 'après inscription et paiement'}.</p>
-  <a class="btn" href="/inscription">S'inscrire pour débloquer</a> <a class="btn ghost" href="/apercu?m=mod1">Voir un module gratuit</a></section>`, sess);
+  <a class="btn" href="/inscription">S'inscrire pour débloquer</a> <a class="btn ghost" href="/programme">Voir tout le programme</a></section>`, sess);
 }
 
 function pageInscription(sess, err, val = {}) {
@@ -988,7 +988,7 @@ function pageDashboard(sess) {
   <p class="muted" style="font-size:12px">Montez en niveau en réussissant les simulateurs (saisie, factures, TVA, révision, chef de mission). Suivi sur cet appareil.</p>
   <script>(function(){function g(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}var P=g('fce_progress_v1'),EX=g('fce_exo_v1'),SI=g('fce_sim_v1'),TV=g('fce_tva_v1'),AU=g('fce_audit_v1');var exoN=Object.keys(EX).filter(function(k){return EX[k]}).length;var fac=(SI.d1||0)>=6;var tvaN=Object.keys(TV).filter(function(k){return TV[k]}).length;var rev=!!AU.a2,chef=!!AU.a1;var qz=P.quiz||{},fin=qz.final,cert=!!(fin&&fin.total&&fin.score/fin.total>=0.7);var B=[{k:'🧮',n:'Saisie',ok:exoN>=4},{k:'🏢',n:'Factures',ok:fac},{k:'🧾',n:'TVA',ok:tvaN>=1},{k:'🔍',n:'Révision',ok:rev},{k:'👔',n:'Chef de mission',ok:chef},{k:'🏅',n:'Certifié',ok:cert}];var L=['Recrue','Collaborateur','Collaborateur confirmé','Réviseur','Chef de mission'];var lvl=0;if(exoN>=4||fac)lvl=1;if(lvl>=1&&fac&&tvaN>=1)lvl=2;if(lvl>=2&&rev)lvl=3;if(lvl>=3&&chef&&cert)lvl=4;var nxt=['Validez 4 exercices de saisie (Module 3.12).','Terminez le Simulateur Cabinet (3.13) et la déclaration de TVA (3.14).','Détectez les anomalies de révision (6.9).','Validez le travail du collaborateur (6.9) et réussissez le quiz final.'];var c=document.getElementById('career');try{fetch('/progression',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'_csrf=${sess.row.csrf}&prog='+encodeURIComponent(JSON.stringify({prog:P,exo:EX,sim:SI,tva:TV,audit:AU}))});}catch(e){}if(!c)return;var h='<div style=\"font-size:22px;font-weight:800;color:#fff\">'+L[lvl]+' <span class=\"muted\" style=\"font-size:14px;font-weight:400\">(niveau '+(lvl+1)+'/5)</span></div>';h+='<div style=\"background:rgba(255,255,255,.08);border-radius:99px;height:14px;overflow:hidden;margin:10px 0\"><div style=\"height:100%;width:'+(lvl/4*100)+'%;background:var(--grad);transition:width .7s\"></div></div>';h+='<div class=\"grid\" style=\"grid-template-columns:repeat(auto-fit,minmax(120px,1fr))\">'+B.map(function(b){return '<div class=\"offre\" style=\"text-align:center;opacity:'+(b.ok?'1':'.4')+'\"><div style=\"font-size:28px\">'+b.k+'</div><div style=\"font-weight:700;font-size:13px;color:#fff\">'+b.n+'</div><div class=\"muted\" style=\"font-size:11px\">'+(b.ok?'✅ obtenu':'🔒 à débloquer')+'</div></div>'}).join('')+'</div>';h+=(lvl<4)?'<p class=\"muted\" style=\"margin-top:10px\">🎯 Prochain objectif : '+nxt[lvl]+'</p>':'<p class=\"ok\" style=\"margin-top:10px\">🏆 Niveau maximum atteint — prêt pour le cabinet !</p>';c.innerHTML=h;})();</script></section>
   <section class="card"><h2>Accès à la formation</h2>
-  <p>${promoLive() ? '🎁 <b>Pendant la promo, TOUS les modules sont débloqués gratuitement</b> (jusqu’au ' + promoFinFR() + ') — rien à payer.' : 'Le <b>Module 1 est gratuit</b>. Les autres modules se débloquent à partir de <b>' + money(prixMiniModule()) + '</b> après paiement.'}</p>
+  <p>${promoLive() ? '🎁 <b>Pendant la promo, TOUS les modules sont débloqués gratuitement</b> (jusqu’au ' + promoFinFR() + ') — rien à payer.' : 'Les modules se débloquent à partir de <b>' + money(prixMiniModule()) + '</b> / module après paiement.'}</p>
   <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
   <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 ${(u.role === 'admin' || u.attestation_ok) ? 'Mon attestation' : 'Attestation (entretien final)'}</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${(u.role !== 'admin') ? (u.attestation_ok
@@ -1253,7 +1253,7 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     <label>Accès à<select name="offre">${offresOpts}</select></label>
     <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="365"></label>
     <button class="btn" type="submit">Accorder l'accès</button></form>
-  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6). Le Module 1 est déjà gratuit pour tous les inscrits. Vous pouvez ré-accorder pour prolonger.</p></section>
+  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6, le Module 1 se vend à part). Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
   ${parrainageHtml}
   ${emploiHtml}
