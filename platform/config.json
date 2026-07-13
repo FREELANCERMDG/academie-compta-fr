@@ -114,6 +114,8 @@
     "flux_rss": [],
     "_note": "liens = recherches deja filtrees 'comptabilite' (curees, sans risque). flux_rss = URLs de flux RSS a agreger (laisser vide tant qu'aucun flux fiable). Les offres internes (mini-bourse partenaires) se gerent depuis l'admin."
   },
+  "promo_grant_keep": ["ychadde@gmail.com"],
+  "_note_promo_grant_keep": "Emails qui CONSERVENT leur accès promo (PROMO_PACK jusqu'à promo.jusqu_au) même quand la promo est annulée/terminée. Tous les autres octrois promo sont expirés.",
   "attestation_stage": ["ychadde@gmail.com"],
   "_note_attestation_stage": "Liste d'e-mails dont l'attestation s'intitule 'ATTESTATION DE STAGE' au lieu de 'fin de formation'. Les autres apprenants ne sont pas affectés.",
   "formateur": {
