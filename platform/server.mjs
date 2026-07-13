@@ -457,6 +457,10 @@ function layout(title, body, sess) {
   const og = `${BASE_URL}/public/og-image.png`;
   const backBtn = (title === 'Accueil') ? '' : `<div class="backbar"><a class="btn ghost small" href="/" onclick="if(history.length>1){history.back();return false;}">← Retour</a> <a class="btn ghost small" href="/">🏠 Accueil</a></div>`;
   const promoBan = promoActive() ? `<div style="background:linear-gradient(90deg,#E8A13A,#f6c172);color:#3a2600;text-align:center;padding:8px 14px;font-weight:700;font-size:13.5px;line-height:1.45">${esc(promoBanText())}${u ? '' : ' <a href="/inscription" style="color:#16307a;font-weight:800;text-decoration:underline">S\'inscrire →</a>'}</div>` : '';
+  const tickSeg = promoLive()
+    ? `🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${downloadsEnabled() ? "📲 Installez l'appli sur votre téléphone — accès en 1 tap&nbsp;&nbsp;·&nbsp;&nbsp;" : ''}🎁 TOUS les modules GRATUITS jusqu'au ${promoFinFR()}&nbsp;&nbsp;·&nbsp;&nbsp;`
+    : `📣 La phase de découverte 100&nbsp;% gratuite est terminée — MERCI aux premiers inscrits&nbsp;!&nbsp;&nbsp;·&nbsp;&nbsp;🚀 Place à la formule accompagnée : suivi personnalisé par le formateur, simulateurs type cabinet &amp; attestation vérifiée&nbsp;&nbsp;·&nbsp;&nbsp;💰 Tarif de lancement : à partir de <b>${esc(money(prixMiniModule()))} / module</b>${(cfg.promo && cfg.promo.prix_ref) ? ' — au lieu de ' + esc(cfg.promo.prix_ref) + ' ailleurs' : ''}&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Inscription gratuite — aperçu libre de chaque module&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;`;
+  const ticker = u ? '' : `<div class="ticker"><div class="ticker-track"><span>${tickSeg}</span><span>${tickSeg}</span></div></div>`;
   const appbar = u
     ? `<nav class="appbar" aria-label="Navigation application"><a href="/" data-p="/"><span class="ic">🏠</span>Accueil</a><a href="/formation" data-p="/formation"><span class="ic">📚</span>Formation</a><a href="/cabinet" data-p="/cabinet"><span class="ic">🏢</span>Cabinet</a><a href="/tableau-de-bord" data-p="/tableau-de-bord"><span class="ic">👤</span>Espace</a></nav>`
     : `<nav class="appbar" aria-label="Navigation application"><a href="/" data-p="/"><span class="ic">🏠</span>Accueil</a><a href="/programme" data-p="/programme"><span class="ic">📚</span>Programme</a><a href="/connexion" data-p="/connexion"><span class="ic">🔑</span>Connexion</a><a href="/inscription" data-p="/inscription"><span class="ic">✍️</span>S'inscrire</a></nav>`;
@@ -485,7 +489,7 @@ function layout(title, body, sess) {
 ${downloadsEnabled() ? '<link rel="manifest" href="/public/manifest.webmanifest">' : ''}
 <link rel="stylesheet" href="/public/app.css?v=${ASSET_V}"></head>
 <body><div class="topbar"><header class="top"><a class="brand" href="/">${esc(cfg.site.nom_plateforme)}</a><input type="checkbox" id="navtog" class="navtog" aria-hidden="true"><label for="navtog" class="navbtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></label><nav id="navmenu">${nav}</nav></header>${promoBan}
-${(sess && sess.user) ? '' : `<div class="ticker"><div class="ticker-track"><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${downloadsEnabled() ? "📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;" : ""}${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>🎁 Inscription 100&nbsp;% GRATUITE — créez votre compte dès aujourd'hui&nbsp;&nbsp;·&nbsp;&nbsp;🎓 Tous les modules + attestation de fin de formation à la clé&nbsp;&nbsp;·&nbsp;&nbsp;🎥 Terminez tous les modules puis passez le test final en VISIO (Google&nbsp;Meet) avec le formateur — attestation signée et tamponnée&nbsp;&nbsp;·&nbsp;&nbsp;${downloadsEnabled() ? "📲 Installez l'appli sur votre téléphone — accès en 1 tap, en plein écran&nbsp;&nbsp;·&nbsp;&nbsp;" : ""}${promoLive() ? '🎁 TOUS les modules GRATUITS jusqu’au ' + promoFinFR() : '🎁 Module&nbsp;1 100&nbsp;% gratuit'}&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>`}
+${ticker}
 </div><main class="wrap">${backBtn}${body}</main>
 ${waBtn}<footer class="foot">${soc.nom ? `<b>${esc(soc.nom)}</b>${rcs ? ' — ' + esc(rcs) : ''}<br>Attestations de fin de formation délivrées par ${esc(soc.nom)}. ` : ''}Plateforme sécurisée — RGPD / secret professionnel. © 2026 · <a href="/mentions-legales">Mentions légales</a></footer>
 ${appbar}<script src="/public/chat.js?v=${ASSET_V}" data-wa="${esc(wa)}" data-promo="${promoLive() ? '1' : ''}" data-coach="${esc(coachNudge(sess))}" data-vapid="${esc(VAPID_PUBLIC)}" data-auth="${u ? '1' : ''}" data-dl="${downloadsEnabled() ? '1' : ''}" defer></script></body></html>`;
@@ -2470,6 +2474,7 @@ function postDemande(req, res, sess, body) {
   if (sujet.length < 2 || message.length < 5) return redirect(res, '/tableau-de-bord');
   db.prepare('INSERT INTO demandes(id,user_id,sujet,message,statut,cree_le) VALUES(?,?,?,?,?,?)').run(rid(10), sess.user.id, sujet, message, 'nouvelle', new Date().toISOString());
   audit(db, sess.user.id, 'demande_rdv', sujet, ip(req));
+  try { pushToAdmins({ title: '❓ Nouvelle demande apprenant', body: (sess.user.email || '') + ' · ' + sujet, url: '/admin', tag: 'adm-demande' }).catch(() => { }); } catch { }
   return send(res, 200, layout('Demande envoyée', `<h1>Demande envoyée ✅</h1><p>Votre demande « ${esc(sujet)} » a été transmise au formateur. Vous serez recontacté(e).</p><a class="btn" href="/tableau-de-bord">Retour à mon espace</a>`, sess));
 }
 // --- Réglages clé/valeur (jeton Google Agenda, etc.) ---
@@ -2542,6 +2547,7 @@ async function postAttestationRdv(req, res, sess, body) {
       'RDV test final ' + (quandOk ? 'le ' + quandTxt + ' (heure MG)' : 'demandé') + '. E-mail : ' + email + (meet && meet.meet ? '. Google Meet créé automatiquement : ' + meet.meet : '. (Lien Meet à envoyer manuellement)'),
       meet ? 'traitee' : 'nouvelle', new Date().toISOString());
   } catch { }
+  try { pushToAdmins({ title: '📅 RDV test final programmé', body: apprenant + (quandOk ? ' · le ' + quandTxt + ' (heure MG)' : '') + (meet && meet.meet ? ' · Meet créé automatiquement' : ' · lien Meet à envoyer manuellement'), url: '/admin', tag: 'adm-rdv' }).catch(() => { }); } catch { }
 
   if (meet) {
     return send(res, 200, layout('Rendez-vous programmé', `<h1>✅ Votre rendez-vous de test est programmé</h1>
