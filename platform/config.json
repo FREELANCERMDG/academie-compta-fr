@@ -116,6 +116,8 @@
   },
   "promo_grant_keep": ["ychadde@gmail.com"],
   "_note_promo_grant_keep": "Emails qui CONSERVENT leur accès promo (PROMO_PACK jusqu'à promo.jusqu_au) même quand la promo est annulée/terminée. Tous les autres octrois promo sont expirés.",
+  "attestation_auto": ["ychadde@gmail.com"],
+  "_note_attestation_auto": "Emails dont l'attestation est validée AUTOMATIQUEMENT (sans clic admin) : téléchargeable dès leur prochaine connexion.",
   "attestation_stage": ["ychadde@gmail.com"],
   "_note_attestation_stage": "Liste d'e-mails dont l'attestation s'intitule 'ATTESTATION DE STAGE' au lieu de 'fin de formation'. Les autres apprenants ne sont pas affectés.",
   "formateur": {

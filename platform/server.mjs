@@ -177,9 +177,19 @@ function expirePromoGrants() {
     db.prepare(sql).run(now, now, ...keep);
   } catch { }
 }
+// Validation automatique d'attestation (sans clic admin) pour les emails listés dans
+// cfg.attestation_auto : l'apprenant peut télécharger son attestation dès sa connexion.
+function autoValidateAttestations() {
+  try {
+    const now = new Date().toISOString();
+    for (const em of (cfg.attestation_auto || []).map(e => String(e).toLowerCase().trim()).filter(Boolean)) {
+      db.prepare('UPDATE users SET attestation_ok=1, attestation_le=COALESCE(attestation_le, ?) WHERE lower(email)=? AND COALESCE(attestation_ok,0)=0').run(now, em);
+    }
+  } catch { }
+}
 try {
-  setTimeout(expirePromoGrants, 5000).unref();
-  setInterval(expirePromoGrants, 60 * 60 * 1000).unref();
+  setTimeout(() => { expirePromoGrants(); autoValidateAttestations(); }, 5000).unref();
+  setInterval(() => { expirePromoGrants(); autoValidateAttestations(); }, 60 * 60 * 1000).unref();
 } catch { }
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
