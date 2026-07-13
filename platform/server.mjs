@@ -151,6 +151,21 @@ try {
   setInterval(() => { pushDailyRelance().catch(() => { }); }, 20 * 60 * 1000).unref();
   setTimeout(() => { pushDailyRelance().catch(() => { }); }, 60 * 1000).unref();
 } catch { }
+// Fin/annulation de promo : les octrois automatiques PROMO_PACK n'y survivent pas — on les
+// expire pour que l'accès redevienne payant partout (site, apps, hors-ligne). Les accès payés
+// ou accordés manuellement (autres codes d'offre) ne sont jamais touchés. Idempotent : si la
+// promo rouvre, grantPromoModules resynchronise l'expiration à la reconnexion de l'apprenant.
+function expirePromoGrants() {
+  if (promoLive()) return;
+  try {
+    const now = new Date().toISOString();
+    db.prepare("UPDATE inscriptions SET expire_le=? WHERE offre_code='PROMO_PACK' AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").run(now, now);
+  } catch { }
+}
+try {
+  setTimeout(expirePromoGrants, 5000).unref();
+  setInterval(expirePromoGrants, 60 * 60 * 1000).unref();
+} catch { }
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
 // Émetteur 2FA en ASCII pur (certaines apps gèrent mal accents/tirets dans l'otpauth URI)

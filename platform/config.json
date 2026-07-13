@@ -91,8 +91,8 @@
     "_note": "actif=true : chaque apprenant a un code de parrainage. Quand un filleul obtient un accès PAYÉ, le parrain gagne bonus_jours d'accès en plus (prolongation de ses accès actifs)."
   },
   "promo": {
-    "actif": true,
-    "acces_libre": true,
+    "actif": false,
+    "acces_libre": false,
     "debut_libre": "",
     "jusqu_au": "2026-09-09",
     "label": "🎁 Gratuit 3 mois",
