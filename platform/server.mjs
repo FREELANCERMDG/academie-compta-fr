@@ -548,7 +548,7 @@ function landingHero(sess) {
     <div style="margin-top:14px;font-size:13px;color:#dde4f5">Continuer : <b>Module 1 — Bases du PCG</b></div>
     <div class="pbar"><i style="width:18%"></i></div>
     <div class="muted" style="font-size:11.5px">Étape 1/6 · ~10 min</div>
-    <p style="margin:12px 0 0"><a class="btn" style="display:block;text-align:center" href="${logged ? '/tableau-de-bord' : '/inscription'}">${logged ? 'Reprendre' : 'Commencer gratuitement'}</a></p>
+    <p style="margin:12px 0 0"><a class="btn" style="display:block;text-align:center" href="${logged ? '/tableau-de-bord' : '/inscription'}">${logged ? 'Reprendre' : 'Commencer ma formation'}</a></p>
     <hr>
     <div class="srow"><div class="ring" style="--p:70"><i>N3</i></div>
      <div><div style="font-weight:800;color:#fff">Niveau Réviseur</div><div class="muted" style="font-size:12px">Progression du parcours cabinet</div>
@@ -657,7 +657,7 @@ function pageDecouverte(sess) {
   <li>🏅 <b>Attestation</b> de fin de formation · 💬 <b>demande de rendez-vous</b> intégrée</li>
   <li>⏱️ Accès : <b>${esc(duree)}</b> · 1 appareil · contenu protégé (filigrane personnalisé)</li></ul></section>
   <section class="card"><h2>On commence ?</h2>
-  <p><a class="btn" href="/apercu?m=mod1">Lire le Module 1 (inscription gratuite)</a> <a class="btn ghost" href="/tableau-de-bord">Mon espace</a></p></section>`, sess);
+  <p><a class="btn" href="/tableau-de-bord">Choisir mes modules</a> <a class="btn ghost" href="/apercu?m=mod1">Aperçu du Module 1</a></p></section>`, sess);
 }
 
 function pageMentions(sess) {
@@ -1318,7 +1318,7 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     <form method="post" action="/admin/demande-traitee" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="id" value="${esc(d.id)}"><button class="btn small ghost" type="submit">Marquer traitée (sans réponse écrite)</button></form>
   </div>`).join('') : '<p class="muted">Aucune demande en attente.</p>'}</section>
   <section class="card"><h2>Apprenants (${users.length})</h2>
-  <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#9a5b00">M1</span> = gratuit (tous les inscrits) · <span style="color:#16307a">M2–M6</span> = accès payé ou accordé · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
+  <p class="muted" style="font-size:12px">Colonne <b>Modules (accès)</b> : <span style="color:#16307a">M1–M6</span> = accès payé ou accordé par l'admin · <span style="color:#1e7d46">Visio</span> = séance complémentaire · « expire » = fin d'accès.</p>
   ${promoLive() ? `<form method="post" action="/admin/promo-debloquer-tous" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small" type="submit">🎁 Débloquer TOUS les modules (promo) à tous les apprenants</button> <span class="muted" style="font-size:12px">— gratuit jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}. Les nouveaux inscrits sont débloqués automatiquement.</span></form>` : ''}
   <p class="muted" style="font-size:12px"><b>🎓 Attestation</b> : l'apprenant ne peut télécharger son attestation (signée/tamponnée) qu'<b>après votre validation</b> ci-dessous — à faire une fois l'<b>entretien/test final</b> réussi.</p>
   <table><tr><th>Nom</th><th>Email</th><th>Études</th><th>Niveau cabinet</th><th>Modules (accès)</th><th>2FA</th><th>Inscrit le</th><th>Dernier vu</th><th>🎓 Attestation</th></tr>
@@ -1556,10 +1556,10 @@ function chatSystemPrompt(learner) {
     "LONGUEUR : pour une demande commerciale, sois CONCIS (2 à 5 phrases). Pour une explication technique, sois structuré et complet : définition → exemple chiffré → écriture → réflexe cabinet, sans bavardage.",
     "N'INVENTE JAMAIS de prix ni de chiffres COMMERCIAUX : pour la formation, utilise uniquement les informations ci-dessous ; si tu ignores une info, dis-le et renvoie vers WhatsApp " + wa + " ou la page Programme.",
     "INFORMATIONS OFFICIELLES (formation) :",
-    promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 6 modules. Le Module 1 (Fondamentaux) est 100 % GRATUIT après une inscription gratuite.",
+    promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 6 modules, TOUS payants (aucun module gratuit). Créer un compte est gratuit et permet de voir les aperçus ; le contenu complet de chaque module se débloque après paiement.",
     promoLive() ? "- Tarifs HORS PROMO (à titre indicatif seulement, NE PAS demander de payer pendant la promo) :" : "- Offres payantes :",
     off,
-    "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement. Le Module 1 reste gratuit.",
+    "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement.",
     "- Sécurité : connexion par email + mot de passe (double authentification réservée à l'admin) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
     "- Parrainage : chaque inscrit a un code ; quand un filleul débloque un accès payant, le parrain gagne " + bonus + " jours d'accès offerts.",
     "- Paiement : " + (((cfg.paiements_manuels || []).filter(m => m.actif).map(m => m.nom).join(', ') || 'Orange Money') + (carteActive() ? ', ou carte bancaire' : '')) + " ; l'accès est activé après validation.",
@@ -2098,7 +2098,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/emploi') return send(res, 200, pageEmploi(sess));
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
       if (p === '/mentions-legales') return send(res, 200, pageMentions(sess));
-      if (p === '/apercu') { const code = url.searchParams.get('m') || 'm01'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
+      if (p === '/apercu') { const code = url.searchParams.get('m') || 'mod1'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
       if (p === '/public/AcademieComptaFR.apk' && !downloadsEnabled()) return send(res, 404, '404');
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
       if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12) }));
