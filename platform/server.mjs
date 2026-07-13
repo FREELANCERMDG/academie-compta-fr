@@ -2663,6 +2663,14 @@ function postForumSupprimer(req, res, sess, body) {
   audit(db, sess.user.id, 'forum_suppr', String(body.id), ip(req));
   return redirect(res, '/communaute');
 }
+// 🔔 Notifie tous les appareils admin (app Android / PWA) — ex. paiement à valider.
+async function pushToAdmins(payload) {
+  if (!pushEnabled()) return 0;
+  let n = 0;
+  try { for (const a of db.prepare("SELECT id FROM users WHERE role='admin'").all()) n += await pushToUser(a.id, payload); } catch { }
+  return n;
+}
+
 function postManuel(req, res, sess, body) {
   const ins = insOf(body.ins, sess.user.id); if (!ins) return redirect(res, '/tableau-de-bord');
   const m = methodeManuelle(body.methode); if (!m) return send(res, 200, pagePaiement(sess, ins, 'Moyen de paiement invalide.'));
@@ -2672,6 +2680,10 @@ function postManuel(req, res, sess, body) {
   setStatutPaiement(db, pid, 'en_verification', ref);
   db.prepare("UPDATE inscriptions SET statut='en_verification' WHERE id=?").run(ins.id);
   audit(db, sess.user.id, 'paiement_' + m.code, ref, ip(req));
+  try {
+    const o = (cfg.offres || []).find(x => x.code === ins.offre_code);
+    pushToAdmins({ title: '💰 Paiement à valider', body: (sess.user.email || '') + ' · ' + (o ? o.titre : ins.offre_code) + ' · ' + money(ins.prix) + ' · réf. ' + ref, url: '/admin', tag: 'adm-paiement' }).catch(() => { });
+  } catch { }
   return send(res, 200, layout('Merci', `<h1>Paiement soumis ✅</h1>
   <p>Votre paiement <b>${esc(m.nom)}</b> (réf. <code>${esc(ref)}</code>) est <b>en cours de vérification</b>. Vous recevrez l'accès dès validation.</p>
   <a class="btn" href="/tableau-de-bord">Retour à mon espace</a>`, sess));
