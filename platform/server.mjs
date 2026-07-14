@@ -962,6 +962,7 @@ function pageDashboard(sess) {
   const fmtDate = s => s ? esc(String(s).slice(0, 10)) : '';
   const expActive = (ins.find(i => i.statut === 'active') || {}).expire_le;
   return layout('Mon espace', `<h1>Bonjour ${esc(u.prenom || u.nom)}</h1>
+  ${(function () { const mp = (cfg.messages_perso || {})[(u.email || '').toLowerCase().trim()]; return mp ? `<section class="card" style="border-left:4px solid #7c6cff;background:rgba(124,108,255,.10)"><h2 style="margin:0 0 6px">💌 Message du formateur</h2><p style="margin:0;white-space:pre-wrap;font-size:15px">${esc(mp)}</p></section>` : ''; })()}
   ${(function () { const a = annonceActive(); return a ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.10)"><h2 style="margin:0 0 6px">📣 Annonce</h2><p style="margin:0;white-space:pre-wrap;font-size:15px">${esc(a.message)}</p></section>` : ''; })()}
   <section class="card"><div class="fbody"><div class="favatar">${esc(initiales((u.prenom || '') + ' ' + (u.nom || '')) || '👤')}</div>
   <div class="fmeta"><div class="fname">${esc(u.prenom || '')} ${esc(u.nom || '')}</div>
