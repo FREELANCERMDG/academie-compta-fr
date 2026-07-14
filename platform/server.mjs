@@ -160,21 +160,23 @@ function expirePromoGrants() {
   try {
     const now = new Date().toISOString();
     const keep = (cfg.promo_grant_keep || []).map(e => String(e).toLowerCase().trim()).filter(Boolean);
-    // Les exemptés conservent (ou récupèrent) leur octroi promo jusqu'à la date de fin prévue.
+    const unlim = (cfg.acces_illimites || []).map(e => String(e).toLowerCase().trim()).filter(Boolean);
+    // Octroi (ou restauration) d'un accès complet : illimité (unlim) ou jusqu'à la fin de promo prévue (keep).
     const exp = (cfg.promo && cfg.promo.jusqu_au) ? (cfg.promo.jusqu_au + 'T23:59:59.999Z') : null;
-    if (exp && exp > now) {
-      for (const em of keep) {
-        const u = db.prepare('SELECT id FROM users WHERE lower(email)=?').get(em);
-        if (!u) continue;
-        const row = db.prepare("SELECT id FROM inscriptions WHERE user_id=? AND offre_code='PROMO_PACK'").get(u.id);
-        if (row) db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(exp, row.id);
-        else db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(10), u.id, 'PROMO_PACK', 'active', now, exp);
-      }
-    }
-    const ph = keep.map(() => '?').join(',');
+    const grant = (em, expire) => {
+      const u = db.prepare('SELECT id FROM users WHERE lower(email)=?').get(em);
+      if (!u) return;
+      const row = db.prepare("SELECT id FROM inscriptions WHERE user_id=? AND offre_code='PROMO_PACK'").get(u.id);
+      if (row) db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(expire, row.id);
+      else db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(10), u.id, 'PROMO_PACK', 'active', now, expire);
+    };
+    for (const em of unlim) grant(em, null);
+    if (exp && exp > now) for (const em of keep) { if (!unlim.includes(em)) grant(em, exp); }
+    const spared = [...new Set([...keep, ...unlim])];
+    const ph = spared.map(() => '?').join(',');
     const sql = "UPDATE inscriptions SET expire_le=? WHERE offre_code='PROMO_PACK' AND statut='active' AND (expire_le IS NULL OR expire_le > ?)"
-      + (keep.length ? ' AND user_id NOT IN (SELECT id FROM users WHERE lower(email) IN (' + ph + '))' : '');
-    db.prepare(sql).run(now, now, ...keep);
+      + (spared.length ? ' AND user_id NOT IN (SELECT id FROM users WHERE lower(email) IN (' + ph + '))' : '');
+    db.prepare(sql).run(now, now, ...spared);
   } catch { }
 }
 // Validation automatique d'attestation (sans clic admin) pour les emails listés dans
