@@ -1125,13 +1125,20 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
   // --- Accès accordés/payés : modifier la durée ou retirer ---
   const accesMsg2 = acces === 'retire' ? '<p class="ok">✅ Accès retiré.</p>' : acces === 'modif' ? '<p class="ok">✅ Durée d\'accès mise à jour.</p>' : acces === 'noid' ? '<p class="err" style="color:#c0392b">❌ Accès introuvable.</p>' : '';
   const grants = db.prepare(`SELECT i.id,i.expire_le,u.email,o.titre FROM inscriptions i JOIN users u ON u.id=i.user_id JOIN offres o ON o.code=i.offre_code WHERE i.statut='active' ORDER BY i.cree_le DESC LIMIT 300`).all();
-  const gererAcces = `<section class="card"><details class="fold"${acces === 'retire' || acces === 'modif' || acces === 'noid' ? ' open' : ''}><summary>✏️ Accès accordés / payés — modifier ou retirer (${grants.length})</summary>${accesMsg2}
-  ${grants.length ? `<div class="tbl"><table><tr><th>Email</th><th>Accès</th><th>Expire</th><th>Compte à rebours</th><th>Fixer la durée (jours)</th><th>Retirer</th></tr>
-  ${grants.map(g => `<tr><td>${esc(g.email)}</td><td>${esc(g.titre)}</td><td>${g.expire_le ? esc(g.expire_le.slice(0, 10)) : 'illimité'}</td>
+  const _nowG = new Date().toISOString();
+  const gActifs = grants.filter(g => !g.expire_le || g.expire_le > _nowG);
+  const gExpires = grants.filter(g => g.expire_le && g.expire_le <= _nowG);
+  const grantRow = g => `<tr><td>${esc(g.email)}</td><td>${esc(g.titre)}</td><td>${g.expire_le ? esc(g.expire_le.slice(0, 10)) : 'illimité'}</td>
     ${(function(){ if(!g.expire_le) return '<td><b style="color:#1f8a4c">∞ illimité</b></td>'; const j=Math.ceil((new Date(g.expire_le).getTime()-Date.now())/86400000); const col=j<7?'#c0392b':(j<30?'#E8A13A':'#1f8a4c'); const txt=j<0?('expiré (il y a '+(-j)+' j)'):(j+' j restants'); return '<td><b style="color:'+col+'">'+txt+'</b></td>'; })()}
-    <td><form method="post" action="/admin/acces-modifier" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><input name="jours" type="number" min="0" max="3650" value="30" style="width:74px"><button class="btn small">Fixer</button></form></td>
-    <td><form method="post" action="/admin/acces-retirer" class="inline" onsubmit="return confirm('Retirer cet accès ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>
-  <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}</details></section>`;
+    <td><form method="post" action="/admin/acces-modifier" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><input name="jours" type="number" min="0" max="3650" value="${(cfg.acces && cfg.acces.duree_jours) || 45}" style="width:74px"><button class="btn small">Fixer</button></form></td>
+    <td><form method="post" action="/admin/acces-retirer" class="inline" onsubmit="return confirm('Retirer cet accès ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`;
+  const grantHead = '<tr><th>Email</th><th>Accès</th><th>Expire</th><th>Compte à rebours</th><th>Fixer la durée (jours)</th><th>Retirer</th></tr>';
+  const gererAcces = `<section class="card"><details class="fold"${acces === 'retire' || acces === 'modif' || acces === 'noid' ? ' open' : ''}><summary>✏️ Accès accordés / payés (${gActifs.length} actif${gActifs.length > 1 ? 's' : ''}${gExpires.length ? ' · ' + gExpires.length + ' expirés' : ''})</summary>${accesMsg2}
+  ${gActifs.length ? `<div class="tbl"><table>${grantHead}${gActifs.map(grantRow).join('')}</table></div>
+  <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}
+  ${gExpires.length ? `<details class="fold" style="margin-top:10px"><summary style="font-size:14px;opacity:.85">🗄️ Accès expirés (${gExpires.length})</summary>
+  <div class="tbl"><table>${grantHead}${gExpires.map(grantRow).join('')}</table></div>
+  <p class="muted" style="font-size:12px">💡 Pour <b>réactiver</b> un accès expiré : « Fixer » avec le nombre de jours souhaité.</p></details>` : ''}</details></section>`;
   // --- Parrainage : vue d'ensemble ---
   const _bj = (cfg.parrainage && cfg.parrainage.bonus_jours) || 30;
   const parr = (cfg.parrainage && cfg.parrainage.actif) ? db.prepare(`SELECT p.email, p.code_parrain,
