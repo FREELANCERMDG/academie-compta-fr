@@ -1119,7 +1119,7 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     for (const m of MODULES) if (set.has(m.code)) codes.push(m.code);
     const paid = codes.filter(c => !FREE_MODS.has(c));
     const chips = codes.map(_chip).join(' ') + (visio ? ` <span style="display:inline-block;padding:1px 7px;margin:1px;border-radius:8px;font-size:11px;font-weight:700;background:#e9f7ef;color:#1e7d46;border:1px solid #bfe6cd">Visio</span>` : '');
-    const note = paid.length ? (exp ? `<br><span class="muted" style="font-size:11px">expire ${esc(exp.slice(0, 10))}</span>` : '<br><span class="muted" style="font-size:11px">sans limite</span>') : '<br><span class="muted" style="font-size:11px">gratuit seul</span>';
+    const note = paid.length ? (exp ? `<br><span class="muted" style="font-size:11px">expire ${esc(exp.slice(0, 10))}</span>` : '<br><span class="muted" style="font-size:11px">sans limite</span>') : '<br><span class="muted" style="font-size:11px">🔒 aucun accès (aperçus seuls)</span>';
     return chips + note;
   }
   // --- Accès accordés/payés : modifier la durée ou retirer ---
