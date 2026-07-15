@@ -1081,11 +1081,12 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
   const provLabel = r => r ? `📍 ${esc(r)}` : '📍 Province non détectée';
   const visitesHtml = `<section class="card"><h2>📊 Visites du site &amp; inscrits</h2>
   <div class="stats"><div class="stat"><b>${vTot}</b><span>visiteurs uniques</span></div><div class="stat"><b>${vToday}</b><span>nouveaux aujourd'hui</span></div><div class="stat"><b>${v7}</b><span>7 derniers jours</span></div><div class="stat"><b>${nInscr}</b><span>apprenants inscrits</span></div></div>
-  ${vMGtot ? `<h3>🇲🇬 Visiteurs à Madagascar — par province</h3><div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part MG</th></tr>
+  <details class="fold"><summary>🇲🇬 Visiteurs à Madagascar — par province (${vMGtot})</summary>
+  ${vMGtot ? `<div class="tbl"><table><tr><th>Province</th><th>Visites</th><th>Part MG</th></tr>
   ${vMG.map(r => `<tr><td>${provLabel(r.region)}</td><td>${r.t}</td><td>${vMGtot ? Math.round(r.t * 100 / vMGtot) : 0} %</td></tr>`).join('')}
   <tr style="font-weight:800;border-top:2px solid #16307a"><td>Total Madagascar</td><td>${vMGtot}</td><td>${vTot ? Math.round(vMGtot * 100 / vTot) : 0} % du total</td></tr></table></div>
   <p class="muted" style="font-size:12px">🌍 Autres pays (masqués) : <b>${vAutres}</b> visite${vAutres > 1 ? 's' : ''}.</p>` : '<p class="muted">Aucune visite Madagascar enregistrée pour l\'instant — le comptage démarre maintenant (pages publiques).</p>'}
-  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). La province provient de Cloudflare (<code>cf-region</code>) ou, à défaut, d'une <b>géolocalisation de l'adresse IP</b> (IP <b>hachée</b>, jamais conservée en clair). À Madagascar, le trafic mobile est souvent rattaché par l'opérateur à Antananarivo : la province reste donc <b>approximative</b>. Le comptage par province ne démarre que <b>maintenant</b> — les visites passées restent en « non détectée ».</p></section>`;
+  <p class="muted" style="font-size:12px">Comptage interne, sans cookie de pistage (RGPD). La province provient de Cloudflare (<code>cf-region</code>) ou, à défaut, d'une <b>géolocalisation de l'adresse IP</b> (IP <b>hachée</b>, jamais conservée en clair). À Madagascar, le trafic mobile est souvent rattaché par l'opérateur à Antananarivo : la province reste donc <b>approximative</b>. Le comptage par province ne démarre que <b>maintenant</b> — les visites passées restent en « non détectée ».</p></details></section>`;
   // --- Sécurité : détection de partage de compte (IP distinctes / 30 jours) ---
   const _j30 = new Date(Date.now() - 30 * 86400000).toISOString();
   const partage = db.prepare(`SELECT u.email, COUNT(DISTINCT j.ip) AS nip, COUNT(*) AS nlog, MAX(j.ts) AS last
@@ -1093,12 +1094,12 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     WHERE j.action IN ('login_complet','login_ok_2fa') AND j.ip IS NOT NULL AND j.ip!='' AND j.ts >= ? AND u.role='apprenant'
     GROUP BY j.user_id HAVING nip >= 2 ORDER BY nip DESC, nlog DESC LIMIT 50`).all(_j30);
   const _seul = !!(cfg.acces && cfg.acces.un_seul_appareil);
-  const partageHtml = `<section class="card"><h2>🛡️ Sécurité — partage de compte (anti-duplication)</h2>
+  const partageHtml = `<section class="card"><details class="fold"><summary>🛡️ Sécurité — partage de compte${partage.length ? ` (${partage.length} à surveiller)` : ''}</summary>
   <p class="muted" style="font-size:13px">Protection active : <b>${_seul ? '✅ 1 seul appareil à la fois' : '⚠️ multi-appareils autorisés'}</b> · <b>🔐 2FA réservée à l'admin</b> (apprenants : email + mot de passe). <span title="L'IP change souvent sur les réseaux mobiles malgaches : un blocage par IP déconnecterait les vrais apprenants.">On ne bloque pas par adresse IP (trop instable sur mobile).</span></p>
   ${partage.length ? `<p>Comptes vus depuis <b>plusieurs adresses IP</b> sur 30 jours (à surveiller) :</p>
   <div class="tbl"><table><tr><th>Email</th><th>IP distinctes</th><th>Connexions</th><th>Dernière</th></tr>
   ${partage.map(r => { const col = r.nip >= 4 ? '#c0392b' : '#E8A13A'; return `<tr><td>${esc(r.email)}</td><td><b style="color:${col}">${r.nip}</b></td><td>${r.nlog}</td><td>${esc((r.last || '').slice(0, 10))}</td></tr>`; }).join('')}</table></div>
-  <p class="muted" style="font-size:12px">Plusieurs IP ≠ fraude (mobile + bureau, 4G changeante). Un nombre élevé (≥ 4) sur peu de jours peut signaler un <b>partage d'identifiants</b> : retirez l'accès ci-dessous ou demandez une réinitialisation du compte.</p>` : '<p class="muted">✅ Aucun compte suspect : pas de connexion multi-IP anormale sur 30 jours.</p>'}</section>`;
+  <p class="muted" style="font-size:12px">Plusieurs IP ≠ fraude (mobile + bureau, 4G changeante). Un nombre élevé (≥ 4) sur peu de jours peut signaler un <b>partage d'identifiants</b> : retirez l'accès ci-dessous ou demandez une réinitialisation du compte.</p>` : '<p class="muted">✅ Aucun compte suspect : pas de connexion multi-IP anormale sur 30 jours.</p>'}</details></section>`;
   // --- Modules accessibles par apprenant (inscriptions actives) ---
   const _nowISO = new Date().toISOString();
   const _insAll = db.prepare("SELECT user_id, offre_code, expire_le FROM inscriptions WHERE statut='active' AND (expire_le IS NULL OR expire_le > ?)").all(_nowISO);
@@ -1124,13 +1125,13 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
   // --- Accès accordés/payés : modifier la durée ou retirer ---
   const accesMsg2 = acces === 'retire' ? '<p class="ok">✅ Accès retiré.</p>' : acces === 'modif' ? '<p class="ok">✅ Durée d\'accès mise à jour.</p>' : acces === 'noid' ? '<p class="err" style="color:#c0392b">❌ Accès introuvable.</p>' : '';
   const grants = db.prepare(`SELECT i.id,i.expire_le,u.email,o.titre FROM inscriptions i JOIN users u ON u.id=i.user_id JOIN offres o ON o.code=i.offre_code WHERE i.statut='active' ORDER BY i.cree_le DESC LIMIT 300`).all();
-  const gererAcces = `<section class="card"><h2>✏️ Accès accordés / payés — modifier ou retirer</h2>${accesMsg2}
+  const gererAcces = `<section class="card"><details class="fold"${acces === 'retire' || acces === 'modif' || acces === 'noid' ? ' open' : ''}><summary>✏️ Accès accordés / payés — modifier ou retirer (${grants.length})</summary>${accesMsg2}
   ${grants.length ? `<div class="tbl"><table><tr><th>Email</th><th>Accès</th><th>Expire</th><th>Compte à rebours</th><th>Fixer la durée (jours)</th><th>Retirer</th></tr>
   ${grants.map(g => `<tr><td>${esc(g.email)}</td><td>${esc(g.titre)}</td><td>${g.expire_le ? esc(g.expire_le.slice(0, 10)) : 'illimité'}</td>
     ${(function(){ if(!g.expire_le) return '<td><b style="color:#1f8a4c">∞ illimité</b></td>'; const j=Math.ceil((new Date(g.expire_le).getTime()-Date.now())/86400000); const col=j<7?'#c0392b':(j<30?'#E8A13A':'#1f8a4c'); const txt=j<0?('expiré (il y a '+(-j)+' j)'):(j+' j restants'); return '<td><b style="color:'+col+'">'+txt+'</b></td>'; })()}
     <td><form method="post" action="/admin/acces-modifier" class="inline">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><input name="jours" type="number" min="0" max="3650" value="30" style="width:74px"><button class="btn small">Fixer</button></form></td>
     <td><form method="post" action="/admin/acces-retirer" class="inline" onsubmit="return confirm('Retirer cet accès ?')">${csrfField(sess)}<input type="hidden" name="id" value="${esc(g.id)}"><button class="btn small" style="background:#c0392b">Retirer</button></form></td></tr>`).join('')}</table></div>
-  <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}</section>`;
+  <p class="muted" style="font-size:12px">« Fixer » : l'accès expirera dans N jours à compter d'aujourd'hui (petit nombre = réduire ; <b>0 = expire aujourd'hui</b>). « Retirer » : révoque immédiatement le module/pack.</p>` : '<p class="muted">Aucun accès actif (payé ou accordé) pour le moment.</p>'}</details></section>`;
   // --- Parrainage : vue d'ensemble ---
   const _bj = (cfg.parrainage && cfg.parrainage.bonus_jours) || 30;
   const parr = (cfg.parrainage && cfg.parrainage.actif) ? db.prepare(`SELECT p.email, p.code_parrain,
