@@ -116,15 +116,7 @@
   },
   "promo_grant_keep": ["ychadde@gmail.com"],
   "acces_illimites": ["steven.nat22@gmail.com"],
-  "acces_offerts": [
-    {
-      "email": "ceinthiaangela@gmail.com",
-      "offre": "MOD1",
-      "jours": 45,
-      "sujet_email": "🎉 Félicitations — votre Module 1 est activé !",
-      "message_email": "<p><b>Félicitations !</b> 🎉</p><p>Votre accès au <b>Module 1 — Fondamentaux de la comptabilité française</b> vient d'être activé sur la plateforme, pour une durée de <b>45 jours</b>.</p><p>Pour commencer dès maintenant :</p><ol><li>Connectez-vous sur <a href=\"https://academie-compta-fr.mg/connexion\">academie-compta-fr.mg</a></li><li>Cliquez sur <b>📚 Formation</b> dans le menu</li><li>Le Module 1 est débloqué — cours complet, quiz et cas pratiques</li></ol><p>Un compte à rebours dans votre espace vous indique le temps restant. Profitez-en pleinement — et bonne formation ! 💪</p><p>Anthony — Académie Compta FR<br>WhatsApp : +261 32 73 622 59</p>"
-    }
-  ],
+  "acces_offerts": [],
   "_note_acces_offerts": "Octrois ciblés : { email, offre (code, ex. MOD1/PACK_COMPLET), jours, sujet_email, message_email }. Appliqué au démarrage puis toutes les heures ; l'email de félicitations part UNE seule fois (à l'activation). Supprimer l'entrée n'annule pas l'accès déjà donné.",
   "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 6), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
   "messages_perso": {
