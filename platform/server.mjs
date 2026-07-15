@@ -189,9 +189,33 @@ function autoValidateAttestations() {
     }
   } catch { }
 }
+// Octrois ciblés depuis la config (cfg.acces_offerts) : active une offre précise pour un email,
+// et envoie l'email de félicitations UNE seule fois (au moment de l'activation).
+function applyConfigGrants() {
+  try {
+    const now = new Date().toISOString();
+    for (const g of (cfg.acces_offerts || [])) {
+      const em = String(g.email || '').toLowerCase().trim();
+      const offre = (cfg.offres || []).find(o => o.code === g.offre);
+      if (!em || !offre) continue;
+      const u = db.prepare('SELECT id, prenom, email FROM users WHERE lower(email)=?').get(em);
+      if (!u) continue;
+      const deja = db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND offre_code=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(u.id, offre.code, now);
+      if (deja) continue;
+      const jours = Math.max(1, Math.min(3650, parseInt(g.jours, 10) || ((cfg.acces && cfg.acces.duree_jours) || 45)));
+      const exp = new Date(Date.now() + jours * 86400000).toISOString();
+      db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(8), u.id, offre.code, 'active', now, exp);
+      audit(db, u.id, 'acces_offert_config', offre.code + ' · ' + jours + 'j', '');
+      if (g.message_email && mailConfigured()) {
+        const html = '<p>Bonjour ' + esc(u.prenom || '') + ',</p>' + g.message_email;
+        sendEmail(u.email, g.sujet_email || ('🎉 Votre accès « ' + offre.titre + ' » est activé !'), html).catch(() => { });
+      }
+    }
+  } catch { }
+}
 try {
-  setTimeout(() => { expirePromoGrants(); autoValidateAttestations(); }, 5000).unref();
-  setInterval(() => { expirePromoGrants(); autoValidateAttestations(); }, 60 * 60 * 1000).unref();
+  setTimeout(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); }, 5000).unref();
+  setInterval(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); }, 60 * 60 * 1000).unref();
 } catch { }
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);
