@@ -81,9 +81,9 @@
   },
   "acces": {
     "illimite": false,
-    "duree_jours": 365,
+    "duree_jours": 45,
     "un_seul_appareil": true,
-    "_note": "duree_jours = durée d'accès après paiement (365 = 12 mois). illimite=true pour accès sans limite. un_seul_appareil=true : une seule session active à la fois (anti-partage de compte)."
+    "_note": "duree_jours = durée d'accès après paiement (45 = 1 mois et demi). illimite=true pour accès sans limite. un_seul_appareil=true : une seule session active à la fois (anti-partage de compte)."
   },
   "parrainage": {
     "actif": true,

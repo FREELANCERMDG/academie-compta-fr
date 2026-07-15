@@ -641,7 +641,7 @@ function pageDecouverte(sess) {
   let v = (cfg.video_decouverte || '').trim();
   if (!v && fs.existsSync(path.join(DIR, 'public', 'decouverte.mp4'))) v = '/public/decouverte.mp4';
   const a = cfg.acces || {};
-  const duree = a.illimite ? 'illimité' : `${a.duree_jours || 365} jours (12 mois)`;
+  const duree = a.illimite ? 'illimité' : `${a.duree_jours || 45} jours`;
   const videoBloc = v
     ? `<div class="card"><video controls width="100%" style="border-radius:10px" src="${esc(v)}" poster="/public/icon-512.png"></video><p class="muted">Vidéo de présentation (≈ 1 min).</p></div>`
     : `<div class="card" style="text-align:center;background:#0f2233;color:#d7e3ee"><div style="font-size:46px">▶</div><p><b>Visite guidée — 1 minute</b></p><p class="muted" style="color:#aac0d4">La vidéo de présentation sera ajoutée ici. En attendant, voici tout ce que vous avez débloqué :</p></div>`;
@@ -1258,7 +1258,7 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
   <form method="post" action="/admin/acces" class="form">${csrfField(sess)}
     <label>Email de l'inscrit<input name="email" type="email" placeholder="prenom@exemple.com" required></label>
     <label>Accès à<select name="offre">${offresOpts}</select></label>
-    <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="365"></label>
+    <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="${(cfg.acces && cfg.acces.duree_jours) || 45}"></label>
     <button class="btn" type="submit">Accorder l'accès</button></form>
   <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6, le Module 1 se vend à part). Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
@@ -1566,7 +1566,7 @@ function chatSystemPrompt(learner) {
     promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 6 modules, TOUS payants (aucun module gratuit). Créer un compte est gratuit et permet de voir les aperçus ; le contenu complet de chaque module se débloque après paiement.",
     promoLive() ? "- Tarifs HORS PROMO (à titre indicatif seulement, NE PAS demander de payer pendant la promo) :" : "- Offres payantes :",
     off,
-    "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 365) + " jours (12 mois)")) + " après paiement.",
+    "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 45) + " jours")) + " après paiement.",
     "- Sécurité : connexion par email + mot de passe (double authentification réservée à l'admin) + une seule session active à la fois (anti-partage de compte). Pas de blocage par adresse IP.",
     "- Parrainage : chaque inscrit a un code ; quand un filleul débloque un accès payant, le parrain gagne " + bonus + " jours d'accès offerts.",
     "- Paiement : " + (((cfg.paiements_manuels || []).filter(m => m.actif).map(m => m.nom).join(', ') || 'Orange Money') + (carteActive() ? ', ou carte bancaire' : '')) + " ; l'accès est activé après validation.",
@@ -2341,7 +2341,7 @@ function rewardParrain(filleulId) {
     audit(db, parrain.id, 'parrainage_recompense', 'filleul ' + f.id + ' · +' + bonus + 'j · ' + applied + ' acces prolonge(s)', '');
   } catch { }
 }
-function calcExpiry() { const a = cfg.acces || {}; if (a.illimite) return null; const d = a.duree_jours || 365; return new Date(Date.now() + d * 86400000).toISOString(); }
+function calcExpiry() { const a = cfg.acces || {}; if (a.illimite) return null; const d = a.duree_jours || 45; return new Date(Date.now() + d * 86400000).toISOString(); }
 function unSeulAppareil(user, keepSid) { if (cfg.acces && cfg.acces.un_seul_appareil && user.role !== 'admin') db.prepare('DELETE FROM sessions WHERE user_id=? AND id!=?').run(user.id, keepSid); }
 function insOf(id, uid) { return id ? db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.id=? AND i.user_id=?').get(id, uid) : null; }
 
@@ -2731,7 +2731,7 @@ function postAdminAcces(req, res, sess, body) {
   if (sess.user.role !== 'admin') return send(res, 403, 'forbidden');
   const email = (body.email || '').trim().toLowerCase();
   const code = (body.offre || '').trim();
-  const jours = Math.max(1, Math.min(3650, parseInt(body.jours, 10) || 365));
+  const jours = Math.max(1, Math.min(3650, parseInt(body.jours, 10) || ((cfg.acces && cfg.acces.duree_jours) || 45)));
   const user = db.prepare('SELECT id FROM users WHERE email=?').get(email);
   if (!user) return redirect(res, '/admin?acces=nouser');
   const offre = (cfg.offres || []).find(o => o.code === code && Array.isArray(o.modules) && o.modules.length > 0);

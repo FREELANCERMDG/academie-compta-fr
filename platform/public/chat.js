@@ -24,7 +24,7 @@
     { key: 'parrainage', chip: '🤝 Parrainage', kw: ['parrain', 'filleul', 'parainage', 'code', 'inviter', 'cadeau'],
       a: 'Parrainez vos collègues&nbsp;! Dans votre espace, vous avez un <b>code de parrainage</b> et un lien à partager. Dès qu\'un filleul <b>débloque un accès payant</b>, vous recevez <b>+30 jours d\'accès offerts</b>.' },
     { key: 'duree', chip: '⏳ Durée d\'accès', kw: ['duree', 'durée', 'combien de temps', 'expire', 'acces', 'accès', '12 mois', 'an '],
-      a: 'L\'accès aux modules payés dure <b>12 mois</b> (sauf accès illimité). Un <b>compte à rebours</b> est affiché dans votre espace.' },
+      a: 'L\'accès aux modules payés dure <b>45 jours (1 mois et demi)</b> (sauf accès illimité). Un <b>compte à rebours</b> est affiché dans votre espace.' },
     { key: 'paiement', chip: '💳 Paiement', kw: ['paie', 'payer', 'paiement', 'orange', 'mvola', 'carte', 'visa', 'regler', 'régler'],
       a: 'Paiement par <b>Orange&nbsp;Money</b> ou <b>MVola</b>. L\'accès est activé dès la validation du paiement. Vous choisissez vos modules depuis votre espace après inscription.' },
     { key: 'pratique', chip: '🛠️ C\'est pratique ?', kw: ['pratique', 'simulateur', 'exercice', 'pennylane', 'logiciel', 'cerfa', 'cas pratique'],
