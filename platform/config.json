@@ -120,7 +120,8 @@
   "_note_acces_offerts": "Octrois ciblés : { email, offre (code, ex. MOD1/PACK_COMPLET), jours, sujet_email, message_email }. Appliqué au démarrage puis toutes les heures ; l'email de félicitations part UNE seule fois (à l'activation). Supprimer l'entrée n'annule pas l'accès déjà donné.",
   "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 6), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
   "messages_perso": {
-    "steven.nat22@gmail.com": "🎁 ACCÈS EXCEPTIONNEL — Bonjour Steven ! Le formateur vous a ouvert l'intégralité de la formation (Modules 1 à 6) : cours, simulateurs, quiz et cas pratiques — sans limite de durée. Avancez à votre rythme, et une fois tous les modules terminés, programmez votre test final en visio pour obtenir votre attestation. Bonne formation ! 💪"
+    "steven.nat22@gmail.com": "🎁 ACCÈS EXCEPTIONNEL — Bonjour Steven ! Le formateur vous a ouvert l'intégralité de la formation (Modules 1 à 6) : cours, simulateurs, quiz et cas pratiques — sans limite de durée. Avancez à votre rythme, et une fois tous les modules terminés, programmez votre test final en visio pour obtenir votre attestation. Bonne formation ! 💪",
+    "seillasetrahasina@gmail.com": "🎁 ACCÈS EXCEPTIONNEL — Bonjour ! Le formateur vous a ouvert l'intégralité de la formation (Modules 1 à 6) : cours, simulateurs, quiz et cas pratiques — sans limite de durée. Avancez à votre rythme, et une fois tous les modules terminés, programmez votre test final en visio pour obtenir votre attestation. Bonne formation ! 💪"
   },
   "_note_messages_perso": "Message personnel affiché en haut de l'espace de l'apprenant (clé = email en minuscules). Supprimer la ligne pour retirer le message.",
   "_note_promo_grant_keep": "Emails qui CONSERVENT leur accès promo (PROMO_PACK jusqu'à promo.jusqu_au) même quand la promo est annulée/terminée. Tous les autres octrois promo sont expirés.",
