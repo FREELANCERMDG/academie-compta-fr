@@ -115,7 +115,7 @@
     "_note": "liens = recherches deja filtrees 'comptabilite' (curees, sans risque). flux_rss = URLs de flux RSS a agreger (laisser vide tant qu'aucun flux fiable). Les offres internes (mini-bourse partenaires) se gerent depuis l'admin."
   },
   "promo_grant_keep": ["ychadde@gmail.com"],
-  "acces_illimites": ["steven.nat22@gmail.com"],
+  "acces_illimites": ["steven.nat22@gmail.com", "seillasetrahasina@gmail.com"],
   "acces_offerts": [],
   "_note_acces_offerts": "Octrois ciblés : { email, offre (code, ex. MOD1/PACK_COMPLET), jours, sujet_email, message_email }. Appliqué au démarrage puis toutes les heures ; l'email de félicitations part UNE seule fois (à l'activation). Supprimer l'entrée n'annule pas l'accès déjà donné.",
   "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 6), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
