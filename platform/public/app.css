@@ -451,7 +451,7 @@ img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px;
 @media (prefers-reduced-motion: reduce){ .modrow { animation: none !important; } }
 
 /* ===== Fond open-space (bureau moderne, doubles écrans) derrière le programme ===== */
-.prog-bg { position: relative; overflow: hidden; background-image: linear-gradient(rgba(9,13,32,.80), rgba(9,13,32,.90)), url(/public/img/office-bg.svg); background-size: cover; background-position: center; background-repeat: no-repeat; }
+.prog-bg { position: relative; overflow: hidden; background-image: linear-gradient(rgba(9,13,32,.74), rgba(9,13,32,.86)), url(/public/img/office-photo.jpg); background-size: cover; background-position: center; background-repeat: no-repeat; }
 
 /* ===== Fond open-space sur toute la page d'accueil (couche fixe, parallaxe) ===== */
-.home-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(7,10,24,.90), rgba(7,10,24,.95)), url(/public/img/office-bg.svg); background-size: cover; background-position: center 30%; }
+.site-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(6,9,20,.90), rgba(6,9,20,.94)), url(/public/img/office-photo.jpg); background-size: cover; background-position: center; }
