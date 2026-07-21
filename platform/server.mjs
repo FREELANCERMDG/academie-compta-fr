@@ -542,16 +542,18 @@ function formateurCard() {
 // --- Pages ---
 // Aperçu du programme : une carte par module avec son résumé + thèmes + lien aperçu
 function apercuModulesSection() {
-  const prixMod = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? money(o.prix) : ''; };
-  const prixModRaw = (code) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === code); return o ? o.prix : null; };
+  const tag = (code) => ({ mod2: "🎥 100 % pratique sur un <b>outil métier de référence (comme Pennylane)</b> — vidéos pas à pas", mod6: "🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante" })[code] || "🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel métier, comme Pennylane)";
   const rows = MODULES.map(m => {
-    const inf = moduleInfo(m.code) || {};
-    const topics = (inf.topics || []).map(t => `<li>${esc(t)}</li>`).join('');
-    const badge = m.gratuit ? '<b class="gratuit">Gratuit</b>' : (promoActive() ? promoBadgeHtml(prixModRaw(m.code)) : `<b class="tarif">${esc(prixMod(m.code))}</b>`);
-    const cta = m.gratuit ? `<a class="btn" href="/apercu?m=${esc(m.code)}">Lire le Module 1 (inscription gratuite)</a>` : `<a class="btn ghost" href="/apercu?m=${esc(m.code)}">Voir l'aperçu détaillé →</a>`;
-    return `<details class="macc"><summary class="pitem"><span>✅ ${esc(m.titre)}<br><span style="display:inline-block;margin-top:3px;font-size:11.5px;font-weight:700;color:#1e7d46;background:#e9f7ef;border:1px solid #bfe6cd;border-radius:20px;padding:1px 9px">${({mod2:"🎥 100 % pratique sur un <b>outil métier de référence (comme Pennylane)</b> — vidéos pas à pas",mod6:"🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante"})[m.code]||"🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel métier, comme Pennylane)"}</span></span>${badge}</summary><div class="macc-body"><p>${esc(inf.resume || '')}</p><ul>${topics}</ul>${cta}</div></details>`;
+    const off = (cfg.offres || []).find(o => Array.isArray(o.modules) && o.modules.length === 1 && o.modules[0] === m.code && o.prix > 0);
+    const action = promoLive()
+      ? `<a class="btn small" href="/inscription">Commencer gratuitement →</a>`
+      : (off ? `<a class="btn small btn-buy" href="/acheter?o=${esc(off.code)}">🔓 Débloquer · ${money(off.prix)}</a>` : '');
+    return `<div class="pitem modrow"><span class="modrow-t">🔒 ${esc(m.titre)}<br><span class="modtag">${tag(m.code)}</span></span><span class="modrow-side">${action}<a class="apercu-link" href="/apercu?m=${esc(m.code)}">👁️ aperçu détaillé</a></span></div>`;
   }).join('');
-  return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">cliquez un module</span> pour voir le détail</h2><p style="text-align:center;color:#d7e3ee;margin:0 0 14px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : chaque module s'appuie sur des <b style="color:#fff">simulateurs interactifs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), des <b style="color:#fff">CERFA réels</b> et des écritures à compléter.</p><div class="prog">${rows}</div></section>`;
+  return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
+  <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
+  ${promoLive() ? '' : `<div class="cta-pay" style="text-align:center">💡 <b>Inscrivez-vous (c'est gratuit)</b> avant votre paiement pour accéder au module de votre choix <span class="cta-here">par ici 👇</span></div>`}
+  <div class="prog">${rows}</div></section>`;
 }
 // --- Landing moderne (style SaaS e-learning) ---
 function landingHero(sess) {
@@ -886,9 +888,11 @@ function pageInscription(sess, err, val = {}) {
   <p class="muted">Conditions : ${esc(cfg.conditions.diplome_requis)}.</p>
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 6)</b> <b>gratuitement, jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
   <p class="muted" style="font-size:13px">🔐 Connexion simple et sécurisée par <b>email + mot de passe</b> — aucune application à installer.</p>
+  ${(function () { const o = val.acheter ? (cfg.offres || []).find(x => x.code === val.acheter) : null; return o ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.10)"><h2 style="margin:0 0 4px">🛒 Vous voulez débloquer : ${esc(o.titre)}</h2><p style="margin:0"><b>Inscrivez-vous d'abord (gratuit, 2 min)</b> — juste après votre inscription, vous serez dirigé(e) vers le <b>paiement Mobile Money (${money(o.prix)})</b> pour accéder à ce module.</p></section>` : ''; })()}
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
   <form method="post" action="/inscription" class="card form" autocomplete="off">
     ${sess ? csrfField(sess) : ''}
+    ${val.acheter ? `<input type="hidden" name="acheter" value="${esc(val.acheter)}">` : ''}
     <div class="row"><label>Nom<input name="nom" required value="${esc(val.nom)}"></label>
     <label>Prénom<input name="prenom" required value="${esc(val.prenom)}"></label></div>
     <label>Email<input type="email" name="email" required value="${esc(val.email)}"></label>
@@ -2169,6 +2173,15 @@ const server = http.createServer(async (req, res) => {
       }
       if (p === '/') return send(res, 200, pageAccueil(sess));
       if (p === '/programme') return send(res, 200, pageProgramme(sess));
+      if (p === '/acheter') {
+        const off = (cfg.offres || []).find(o => o.code === (url.searchParams.get('o') || '').trim() && o.prix > 0 && Array.isArray(o.modules) && o.modules.length && o.code !== 'PROMO_PACK');
+        if (!off) return redirect(res, '/programme');
+        if (!authed(sess)) return redirect(res, '/inscription?acheter=' + encodeURIComponent(off.code));
+        const id = rid(10);
+        db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le) VALUES(?,?,?,?,?)').run(id, sess.user.id, off.code, 'en_attente', new Date().toISOString());
+        audit(db, sess.user.id, 'choix_offre', off.code, ip(req));
+        return redirect(res, '/paiement?ins=' + id);
+      }
       if (p === '/presentiel') return send(res, 200, pagePresentiel(sess));
       if (p === '/emploi') return send(res, 200, pageEmploi(sess));
       if (p === '/decouverte') return send(res, 200, pageDecouverte(sess));
@@ -2176,7 +2189,7 @@ const server = http.createServer(async (req, res) => {
       if (p === '/apercu') { const code = url.searchParams.get('m') || 'mod1'; return send(res, 200, pageApercu(sess, code), { quiz: estGratuit(code) }); }
       if (p === '/public/AcademieComptaFR.apk' && !downloadsEnabled()) return send(res, 404, '404');
       if (p.startsWith('/public/')) return serveStatic(res, path.join(DIR, 'public'), p.slice('/public/'.length));
-      if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12) }));
+      if (p === '/inscription') return send(res, 200, pageInscription(sess || ensureGuestSession(res, req), null, { parrain: (url.searchParams.get('p') || '').toUpperCase().slice(0, 12), acheter: (url.searchParams.get('acheter') || '').trim() }));
       if (p === '/connexion') return send(res, 200, pageConnexion(sess || ensureGuestSession(res, req), null));
       if (p === '/mot-de-passe-oublie') return send(res, 200, pageMotDePasseOublie(sess || ensureGuestSession(res, req), null));
       if (p === '/reinitialiser') return send(res, 200, pageReinitialiser(sess || ensureGuestSession(res, req), url.searchParams.get('token') || '', null));
@@ -2480,7 +2493,10 @@ function postInscription(req, res, sess, body) {
   const sid = newSession(id, false, req);
   db.prepare('DELETE FROM sessions WHERE id=?').run(sess.sid);
   unSeulAppareil({ id, role: 'apprenant' }, sid);
-  return redirect(res, '/decouverte', [cookie('sid', signSid(sid), cookieOpts)]);
+  // Si l'inscription vient d'un « Débloquer ce module » : on file droit au paiement Mobile Money.
+  const buy = (body.acheter || '').trim();
+  const buyOk = buy && (cfg.offres || []).some(o => o.code === buy && o.prix > 0 && o.code !== 'PROMO_PACK');
+  return redirect(res, (buyOk && !promoLive()) ? ('/acheter?o=' + encodeURIComponent(buy)) : '/decouverte', [cookie('sid', signSid(sid), cookieOpts)]);
 }
 
 function postConnexion(req, res, sess, body) {
