@@ -675,6 +675,7 @@ function pageAccueil(sess) {
   ${coursesCarousel()}
   ${installAppCard()}
   ${visitesPublicCard()}
+  ${promoLive() ? '' : commentPayerHtml()}
   ${formateurCard()}
   <section class="card"><h2>Conditions d'accès</h2>
   <ul><li><b>Diplôme requis :</b> ${esc(cfg.conditions.diplome_requis)}.</li>
@@ -682,7 +683,6 @@ function pageAccueil(sess) {
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
   <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
-  ${promoLive() ? '' : commentPayerHtml()}
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Aussi en présentiel à Antananarivo (renforcement)</h2>
   <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>${money(presentielPrixModule())}/module</b>.</p>
   <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
