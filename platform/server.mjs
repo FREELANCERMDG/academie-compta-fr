@@ -562,7 +562,8 @@ function apercuModulesSection() {
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
   <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
   ${promoLive() ? '' : `<div class="cta-pay" style="text-align:center">💡 <b>Inscrivez-vous (c'est gratuit)</b> avant votre paiement pour accéder au module de votre choix <span class="cta-here">par ici 👇</span></div>`}
-  <div class="prog">${rows}</div>${packHtml}</section>`;
+  <div class="prog">${rows}</div>${packHtml}
+  <p style="text-align:center;color:#d7e3ee;font-size:13.5px;margin:14px 0 0;padding:11px 15px;background:rgba(30,125,70,.14);border:1px solid rgba(110,231,168,.45);border-radius:12px">🎓 <b style="color:#fff">Attestation à la clé</b> — dès que vous maîtrisez <b style="color:#fff">les bases jusqu'à la fiscalité</b>, obtenez votre attestation après un court <b style="color:#fff">test final en visio</b> avec le formateur (signée &amp; tamponnée).</p></section>`;
 }
 // --- Landing moderne (style SaaS e-learning) ---
 function landingHero(sess) {
