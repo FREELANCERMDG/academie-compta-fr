@@ -413,3 +413,12 @@ th{box-shadow:inset 0 -2px 0 rgba(56,232,255,.35)}
 .pay-logos { display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap; margin:10px 0 4px; }
 .paybadge { height:54px; width:auto; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,.20); }
 img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px; }
+
+/* ===== Carte Pack complet (programme) ===== */
+.packcard { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:16px; padding:16px 18px; border-radius:16px; background:linear-gradient(135deg, rgba(232,161,58,.18), rgba(124,108,255,.14)); border:2px solid var(--accent,#E8A13A); }
+.packcard-main { flex:1; min-width:220px; }
+.packcard-title { font-weight:900; font-size:17px; color:#fff; }
+.packcard-sub { font-size:13.5px; color:#d7e3ee; margin-top:3px; }
+.packcard-side { text-align:right; }
+.packcard-price { font-weight:900; font-size:23px; color:#ffd166; margin-bottom:6px; letter-spacing:.3px; }
+@media (max-width:560px){ .packcard-side{ text-align:left; width:100% } }

@@ -550,10 +550,16 @@ function apercuModulesSection() {
       : (off ? `<a class="btn small btn-buy" href="/acheter?o=${esc(off.code)}">🔓 Débloquer · ${money(off.prix)}</a>` : '');
     return `<div class="pitem modrow"><span class="modrow-t">🔒 ${esc(m.titre)}<br><span class="modtag">${tag(m.code)}</span></span><span class="modrow-side">${action}<a class="apercu-link" href="/apercu?m=${esc(m.code)}">👁️ aperçu détaillé</a></span></div>`;
   }).join('');
+  const pack = (cfg.offres || []).find(o => o.code === 'PACK_COMPLET' && o.prix > 0);
+  const packHtml = (!promoLive() && pack) ? (function () {
+    const indiv = (pack.modules || []).reduce((s, mc) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === mc && x.prix > 0); return s + (o ? o.prix : 0); }, 0);
+    const eco = indiv - pack.prix;
+    return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'}</div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
+  })() : '';
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
   <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
   ${promoLive() ? '' : `<div class="cta-pay" style="text-align:center">💡 <b>Inscrivez-vous (c'est gratuit)</b> avant votre paiement pour accéder au module de votre choix <span class="cta-here">par ici 👇</span></div>`}
-  <div class="prog">${rows}</div></section>`;
+  <div class="prog">${rows}</div>${packHtml}</section>`;
 }
 // --- Landing moderne (style SaaS e-learning) ---
 function landingHero(sess) {
