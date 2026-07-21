@@ -559,7 +559,7 @@ function apercuModulesSection() {
     const pdur = (pj % 30 === 0) ? `${pj / 30} mois` : `${pj} jours`;
     return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'} <span style="white-space:nowrap">🕒 Accès <b>${pdur}</b>.</span></div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
   })() : '';
-  return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
+  return `<section class="card prog-bg"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
   <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
   ${promoLive() ? '' : `<div class="cta-pay" style="text-align:center">💡 <b>Inscrivez-vous (c'est gratuit)</b> avant votre paiement pour accéder au module de votre choix <span class="cta-here">par ici 👇</span></div>`}
   <div class="prog">${rows}</div>${packHtml}

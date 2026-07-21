@@ -449,3 +449,6 @@ img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px;
   100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
 }
 @media (prefers-reduced-motion: reduce){ .modrow { animation: none !important; } }
+
+/* ===== Fond open-space (bureau moderne, doubles écrans) derrière le programme ===== */
+.prog-bg { position: relative; overflow: hidden; background-image: linear-gradient(rgba(9,13,32,.80), rgba(9,13,32,.90)), url(/public/img/office-bg.svg); background-size: cover; background-position: center; background-repeat: no-repeat; }
