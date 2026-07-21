@@ -887,7 +887,7 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, les Modules 2 à 6 sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez les <b>Modules 2 à 6</b> (outils métier comme Pennylane, opérations courantes TPE/PME, fiscalité & clôture, liasse & bilan, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, TOUS les modules sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez <b>tous les modules</b> (outils métier comme Pennylane, opérations courantes TPE/PME, fiscalité & clôture, liasse & bilan, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>, ou le <b>pack complet 1 à 6</b> à prix réduit.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
@@ -1347,7 +1347,7 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     <label>Accès à<select name="offre">${offresOpts}</select></label>
     <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="${(cfg.acces && cfg.acces.duree_jours) || 45}"></label>
     <button class="btn" type="submit">Accorder l'accès</button></form>
-  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 2 à 6, le Module 1 se vend à part). Vous pouvez ré-accorder pour prolonger.</p></section>
+  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 1 à 6). Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
   ${parrainageHtml}
   ${emploiHtml}
