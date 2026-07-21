@@ -452,3 +452,6 @@ img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px;
 
 /* ===== Fond open-space (bureau moderne, doubles écrans) derrière le programme ===== */
 .prog-bg { position: relative; overflow: hidden; background-image: linear-gradient(rgba(9,13,32,.80), rgba(9,13,32,.90)), url(/public/img/office-bg.svg); background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+/* ===== Fond open-space sur toute la page d'accueil (couche fixe, parallaxe) ===== */
+.home-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(7,10,24,.90), rgba(7,10,24,.95)), url(/public/img/office-bg.svg); background-size: cover; background-position: center 30%; }

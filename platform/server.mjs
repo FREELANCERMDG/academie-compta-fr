@@ -679,6 +679,7 @@ function pageAccueil(sess) {
     { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, simulateurs et certification.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
+  <div class="home-bg" aria-hidden="true"></div>
   ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
   ${landingHero(sess)}
   <p style="text-align:center;margin:6px 0 0">${fiscaliteBadge()} <a class="btn ghost small" href="/decouverte">▶ Visite guidée (1 min)</a></p>
