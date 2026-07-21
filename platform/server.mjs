@@ -555,7 +555,9 @@ function apercuModulesSection() {
   const packHtml = (!promoLive() && pack) ? (function () {
     const indiv = (pack.modules || []).reduce((s, mc) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === mc && x.prix > 0); return s + (o ? o.prix : 0); }, 0);
     const eco = indiv - pack.prix;
-    return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'} <span style="white-space:nowrap">🕒 Accès <b>${duree} jours</b>.</span></div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
+    const pj = pack.jours > 0 ? pack.jours : duree;
+    const pdur = (pj % 30 === 0) ? `${pj / 30} mois` : `${pj} jours`;
+    return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'} <span style="white-space:nowrap">🕒 Accès <b>${pdur}</b>.</span></div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
   })() : '';
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
   <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
@@ -2438,7 +2440,7 @@ function rewardParrain(filleulId) {
     audit(db, parrain.id, 'parrainage_recompense', 'filleul ' + f.id + ' · +' + bonus + 'j · ' + applied + ' acces prolonge(s)', '');
   } catch { }
 }
-function calcExpiry() { const a = cfg.acces || {}; if (a.illimite) return null; const d = a.duree_jours || 45; return new Date(Date.now() + d * 86400000).toISOString(); }
+function calcExpiry(offreCode) { const a = cfg.acces || {}; if (a.illimite) return null; const off = offreCode ? (cfg.offres || []).find(o => o.code === offreCode) : null; const d = (off && off.jours > 0) ? off.jours : (a.duree_jours || 45); return new Date(Date.now() + d * 86400000).toISOString(); }
 function unSeulAppareil(user, keepSid) { if (cfg.acces && cfg.acces.un_seul_appareil && user.role !== 'admin') db.prepare('DELETE FROM sessions WHERE user_id=? AND id!=?').run(user.id, keepSid); }
 function insOf(id, uid) { return id ? db.prepare('SELECT i.*, o.titre, o.prix FROM inscriptions i JOIN offres o ON o.code=i.offre_code WHERE i.id=? AND i.user_id=?').get(id, uid) : null; }
 
@@ -2820,7 +2822,7 @@ async function paiementRetour(req, res, sess, url) {
   if (!pay) return redirect(res, '/tableau-de-bord');
   try {
     const st = await omApiStatus(pay.provider_ref);
-    if (st === 'SUCCESS') { setStatutPaiement(db, pay.id, 'paye'); db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(), pay.inscription_id); audit(db, sess.user.id, 'paiement_ok', pay.id, ip(req)); rewardParrain(sess.user.id); }
+    if (st === 'SUCCESS') { setStatutPaiement(db, pay.id, 'paye'); const _insA = db.prepare('SELECT offre_code FROM inscriptions WHERE id=?').get(pay.inscription_id); db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(_insA && _insA.offre_code), pay.inscription_id); audit(db, sess.user.id, 'paiement_ok', pay.id, ip(req)); rewardParrain(sess.user.id); }
     else setStatutPaiement(db, pay.id, st === 'FAILED' ? 'echec' : 'en_cours');
   } catch { }
   return redirect(res, '/tableau-de-bord');
@@ -2899,7 +2901,8 @@ function postAdminValider(req, res, sess, body) {
   const pay = db.prepare('SELECT * FROM paiements WHERE id=?').get(body.pid);
   if (pay && pay.statut === 'en_verification') {
     setStatutPaiement(db, pay.id, 'paye');
-    db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(), pay.inscription_id);
+    const _insV = db.prepare('SELECT offre_code FROM inscriptions WHERE id=?').get(pay.inscription_id);
+    db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(calcExpiry(_insV && _insV.offre_code), pay.inscription_id);
     audit(db, sess.user.id, 'paiement_valide_admin', pay.id, ip(req));
     rewardParrain(pay.user_id);
   }

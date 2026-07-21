@@ -158,7 +158,7 @@
     { "code": "MOD4", "titre": "Module 4 — Fiscalité, clôture & dossiers spécifiques", "prix": 30000, "modules": ["mod4"] },
     { "code": "MOD5", "titre": "Module 5 — Liasse fiscale & déclarations par régime", "prix": 30000, "modules": ["mod5"] },
     { "code": "MOD6", "titre": "Module 6 — Pratique métier, qualité, carrière & certification", "prix": 30000, "modules": ["mod6"] },
-    { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 1 à 6 (toute la formation)", "prix": 135000, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6"] },
+    { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 1 à 6 (toute la formation)", "prix": 135000, "jours": 120, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6"] },
     { "code": "PROMO_PACK", "titre": "Accès promo — tous les modules (gratuit)", "prix": 0, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6"] },
     { "code": "VISIO_1H", "titre": "Visio formation complémentaire (1 heure)", "prix": 25000, "modules": [] }
   ],
