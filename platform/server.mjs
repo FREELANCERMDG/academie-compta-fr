@@ -624,6 +624,31 @@ function installAppCard() {
    <p style="margin-bottom:0">${ctas} <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
   </section>`;
 }
+// Section « Comment débloquer un module ? » — visible sur l'accueil (avant inscription), hors promo.
+function commentPayerHtml() {
+  const mm = methodesManuelles();
+  const wa = (cfg.societe && cfg.societe.whatsapp || '').replace(/\D/g, '');
+  const rows = mm.map(m => {
+    const num = (m.details && (m.details['Numéro'] || m.details['IBAN / RIB'] || m.details['IBAN'])) || '';
+    const benef = (m.details && m.details['Bénéficiaire']) || '';
+    return `<div class="paymethod"><div class="pm-name">${esc(m.nom)}</div>${num ? `<div class="pm-num">${esc(num)}</div>` : ''}${benef ? `<div class="pm-benef">au nom de ${esc(benef)}</div>` : ''}</div>`;
+  }).join('');
+  const carte = carteActive() ? `<div class="paymethod"><div class="pm-name">💳 Carte bancaire</div><div class="pm-benef">Visa / Mastercard — paiement en ligne sécurisé</div></div>` : '';
+  return `<section class="card" id="comment-payer" style="border-left:4px solid var(--accent)">
+  <h2>💳 Comment débloquer un module ?</h2>
+  <p class="lead">C'est simple et rapide — votre accès est activé dès la vérification du paiement.</p>
+  <div class="cta-pay">🎯 <b>Voulez-vous essayer maintenant&nbsp;?</b> Créez votre compte et passez à la caisse <span class="cta-here">par ici&nbsp;👇</span></div>
+  <ol style="line-height:1.95;margin:10px 0 16px;font-size:15px">
+    <li><b>Créez votre compte gratuit</b> (2 min) — vous pouvez déjà consulter les aperçus de chaque module.</li>
+    <li><b>Choisissez vos modules</b> dans votre espace — à partir de <b>${money(prixMiniModule())} / module</b> (ou le <b>pack complet</b>, plus avantageux).</li>
+    <li><b>Payez le montant exact</b> par Mobile Money à l'un des numéros ci-dessous, puis <b>saisissez la référence</b> de la transaction reçue par SMS.</li>
+    <li>✅ Le module <b>se débloque automatiquement</b> dès que le formateur valide le paiement (en général sous quelques heures).</li>
+  </ol>
+  ${rows || carte ? `<div class="paygrid">${rows}${carte}</div>` : ''}
+  <p style="margin-top:16px"><a class="btn" href="/inscription">Créer mon compte pour commencer →</a>${wa ? ` <a class="btn ghost" href="https://wa.me/${wa}?text=${encodeURIComponent('Bonjour, je souhaite débloquer un module de la formation. Comment procéder ?')}" target="_blank" rel="noopener">💬 Une question ? WhatsApp</a>` : ''}</p>
+  <p class="muted" style="font-size:12px;margin-top:8px">💡 Astuce : envoyez toujours le <b>montant exact</b> du module, et conservez la référence de paiement reçue par SMS — c'est elle qui déclenche le déblocage.</p></section>`;
+}
+
 function pageAccueil(sess) {
   const offres = db.prepare("SELECT * FROM offres WHERE code != 'PROMO_PACK'").all();
   const lsoc = cfg.societe || {};
@@ -646,6 +671,7 @@ function pageAccueil(sess) {
   <li>Engagement de confidentialité (RGPD / secret professionnel).</li>
   <li>🔐 <b>Connexion sécurisée</b> par email et mot de passe.</li></ul></section>
   ${apercuModulesSection()}
+  ${promoLive() ? '' : commentPayerHtml()}
   <section class="card" style="border-left:4px solid var(--accent)"><h2>🏫 Aussi en présentiel à Antananarivo (renforcement)</h2>
   <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>${money(presentielPrixModule())}/module</b>.</p>
   <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
@@ -1020,7 +1046,17 @@ function pageDashboard(sess) {
   <script>(function(){function g(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return {}}}var P=g('fce_progress_v1'),EX=g('fce_exo_v1'),SI=g('fce_sim_v1'),TV=g('fce_tva_v1'),AU=g('fce_audit_v1');var exoN=Object.keys(EX).filter(function(k){return EX[k]}).length;var fac=(SI.d1||0)>=6;var tvaN=Object.keys(TV).filter(function(k){return TV[k]}).length;var rev=!!AU.a2,chef=!!AU.a1;var qz=P.quiz||{},fin=qz.final,cert=!!(fin&&fin.total&&fin.score/fin.total>=0.7);var B=[{k:'🧮',n:'Saisie',ok:exoN>=4},{k:'🏢',n:'Factures',ok:fac},{k:'🧾',n:'TVA',ok:tvaN>=1},{k:'🔍',n:'Révision',ok:rev},{k:'👔',n:'Chef de mission',ok:chef},{k:'🏅',n:'Certifié',ok:cert}];var L=['Recrue','Collaborateur','Collaborateur confirmé','Réviseur','Chef de mission'];var lvl=0;if(exoN>=4||fac)lvl=1;if(lvl>=1&&fac&&tvaN>=1)lvl=2;if(lvl>=2&&rev)lvl=3;if(lvl>=3&&chef&&cert)lvl=4;var nxt=['Validez 4 exercices de saisie (Module 3.12).','Terminez le Simulateur Cabinet (3.13) et la déclaration de TVA (3.14).','Détectez les anomalies de révision (6.9).','Validez le travail du collaborateur (6.9) et réussissez le quiz final.'];var c=document.getElementById('career');try{fetch('/progression',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'_csrf=${sess.row.csrf}&prog='+encodeURIComponent(JSON.stringify({prog:P,exo:EX,sim:SI,tva:TV,audit:AU}))});}catch(e){}if(!c)return;var h='<div style=\"font-size:22px;font-weight:800;color:#fff\">'+L[lvl]+' <span class=\"muted\" style=\"font-size:14px;font-weight:400\">(niveau '+(lvl+1)+'/5)</span></div>';h+='<div style=\"background:rgba(255,255,255,.08);border-radius:99px;height:14px;overflow:hidden;margin:10px 0\"><div style=\"height:100%;width:'+(lvl/4*100)+'%;background:var(--grad);transition:width .7s\"></div></div>';h+='<div class=\"grid\" style=\"grid-template-columns:repeat(auto-fit,minmax(120px,1fr))\">'+B.map(function(b){return '<div class=\"offre\" style=\"text-align:center;opacity:'+(b.ok?'1':'.4')+'\"><div style=\"font-size:28px\">'+b.k+'</div><div style=\"font-weight:700;font-size:13px;color:#fff\">'+b.n+'</div><div class=\"muted\" style=\"font-size:11px\">'+(b.ok?'✅ obtenu':'🔒 à débloquer')+'</div></div>'}).join('')+'</div>';h+=(lvl<4)?'<p class=\"muted\" style=\"margin-top:10px\">🎯 Prochain objectif : '+nxt[lvl]+'</p>':'<p class=\"ok\" style=\"margin-top:10px\">🏆 Niveau maximum atteint — prêt pour le cabinet !</p>';c.innerHTML=h;})();</script></section>
   <section class="card"><h2>Accès à la formation</h2>
   <p>${promoLive() ? '🎁 <b>Pendant la promo, TOUS les modules sont débloqués gratuitement</b> (jusqu’au ' + promoFinFR() + ') — rien à payer.' : 'Les modules se débloquent à partir de <b>' + money(prixMiniModule()) + '</b> / module après paiement.'}</p>
-  <div class="prog">${MODULES.map(m => `<div class="pitem"><span>${ent.has(m.code) ? '✅' : '🔒'} ${esc(m.titre)}</span>${m.gratuit ? '<b class="gratuit">Gratuit</b>' : (ent.has(m.code) ? '<b class="gratuit">Débloqué</b>' : '<b class="lock">Verrouillé</b>')}</div>`).join('')}</div>
+  ${promoLive() ? '' : `<div class="cta-pay">🎯 <b>Envie de commencer maintenant&nbsp;?</b> Cliquez sur <b>« 🔓 Débloquer »</b> du module de votre choix pour passer à la caisse <span class="cta-here">par ici&nbsp;👉</span></div>`}
+  <div class="prog">${MODULES.map(m => {
+    const unlocked = ent.has(m.code);
+    const off = (cfg.offres || []).find(o => Array.isArray(o.modules) && o.modules.length === 1 && o.modules[0] === m.code && o.prix > 0);
+    const right = unlocked
+      ? '<b class="gratuit">Débloqué ✅</b>'
+      : (off
+        ? `<form method="post" action="/choisir" class="inline" style="margin:0">${csrfField(sess)}<input type="hidden" name="offre_code" value="${esc(off.code)}"><button class="btn small" type="submit" title="Payer par Mobile Money (Orange Money / MVola)">🔓 Débloquer · ${money(off.prix)}</button></form>`
+        : '<b class="lock">Verrouillé</b>');
+    return `<div class="pitem"><span>${unlocked ? '✅' : '🔒'} ${esc(m.titre)}</span>${right}</div>`;
+  }).join('')}</div>
   <p style="margin-top:12px"><a class="btn" href="/formation">Ouvrir la formation</a> <a class="btn ghost" href="/attestation">🎓 ${(u.role === 'admin' || u.attestation_ok) ? 'Mon attestation' : 'Attestation (entretien final)'}</a> <a class="btn ghost" href="/decouverte">▶ Visite guidée (1 min)</a></p>
   ${(u.role !== 'admin') ? (u.attestation_ok
     ? `<p class="ok" style="font-size:13px;margin:8px 0 0">✅ Attestation débloquée — vous pouvez la télécharger (signée/tamponnée).</p>`
