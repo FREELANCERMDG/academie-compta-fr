@@ -433,3 +433,19 @@ img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px;
 .atout-ic { font-size:34px; line-height:1; margin-bottom:8px; }
 .atout b { display:block; color:#fff; font-size:15px; margin-bottom:4px; }
 .atout span { display:block; color:#cfd8f5; font-size:12.5px; line-height:1.45; }
+
+/* ===== Modules du programme : cartes flottantes 3D (permanent, cliquables) ===== */
+.prog { perspective: 1300px; }
+.modrow { transform-style: preserve-3d; animation: modFloat 6s ease-in-out infinite; will-change: transform; }
+.modrow:nth-child(2n) { animation-duration: 7.2s; animation-delay: -1.6s; }
+.modrow:nth-child(3n) { animation-duration: 6.6s; animation-delay: -3.1s; }
+.modrow:nth-child(4n) { animation-duration: 7.6s; animation-delay: -0.8s; }
+.modrow:hover { animation-play-state: paused; transform: translateY(-4px) scale(1.02); box-shadow: 0 16px 44px rgba(124,108,255,.35); border-color: var(--accent2); z-index: 3; }
+@keyframes modFloat {
+  0%   { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+  20%  { transform: translateY(-7px) rotateX(1.6deg) rotateY(-1.3deg); }
+  50%  { transform: translateY(1px) rotateX(-0.5deg) rotateY(1.3deg); }
+  80%  { transform: translateY(6px) rotateX(-1.6deg) rotateY(-0.7deg); }
+  100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+}
+@media (prefers-reduced-motion: reduce){ .modrow { animation: none !important; } }
