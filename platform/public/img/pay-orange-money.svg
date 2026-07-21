@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 72" role="img" aria-label="Orange Money">
+  <rect width="230" height="72" rx="12" fill="#f6f6f6"/>
+  <g stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="6">
+    <path d="M24 46 L44 26 M32 26 H44 V38" stroke="#111111"/>
+    <path d="M60 26 L40 46 M52 46 H40 V34" stroke="#ff7900"/>
+  </g>
+  <text x="80" y="33" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="21" fill="#111111">Orange</text>
+  <text x="80" y="57" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="21" fill="#111111">Money</text>
+</svg>

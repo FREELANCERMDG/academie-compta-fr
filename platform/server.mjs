@@ -626,6 +626,13 @@ function installAppCard() {
    <p style="margin-bottom:0">${ctas} <span class="muted" id="installHint" style="font-size:13px;display:block;margin-top:8px"></span></p>
   </section>`;
 }
+// Logo d'un moyen de paiement Mobile Money (Orange Money / MVola).
+function payLogo(code, cls = 'paylogo') {
+  const map = { orange: '/public/img/pay-orange-money.svg', mvola: '/public/img/pay-mvola.svg' };
+  const src = map[code]; if (!src) return '';
+  return `<img class="${cls}" src="${src}?v=${ASSET_V}" alt="${code === 'orange' ? 'Orange Money' : 'MVola'}" loading="lazy">`;
+}
+
 // Section « Comment débloquer un module ? » — visible sur l'accueil (avant inscription), hors promo.
 function commentPayerHtml() {
   const mm = methodesManuelles();
@@ -639,6 +646,8 @@ function commentPayerHtml() {
   return `<section class="card" id="comment-payer" style="border-left:4px solid var(--accent)">
   <h2>💳 Comment débloquer un module ?</h2>
   <p class="lead">C'est simple et rapide — votre accès est activé dès la vérification du paiement.</p>
+  <div class="pay-logos">${payLogo('orange', 'paybadge')}${payLogo('mvola', 'paybadge')}</div>
+  <p class="muted" style="text-align:center;font-size:13.5px;margin:4px 0 12px">📱 Payez en quelques secondes depuis votre téléphone — <b>Orange Money</b> ou <b>MVola</b>. 🔒 100 % sécurisé, sans carte ni compte bancaire.</p>
   <div class="cta-pay">🎯 <b>Voulez-vous essayer maintenant&nbsp;?</b> Créez votre compte et passez à la caisse <span class="cta-here">par ici&nbsp;👇</span></div>
   <ol style="line-height:1.95;margin:10px 0 16px;font-size:15px">
     <li><b>Créez votre compte gratuit</b> (2 min) — vous pouvez déjà consulter les aperçus de chaque module.</li>
@@ -1095,7 +1104,7 @@ function pagePaiement(sess, ins, err) {
   const blocs = methodes.map(m => {
     const det = Object.entries(m.details || {}).filter(([, v]) => v && String(v).trim())
       .map(([k, v]) => `<p>${esc(k)} : <b class="big">${esc(v)}</b></p>`).join('');
-    return `<section class="card"><h2>${esc(m.nom)}</h2>
+    return `<section class="card">${payLogo(m.code) ? `<div style="margin-bottom:8px">${payLogo(m.code, 'paybadge')}</div>` : ''}<h2 style="margin-top:0">${esc(m.nom)}</h2>
       <p><b>1.</b> Envoyez exactement <b>${money(ins.prix)}</b> :</p>${det}
       <p class="muted">${esc(m.instructions || '')}</p>
       <form method="post" action="/paiement/manuel" class="form">${csrfField(sess)}
