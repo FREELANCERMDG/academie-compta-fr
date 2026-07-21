@@ -542,19 +542,20 @@ function formateurCard() {
 // --- Pages ---
 // Aperçu du programme : une carte par module avec son résumé + thèmes + lien aperçu
 function apercuModulesSection() {
+  const duree = (cfg.acces && cfg.acces.duree_jours) || 45;
   const tag = (code) => ({ mod2: "🎥 100 % pratique sur un <b>outil métier de référence (comme Pennylane)</b> — vidéos pas à pas", mod6: "🛠️ 100 % pratique · cas pratiques corrigés, <b>simulateurs d'entretien</b> et évaluation certifiante" })[code] || "🛠️ 100 % pratique · <b>simulateur intégré</b> (interface type logiciel métier, comme Pennylane)";
   const rows = MODULES.map(m => {
     const off = (cfg.offres || []).find(o => Array.isArray(o.modules) && o.modules.length === 1 && o.modules[0] === m.code && o.prix > 0);
     const action = promoLive()
       ? `<a class="btn small" href="/inscription">Commencer gratuitement →</a>`
       : (off ? `<a class="btn small btn-buy" href="/acheter?o=${esc(off.code)}">🔓 Débloquer · ${money(off.prix)}</a>` : '');
-    return `<div class="pitem modrow"><span class="modrow-t">🔒 ${esc(m.titre)}<br><span class="modtag">${tag(m.code)}</span></span><span class="modrow-side">${action}<a class="apercu-link" href="/apercu?m=${esc(m.code)}">👁️ aperçu détaillé</a></span></div>`;
+    return `<div class="pitem modrow"><span class="modrow-t">🔒 ${esc(m.titre)}<br><span class="modtag">${tag(m.code)}</span></span><span class="modrow-side">${action}${promoLive() ? '' : `<span class="modrow-dur">🕒 accès ${duree} jours</span>`}<a class="apercu-link" href="/apercu?m=${esc(m.code)}">👁️ aperçu détaillé</a></span></div>`;
   }).join('');
   const pack = (cfg.offres || []).find(o => o.code === 'PACK_COMPLET' && o.prix > 0);
   const packHtml = (!promoLive() && pack) ? (function () {
     const indiv = (pack.modules || []).reduce((s, mc) => { const o = (cfg.offres || []).find(x => Array.isArray(x.modules) && x.modules.length === 1 && x.modules[0] === mc && x.prix > 0); return s + (o ? o.prix : 0); }, 0);
     const eco = indiv - pack.prix;
-    return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'}</div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
+    return `<div class="packcard"><div class="packcard-main"><div class="packcard-title">🎯 ${esc(pack.titre)}</div><div class="packcard-sub">Accédez à tout le parcours d'un seul coup${eco > 0 ? ` — <b>économisez ${money(eco)}</b> par rapport à l'achat module par module (${money(indiv)}).` : '.'} <span style="white-space:nowrap">🕒 Accès <b>${duree} jours</b>.</span></div></div><div class="packcard-side"><div class="packcard-price">${money(pack.prix)}</div><a class="btn btn-buy" href="/acheter?o=${esc(pack.code)}">🔓 Débloquer le pack complet</a></div></div>`;
   })() : '';
   return `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Le programme — <span style="color:var(--navy2)">choisissez votre module</span></h2>
   <p style="text-align:center;color:#d7e3ee;margin:0 0 8px;font-size:14px">Formation <b style="color:#fff">100 % pratique</b> : <b style="color:#fff">simulateurs façon logiciel comptable</b> (interface inspirée de Pennylane, recolorée), <b style="color:#fff">CERFA réels</b> et écritures à compléter.</p>
@@ -657,7 +658,7 @@ function commentPayerHtml() {
   <div class="cta-pay">🎯 <b>Voulez-vous essayer maintenant&nbsp;?</b> Créez votre compte et passez à la caisse <span class="cta-here">par ici&nbsp;👇</span></div>
   <ol style="line-height:1.95;margin:10px 0 16px;font-size:15px">
     <li><b>Créez votre compte gratuit</b> (2 min) — vous pouvez déjà consulter les aperçus de chaque module.</li>
-    <li><b>Choisissez vos modules</b> dans votre espace — à partir de <b>${money(prixMiniModule())} / module</b> (ou le <b>pack complet</b>, plus avantageux).</li>
+    <li><b>Choisissez vos modules</b> dans votre espace — à partir de <b>${money(prixMiniModule())} / module</b> (ou le <b>pack complet</b>, plus avantageux). 🕒 Chaque module reste accessible <b>${(cfg.acces && cfg.acces.duree_jours) || 45} jours</b>.</li>
     <li><b>Payez le montant exact</b> par Mobile Money à l'un des numéros ci-dessous, puis <b>saisissez la référence</b> de la transaction reçue par SMS.</li>
     <li>✅ Le module <b>se débloque automatiquement</b> dès que le formateur valide le paiement (en général sous quelques heures).</li>
   </ol>

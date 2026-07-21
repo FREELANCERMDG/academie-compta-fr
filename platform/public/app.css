@@ -422,3 +422,6 @@ img.paylogo { height:38px; width:auto; vertical-align:middle; border-radius:8px;
 .packcard-side { text-align:right; }
 .packcard-price { font-weight:900; font-size:23px; color:#ffd166; margin-bottom:6px; letter-spacing:.3px; }
 @media (max-width:560px){ .packcard-side{ text-align:left; width:100% } }
+
+/* ===== Durée d'accès par module ===== */
+.modrow-dur { font-size:11.5px; font-weight:700; color:#E8A13A; white-space:nowrap; }
