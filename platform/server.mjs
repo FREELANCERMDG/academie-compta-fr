@@ -704,8 +704,16 @@ function pageAccueil(sess) {
   <li><b>Suivez les 6 modules</b> : outils métier (comme Pennylane), opérations courantes TPE/PME, TVA, révision, liasse &amp; bilan… de la saisie à la préparation du bilan des PME françaises.</li>
   <li><b>Passez l'évaluation</b> et obtenez votre <b>attestation de fin de formation</b>.</li>
   </ol>
-  <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/apercu?m=mod1">Découvrir le Module 1</a></p></section>` : `<section class="card"><h2>Nos offres</h2><div class="grid">${offres.map(o => `<div class="offre"><h3>${esc(o.titre)}</h3><p class="prix">${prixAffiche(o.prix)}</p></div>`).join('')}</div>
-  <p class="muted">Paiement par <b>Orange Money</b> ou carte. Inscrivez-vous pour choisir vos modules.</p></section>`}`, sess);
+  <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/apercu?m=mod1">Découvrir le Module 1</a></p></section>` : `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Pourquoi choisir Académie Compta FR&nbsp;?</h2>
+  <div class="atouts">
+    <div class="atout"><div class="atout-ic">🧑‍🏫</div><b>Formateur de métier</b><span>Expert‑comptable en cabinet français — du concret, pas de la théorie.</span></div>
+    <div class="atout"><div class="atout-ic">🛠️</div><b>100 % pratique</b><span>Simulateurs façon logiciel comptable, CERFA réels, cas de vrais dossiers.</span></div>
+    <div class="atout"><div class="atout-ic">🤖</div><b>Assistant IA 24h/24</b><span>Un assistant expert répond à vos questions à tout moment.</span></div>
+    <div class="atout"><div class="atout-ic">🎓</div><b>Attestation reconnue</b><span>Signée &amp; tamponnée, après un test final en visio avec le formateur.</span></div>
+    <div class="atout"><div class="atout-ic">🎯</div><b>Débouchés concrets</b><span>Cabinets français depuis Madagascar, ou freelance payé en euros.</span></div>
+    <div class="atout"><div class="atout-ic">📱</div><b>Paiement facile</b><span>Orange Money ou MVola, en quelques secondes depuis votre téléphone.</span></div>
+  </div>
+  <p style="text-align:center;margin:18px 0 0"><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/formation">Voir la formation</a></p></section>`}`, sess);
 }
 
 // Visite guidée (1 minute) — montrée à tout nouvel inscrit : tout l'accès en un coup d'œil
