@@ -66,9 +66,10 @@ const MACRO = [
       "Contrôles comptables de fin d'année : comptes sensibles, justification des soldes, cohérence fiscale, charges et produits rattachés à l'exercice",
       "Spécificités par activité : BNC, LMNP/LMP, SCI, SNC, services à la personne, tabac, auto-entrepreneur, association loi 1901, activité agricole (BA) et pharmacie",
       "Cas particuliers comptables et fiscaux : véhicules VP/VU, autoliquidation, retenue de garantie, situations de travaux, créances douteuses, régularisations et retraitements spécifiques",
-      "Dossier Bâtiment / BTP : TVA sur travaux, autoliquidation, factures d'avancement, situations de travaux, retenues de garantie et contrôle des factures fournisseurs/clients"
+      "Dossier Bâtiment / BTP : TVA sur travaux, autoliquidation, factures d'avancement, situations de travaux, retenues de garantie et contrôle des factures fournisseurs/clients",
+      "🛠️ Cas pratique : approbation des comptes annuels & dépôt au greffe — PV d'AGO, affectation du résultat, délais, sanctions et mail de proposition au client"
     ],
-    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-PRAT3-Cloture-cas-fil-rouge.md', 'Module-35-LMNP.md', 'Module-36-LMP.md', 'Module-37-SCI.md', 'Module-38-SAP.md'],
+    files: ['Module-12-Fiscalite-entreprises.md', 'Module-13-Bilan-cloture.md', 'Module-26-Specificites-cas-particuliers.md', 'Module-27-Specificites-par-activite.md', 'Module-29-Dossier-batiment.md', 'Module-PRAT3-Cloture-cas-fil-rouge.md', 'Module-PRAT9-Approbation-depot-comptes.md', 'Module-35-LMNP.md', 'Module-36-LMP.md', 'Module-37-SCI.md', 'Module-38-SAP.md'],
     quiz: 'm12'
   },
   {
