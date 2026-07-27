@@ -165,12 +165,18 @@ function expirePromoGrants() {
     const exp = (cfg.promo && cfg.promo.jusqu_au) ? (cfg.promo.jusqu_au + 'T23:59:59.999Z') : null;
     const grant = (em, expire) => {
       const u = db.prepare('SELECT id FROM users WHERE lower(email)=?').get(em);
-      if (!u) return;
+      if (!u) return false;
       const row = db.prepare("SELECT id FROM inscriptions WHERE user_id=? AND offre_code='PROMO_PACK'").get(u.id);
-      if (row) db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(expire, row.id);
-      else db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(10), u.id, 'PROMO_PACK', 'active', now, expire);
+      if (row) { db.prepare("UPDATE inscriptions SET statut='active', expire_le=? WHERE id=?").run(expire, row.id); return false; }
+      db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(10), u.id, 'PROMO_PACK', 'active', now, expire);
+      audit(db, u.id, 'acces_illimite_config', em, '');
+      return true; // nouvel octroi (l'apprenant vient de s'inscrire)
     };
-    for (const em of unlim) grant(em, null);
+    for (const em of unlim) {
+      if (grant(em, null)) {
+        try { pushToAdmins({ title: '🎁 Accès illimité activé', body: em + " vient de s'inscrire — accès complet (Modules 1 à 6) accordé", url: '/admin', tag: 'adm-illim-' + em }).catch(() => { }); } catch { }
+      }
+    }
     if (exp && exp > now) for (const em of keep) { if (!unlim.includes(em)) grant(em, exp); }
     const spared = [...new Set([...keep, ...unlim])];
     const ph = spared.map(() => '?').join(',');
