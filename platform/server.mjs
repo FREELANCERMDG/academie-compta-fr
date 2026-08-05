@@ -219,9 +219,39 @@ function applyConfigGrants() {
     }
   } catch { }
 }
+// Prolongations ciblées depuis la config (cfg.acces_prolonges) : AJOUTE N jours à l'accès actuel
+// d'un email (repousse l'expiration de chaque accès daté, base = max(expiration, aujourd'hui)).
+// Appliqué UNE seule fois par entrée (garde d'idempotence via le journal sur l'identifiant de
+// l'entrée) — le balayage horaire ne ré-ajoute donc pas les jours à chaque passage. Si l'apprenant
+// n'a pas encore d'accès daté, on réessaie au prochain passage (aucune garde écrite tant que rien n'est prolongé).
+function applyConfigProlongations() {
+  try {
+    for (const g of (cfg.acces_prolonges || [])) {
+      const em = String(g.email || '').toLowerCase().trim();
+      const jours = Math.max(1, Math.min(3650, parseInt(g.jours, 10) || 0));
+      const key = String(g.id || (em + ':' + jours)).trim();
+      if (!em || !jours) continue;
+      const u = db.prepare('SELECT id FROM users WHERE lower(email)=?').get(em);
+      if (!u) continue; // le compte doit déjà exister
+      const deja = db.prepare("SELECT 1 FROM journal WHERE action='acces_prolonge_config' AND detail LIKE ?").get('%#' + key + '%');
+      if (deja) continue; // entrée déjà appliquée
+      const act = db.prepare("SELECT id, expire_le FROM inscriptions WHERE user_id=? AND statut='active' AND expire_le IS NOT NULL").all(u.id);
+      let applied = 0;
+      for (const r of act) {
+        const base = Math.max(Date.parse(r.expire_le) || Date.now(), Date.now());
+        db.prepare('UPDATE inscriptions SET expire_le=? WHERE id=?').run(new Date(base + jours * 86400000).toISOString(), r.id);
+        applied++;
+      }
+      if (applied > 0) {
+        audit(db, u.id, 'acces_prolonge_config', '+' + jours + 'j · ' + applied + ' acces · #' + key, '');
+        try { pushToAdmins({ title: '⏳ Accès prolongé', body: em + ' : +' + jours + ' j (' + applied + ' accès daté·s)', url: '/admin', tag: 'adm-prol-' + key }).catch(() => { }); } catch { }
+      }
+    }
+  } catch { }
+}
 try {
-  setTimeout(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); }, 5000).unref();
-  setInterval(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); }, 60 * 60 * 1000).unref();
+  setTimeout(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); applyConfigProlongations(); }, 5000).unref();
+  setInterval(() => { expirePromoGrants(); autoValidateAttestations(); applyConfigGrants(); applyConfigProlongations(); }, 60 * 60 * 1000).unref();
 } catch { }
 // 2FA (Google Authenticator) : obligatoire UNIQUEMENT pour l'admin. Les apprenants se connectent au mot de passe seul.
 const twofaRequired = (role) => role === 'admin' && !(cfg.securite && cfg.securite.twofa_obligatoire === false);

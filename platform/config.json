@@ -119,6 +119,10 @@
   "acces_offerts": [
     { "email": "nandrianinarakotoarisoa@gmail.com", "offre": "PACK_COMPLET", "jours": 150, "sujet_email": "🎉 Votre Pack complet (Modules 1 à 6) est activé — accès 5 mois", "message_email": "<p>Félicitations et bienvenue dans la formation ! 🎉</p><p>Le formateur vous a activé le <strong>Pack complet — Modules 1 à 6</strong> (toute la formation), avec un accès de <strong>5 mois</strong>.</p><p>Vous disposez de l'intégralité des cours, des simulateurs interactifs, des quiz et des cas pratiques réels de cabinet. Avancez à votre rythme ; une fois tous les modules terminés, programmez votre <strong>test final en visio</strong> pour obtenir votre <strong>attestation</strong>.</p><p>Connectez-vous ici : <a href=\"https://academie-compta-fr.mg/connexion\">academie-compta-fr.mg</a></p><p>Bonne formation ! 💪</p>" }
   ],
+  "acces_prolonges": [
+    { "id": "prol-rjm-2026-08", "email": "randriamalalajosemichael@gmail.com", "jours": 90 }
+  ],
+  "_note_acces_prolonges": "Prolongations ciblées : { id (unique), email, jours }. AJOUTE 'jours' à l'expiration actuelle de CHAQUE accès daté de l'apprenant (base = max(expiration, aujourd'hui)). Appliqué UNE seule fois par 'id' (garde via journal). Pour prolonger à nouveau plus tard, ajouter une NOUVELLE entrée avec un id différent. Si l'apprenant n'a pas encore d'accès daté, la prolongation s'applique dès qu'il en a un.",
   "_note_acces_offerts": "Octrois ciblés : { email, offre (code, ex. MOD1/PACK_COMPLET), jours, sujet_email, message_email }. Appliqué au démarrage puis toutes les heures ; l'email de félicitations part UNE seule fois (à l'activation). Supprimer l'entrée n'annule pas l'accès déjà donné.",
   "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 6), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
   "messages_perso": {
