@@ -198,13 +198,14 @@ function autoValidateAttestations() {
 // Octrois ciblés depuis la config (cfg.acces_offerts) : active une offre précise pour un email,
 // et envoie l'email de félicitations UNE seule fois (au moment de l'activation).
 function applyConfigGrants() {
-  try {
-    const now = new Date().toISOString();
-    for (const g of (cfg.acces_offerts || [])) {
-      const em = String(g.email || '').toLowerCase().trim();
+  const now = new Date().toISOString();
+  // try/catch PAR ENTRÉE : une entrée fautive (ex. envoi d'email) ne doit pas empêcher les suivantes.
+  for (const g of (cfg.acces_offerts || [])) {
+    try {
+      const em = String(g.email || '').toLowerCase().replace(/\s+/g, ''); // insensible aux espaces (emails parfois saisis avec espace)
       const offre = (cfg.offres || []).find(o => o.code === g.offre);
       if (!em || !offre) continue;
-      const u = db.prepare('SELECT id, prenom, email FROM users WHERE lower(email)=?').get(em);
+      const u = db.prepare("SELECT id, prenom, email FROM users WHERE lower(replace(email,' ',''))=?").get(em);
       if (!u) continue;
       const deja = db.prepare("SELECT 1 FROM inscriptions WHERE user_id=? AND offre_code=? AND statut='active' AND (expire_le IS NULL OR expire_le > ?)").get(u.id, offre.code, now);
       if (deja) continue;
@@ -213,11 +214,13 @@ function applyConfigGrants() {
       db.prepare('INSERT INTO inscriptions(id,user_id,offre_code,statut,cree_le,expire_le) VALUES(?,?,?,?,?,?)').run(rid(8), u.id, offre.code, 'active', now, exp);
       audit(db, u.id, 'acces_offert_config', offre.code + ' · ' + jours + 'j', '');
       if (g.message_email && mailConfigured()) {
-        const html = '<p>Bonjour ' + esc(u.prenom || '') + ',</p>' + g.message_email;
-        sendEmail(u.email, g.sujet_email || ('🎉 Votre accès « ' + offre.titre + ' » est activé !'), html).catch(() => { });
+        try {
+          const html = '<p>Bonjour ' + esc(u.prenom || '') + ',</p>' + g.message_email;
+          sendEmail(u.email, g.sujet_email || ('🎉 Votre accès « ' + offre.titre + ' » est activé !'), html).catch(() => { });
+        } catch { }
       }
-    }
-  } catch { }
+    } catch { }
+  }
 }
 // Prolongations ciblées depuis la config (cfg.acces_prolonges) : AJOUTE N jours à l'accès actuel
 // d'un email (repousse l'expiration de chaque accès daté, base = max(expiration, aujourd'hui)).
@@ -1080,7 +1083,10 @@ function pageDashboard(sess) {
   const mesDem = db.prepare('SELECT * FROM demandes WHERE user_id=? ORDER BY cree_le DESC').all(u.id);
   const active = u.role === 'admin' || hasActive(u.id);
   const fmtDate = s => s ? esc(String(s).slice(0, 10)) : '';
-  const expActive = (ins.find(i => i.statut === 'active') || {}).expire_le;
+  // Temps d'accès restant = l'expiration la PLUS LOINTAINE parmi les accès actifs (un accès expiré
+  // ne doit pas masquer un accès encore valide). Illimité (expire_le null) => pas de compte à rebours.
+  const _actIns = ins.filter(i => i.statut === 'active');
+  const expActive = _actIns.some(i => !i.expire_le) ? '' : (_actIns.map(i => i.expire_le).filter(Boolean).sort().pop() || '');
   return layout('Mon espace', `<h1>Bonjour ${esc(u.prenom || u.nom)}</h1>
   ${(function () { const mp = (cfg.messages_perso || {})[(u.email || '').toLowerCase().trim()]; return mp ? `<section class="card" style="border-left:4px solid #7c6cff;background:rgba(124,108,255,.10)"><h2 style="margin:0 0 6px">💌 Message du formateur</h2><p style="margin:0;white-space:pre-wrap;font-size:15px">${esc(mp)}</p></section>` : ''; })()}
   ${(function () { const a = annonceActive(); return a ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.10)"><h2 style="margin:0 0 6px">📣 Annonce</h2><p style="margin:0;white-space:pre-wrap;font-size:15px">${esc(a.message)}</p></section>` : ''; })()}
