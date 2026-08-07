@@ -82,8 +82,8 @@
   "acces": {
     "illimite": false,
     "duree_jours": 45,
-    "un_seul_appareil": true,
-    "_note": "duree_jours = durée d'accès après paiement (45 = 1 mois et demi). illimite=true pour accès sans limite. un_seul_appareil=true : une seule session active à la fois (anti-partage de compte)."
+    "un_seul_appareil": false,
+    "_note": "duree_jours = durée d'accès après paiement (45 = 1 mois et demi). illimite=true pour accès sans limite. un_seul_appareil=false : connexion multi-appareils / multi-IP autorisée pour TOUS les comptes (actuels et futurs) ; mettre true pour n'autoriser qu'une seule session active à la fois (anti-partage de compte). Aucun blocage par IP dans tous les cas."
   },
   "parrainage": {
     "actif": true,
