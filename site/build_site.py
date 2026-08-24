@@ -91,8 +91,9 @@ MANIFEST = [
     ("modules/Module-PRAT5-Entrainement-saisie.md", "pr5", "Module 3 — Opérations & révision", "3.12 🧮 Entraînement : matrice de saisie (interactif)", None),
     ("modules/Module-PRAT6-Simulateur.md", "pr6", "Module 3 — Opérations & révision", "3.13 🏢 Simulateur Cabinet : traiter les factures (interactif)", None),
     ("modules/Module-PRAT7-TVA-CA3.md", "pr7", "Module 3 — Opérations & révision", "3.14 🧾 Déclarer la TVA (CA3) — simulateur", None),
-    ("modules/Module-EXOS-Banque.md", "exbank", "Module 3 — Opérations & révision", "3.15 🧮 Banque d'exercices : tous les cas de saisie", None),
-    ("modules/Module-FILROUGE-Dossier.md", "filrouge", "Module 3 — Opérations & révision", "3.16 📂 Fil rouge : un dossier complet, de la saisie au bilan", None),
+    ("modules/Module-PRAT10-Impots-Gouv-TVA.md", "pr10", "Module 3 — Opérations & révision", "3.15 🖥️ Déclarer la TVA sur impots.gouv.fr (pas à pas)", "pr10"),
+    ("modules/Module-EXOS-Banque.md", "exbank", "Module 3 — Opérations & révision", "3.16 🧮 Banque d'exercices : tous les cas de saisie", None),
+    ("modules/Module-FILROUGE-Dossier.md", "filrouge", "Module 3 — Opérations & révision", "3.17 📂 Fil rouge : un dossier complet, de la saisie au bilan", None),
 
     ("modules/Module-12-Fiscalite-entreprises.md", "m12", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.1 Fiscalité des entreprises", "m12"),
     ("modules/Module-13-Bilan-cloture.md", "m13", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "4.2 Bilan et clôture", "m13"),
@@ -343,6 +344,13 @@ try:
         AUDITS = json.load(f)
 except Exception:
     AUDITS = {}
+
+# Simulateur de télédéclaration TVA sur impots.gouv.fr (mode EFI)
+try:
+    with open(os.path.join(BASE, "impots.json"), "r", encoding="utf-8") as f:
+        EFI = json.load(f)
+except Exception:
+    EFI = {}
 
 # Base de factures (mode serie : 20 achats + 20 ventes) + Plan comptable (lookup)
 try:
@@ -663,6 +671,7 @@ window.EXOS=__EXOS__;
 window.DOSSIERS=__DOSSIERS__;
 window.TVASIM=__TVASIM__;
 window.AUDITS=__AUDITS__;
+window.EFI=__EFI__;
 window.FACTURES=__FACTURES__;
 window.PCG=__PCG__;
 window.RAPPRO=__RAPPRO__;
@@ -806,6 +815,7 @@ renderNav();show(curId());
 <script src="/formation/saisie.js"></script>
 <script src="/formation/sim.js"></script>
 <script src="/formation/pro.js"></script>
+<script src="/formation/impots.js"></script>
 <script src="/formation/simdoc.js"></script>
 <script src="/formation/calc.js"></script>
 <script src="/formation/rappro.js"></script>
@@ -848,6 +858,7 @@ html_out = (TPL
     .replace("__DOSSIERS__", json.dumps(DOSSIERS, ensure_ascii=False))
     .replace("__TVASIM__", json.dumps(TVASIM, ensure_ascii=False))
     .replace("__AUDITS__", json.dumps(AUDITS, ensure_ascii=False))
+    .replace("__EFI__", json.dumps(EFI, ensure_ascii=False))
     .replace("__FACTURES__", json.dumps(FACTURES, ensure_ascii=False))
     .replace("__PCG__", json.dumps(PCG, ensure_ascii=False))
     .replace("__RAPPRO__", json.dumps(RAPPRO, ensure_ascii=False)))
@@ -871,7 +882,7 @@ html_out = html_out.replace("--navy:#1F4E78", "--navy:" + BR["primary"]).replace
 
 # Cache-busting des composants JS : ?v=<hash du fichier> (rafraîchit le cache navigateur à chaque changement)
 import hashlib
-for _js in ["cerfa.js", "saisie.js", "sim.js", "pro.js", "simdoc.js", "calc.js", "rappro.js"]:
+for _js in ["cerfa.js", "saisie.js", "sim.js", "pro.js", "impots.js", "simdoc.js", "calc.js", "rappro.js"]:
     _p = os.path.join(BASE, _js)
     try:
         _h = hashlib.md5(open(_p, "rb").read()).hexdigest()[:8]

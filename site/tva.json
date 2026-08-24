@@ -23,5 +23,21 @@
       { "key": "credit", "label": "Crédit de TVA à reporter", "attendu": 1900 }
     ],
     "astuce": "1 000 − 900 − 2 000 = −1 900 € → pas un montant à payer mais un CRÉDIT de TVA de 1 900 € (à reporter ou à se faire rembourser)."
+  },
+  "t3": {
+    "titre": "CA3 en ligne — deux taux et un crédit reporté",
+    "enonce": "Mois de septembre, saisie sur impots.gouv.fr. Ventes taxables à 20 % : 30 000 € HT. Ventes taxables à 10 % (travaux de rénovation) : 8 000 € HT. TVA déductible sur autres biens et services : 2 100 €. Aucune immobilisation. La CA3 d'août faisait apparaître un crédit à reporter de 500 € (ligne 27). Remplissez les lignes de la CA3.",
+    "champs": [
+      { "key": "b20", "label": "Ligne 08 · base HT à 20 %", "attendu": 30000 },
+      { "key": "t20", "label": "Ligne 08 · TVA due à 20 %", "attendu": 6000 },
+      { "key": "b10", "label": "Ligne 9B · base HT à 10 %", "attendu": 8000 },
+      { "key": "t10", "label": "Ligne 9B · TVA due à 10 %", "attendu": 800 },
+      { "key": "l16", "label": "Ligne 16 · total de la TVA brute due", "attendu": 6800 },
+      { "key": "l20", "label": "Ligne 20 · TVA déductible sur autres biens et services", "attendu": 2100 },
+      { "key": "l22", "label": "Ligne 22 · report du crédit de la déclaration précédente", "attendu": 500 },
+      { "key": "l23", "label": "Ligne 23 · total de la TVA déductible", "attendu": 2600 },
+      { "key": "l28", "label": "Ligne 28 · TVA nette due", "attendu": 4200 }
+    ],
+    "astuce": "30 000 × 20 % = 6 000 et 8 000 × 10 % = 800 → ligne 16 = 6 800. Déductible = 2 100 + 500 de crédit reporté (ligne 22) = 2 600 (ligne 23). Nette due = 6 800 − 2 600 = 4 200 €. Oublier la ligne 22, c'est payer deux fois la même TVA."
   }
 }

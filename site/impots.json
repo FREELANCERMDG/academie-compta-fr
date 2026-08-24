@@ -1,0 +1,197 @@
+{
+  "_aide": "Simulateur de télédéclaration TVA sur impots.gouv.fr (mode EFI). L'apprenant navigue écran par écran : il choisit le bon menu, remplit la CA3 et valide. Reconstitution pédagogique (non officielle).",
+  "e1": {
+    "titre": "Premier accès — créer l'espace professionnel et pouvoir payer",
+    "contexte": "Nouveau client : SARL BATI PRO (SIREN 812 345 678), passée au réel normal. Elle n'a jamais utilisé impots.gouv.fr. Vous devez rendre le dossier « télédéclarable » AVANT la première échéance.",
+    "etapes": [
+      {
+        "type": "choix",
+        "ecran": "impots.gouv.fr — page d'accueil",
+        "url": "https://www.impots.gouv.fr",
+        "vue": ["🔎 Rechercher", "👤 Votre espace particulier", "🏢 Votre espace professionnel", "Professionnel | Particulier | Partenaire | Collectivité", "Actualités · Formulaires · Documentation"],
+        "consigne": "Vous ouvrez impots.gouv.fr pour créer l'accès de la SARL. Sur quoi cliquez-vous ?",
+        "options": [
+          { "t": "👤 Votre espace particulier", "ok": false, "why": "C'est l'espace du dirigeant en tant que personne physique (impôt sur le revenu). La TVA d'une société se gère dans l'espace PROFESSIONNEL." },
+          { "t": "🏢 Votre espace professionnel", "ok": true, "why": "Exact. Tout ce qui concerne l'entreprise (TVA, IS, CFE, compte fiscal) passe par l'espace professionnel." },
+          { "t": "Formulaires → 3310-CA3-SD", "ok": false, "why": "Le PDF sert à comprendre les lignes, mais on ne dépose pas un PDF : la TVA se télédéclare obligatoirement en ligne." }
+        ],
+        "apres": "Écran suivant : « Se connecter » ou « Création de mon espace professionnel »."
+      },
+      {
+        "type": "choix",
+        "ecran": "Espace professionnel — création",
+        "url": "https://cfspro-idp.impots.gouv.fr/…/creation",
+        "vue": ["Création de mon espace professionnel", "◻ Mode SIMPLIFIÉ — je gère les impôts de MON entreprise", "◻ Mode EXPERT — je gère plusieurs entreprises (cabinet, mandataire)", "SIREN : ____________  ·  E-mail : ____________  ·  Mot de passe : ____________"],
+        "consigne": "La SARL gère elle-même son dossier ; le cabinet l'assiste. Quel mode choisissez-vous ?",
+        "options": [
+          { "t": "Mode simplifié", "ok": true, "why": "Bon choix : une entreprise = un espace. Les services (déclarer / payer / consulter) sont activés automatiquement pour son propre SIREN." },
+          { "t": "Mode expert", "ok": false, "why": "Le mode expert est réservé aux structures qui gèrent PLUSIEURS entreprises (cabinet, mandataire) : il suppose une adhésion aux services pour le compte de tiers, avec mandat. Trop lourd ici." }
+        ],
+        "apres": "SIREN + e-mail + mot de passe saisis → la DGFiP génère une demande d'activation."
+      },
+      {
+        "type": "choix",
+        "ecran": "Confirmation de création",
+        "url": "https://cfspro-idp.impots.gouv.fr/…/confirmation",
+        "vue": ["✅ Votre demande est enregistrée.", "Un code d'activation vous sera adressé.", "Pensez à activer votre espace dès réception."],
+        "consigne": "Le client demande : « je peux déclarer la TVA demain ? ». Que répondez-vous ?",
+        "options": [
+          { "t": "Oui, le code arrive par e-mail dans la minute", "ok": false, "why": "Non : le code d'activation de l'espace professionnel est envoyé PAR COURRIER POSTAL au siège de l'entreprise." },
+          { "t": "Non : le code arrive par courrier postal, il faut compter quelques jours", "ok": true, "why": "Exact — et c'est LE piège des dossiers récents. On anticipe toujours avant une échéance ; le code reste valable 60 jours." },
+          { "t": "Non, il faut se déplacer au SIE pour retirer le code", "ok": false, "why": "Aucun déplacement n'est nécessaire : le code est envoyé par voie postale." }
+        ],
+        "apres": "Courrier reçu → retour sur impots.gouv.fr → « Activer mon espace »."
+      },
+      {
+        "type": "check",
+        "ecran": "Espace activé — coordonnées bancaires",
+        "url": "https://cfspro.impots.gouv.fr/…/gerer-mes-comptes-bancaires",
+        "vue": ["Gérer mes comptes bancaires", "IBAN : FR76 ____ ____ ____ ____ ____ ___", "Titulaire : SARL BATI PRO", "🖨️ Imprimer le mandat de prélèvement SEPA B2B"],
+        "consigne": "Cochez TOUT ce qui est indispensable avant le premier télérèglement de TVA (et rien d'autre).",
+        "items": [
+          { "t": "Enregistrer l'IBAN de l'entreprise dans l'espace professionnel", "ok": true },
+          { "t": "Imprimer le mandat SEPA B2B (interentreprises) et le faire signer", "ok": true },
+          { "t": "Remettre le mandat signé À LA BANQUE de l'entreprise", "ok": true },
+          { "t": "Envoyer l'IBAN par e-mail au SIE", "ok": false },
+          { "t": "Joindre un chèque de caution au dossier", "ok": false }
+        ],
+        "explication": "Le paiement de la TVA passe par un prélèvement SEPA <b>interentreprises (B2B)</b> : sans mandat remis à la banque, le prélèvement est <b>rejeté</b> → majoration + intérêts de retard. C'est la vérification n° 1 sur un dossier neuf.",
+        "apres": "Le dossier est prêt : on peut déclarer ET payer en ligne."
+      }
+    ],
+    "bilan": "Dossier opérationnel : espace professionnel créé (mode simplifié), activé grâce au code reçu par courrier, IBAN enregistré et mandat B2B remis à la banque. Délai à anticiper : 1 à 2 semaines."
+  },
+  "e2": {
+    "titre": "CA3 mensuelle — de la balance à l'accusé de réception",
+    "contexte": "SARL BATI PRO — mois de mars. Cadrage TVA validé : ventes taxables 20 % = 45 000 € HT ; TVA déductible sur achats et charges = 3 800 € ; TVA déductible sur une camionnette (immobilisation) = 4 000 € ; aucun crédit reporté.",
+    "etapes": [
+      {
+        "type": "choix",
+        "ecran": "Espace professionnel — accueil",
+        "url": "https://cfspro.impots.gouv.fr/…/accueil",
+        "vue": ["Bonjour SARL BATI PRO", "MES SERVICES : Déclarer | Payer | Consulter | Demander | Gérer mes services", "Échéance à venir : TVA CA3 03/2026"],
+        "consigne": "Vous voulez déposer la CA3 de mars. Quel menu ?",
+        "options": [
+          { "t": "Déclarer → TVA", "ok": true, "why": "C'est bien par « Déclarer » que l'on dépose la CA3 (ou la CA12). « Payer » ne sert qu'au règlement." },
+          { "t": "Payer → TVA", "ok": false, "why": "« Payer » sert à régler une TVA déjà déclarée (ou un acompte). Sans dépôt préalable, il n'y a rien à payer." },
+          { "t": "Consulter → Compte fiscal", "ok": false, "why": "Le compte fiscal sert à CONTRÔLER (déclarations déposées, paiements, avis) — pas à déclarer." }
+        ],
+        "apres": "Écran « Déclarer la TVA » : liste des périodes attendues."
+      },
+      {
+        "type": "choix",
+        "ecran": "Déclarer la TVA — choix de la période",
+        "url": "https://cfspro.impots.gouv.fr/…/tva/declarer",
+        "vue": ["Déclarations attendues :", "▸ Mars 2026 — 3310-CA3-SD — À DÉPOSER", "▸ Février 2026 — 3310-CA3-SD — déposée le 19/03/2026", "▸ Déclaration rectificative"],
+        "consigne": "Que sélectionnez-vous ?",
+        "options": [
+          { "t": "Mars 2026 — à déposer", "ok": true, "why": "On déclare la période échue attendue. Le régime (mensuel) et le formulaire (CA3) sont imposés par le dossier fiscal du client." },
+          { "t": "Février 2026 — déjà déposée", "ok": false, "why": "Rouvrir février créerait une rectificative inutile. On ne rouvre une période close que pour corriger une erreur réelle." },
+          { "t": "Déclaration rectificative", "ok": false, "why": "Réservée à la correction d'une déclaration DÉJÀ déposée. Ce n'est pas le cas de mars." }
+        ],
+        "apres": "Le formulaire 3310-CA3-SD s'ouvre : cadre A puis cadre B."
+      },
+      {
+        "type": "saisie",
+        "ecran": "3310-CA3-SD — saisie en ligne",
+        "url": "https://cfspro.impots.gouv.fr/…/tva/ca3/saisie",
+        "vue": ["CADRE A — Montant des opérations réalisées", "  ligne 01 (0979) Ventes, prestations de services ………", "CADRE B — Décompte de la TVA à payer", "  ligne 08 (0207) Base 20 % ……… → Taxe due ………", "  ligne 16 Total de la TVA brute due ………", "  ligne 19 (0703) TVA déductible / immobilisations ………", "  ligne 20 (0702) TVA déductible / autres biens et services ………", "  ligne 23 Total de la TVA déductible ………", "  ligne 28 (8901) TVA nette due ………", "  ligne 32 (9992) TOTAL À PAYER ………"],
+        "consigne": "Remplissez les cases de la CA3 de mars (en euros).",
+        "champs": [
+          { "key": "l01", "label": "Ligne 01 · case 0979 — base HT des ventes / prestations", "attendu": 45000 },
+          { "key": "l08", "label": "Ligne 08 · case 0207 — TVA due au taux normal (20 %)", "attendu": 9000 },
+          { "key": "l16", "label": "Ligne 16 — Total de la TVA brute due", "attendu": 9000 },
+          { "key": "l19", "label": "Ligne 19 · case 0703 — TVA déductible sur immobilisations", "attendu": 4000 },
+          { "key": "l20", "label": "Ligne 20 · case 0702 — TVA déductible sur autres biens et services", "attendu": 3800 },
+          { "key": "l23", "label": "Ligne 23 — Total de la TVA déductible", "attendu": 7800 },
+          { "key": "l28", "label": "Ligne 28 · case 8901 — TVA nette due", "attendu": 1200 },
+          { "key": "l32", "label": "Ligne 32 · case 9992 — Total à payer", "attendu": 1200 }
+        ],
+        "astuce": "45 000 × 20 % = 9 000 (ligne 08 = ligne 16). Déductible = 4 000 (immo, ligne 19) + 3 800 (ABS, ligne 20) = 7 800 (ligne 23). Nette due = 9 000 − 7 800 = 1 200 € (ligne 28 = ligne 32 : aucune taxe assimilée).",
+        "apres": "Le formulaire calcule et affiche « Montant à payer : 1 200 € »."
+      },
+      {
+        "type": "check",
+        "ecran": "Écran de validation",
+        "url": "https://cfspro.impots.gouv.fr/…/tva/ca3/validation",
+        "vue": ["Récapitulatif — Mars 2026", "TVA nette due : 1 200,00 €", "☐ Je valide et je transmets ma déclaration", "Après validation : accusé de réception (PDF) + paiement"],
+        "consigne": "Cochez les réflexes professionnels à ce stade.",
+        "items": [
+          { "t": "Recontrôler ligne à ligne le récapitulatif avant de transmettre", "ok": true },
+          { "t": "Enregistrer l'accusé de réception (PDF) dans le dossier client", "ok": true },
+          { "t": "Vérifier que le montant correspond au compte 44551 de la compta", "ok": true },
+          { "t": "Fermer l'onglet après validation : l'AR se retrouvera toujours plus tard", "ok": false },
+          { "t": "Envoyer le mot de passe de l'espace pro au client par SMS", "ok": false }
+        ],
+        "explication": "L'<b>accusé de réception</b> est la seule preuve de dépôt : il s'archive systématiquement (dossier annuel / GED). Le montant déclaré doit être identique au solde de <b>44551 TVA à décaisser</b> après l'écriture de liquidation.",
+        "apres": "Déclaration transmise → écran de paiement."
+      },
+      {
+        "type": "choix",
+        "ecran": "Paiement de la TVA",
+        "url": "https://cfspro.impots.gouv.fr/…/paiement",
+        "vue": ["Déclaration mars 2026 transmise ✅", "Montant : 1 200,00 €", "Mode de paiement : prélèvement SEPA B2B — compte FR76…", "Date de prélèvement : à l'échéance"],
+        "consigne": "Le client veut payer par virement depuis sa banque en ligne. Que faites-vous ?",
+        "options": [
+          { "t": "On télérègle depuis l'espace pro : c'est obligatoire pour la TVA", "ok": true, "why": "Exact : déclaration ET paiement de la TVA sont dématérialisés obligatoirement. Le télérèglement est ordonné depuis l'espace professionnel et prélevé à l'échéance." },
+          { "t": "Virement libre depuis la banque du client", "ok": false, "why": "Un virement non ordonné depuis l'espace pro n'est pas rattaché à la déclaration : risque de non-affectation et de relance." },
+          { "t": "Chèque envoyé au SIE", "ok": false, "why": "Le paiement par chèque n'est pas admis pour la TVA des professionnels." }
+        ],
+        "apres": "Paiement ordonné : la TVA sera prélevée à la date d'échéance affichée."
+      }
+    ],
+    "bilan": "CA3 de mars déposée (1 200 € nets), AR archivé, télérèglement ordonné. En compta : 44571 (collectée) et 44566 / 44562 (déductibles) soldés par 44551 = 1 200 €, puis 44551 soldé par la banque au prélèvement."
+  },
+  "e3": {
+    "titre": "Crédit de TVA — reporter ou demander le remboursement ?",
+    "contexte": "SAS NOVA — CA3 du mois de juin. TVA collectée : 2 400 €. TVA déductible sur autres biens et services : 1 500 €. TVA déductible sur immobilisations (machine) : 2 700 €. Aucun crédit antérieur.",
+    "etapes": [
+      {
+        "type": "saisie",
+        "ecran": "3310-CA3-SD — cadre B (crédit)",
+        "url": "https://cfspro.impots.gouv.fr/…/tva/ca3/saisie",
+        "vue": ["ligne 16 Total de la TVA brute due ………", "ligne 19 (0703) TVA déductible / immobilisations ………", "ligne 20 (0702) TVA déductible / autres biens et services ………", "ligne 23 Total de la TVA déductible ………", "ligne 25 (0705) CRÉDIT DE TVA ………", "ligne 26 Remboursement demandé (3519) ………", "ligne 27 (8003) Crédit à reporter ………"],
+        "consigne": "Remplissez les lignes du cadre B.",
+        "champs": [
+          { "key": "l16", "label": "Ligne 16 — Total de la TVA brute due", "attendu": 2400 },
+          { "key": "l19", "label": "Ligne 19 — TVA déductible sur immobilisations", "attendu": 2700 },
+          { "key": "l20", "label": "Ligne 20 — TVA déductible sur autres biens et services", "attendu": 1500 },
+          { "key": "l23", "label": "Ligne 23 — Total de la TVA déductible", "attendu": 4200 },
+          { "key": "l25", "label": "Ligne 25 · case 0705 — Crédit de TVA", "attendu": 1800 }
+        ],
+        "astuce": "2 700 + 1 500 = 4 200 (ligne 23) ; 4 200 − 2 400 = 1 800 € de CRÉDIT (ligne 25). La ligne 28 reste vide : rien à payer ce mois-ci.",
+        "apres": "Le formulaire propose : reporter le crédit (ligne 27) ou en demander le remboursement (ligne 26 + formulaire 3519)."
+      },
+      {
+        "type": "choix",
+        "ecran": "Crédit de TVA — que faire ?",
+        "url": "https://cfspro.impots.gouv.fr/…/tva/ca3/credit",
+        "vue": ["Crédit constaté : 1 800,00 €", "◻ Reporter le crédit sur la période suivante (ligne 27)", "◻ Demander le remboursement (3519-SD joint à la CA3)", "Rappel : demande mensuelle / trimestrielle possible si le crédit atteint 760 €"],
+        "consigne": "La SAS a besoin de trésorerie et confirme vouloir récupérer l'argent. Que faites-vous ?",
+        "options": [
+          { "t": "Ligne 26 + formulaire 3519-SD : demande de remboursement (1 800 € ≥ 760 €)", "ok": true, "why": "Le crédit atteint le seuil de 760 € exigé pour une demande mensuelle / trimestrielle : le 3519 se joint à la CA3, directement en ligne." },
+          { "t": "Ligne 27 : reporter, c'est toujours plus prudent", "ok": false, "why": "Techniquement possible, mais contraire à la demande du client : le report immobilise la trésorerie. On reporte quand le crédit est faible ou vite absorbé." },
+          { "t": "Écrire au SIE pour demander un virement", "ok": false, "why": "La demande passe par le formulaire 3519 dans l'espace professionnel, pas par courrier libre." }
+        ],
+        "apres": "Le 3519 se remplit en ligne : période, montant demandé, RIB déjà enregistré."
+      },
+      {
+        "type": "check",
+        "ecran": "Suivi de la demande",
+        "url": "https://cfspro.impots.gouv.fr/…/consulter/compte-fiscal",
+        "vue": ["Consulter → Compte fiscal → Déclarations / Paiements / Remboursements", "Demande 3519 — juin 2026 — 1 800 € — EN COURS D'INSTRUCTION"],
+        "consigne": "Cochez les bons réflexes après une demande de remboursement.",
+        "items": [
+          { "t": "Archiver l'AR de la CA3 ET celui du 3519", "ok": true },
+          { "t": "Préparer les justificatifs (facture de la machine) : le SIE peut les demander", "ok": true },
+          { "t": "Suivre l'avancement dans « Consulter → compte fiscal »", "ok": true },
+          { "t": "En compta, laisser le crédit en 44551", "ok": false },
+          { "t": "Redemander le même remboursement le mois suivant pour accélérer", "ok": false }
+        ],
+        "explication": "Un crédit remboursable se constate en <b>44583 « Remboursement de TVA demandé »</b> (et non en 44551) ; il est soldé à l'encaissement. Une demande de remboursement déclenche souvent une <b>demande de justificatifs</b> du SIE : on prépare la facture d'immobilisation.",
+        "apres": "Remboursement crédité sur le compte bancaire enregistré."
+      }
+    ],
+    "bilan": "Crédit de 1 800 € identifié ligne 25, remboursement demandé via le 3519 (seuil 760 € atteint), écriture en 44583, suivi dans le compte fiscal. Réflexe : jamais de crédit « oublié » dans un dossier."
+  }
+}

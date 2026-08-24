@@ -31,12 +31,12 @@ const run = async () => {
   A(r.status === 200 && r.body.includes('Inscription'), 'page inscription servie');
   let tok = csrf(r.body); A(!!tok, 'jeton CSRF présent');
   const email = 'apprenant' + Date.now() + '@test.mg';
-  r = await rq(L, 'POST', '/inscription', { _csrf: tok, nom: 'RAKOTO', prenom: 'Jean', email, tel: '+261340000000', niveau_etudes: 'BAC+2 comptabilité', niveau_intellectuel: 'Intermédiaire', diplome_bac2: '1', rgpd: '1', pw: 'MotDePasse2026' });
+  r = await rq(L, 'POST', '/inscription', { _csrf: tok, nom: 'RAKOTO', prenom: 'Jean', email, tel: '+261340000000', niveau_etudes: 'BAC+2 comptabilité', niveau_intellectuel: 'Intermédiaire', diplome_bac2: '1', rgpd: '1', cgu: '1', pw: 'MotDePasse2026' });
   A(r.status === 303 && (r.loc === '/2fa-setup-redirect' || r.loc === '/tableau-de-bord'), 'inscription OK');
   const need2fa = r.loc === '/2fa-setup-redirect';
 
   // Refus si pas d'attestation BAC+2
-  const L2 = jar(); let r2 = await rq(L2, 'GET', '/inscription'); r2 = await rq(L2, 'POST', '/inscription', { _csrf: csrf(r2.body), nom: 'X', prenom: 'Y', email: 'x' + Date.now() + '@t.mg', niveau_etudes: 'Autre', niveau_intellectuel: 'Débutant', rgpd: '1', pw: 'MotDePasse2026' });
+  const L2 = jar(); let r2 = await rq(L2, 'GET', '/inscription'); r2 = await rq(L2, 'POST', '/inscription', { _csrf: csrf(r2.body), nom: 'X', prenom: 'Y', email: 'x' + Date.now() + '@t.mg', niveau_etudes: 'Autre', niveau_intellectuel: 'Débutant', rgpd: '1', cgu: '1', pw: 'MotDePasse2026' });
   A(r2.status === 200 && /BAC\+2/.test(r2.body), 'inscription REFUSÉE sans attestation BAC+2 (condition appliquée)');
 
   // 2) Activer 2FA (si imposée par la config)

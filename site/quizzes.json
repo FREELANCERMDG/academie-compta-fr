@@ -1100,6 +1100,91 @@
       }
     ]
   },
+  "pr10": {
+    "title": "Télédéclarer la TVA sur impots.gouv.fr",
+    "questions": [
+      {
+        "q": "Pour gérer la TVA d'une société, on passe par :",
+        "options": [
+          "Votre espace particulier",
+          "Votre espace professionnel",
+          "Le site du greffe"
+        ],
+        "answer": 1,
+        "explain": "L'espace professionnel regroupe TVA, IS, CFE et le compte fiscal de l'entreprise. L'espace particulier concerne le dirigeant en tant que personne physique."
+      },
+      {
+        "q": "Le code d'activation de l'espace professionnel est envoyé :",
+        "options": [
+          "Par e-mail immédiatement",
+          "Par SMS au dirigeant",
+          "Par courrier postal au siège de l'entreprise"
+        ],
+        "answer": 2,
+        "explain": "D'où l'importance d'anticiper : le courrier prend plusieurs jours et le code reste valable 60 jours."
+      },
+      {
+        "q": "Le paiement de la TVA depuis l'espace professionnel suppose :",
+        "options": [
+          "Un mandat de prélèvement SEPA B2B remis à la banque",
+          "Un chèque envoyé au SIE",
+          "Un simple virement libre depuis la banque du client"
+        ],
+        "answer": 0,
+        "explain": "Sans mandat interentreprises (B2B) remis à la banque, le prélèvement est rejeté et la majoration de retard tombe."
+      },
+      {
+        "q": "Pour déposer la CA3 du mois, le bon menu est :",
+        "options": [
+          "Payer → TVA",
+          "Déclarer → TVA",
+          "Consulter → compte fiscal"
+        ],
+        "answer": 1,
+        "explain": "« Payer » sert au règlement d'une déclaration déjà déposée ; « Consulter » sert au contrôle a posteriori."
+      },
+      {
+        "q": "La TVA sur l'achat d'une camionnette se porte :",
+        "options": [
+          "Ligne 20 (autres biens et services)",
+          "Ligne 19 (immobilisations)",
+          "Ligne 22 (crédit reporté)"
+        ],
+        "answer": 1,
+        "explain": "Ligne 19 = case 0703 (immobilisations, compte 44562) ; ligne 20 = case 0702 (achats et charges, compte 44566)."
+      },
+      {
+        "q": "Un crédit de TVA de 500 € constaté sur une CA3 mensuelle :",
+        "options": [
+          "Se reporte sur la période suivante (ligne 27)",
+          "Se rembourse immédiatement via le 3519",
+          "Est définitivement perdu"
+        ],
+        "answer": 0,
+        "explain": "Le remboursement mensuel ou trimestriel suppose un crédit d'au moins 760 €. En dessous, on reporte (ligne 27), puis on reprend en ligne 22."
+      },
+      {
+        "q": "Après validation de la déclaration en ligne, le réflexe prioritaire est :",
+        "options": [
+          "Fermer l'onglet, tout est enregistré",
+          "Enregistrer l'accusé de réception (PDF) dans le dossier client",
+          "Envoyer les identifiants au client par SMS"
+        ],
+        "answer": 1,
+        "explain": "L'accusé de réception est la seule preuve de dépôt : il s'archive systématiquement au dossier."
+      },
+      {
+        "q": "Un mois sans aucune activité :",
+        "options": [
+          "On ne dépose rien",
+          "On dépose une déclaration à zéro (« néant »)",
+          "On attend la déclaration annuelle"
+        ],
+        "answer": 1,
+        "explain": "L'absence de dépôt est un défaut de déclaration : majoration de 10 %, portée à 40 % après mise en demeure non suivie."
+      }
+    ]
+  },
   "final": {
     "title": "Examen final (échantillon QCM)",
     "questions": [

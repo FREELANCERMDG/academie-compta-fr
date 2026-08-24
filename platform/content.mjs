@@ -52,9 +52,10 @@ const MACRO = [
       "Révision comptable : par cycle et par défilement (classes 1 à 7) — capital/KBIS/PVAGO, réserve légale, emprunts & tableau d'amortissement",
       "🛠️ Pratique métier : le quotidien du collaborateur + justifier les comptes par cycle",
       "🛠️ Saisir les factures particulières (recette/Z de caisse, note de frais, Uber, consigne/déconsigne…)",
-      "🧮 Simulateurs interactifs : matrice de saisie, traitement de factures (cabinet) et déclaration de TVA"
+      "🧮 Simulateurs interactifs : matrice de saisie, traitement de factures (cabinet) et déclaration de TVA",
+      "🖥️ Télédéclarer la TVA sur impots.gouv.fr pas à pas : espace professionnel, mandat SEPA B2B, dépôt de la CA3, télérèglement et crédit de TVA (3 simulateurs guidés)"
     ],
-    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md', 'Module-PRAT6-Simulateur.md', 'Module-PRAT7-TVA-CA3.md'],
+    files: ['Module-05-TVA-francaise.md', 'Module-06-Rapprochement-bancaire.md', 'Module-07-Lettrage-clients-fournisseurs.md', 'Module-08-Comptes-attente-sensibles.md', 'Module-09-Paie-ecritures-sociales.md', 'Module-10-Immobilisations-amortissements.md', 'Module-11-Revision-comptable.md', 'Module-28-Revision-par-classe.md', 'Module-PRAT1-Quotidien.md', 'Module-PRAT2-Justification-cycles.md', 'Module-PRAT4-Factures-particulieres.md', 'Module-PRAT5-Entrainement-saisie.md', 'Module-PRAT6-Simulateur.md', 'Module-PRAT7-TVA-CA3.md', 'Module-PRAT10-Impots-Gouv-TVA.md'],
     quiz: 'm05'
   },
   {
