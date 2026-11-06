@@ -1289,5 +1289,215 @@
         "explain": ""
       }
     ]
+  },
+  "cp1": {
+    "title": "Copropriété — cadre et plan comptable",
+    "questions": [
+      {
+        "q": "Quelle entité tient-on en comptabilité quand on travaille pour un syndic ?",
+        "options": [
+          "Le cabinet du syndic",
+          "Le syndicat des copropriétaires de chaque immeuble",
+          "Chaque copropriétaire individuellement"
+        ],
+        "answer": 1,
+        "explain": "La comptabilité est celle du syndicat des copropriétaires : une comptabilité distincte par immeuble."
+      },
+      {
+        "q": "Comment enregistre-t-on une facture de 650 € HT + 130 € de TVA dans une copropriété ?",
+        "options": [
+          "Charge 650 € + TVA déductible 130 €",
+          "Charge 780 € TTC, sans TVA déductible",
+          "Charge 650 €, la TVA est remboursée par l'État"
+        ],
+        "answer": 1,
+        "explain": "Le syndicat ne récupère pas la TVA : les charges sont enregistrées TTC."
+      },
+      {
+        "q": "Quelles classes comporte le plan comptable des copropriétés ?",
+        "options": [
+          "Classes 1 à 7",
+          "Classes 1, 4, 5, 6 et 7",
+          "Classes 4, 5, 6 et 7 uniquement"
+        ],
+        "answer": 1,
+        "explain": "Ni immobilisations (classe 2), ni stocks (classe 3)."
+      },
+      {
+        "q": "Quel compte enregistre les appels de provisions du budget prévisionnel ?",
+        "options": [
+          "701",
+          "702",
+          "105"
+        ],
+        "answer": 0,
+        "explain": "4501 au débit, 701 Provisions sur opérations courantes au crédit."
+      },
+      {
+        "q": "Quelle est la différence entre l'avance de trésorerie (103) et le fonds de travaux (105) lors de la vente d'un lot ?",
+        "options": [
+          "Les deux sont remboursés au vendeur",
+          "L'avance est remboursée au vendeur, le fonds de travaux reste acquis au syndicat",
+          "Aucun des deux n'est remboursé"
+        ],
+        "answer": 1,
+        "explain": "Le fonds de travaux est attaché au lot ; l'avance est remboursée puis appelée à l'acquéreur."
+      },
+      {
+        "q": "Le budget prévisionnel finance-t-il un ravalement de façade ?",
+        "options": [
+          "Oui, c'est de l'entretien",
+          "Non, c'est une dépense hors budget votée à part (art. 44 du décret)",
+          "Oui, si le montant est inférieur au budget"
+        ],
+        "answer": 1,
+        "explain": "Les travaux autres que la maintenance sont votés et appelés à part (4502 / 702)."
+      },
+      {
+        "q": "Dans quel délai l'AG doit-elle approuver les comptes ?",
+        "options": [
+          "3 mois après la clôture",
+          "6 mois après la clôture",
+          "12 mois après la clôture"
+        ],
+        "answer": 1,
+        "explain": "Approbation des comptes dans les 6 mois suivant la clôture de l'exercice."
+      },
+      {
+        "q": "Qu'est-ce qui remplace le compte 411 « clients » en copropriété ?",
+        "options": [
+          "Le compte 401",
+          "Le compte 450 avec un sous-compte par copropriétaire",
+          "Le compte 467"
+        ],
+        "answer": 1,
+        "explain": "Chaque copropriétaire a son compte individuel dans le 450."
+      }
+    ]
+  },
+  "copro": {
+    "title": "Module 7 — Comptabilité de copropriété",
+    "questions": [
+      {
+        "q": "Budget voté 24 000 €, appels trimestriels. Quel est le montant total de chaque appel ?",
+        "options": [
+          "2 000 €",
+          "6 000 €",
+          "8 000 €"
+        ],
+        "answer": 1,
+        "explain": "Les provisions sont égales au quart du budget : 24 000 ÷ 4 = 6 000 €."
+      },
+      {
+        "q": "Charges générales 20 000 €, lot de 180/1 000. Quelle est la quote-part annuelle du lot ?",
+        "options": [
+          "1 800 €",
+          "3 600 €",
+          "1 111 €"
+        ],
+        "answer": 1,
+        "explain": "20 000 × 180 / 1 000 = 3 600 €."
+      },
+      {
+        "q": "Un copropriétaire du 3e étage n'utilise jamais l'ascenseur. Doit-il payer les charges d'ascenseur ?",
+        "options": [
+          "Non, il ne s'en sert pas",
+          "Oui : les charges spéciales se répartissent selon l'utilité, pas l'usage",
+          "Seulement la moitié"
+        ],
+        "answer": 1,
+        "explain": "Critère de l'utilité objective (art. 10) : l'équipement lui est utile."
+      },
+      {
+        "q": "Quel est le minimum légal de cotisation au fonds de travaux sans plan pluriannuel de travaux ?",
+        "options": [
+          "2,5 % du budget",
+          "5 % du budget prévisionnel",
+          "10 % du budget"
+        ],
+        "answer": 1,
+        "explain": "5 % du budget ; avec un PPT, 2,5 % des travaux du plan sans descendre sous 5 % du budget."
+      },
+      {
+        "q": "Quelle écriture constate l'appel de la cotisation au fonds de travaux ?",
+        "options": [
+          "4501 / 701",
+          "4505 / 105",
+          "105 / 705"
+        ],
+        "answer": 1,
+        "explain": "4505 au débit, 105 au crédit. 105 / 705 correspond à l'affectation du fonds par l'AG."
+      },
+      {
+        "q": "L'entreprise de ravalement facture 6 600 € TTC. Quel compte de charge utiliser ?",
+        "options": [
+          "615 Entretien",
+          "671 Travaux décidés par l'AG",
+          "2135 Installations"
+        ],
+        "answer": 1,
+        "explain": "Travaux votés hors budget = 671, pour le TTC ; jamais d'immobilisation."
+      },
+      {
+        "q": "Charges générales réelles 21 300 €, provisions 20 000 €, lot de 180/1 000. Régularisation du lot sur cette clé ?",
+        "options": [
+          "+234 € à payer",
+          "−234 € à rembourser",
+          "+1 300 € à payer"
+        ],
+        "answer": 0,
+        "explain": "(21 300 − 20 000) × 180 / 1 000 = +234 €."
+      },
+      {
+        "q": "Dans l'écriture de répartition, quel compte est débité pour annuler les provisions appelées ?",
+        "options": [
+          "450",
+          "701",
+          "105"
+        ],
+        "answer": 1,
+        "explain": "Débit 701 (provisions), crédit des 6xx (réel), écart sur les 450."
+      },
+      {
+        "q": "Quelle annexe présente l'état financier (trésorerie, copropriétaires, fournisseurs, fonds de travaux) ?",
+        "options": [
+          "Annexe 1",
+          "Annexe 3",
+          "Annexe 5"
+        ],
+        "answer": 0,
+        "explain": "Annexe 1 : état financier après répartition — le « bilan » de la copropriété."
+      },
+      {
+        "q": "À la clôture, un chantier de travaux n'est pas terminé. Que fait-on ?",
+        "options": [
+          "On répartit l'écart immédiatement",
+          "On conserve l'écart au compte 12 et on le présente en annexe 5",
+          "On l'impute au budget de l'année suivante"
+        ],
+        "answer": 1,
+        "explain": "Les travaux non clôturés restent en attente (compte 12) et figurent en annexe 5."
+      },
+      {
+        "q": "Qui supporte les frais de recouvrement engagés après mise en demeure d'un copropriétaire défaillant ?",
+        "options": [
+          "Tous les copropriétaires",
+          "Le seul copropriétaire défaillant (art. 10-1)",
+          "Le syndic"
+        ],
+        "answer": 1,
+        "explain": "L'article 10-1 les impute au seul copropriétaire concerné."
+      },
+      {
+        "q": "Un lot est vendu en mars ; les comptes de l'exercice précédent sont approuvés en juin. Qui reçoit la régularisation ?",
+        "options": [
+          "Le vendeur",
+          "L'acquéreur, copropriétaire au jour de l'approbation",
+          "Elle est partagée au prorata"
+        ],
+        "answer": 1,
+        "explain": "Art. 6-2 du décret de 1967 : copropriétaire au jour de l'approbation, sauf convention entre les parties."
+      }
+    ]
   }
 }

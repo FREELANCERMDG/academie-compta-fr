@@ -7,7 +7,7 @@ import { ROOT, cfg, esc } from './lib.mjs';
 const MODDIR = path.join(ROOT, 'modules');
 const gratuits = new Set((cfg.apercu && cfg.apercu.modules_gratuits) || ['mod1']);
 
-// Définition des 6 modules (mod1 gratuit ; mod2→mod6 payants 30 000 Ar/module)
+// Définition des 7 modules (mod1 gratuit ; mod2→mod7 payants 30 000 Ar/module)
 const MACRO = [
   {
     code: 'mod1', titre: 'Module 1 — Fondamentaux de la comptabilité française',
@@ -102,6 +102,21 @@ const MACRO = [
     ],
     files: ['Module-14-Outils-cabinets.md', 'Module-15-Communication-professionnelle.md', 'Module-16-Production-offshore.md', 'Module-17-Qualite-controle-interne.md', 'Module-20-Carriere-freelancing.md', 'Module-25-Simulations-entretien.md', 'Module-PRAT8-ChefMission.md'],
     quiz: 'final'
+  },
+  {
+    code: 'mod7', titre: 'Module 7 — Comptabilité de copropriété',
+    resume: "Tenir la comptabilité d'un syndicat de copropriétaires comme un collaborateur de cabinet de syndic : plan comptable spécifique, budget et appels de fonds, travaux et fonds de travaux, régularisation des charges et annexes comptables présentées à l'assemblée générale.",
+    topics: [
+      "Cadre juridique et acteurs : loi du 10 juillet 1965, décret du 17 mars 1967, syndicat, syndic, conseil syndical, assemblée générale et obligations comptables",
+      "Plan comptable des copropriétés (arrêté du 14 mars 2005) : comptabilité d'engagement, classes 1 à 7, comptes 450 copropriétaires, charges TTC",
+      "Budget prévisionnel, tantièmes et clés de répartition : calcul des quotes-parts et écritures d'appels de fonds (4501 / 701)",
+      "Travaux hors budget et fonds de travaux (loi ALUR) : appels 4502 / 702, cotisations 4505 / 105, affectation 105 / 705 et minimum légal de 5 %",
+      "Clôture de l'exercice : factures non parvenues, régularisation des charges par lot, écriture de répartition et traitement des impayés",
+      "Les 5 annexes comptables de l'AG : état financier (annexe 1), comptes de gestion (annexes 2 et 3), travaux (annexes 4 et 5)",
+      "Simulateur syndic complet : immeuble, budget, appels, réalisé, régularisation, annexe 1 équilibrée et défis chiffrés"
+    ],
+    files: ['Module-CP1-Copro-cadre-acteurs.md', 'Module-CP2-Copro-plan-comptable.md', 'Module-CP3-Copro-budget-appels.md', 'Module-CP4-Copro-travaux-fonds.md', 'Module-CP5-Copro-cloture-annexes.md', 'Module-CP6-Copro-simulateur.md'],
+    quiz: 'copro'
   }
 ];
 

@@ -1,0 +1,32 @@
+{
+  "jacarandas": {
+    "titre": "Résidence Les Jacarandas",
+    "exercice": "N",
+    "cles": [
+      { "id": "gen", "lib": "Charges générales" },
+      { "id": "asc", "lib": "Ascenseur" }
+    ],
+    "lots": [
+      { "nom": "SCI BERNARD", "desc": "Commerce — RDC", "t": { "gen": 160, "asc": 0 }, "imp": 0 },
+      { "nom": "DUPONT", "desc": "Appartement — 1er", "t": { "gen": 180, "asc": 140 }, "imp": 0 },
+      { "nom": "MARTIN", "desc": "Appartement — 1er", "t": { "gen": 150, "asc": 120 }, "imp": 0 },
+      { "nom": "PETIT", "desc": "Appartement — 2e", "t": { "gen": 170, "asc": 230 }, "imp": 0 },
+      { "nom": "DURAND", "desc": "Appartement — 2e", "t": { "gen": 140, "asc": 190 }, "imp": 890 },
+      { "nom": "LEROY", "desc": "Appartement — 3e", "t": { "gen": 200, "asc": 320 }, "imp": 0 }
+    ],
+    "charges": [
+      { "compte": "601", "lib": "Eau", "cle": "gen", "budget": 3000, "reel": 3200 },
+      { "compte": "602", "lib": "Électricité parties communes", "cle": "gen", "budget": 2000, "reel": 1900 },
+      { "compte": "611", "lib": "Nettoyage", "cle": "gen", "budget": 9000, "reel": 9360 },
+      { "compte": "615", "lib": "Entretien et petites réparations", "cle": "gen", "budget": 600, "reel": 1240 },
+      { "compte": "616", "lib": "Assurance multirisque", "cle": "gen", "budget": 2400, "reel": 2600 },
+      { "compte": "621", "lib": "Rémunération du syndic", "cle": "gen", "budget": 3000, "reel": 3000 },
+      { "compte": "614", "lib": "Contrat d'entretien ascenseur", "cle": "asc", "budget": 3000, "reel": 2900 },
+      { "compte": "602", "lib": "Électricité ascenseur", "cle": "asc", "budget": 1000, "reel": 700 }
+    ],
+    "ft_taux": 5,
+    "nb_appels": 4,
+    "ouv": { "banque": 6000, "banque_ft": 3600, "avances": 6000, "fonds_travaux": 3600 },
+    "fd": 780
+  }
+}

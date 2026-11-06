@@ -574,6 +574,106 @@
     },
     exemple: "CA 100 000 €, charges variables 60 000 € (MCV 40 000, taux 40 %), charges fixes 30 000 € → seuil = 30 000 / 0,40 = <b>75 000 €</b> ; point mort ≈ 274 j ; résultat +10 000 €.",
     source: "Analyse coûts-volume-profit (gestion). Seuil = charges fixes / taux de marge sur coûts variables."
+  },
+
+  // ---------- Copropriété : quote-part et appel de fonds ----------
+  "copro-tantiemes": {
+    titre: "Copropriété — quote-part et appel de fonds d'un lot",
+    intro: "Quote-part = montant de la clé × tantièmes du lot ÷ total des tantièmes de la clé. Le fonds de travaux est réparti ici sur les tantièmes généraux.",
+    inputs: [
+      { key: "bg", label: "Budget — charges générales", type: "number", unit: "€", def: "20000" },
+      { key: "tg", label: "Tantièmes généraux du lot", type: "number", def: "180" },
+      { key: "ttg", label: "Total des tantièmes généraux", type: "number", def: "1000" },
+      { key: "bs", label: "Budget — charges spéciales (ascenseur)", type: "number", unit: "€", def: "4000" },
+      { key: "ts", label: "Tantièmes ascenseur du lot", type: "number", def: "140" },
+      { key: "tts", label: "Total des tantièmes ascenseur", type: "number", def: "1000" },
+      { key: "ft", label: "Fonds de travaux (% du budget)", type: "number", unit: "%", def: "5" },
+      { key: "na", label: "Nombre d'appels dans l'année", type: "select", def: "4", options: [
+        { val: "4", lab: "4 (trimestriels)" }, { val: "12", lab: "12 (mensuels)" }, { val: "2", lab: "2 (semestriels)" }, { val: "1", lab: "1 (annuel)" }] }
+    ],
+    compute: function (v, h) {
+      var na = parseInt(v.na, 10) || 4;
+      var qg = v.ttg > 0 ? v.bg * v.tg / v.ttg : 0, qs = v.tts > 0 ? v.bs * v.ts / v.tts : 0;
+      var budget = v.bg + v.bs, ftTot = budget * v.ft / 100, qft = v.ttg > 0 ? ftTot * v.tg / v.ttg : 0;
+      var rows = [
+        { l: "Quote-part charges générales (an)", v: h.eur(qg) },
+        { l: "Quote-part charges ascenseur (an)", v: h.eur(qs) },
+        { l: "Provisions budget du lot (an)", v: h.eur(qg + qs) },
+        { l: "Cotisation fonds de travaux du lot (an)", v: h.eur(qft) },
+        { l: "Total appelé au lot sur l'année", v: h.eur(qg + qs + qft) },
+        { l: "Appel budget par échéance (÷ " + na + ")", v: h.eur((qg + qs) / na), b: true },
+        { l: "Appel fonds de travaux par échéance", v: h.eur(qft / na), b: true }
+      ];
+      if (v.ft < 5) rows.push({ l: "⚠️ Taux du fonds de travaux", v: "inférieur au minimum de 5 %", w: true });
+      return { rows: rows, extra: "<b>Écritures à chaque échéance :</b> Débit <code>4501</code> copropriétaire " + h.eur((qg + qs) / na) + " / Crédit <code>701</code> · Débit <code>4505</code> " + h.eur(qft / na) + " / Crédit <code>105</code>.<br>Contrôle : la somme des appels de tous les lots doit être égale à budget ÷ nombre d'appels." };
+    },
+    exemple: "DUPONT (180/1 000 généraux, 140/1 000 ascenseur) : 20 000 × 180/1 000 = 3 600 € + 4 000 × 140/1 000 = 560 € → <b>4 160 €/an, soit 1 040 €/trimestre</b>. Fonds de travaux 5 % × 24 000 = 1 200 € × 180/1 000 = 216 €/an → <b>54 €/trimestre</b>.",
+    source: "Loi du 10 juillet 1965, art. 10 (répartition des charges), art. 14-1 (budget, provisions du ¼ par trimestre) et art. 14-2-1 (fonds de travaux)."
+  },
+
+  // ---------- Copropriété : fonds de travaux minimum ----------
+  "copro-fonds-travaux": {
+    titre: "Copropriété — cotisation au fonds de travaux",
+    intro: "Minimum légal : 5 % du budget prévisionnel ; si un plan pluriannuel de travaux (PPT) est adopté, 2,5 % du montant des travaux prévus au PPT, sans descendre sous 5 % du budget.",
+    inputs: [
+      { key: "bud", label: "Budget prévisionnel voté", type: "number", unit: "€", def: "24000" },
+      { key: "ppt", label: "Plan pluriannuel de travaux adopté ?", type: "select", def: "non", options: [
+        { val: "non", lab: "Non" }, { val: "oui", lab: "Oui" }] },
+      { key: "mppt", label: "Montant des travaux prévus au PPT", type: "number", unit: "€", def: "0" },
+      { key: "taux", label: "Cotisation votée par l'AG (% du budget)", type: "number", unit: "%", def: "5" },
+      { key: "tl", label: "Tantièmes généraux du lot", type: "number", def: "180" },
+      { key: "tt", label: "Total des tantièmes généraux", type: "number", def: "1000" },
+      { key: "na", label: "Nombre d'appels dans l'année", type: "number", def: "4" }
+    ],
+    compute: function (v, h) {
+      var min5 = v.bud * 0.05, minPpt = v.ppt === "oui" ? v.mppt * 0.025 : 0;
+      var mini = Math.max(min5, minPpt), vote = v.bud * v.taux / 100, coti = Math.max(vote, mini);
+      var na = v.na > 0 ? v.na : 4, ql = v.tt > 0 ? coti * v.tl / v.tt : 0;
+      var rows = [
+        { l: "5 % du budget prévisionnel", v: h.eur(min5) },
+        { l: "2,5 % des travaux du PPT", v: v.ppt === "oui" ? h.eur(minPpt) : "sans objet" },
+        { l: "Minimum légal annuel", v: h.eur(mini) },
+        { l: "Cotisation votée par l'AG", v: h.eur(vote), w: vote < mini },
+        { l: "Cotisation annuelle à appeler", v: h.eur(coti), b: true },
+        { l: "Part du lot sur l'année", v: h.eur(ql) },
+        { l: "Part du lot par appel", v: h.eur(ql / na), b: true }
+      ];
+      if (vote < mini) rows.splice(4, 0, { l: "⚠️ Vote insuffisant", v: "le minimum légal s'applique", w: true });
+      return { rows: rows, extra: "<b>Comptabilisation :</b> appel Débit <code>4505</code> / Crédit <code>105</code> ; encaissement sur le <b>compte séparé rémunéré</b>. Les cotisations restent <b>attachées au lot</b> : rien n'est remboursé au vendeur." };
+    },
+    exemple: "Budget 24 000 €, pas de PPT, 5 % → <b>1 200 €/an</b> ; DUPONT 180/1 000 → 216 €/an, <b>54 €/trimestre</b>. Avec un PPT de 120 000 € : 2,5 % = 3 000 € &gt; 1 200 € → minimum légal <b>3 000 €</b>.",
+    source: "Loi du 10 juillet 1965, art. 14-2-1 (rédaction issue de la loi Climat et résilience, applicable depuis le 1er janvier 2023). Vérifier les cas de dispense dans le texte en vigueur."
+  },
+
+  // ---------- Copropriété : régularisation des charges ----------
+  "copro-regul": {
+    titre: "Copropriété — régularisation des charges d'un lot",
+    intro: "Après l'approbation des comptes : on compare, clé par clé, la quote-part du lot dans les charges réelles et les provisions qui lui ont été appelées.",
+    inputs: [
+      { key: "rg", label: "Charges réelles — générales", type: "number", unit: "€", def: "21300" },
+      { key: "pg", label: "Provisions appelées — générales", type: "number", unit: "€", def: "20000" },
+      { key: "tg", label: "Tantièmes généraux du lot", type: "number", def: "180" },
+      { key: "ttg", label: "Total des tantièmes généraux", type: "number", def: "1000" },
+      { key: "rs", label: "Charges réelles — ascenseur", type: "number", unit: "€", def: "3600" },
+      { key: "ps", label: "Provisions appelées — ascenseur", type: "number", unit: "€", def: "4000" },
+      { key: "ts", label: "Tantièmes ascenseur du lot", type: "number", def: "140" },
+      { key: "tts", label: "Total des tantièmes ascenseur", type: "number", def: "1000" }
+    ],
+    compute: function (v, h) {
+      var kg = v.ttg > 0 ? v.tg / v.ttg : 0, ks = v.tts > 0 ? v.ts / v.tts : 0;
+      var eg = (v.rg - v.pg) * kg, es = (v.rs - v.ps) * ks, tot = eg + es;
+      return { rows: [
+        { l: "Quote-part des charges réelles générales", v: h.eur(v.rg * kg) },
+        { l: "− Provisions générales appelées au lot", v: h.eur(-v.pg * kg) },
+        { l: "= Écart charges générales", v: h.eur(eg) },
+        { l: "Quote-part des charges réelles ascenseur", v: h.eur(v.rs * ks) },
+        { l: "− Provisions ascenseur appelées au lot", v: h.eur(-v.ps * ks) },
+        { l: "= Écart charges ascenseur", v: h.eur(es) },
+        { l: tot >= 0 ? "Régularisation : le copropriétaire doit payer" : "Régularisation : à rembourser au copropriétaire", v: h.eur(Math.abs(tot)), b: true }
+      ], extra: "<b>Écriture de répartition</b> (pour l'ensemble des lots) : Débit <code>701</code> provisions appelées + Débit <code>450</code> (insuffisance) / Crédit des comptes de <b>charges 6xx</b> (réel), ou Crédit <code>450</code> si les provisions dépassent les charges.<br>La régularisation est portée au compte de celui qui est copropriétaire <b>au jour de l'approbation des comptes</b>." };
+    },
+    exemple: "DUPONT : générales (21 300 − 20 000) × 180/1 000 = <b>+234 €</b> ; ascenseur (3 600 − 4 000) × 140/1 000 = <b>−56 €</b> → <b>178 € à payer</b>.",
+    source: "Décret n° 2005-240 et arrêté du 14 mars 2005 (comptes du syndicat) ; décret du 17 mars 1967, art. 6-2 (régularisation en cas de vente)."
   }
 
   };

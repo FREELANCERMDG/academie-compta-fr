@@ -129,7 +129,7 @@
   "acces_prolonges": [],
   "_note_acces_prolonges": "Prolongations ciblées : { id (unique), email, jours }. AJOUTE 'jours' à l'expiration actuelle de CHAQUE accès daté de l'apprenant (base = max(expiration, aujourd'hui)). Appliqué UNE seule fois par 'id' (garde via journal). Pour prolonger à nouveau plus tard, ajouter une NOUVELLE entrée avec un id différent. Si l'apprenant n'a pas encore d'accès daté, la prolongation s'applique dès qu'il en a un.",
   "_note_acces_offerts": "Octrois ciblés : { email, offre (code, ex. MOD1/PACK_COMPLET), jours, sujet_email, message_email }. Appliqué au démarrage puis toutes les heures ; l'email de félicitations part UNE seule fois (à l'activation). Supprimer l'entrée n'annule pas l'accès déjà donné.",
-  "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 6), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
+  "_note_acces_illimites": "Emails avec accès OFFERT à tous les modules (1 à 7), SANS limite de durée. Retirer l'email de la liste pour révoquer (expiration au prochain balayage horaire).",
   "messages_perso": {
     "tianaanja075@gmail.com": "🎁 BIENVENUE — Le formateur vous a activé le Pack complet (Modules 1 à 6), toute la formation, avec un accès de 5 mois. Cours, simulateurs, quiz et cas pratiques réels de cabinet : tout est ouvert. Avancez à votre rythme ; une fois tous les modules terminés, programmez votre test final en visio pour obtenir votre attestation. Bonne formation ! 💪",
     "rakotondrazafymamitiana261@gmail.com": "🎁 BIENVENUE — Le formateur vous a activé le Pack complet (Modules 1 à 6), toute la formation, avec un accès de 5 mois. Cours, simulateurs, quiz et cas pratiques réels de cabinet : tout est ouvert. Avancez à votre rythme ; une fois tous les modules terminés, programmez votre test final en visio pour obtenir votre attestation. Bonne formation ! 💪",
@@ -181,8 +181,9 @@
     { "code": "MOD4", "titre": "Module 4 — Fiscalité, clôture & dossiers spécifiques", "prix": 30000, "modules": ["mod4"] },
     { "code": "MOD5", "titre": "Module 5 — Liasse fiscale & déclarations par régime", "prix": 30000, "modules": ["mod5"] },
     { "code": "MOD6", "titre": "Module 6 — Pratique métier, qualité, carrière & certification", "prix": 30000, "modules": ["mod6"] },
-    { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 1 à 6 (toute la formation)", "prix": 135000, "jours": 120, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6"] },
-    { "code": "PROMO_PACK", "titre": "Accès promo — tous les modules (gratuit)", "prix": 0, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6"] },
+    { "code": "MOD7", "titre": "Module 7 — Comptabilité de copropriété", "prix": 30000, "modules": ["mod7"] },
+    { "code": "PACK_COMPLET", "titre": "Pack complet — Modules 1 à 7 (toute la formation)", "prix": 135000, "jours": 120, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6", "mod7"] },
+    { "code": "PROMO_PACK", "titre": "Accès promo — tous les modules (gratuit)", "prix": 0, "modules": ["mod1", "mod2", "mod3", "mod4", "mod5", "mod6", "mod7"] },
     { "code": "VISIO_1H", "titre": "Visio formation complémentaire (1 heure)", "prix": 25000, "modules": [] }
   ],
   "_note_prix": "Prix en Ariary (Ar). Valeurs indicatives — ajustez-les selon votre tarification."

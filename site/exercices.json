@@ -1642,5 +1642,442 @@
     "credit": 2400
    }
   ]
+ },
+ "cp-nettoyage": {
+  "titre": "Copropriété — facture de nettoyage (charge TTC)",
+  "journal": "AC",
+  "enonce": "Le syndic de la Résidence Les Jacarandas reçoit la facture mensuelle de la société de nettoyage des parties communes : 650 € HT + TVA 20 % = 780 € TTC (clé : charges générales). Saisissez la facture dans la comptabilité du syndicat.",
+  "astuce": "Le syndicat ne récupère pas la TVA : la charge 611 est enregistrée pour le montant TTC, sans compte 44566.",
+  "doc": {
+   "sens": "Facture fournisseur",
+   "emetteur": "NET'IMMO SERVICES",
+   "ville": "12 avenue des Lilas, 69003 Lyon",
+   "num": "NI-2026-0318",
+   "date": "31/03/2026",
+   "echeance": "30/04/2026",
+   "lignes": [
+    {
+     "designation": "Nettoyage des parties communes — mars (Résidence Les Jacarandas)",
+     "qte": 1,
+     "puht": 650
+    }
+   ],
+   "ht": 650,
+   "taux": 20,
+   "tva": 130,
+   "ttc": 780
+  },
+  "tuto": [
+   "Facture d'achat → journal <b>AC</b>.",
+   "Au <b>débit</b> : <b>611</b> Nettoyage des locaux pour le montant <b>TTC</b> (780 €) — aucune TVA déductible en copropriété.",
+   "Au <b>crédit</b> : <b>401</b> fournisseur (780 €).",
+   "Dans un logiciel de syndic, vous choisiriez aussi la <b>clé de répartition</b> : charges générales."
+  ],
+  "lignes": [
+   {
+    "compte": "611",
+    "racine": "611",
+    "libelle": "Nettoyage des parties communes (TTC)",
+    "debit": 780,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "NET'IMMO SERVICES",
+    "debit": 0,
+    "credit": 780
+   }
+  ]
+ },
+ "cp-reglement": {
+  "titre": "Copropriété — règlement du fournisseur",
+  "journal": "BQ",
+  "enonce": "Le syndic règle la facture de nettoyage de 780 € par virement depuis le compte bancaire séparé du syndicat. Saisissez le règlement.",
+  "astuce": "Règlement → journal BQ : le fournisseur est soldé au débit, la banque créditée.",
+  "tuto": [
+   "Paiement → journal <b>BQ</b>.",
+   "Au <b>débit</b> : <b>401</b> fournisseur (780 €) → la dette est soldée.",
+   "Au <b>crédit</b> : <b>512</b> banque (780 €)."
+  ],
+  "lignes": [
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "NET'IMMO SERVICES",
+    "debit": 780,
+    "credit": 0
+   },
+   {
+    "compte": "512",
+    "racine": "512",
+    "libelle": "Banque — compte séparé du syndicat",
+    "debit": 0,
+    "credit": 780
+   }
+  ]
+ },
+ "cp-appel": {
+  "titre": "Copropriété — appel de fonds du 1er trimestre",
+  "journal": "OD",
+  "enonce": "Le 1er janvier, le syndic appelle le premier quart du budget voté (6 000 €). Appels individuels : SCI BERNARD 800 €, DUPONT 1 040 €, MARTIN 870 €, PETIT 1 080 €, DURAND 890 €, LEROY 1 320 €. Saisissez l'appel avec un compte 4501 par copropriétaire (ex. 4501BERNARD).",
+  "astuce": "Une ligne 4501 au débit par copropriétaire, une seule ligne 701 au crédit pour le total : la somme des appels doit être égale au quart du budget.",
+  "tuto": [
+   "Appel de provisions → journal <b>OD</b> (ou journal « appels de fonds » du logiciel).",
+   "Au <b>débit</b> : un compte <b>4501</b> par copropriétaire, pour son appel individuel (6 lignes).",
+   "Au <b>crédit</b> : <b>701</b> Provisions sur opérations courantes pour le total (6 000 €).",
+   "Contrôle : 800 + 1 040 + 870 + 1 080 + 890 + 1 320 = 6 000 € = 24 000 ÷ 4."
+  ],
+  "lignes": [
+   {
+    "compte": "4501BERNARD",
+    "racine": "450",
+    "libelle": "SCI BERNARD — appel T1",
+    "debit": 800,
+    "credit": 0
+   },
+   {
+    "compte": "4501DUPONT",
+    "racine": "450",
+    "libelle": "DUPONT — appel T1",
+    "debit": 1040,
+    "credit": 0
+   },
+   {
+    "compte": "4501MARTIN",
+    "racine": "450",
+    "libelle": "MARTIN — appel T1",
+    "debit": 870,
+    "credit": 0
+   },
+   {
+    "compte": "4501PETIT",
+    "racine": "450",
+    "libelle": "PETIT — appel T1",
+    "debit": 1080,
+    "credit": 0
+   },
+   {
+    "compte": "4501DURAND",
+    "racine": "450",
+    "libelle": "DURAND — appel T1",
+    "debit": 890,
+    "credit": 0
+   },
+   {
+    "compte": "4501LEROY",
+    "racine": "450",
+    "libelle": "LEROY — appel T1",
+    "debit": 1320,
+    "credit": 0
+   },
+   {
+    "compte": "701",
+    "racine": "701",
+    "libelle": "Provisions sur opérations courantes",
+    "debit": 0,
+    "credit": 6000
+   }
+  ]
+ },
+ "cp-encaissement": {
+  "titre": "Copropriété — encaissement d'un copropriétaire",
+  "journal": "BQ",
+  "enonce": "DUPONT règle son appel du 1er trimestre (1 040 €) par virement. Saisissez l'encaissement.",
+  "astuce": "Banque au débit, compte individuel du copropriétaire (4501) au crédit, puis lettrage avec l'appel.",
+  "tuto": [
+   "Encaissement → journal <b>BQ</b>.",
+   "Au <b>débit</b> : <b>512</b> banque (1 040 €).",
+   "Au <b>crédit</b> : <b>4501</b> DUPONT (1 040 €) → son compte est soldé ; lettrez-le avec l'appel."
+  ],
+  "lignes": [
+   {
+    "compte": "512",
+    "racine": "512",
+    "libelle": "Banque",
+    "debit": 1040,
+    "credit": 0
+   },
+   {
+    "compte": "4501DUPONT",
+    "racine": "450",
+    "libelle": "DUPONT — règlement appel T1",
+    "debit": 0,
+    "credit": 1040
+   }
+  ]
+ },
+ "cp-appel-travaux": {
+  "titre": "Copropriété — appel de fonds pour travaux votés",
+  "journal": "OD",
+  "enonce": "L'AG a voté un ravalement de 24 000 € TTC (clé charges générales), financé par 4 800 € du fonds de travaux et deux appels de 9 600 €. Saisissez le 1er appel travaux en une seule ligne pour le total des copropriétaires (le logiciel le détaillerait par lot : DUPONT 1 728 €…).",
+  "astuce": "Travaux hors budget : compte copropriétaire 4502 et produit 702, jamais 4501/701.",
+  "tuto": [
+   "Appel travaux → journal <b>OD</b>.",
+   "Au <b>débit</b> : <b>4502</b> copropriétaires — travaux (9 600 €).",
+   "Au <b>crédit</b> : <b>702</b> Provisions sur travaux et opérations exceptionnelles (9 600 €)."
+  ],
+  "lignes": [
+   {
+    "compte": "4502",
+    "racine": "450",
+    "libelle": "Copropriétaires — appel travaux ravalement n° 1",
+    "debit": 9600,
+    "credit": 0
+   },
+   {
+    "compte": "702",
+    "racine": "702",
+    "libelle": "Provisions sur travaux — ravalement",
+    "debit": 0,
+    "credit": 9600
+   }
+  ]
+ },
+ "cp-facture-travaux": {
+  "titre": "Copropriété — facture d'acompte de travaux",
+  "journal": "AC",
+  "enonce": "L'entreprise de ravalement adresse sa facture d'acompte n° 1 : 6 000 € HT + TVA 10 % = 6 600 € TTC. Saisissez la facture.",
+  "astuce": "Travaux votés par l'AG → compte 671, pour le montant TTC (pas de TVA récupérable).",
+  "doc": {
+   "sens": "Facture fournisseur",
+   "emetteur": "FAÇADES DU RHÔNE",
+   "ville": "8 quai Perrache, 69002 Lyon",
+   "num": "FR-26-0142",
+   "date": "15/05/2026",
+   "echeance": "15/06/2026",
+   "lignes": [
+    {
+     "designation": "Ravalement de façade — acompte n° 1 à la commande (Résidence Les Jacarandas)",
+     "qte": 1,
+     "puht": 6000
+    }
+   ],
+   "ht": 6000,
+   "taux": 10,
+   "tva": 600,
+   "ttc": 6600
+  },
+  "tuto": [
+   "Facture d'achat → journal <b>AC</b>.",
+   "Au <b>débit</b> : <b>671</b> Travaux décidés par l'AG pour le <b>TTC</b> (6 600 €).",
+   "Au <b>crédit</b> : <b>401</b> fournisseur (6 600 €).",
+   "Clé de répartition : celle votée pour le ravalement (charges générales)."
+  ],
+  "lignes": [
+   {
+    "compte": "671",
+    "racine": "671",
+    "libelle": "Ravalement — acompte n° 1 (TTC)",
+    "debit": 6600,
+    "credit": 0
+   },
+   {
+    "compte": "401",
+    "racine": "401",
+    "libelle": "FAÇADES DU RHÔNE",
+    "debit": 0,
+    "credit": 6600
+   }
+  ]
+ },
+ "cp-ft-appel": {
+  "titre": "Copropriété — appel du fonds de travaux",
+  "journal": "OD",
+  "enonce": "Cotisation au fonds de travaux : 5 % du budget de 24 000 €, soit 1 200 € par an, appelés par trimestre. Saisissez l'appel du trimestre en une seule ligne pour le total des copropriétaires.",
+  "astuce": "Fonds de travaux : 4505 au débit, 105 au crédit — ce n'est pas un produit (pas de 70x).",
+  "tuto": [
+   "Montant du trimestre : 1 200 ÷ 4 = <b>300 €</b>.",
+   "Au <b>débit</b> : <b>4505</b> copropriétaires — fonds de travaux (300 €).",
+   "Au <b>crédit</b> : <b>105</b> Fonds de travaux (300 €)."
+  ],
+  "lignes": [
+   {
+    "compte": "4505",
+    "racine": "450",
+    "libelle": "Copropriétaires — cotisation fonds de travaux T1",
+    "debit": 300,
+    "credit": 0
+   },
+   {
+    "compte": "105",
+    "racine": "105",
+    "libelle": "Fonds de travaux",
+    "debit": 0,
+    "credit": 300
+   }
+  ]
+ },
+ "cp-affect-ft": {
+  "titre": "Copropriété — affectation du fonds de travaux",
+  "journal": "OD",
+  "enonce": "L'AG décide d'utiliser 4 800 € du fonds de travaux pour financer le ravalement. Saisissez l'affectation.",
+  "astuce": "Le fonds (105) est débité et le financement apparaît en produit 705, face aux charges de travaux 671.",
+  "tuto": [
+   "Affectation décidée par l'AG → journal <b>OD</b>.",
+   "Au <b>débit</b> : <b>105</b> Fonds de travaux (4 800 €).",
+   "Au <b>crédit</b> : <b>705</b> Affectation du fonds de travaux (4 800 €)."
+  ],
+  "lignes": [
+   {
+    "compte": "105",
+    "racine": "105",
+    "libelle": "Fonds de travaux — affectation ravalement",
+    "debit": 4800,
+    "credit": 0
+   },
+   {
+    "compte": "705",
+    "racine": "705",
+    "libelle": "Affectation du fonds de travaux",
+    "debit": 0,
+    "credit": 4800
+   }
+  ]
+ },
+ "cp-fnp": {
+  "titre": "Copropriété — facture non parvenue à la clôture",
+  "journal": "OD",
+  "enonce": "Au 31/12, l'électricité des parties communes de décembre (180 € TTC, clé charges générales) n'est pas encore facturée. Constatez la charge de l'exercice.",
+  "astuce": "Comptabilité d'engagement : la charge est rattachée à l'exercice même sans facture → 602 / 408.",
+  "tuto": [
+   "Écriture d'inventaire → journal <b>OD</b>.",
+   "Au <b>débit</b> : <b>602</b> Électricité (180 € TTC).",
+   "Au <b>crédit</b> : <b>408</b> Fournisseurs — factures non parvenues (180 €)."
+  ],
+  "lignes": [
+   {
+    "compte": "602",
+    "racine": "602",
+    "libelle": "Électricité décembre — FNP",
+    "debit": 180,
+    "credit": 0
+   },
+   {
+    "compte": "408",
+    "racine": "408",
+    "libelle": "Fournisseurs — factures non parvenues",
+    "debit": 0,
+    "credit": 180
+   }
+  ]
+ },
+ "cp-repartition": {
+  "titre": "Copropriété — écriture de répartition des charges",
+  "journal": "OD",
+  "enonce": "L'AG a approuvé les comptes N de la Résidence Les Jacarandas. Provisions appelées (701) : 24 000 €. Charges réelles : 601 Eau 3 200 · 602 Électricité 2 600 · 611 Nettoyage 9 360 · 614 Contrat ascenseur 2 900 · 615 Entretien 1 240 · 616 Assurance 2 600 · 621 Syndic 3 000. Soldez les comptes de charges et de provisions ; l'écart est porté en une seule ligne au compte 450 (détail par lot dans le logiciel).",
+  "astuce": "701 au débit pour annuler les provisions, chaque 6xx au crédit pour son réel ; l'insuffisance (900 €) est débitée aux copropriétaires.",
+  "tuto": [
+   "Écart global : 24 900 − 24 000 = <b>900 €</b> d'insuffisance → à rappeler aux copropriétaires.",
+   "Au <b>débit</b> : <b>701</b> (24 000 €) et <b>450</b> copropriétaires (900 €).",
+   "Au <b>crédit</b> : chaque compte de charge pour son montant réel (7 lignes, total 24 900 €).",
+   "Après l'écriture, classes 6 et 7 sont soldées : il n'y a pas de « résultat » en copropriété."
+  ],
+  "lignes": [
+   {
+    "compte": "701",
+    "racine": "701",
+    "libelle": "Annulation des provisions appelées",
+    "debit": 24000,
+    "credit": 0
+   },
+   {
+    "compte": "450",
+    "racine": "450",
+    "libelle": "Copropriétaires — régularisation N",
+    "debit": 900,
+    "credit": 0
+   },
+   {
+    "compte": "601",
+    "racine": "601",
+    "libelle": "Eau",
+    "debit": 0,
+    "credit": 3200
+   },
+   {
+    "compte": "602",
+    "racine": "602",
+    "libelle": "Électricité",
+    "debit": 0,
+    "credit": 2600
+   },
+   {
+    "compte": "611",
+    "racine": "611",
+    "libelle": "Nettoyage",
+    "debit": 0,
+    "credit": 9360
+   },
+   {
+    "compte": "614",
+    "racine": "614",
+    "libelle": "Contrat d'entretien ascenseur",
+    "debit": 0,
+    "credit": 2900
+   },
+   {
+    "compte": "615",
+    "racine": "615",
+    "libelle": "Entretien et petites réparations",
+    "debit": 0,
+    "credit": 1240
+   },
+   {
+    "compte": "616",
+    "racine": "616",
+    "libelle": "Assurance",
+    "debit": 0,
+    "credit": 2600
+   },
+   {
+    "compte": "621",
+    "racine": "621",
+    "libelle": "Rémunération du syndic",
+    "debit": 0,
+    "credit": 3000
+   }
+  ]
+ },
+ "cp-impaye": {
+  "titre": "Copropriété — créance douteuse et dépréciation",
+  "journal": "OD",
+  "enonce": "DURAND (lot 5) doit 1 780 € (appels des 3e et 4e trimestres, 2 × 890 €) et fait l'objet d'une procédure de surendettement. Transférez sa créance en créances douteuses et dépréciez-la à 50 %.",
+  "astuce": "459 / 4501 pour isoler la créance douteuse, puis 681 / 491 pour la dépréciation (50 % de 1 780 = 890 €).",
+  "tuto": [
+   "Transfert : Débit <b>459</b> copropriétaires — créances douteuses (1 780 €) / Crédit <b>4501</b> DURAND (1 780 €).",
+   "Dépréciation : Débit <b>681</b> dotations (890 €) / Crédit <b>491</b> dépréciation des comptes copropriétaires (890 €).",
+   "Les frais de recouvrement engagés après mise en demeure seront imputés au seul DURAND (art. 10-1)."
+  ],
+  "lignes": [
+   {
+    "compte": "459",
+    "racine": "459",
+    "libelle": "Créance douteuse — DURAND",
+    "debit": 1780,
+    "credit": 0
+   },
+   {
+    "compte": "4501DURAND",
+    "racine": "450",
+    "libelle": "DURAND — transfert en douteux",
+    "debit": 0,
+    "credit": 1780
+   },
+   {
+    "compte": "681",
+    "racine": "681",
+    "libelle": "Dotation aux dépréciations",
+    "debit": 890,
+    "credit": 0
+   },
+   {
+    "compte": "491",
+    "racine": "491",
+    "libelle": "Dépréciation compte DURAND",
+    "debit": 0,
+    "credit": 890
+   }
+  ]
  }
 }

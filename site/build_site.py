@@ -121,6 +121,12 @@ MANIFEST = [
     ("cas-pratiques/Cas-pratiques-corriges.md", "cas", "Module 6 — Pratique métier, qualité, carrière & certification", "6.6 Cas pratiques corrigés", None),
     ("modules/Module-25-Simulations-entretien.md", "m25", "Module 6 — Pratique métier, qualité, carrière & certification", "6.7 Simulations d'entretien", None),
     ("modules/Module-PRAT8-ChefMission.md", "pr8", "Module 6 — Pratique métier, qualité, carrière & certification", "6.8 🔍 Réviseur & Chef de mission (simulateur)", None),
+    ("modules/Module-CP1-Copro-cadre-acteurs.md", "cp1", "Module 7 — Comptabilité de copropriété", "7.1 🏢 Cadre, acteurs & obligations", None),
+    ("modules/Module-CP2-Copro-plan-comptable.md", "cp2", "Module 7 — Comptabilité de copropriété", "7.2 📒 Plan comptable des copropriétés", "cp1"),
+    ("modules/Module-CP3-Copro-budget-appels.md", "cp3", "Module 7 — Comptabilité de copropriété", "7.3 📋 Budget, tantièmes & appels de fonds", None),
+    ("modules/Module-CP4-Copro-travaux-fonds.md", "cp4", "Module 7 — Comptabilité de copropriété", "7.4 🏗️ Travaux & fonds de travaux", None),
+    ("modules/Module-CP5-Copro-cloture-annexes.md", "cp5", "Module 7 — Comptabilité de copropriété", "7.5 📑 Clôture, régularisation & annexes", "copro"),
+    ("modules/Module-CP6-Copro-simulateur.md", "cp6", "Module 7 — Comptabilité de copropriété", "7.6 🎮 Simulateur syndic (exercice complet)", None),
 
     ("annexes/Checklists.md", "a_check", "Annexes", "Checklists", None),
     ("annexes/Modeles-mails.md", "a_mails", "Annexes", "Modèles de mails", None),
@@ -298,6 +304,7 @@ GROUP_MOD = {
     "Module 4 — Fiscalité, clôture & dossiers spécifiques": "mod4",
     "Module 5 — Liasse fiscale & déclarations par régime": "mod5",
     "Module 6 — Pratique métier, qualité, carrière & certification": "mod6",
+    "Module 7 — Comptabilité de copropriété": "mod7",
     "Annexes": "free",
 }
 CONTENT, NAV, ORDER, MODID = {}, [], [], {}
@@ -312,7 +319,7 @@ for rel, pid, grp, title, qk in MANIFEST:
     MODID[pid] = GROUP_MOD.get(grp, "free")
     groups.setdefault(grp, []).append({"id": pid, "title": title, "quiz": qk})
     ORDER.append(pid)
-for grp in ["Présentation", "Module 1 — Fondamentaux de la comptabilité française", "Module 2 — Prise en main du logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Annexes"]:
+for grp in ["Présentation", "Module 1 — Fondamentaux de la comptabilité française", "Module 2 — Prise en main du logiciel Pennylane", "Module 3 — Opérations & révision", "Module 4 — Fiscalité, clôture & dossiers spécifiques", "Module 5 — Liasse fiscale & déclarations par régime", "Module 6 — Pratique métier, qualité, carrière & certification", "Module 7 — Comptabilité de copropriété", "Annexes"]:
     if grp in groups:
         NAV.append({"group": grp, "items": groups[grp]})
 
@@ -370,6 +377,13 @@ try:
         RAPPRO = json.load(f)
 except Exception:
     RAPPRO = {}
+
+# Simulateur syndic de copropriété (Module 7)
+try:
+    with open(os.path.join(BASE, "copro.json"), "r", encoding="utf-8") as f:
+        COPRO = json.load(f)
+except Exception:
+    COPRO = {}
 
 # ----------------- Template HTML -----------------
 TPL = r"""<!DOCTYPE html>
@@ -675,6 +689,7 @@ window.EFI=__EFI__;
 window.FACTURES=__FACTURES__;
 window.PCG=__PCG__;
 window.RAPPRO=__RAPPRO__;
+window.COPRO=__COPRO__;
 const KEY="fce_progress_v1";
 let prog=JSON.parse(localStorage.getItem(KEY)||'{"done":{},"quiz":{}}');
 function save(){localStorage.setItem(KEY,JSON.stringify(prog));}
@@ -819,6 +834,7 @@ renderNav();show(curId());
 <script src="/formation/simdoc.js"></script>
 <script src="/formation/calc.js"></script>
 <script src="/formation/rappro.js"></script>
+<script src="/formation/copro.js"></script>
 <script>
 /* Pre-cache hors-ligne : telecharge tout le cours d'un coup (le service worker met en cache) */
 function prepareOffline(btn){
@@ -861,7 +877,8 @@ html_out = (TPL
     .replace("__EFI__", json.dumps(EFI, ensure_ascii=False))
     .replace("__FACTURES__", json.dumps(FACTURES, ensure_ascii=False))
     .replace("__PCG__", json.dumps(PCG, ensure_ascii=False))
-    .replace("__RAPPRO__", json.dumps(RAPPRO, ensure_ascii=False)))
+    .replace("__RAPPRO__", json.dumps(RAPPRO, ensure_ascii=False))
+    .replace("__COPRO__", json.dumps(COPRO, ensure_ascii=False)))
 
 # ----- Application de la charte (branding.json) -----
 name = (BR.get("cabinet_name") or "").strip()
@@ -882,7 +899,7 @@ html_out = html_out.replace("--navy:#1F4E78", "--navy:" + BR["primary"]).replace
 
 # Cache-busting des composants JS : ?v=<hash du fichier> (rafraîchit le cache navigateur à chaque changement)
 import hashlib
-for _js in ["cerfa.js", "saisie.js", "sim.js", "pro.js", "impots.js", "simdoc.js", "calc.js", "rappro.js"]:
+for _js in ["cerfa.js", "saisie.js", "sim.js", "pro.js", "impots.js", "simdoc.js", "calc.js", "rappro.js", "copro.js"]:
     _p = os.path.join(BASE, _js)
     try:
         _h = hashlib.md5(open(_p, "rb").read()).hexdigest()[:8]

@@ -174,7 +174,7 @@ function expirePromoGrants() {
     };
     for (const em of unlim) {
       if (grant(em, null)) {
-        try { pushToAdmins({ title: '🎁 Accès illimité activé', body: em + " vient de s'inscrire — accès complet (Modules 1 à 6) accordé", url: '/admin', tag: 'adm-illim-' + em }).catch(() => { }); } catch { }
+        try { pushToAdmins({ title: '🎁 Accès illimité activé', body: em + " vient de s'inscrire — accès complet (Modules 1 à 7) accordé", url: '/admin', tag: 'adm-illim-' + em }).catch(() => { }); } catch { }
       }
     }
     if (exp && exp > now) for (const em of keep) { if (!unlim.includes(em)) grant(em, exp); }
@@ -641,13 +641,13 @@ function landingHero(sess) {
   </section>`;
 }
 function categoryChips() {
-  const cats = [['🧮', 'Fondamentaux', 'mod1'], ['🖥️', 'Outils métier', 'mod2'], ['🔁', 'Opérations courantes', 'mod3'], ['🧾', 'Fiscalité &amp; clôture', 'mod4'], ['📊', 'Liasse &amp; bilan', 'mod5'], ['🏢', 'Cabinet &amp; carrière', 'mod6']];
+  const cats = [['🧮', 'Fondamentaux', 'mod1'], ['🖥️', 'Outils métier', 'mod2'], ['🔁', 'Opérations courantes', 'mod3'], ['🧾', 'Fiscalité &amp; clôture', 'mod4'], ['📊', 'Liasse &amp; bilan', 'mod5'], ['🏢', 'Cabinet &amp; carrière', 'mod6'], ['🏘️', 'Copropriété', 'mod7']];
   return `<div class="sec-head"><h2>🧭 Parcourir par thème</h2><a href="/programme">Tout voir →</a></div>
   <div class="catrow">${cats.map(c => `<a class="catchip" href="/apercu?m=${esc(c[2])}"><span class="ic">${c[0]}</span><span>${c[1]}</span></a>`).join('')}</div>`;
 }
 function coursesCarousel() {
-  const EMO = { mod1: '🧮', mod2: '🖥️', mod3: '🔁', mod4: '🧾', mod5: '📊', mod6: '🎓' };
-  const TAG = { mod1: 'Fondamentaux &amp; PCG', mod2: 'Outils métier (type Pennylane)', mod3: 'Opérations courantes TPE/PME', mod4: 'Fiscalité &amp; clôture', mod5: 'Liasse &amp; bilan', mod6: 'Pratique &amp; certification' };
+  const EMO = { mod1: '🧮', mod2: '🖥️', mod3: '🔁', mod4: '🧾', mod5: '📊', mod6: '🎓', mod7: '🏘️' };
+  const TAG = { mod1: 'Fondamentaux &amp; PCG', mod2: 'Outils métier (type Pennylane)', mod3: 'Opérations courantes TPE/PME', mod4: 'Fiscalité &amp; clôture', mod5: 'Liasse &amp; bilan', mod6: 'Pratique &amp; certification', mod7: 'Copropriété (syndic)' };
   const cards = MODULES.map(m => {
     const emo = EMO[m.code] || '📘';
     const bdg = m.gratuit ? '<span class="bdg free">Gratuit</span>' : '<span class="bdg">Inclus</span>';
@@ -715,7 +715,7 @@ function pageAccueil(sess) {
   const lsoc = cfg.societe || {};
   const ld = JSON.stringify({ "@context": "https://schema.org", "@graph": [
     { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL, "logo": BASE_URL + "/public/logo.jpg", "areaServed": [{ "@type": "Country", "name": "Madagascar" }, { "@type": "City", "name": "Antananarivo" }, { "@type": "City", "name": "Tamatave (Toamasina)" }, { "@type": "City", "name": "Antsirabe" }, { "@type": "City", "name": "Majunga (Mahajanga)" }] },
-    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 6 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, simulateurs et certification.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
+    { "@type": "Course", "name": "Formation en comptabilité française externalisée — Académie Compta FR", "description": "Formation en ligne pour devenir collaborateur, réviseur ou superviseur comptable externalisé pour des cabinets français, depuis Madagascar. 7 modules : outils métier (comme Pennylane), opérations courantes des TPE/PME, TVA, révision, liasse fiscale & préparation du bilan, comptabilité de copropriété, simulateurs et certification.", "inLanguage": "fr", "provider": { "@type": "Organization", "name": lsoc.nom || "MG CONSULTING IT&ACT", "url": BASE_URL } }
   ] }).replace(/</g, '\\u003c');
   return layout('Accueil', `<script type="application/ld+json">${ld}</script>
   ${(function () { const b = annonceAccueil(); return b ? `<div style="background:linear-gradient(135deg,rgba(232,161,58,.16),rgba(22,48,122,.10));border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin:0 0 18px;display:flex;gap:12px;align-items:center"><span style="font-size:22px;line-height:1">📣</span><p style="margin:0;white-space:pre-wrap;font-weight:600;font-size:15.5px;line-height:1.5">${esc(b.message)}</p></div>` : ''; })()}
@@ -737,10 +737,10 @@ function pageAccueil(sess) {
   <p>En complément de la formation en ligne : séances <b>en présentiel dans nos bureaux</b> (Antananarivo), <b>petit groupe (4 pers. max)</b>, sur <b>Pennylane</b>, <b>Silae</b> &amp; <b>Sage 50</b> — de la saisie à la préparation du bilan. <b>2 h/jour</b> (lun.–ven.) · <b>${money(presentielPrixModule())}/module</b>.</p>
   <p><a class="btn" href="/presentiel">Découvrir le présentiel</a> <a class="btn ghost" href="tel:0327362259">📞 032 73 622 59</a></p></section>
   ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent)"><h2>🎁 Tout est GRATUIT pendant 3 mois</h2>
-  <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 6 modules) jusqu’au <b>${promoFinFR()}</b> — sans aucun paiement.</p>
+  <p class="lead">Accès complet et gratuit à <b>toute la formation</b> (les 7 modules) jusqu’au <b>${promoFinFR()}</b> — sans aucun paiement.</p>
   <ol style="line-height:1.9;margin:8px 0 12px">
   <li><b>Inscrivez-vous gratuitement</b> (2 min).</li>
-  <li><b>Suivez les 6 modules</b> : outils métier (comme Pennylane), opérations courantes TPE/PME, TVA, révision, liasse &amp; bilan… de la saisie à la préparation du bilan des PME françaises.</li>
+  <li><b>Suivez les 7 modules</b> : outils métier (comme Pennylane), opérations courantes TPE/PME, TVA, révision, liasse &amp; bilan… de la saisie à la préparation du bilan des PME françaises.</li>
   <li><b>Passez l'évaluation</b> et obtenez votre <b>attestation de fin de formation</b>.</li>
   </ol>
   <p><a class="btn" href="/inscription">Créer mon compte gratuit →</a> <a class="btn ghost" href="/apercu?m=mod1">Découvrir le Module 1</a></p></section>` : `<section class="card"><h2 style="text-align:center;color:#fff;margin-top:0">Pourquoi choisir Académie Compta FR&nbsp;?</h2>
@@ -775,7 +775,7 @@ function pageDecouverte(sess) {
   ${videoBloc}
   <section class="card"><h2>Votre parcours en 4 étapes</h2><div class="prog">${steps}</div></section>
   <section class="card"><h2>Ce qui est inclus</h2>
-  <ul><li>📚 <b>6 modules</b> complets, 100 % pratiques${promoLive() ? ' — TOUS gratuits pendant la promo' : ' — à partir de ' + money(prixMiniModule()) + ' / module'}</li>
+  <ul><li>📚 <b>7 modules</b> complets, 100 % pratiques${promoLive() ? ' — TOUS gratuits pendant la promo' : ' — à partir de ' + money(prixMiniModule()) + ' / module'}</li>
   <li>🧮 Logiciel <b>Pennylane</b> : déclarer la TVA, rapprochement, immobilisations, cadrage, intracom/intercos — pas à pas avec exemples</li>
   <li>📝 <b>100+ questions de quiz</b>, <b>10 cas pratiques</b> corrigés, <b>évaluation finale</b> (/100)</li>
   <li>🎤 <b>Simulations d'entretien</b> (collaborateur, réviseur, chef de mission, superviseur)</li>
@@ -900,7 +900,7 @@ function pageProgramme(sess) {
   <section class="card"><h2>💻 Une vraie plateforme e-learning (LMS)</h2>
   <p class="muted">Académie Compta FR est un <b>LMS complet</b> (Learning Management System), conçu selon les standards des outils e-learning du marché (type Teach Up, Didask…) :</p>
   <div class="grid">
-    <div class="offre"><h3>🧩 Microlearning</h3><p class="muted">Des leçons courtes et progressives, organisées en 6 modules — on avance pas à pas.</p></div>
+    <div class="offre"><h3>🧩 Microlearning</h3><p class="muted">Des leçons courtes et progressives, organisées en 7 modules — on avance pas à pas.</p></div>
     <div class="offre"><h3>🛠️ Learning by doing</h3><p class="muted">Simulateurs, logiciel comptable intégré, CERFA réels : on apprend en FAISANT.</p></div>
     <div class="offre"><h3>📊 Suivi & badges</h3><p class="muted">Progression en temps réel, quiz auto-corrigés (corrigés débloqués après l'essai), parcours « cabinet » avec niveaux.</p></div>
     <div class="offre"><h3>🎓 Évaluation certifiante</h3><p class="muted">Évaluation finale + test en visio avec le formateur → attestation signée et tamponnée.</p></div>
@@ -939,7 +939,7 @@ function pageApercu(sess, code) {
     return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a> &middot; <b class="gratuit">Module gratuit</b></p>
     <article class="prose">${moduleCompletHtml(code)}</article>
     ${quizHtml}
-    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, TOUS les modules sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez <b>tous les modules</b> (outils métier comme Pennylane, opérations courantes TPE/PME, fiscalité & clôture, liasse & bilan, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>, ou le <b>pack complet 1 à 6</b> à prix réduit.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
+    <section class="card"><h2>La suite vous intéresse ?</h2><p>${promoLive() ? '<b>🎁 Pendant la promo, TOUS les modules sont GRATUITS</b> — débloqués dès votre inscription, jusqu’au ' + promoFinFR() + '.' : 'Débloquez <b>tous les modules</b> (outils métier comme Pennylane, opérations courantes TPE/PME, fiscalité & clôture, liasse & bilan, métier & certification) — <b>à partir de ' + money(prixMiniModule()) + ' / module</b>, ou le <b>pack complet 1 à 7</b> à prix réduit.'}</p><a class="btn" href="/formation">Continuer la formation →</a></section>`, sess);
   }
   return layout('Aperçu — ' + inf.titre, `<p class="muted"><a href="/programme">← Programme</a></p>
   <h1>${esc(moduleTitre(code))}</h1>
@@ -953,7 +953,7 @@ function pageInscription(sess, err, val = {}) {
   return layout('Inscription', `
   <h1>Inscription</h1>
   <p class="muted">Conditions : ${esc(cfg.conditions.diplome_requis)}.</p>
-  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 6)</b> <b>gratuitement, jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
+  ${promoLive() ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.08)"><h2 style="margin:0 0 4px">🎁 Votre inscription débloque TOUS les modules — gratuitement</h2><p style="margin:0">En créant votre compte maintenant, vous accédez à <b>l'intégralité de la formation (Modules 1 à 7)</b> <b>gratuitement, jusqu’au ${esc((((cfg.promo) || {}).jusqu_au || '').slice(0, 10))}</b>. Aucun paiement requis pendant la promo.</p></section>` : ''}
   <p class="muted" style="font-size:13px">🔐 Connexion simple et sécurisée par <b>email + mot de passe</b> — aucune application à installer.</p>
   ${(function () { const o = val.acheter ? (cfg.offres || []).find(x => x.code === val.acheter) : null; return o ? `<section class="card" style="border-left:4px solid var(--accent);background:rgba(232,161,58,.10)"><h2 style="margin:0 0 4px">🛒 Vous voulez débloquer : ${esc(o.titre)}</h2><p style="margin:0"><b>Inscrivez-vous d'abord (gratuit, 2 min)</b> — juste après votre inscription, vous serez dirigé(e) vers le <b>paiement Mobile Money (${money(o.prix)})</b> pour accéder à ce module.</p></section>` : ''; })()}
   ${err ? `<p class="err">${esc(err)}</p>` : ''}
@@ -1402,14 +1402,14 @@ function pageAdmin(sess, notif, acces, accesEmail, qRaw) {
     <label>Accès à<select name="offre">${offresOpts}</select></label>
     <label>Durée d'accès (jours)<input name="jours" type="number" min="1" max="3650" value="${(cfg.acces && cfg.acces.duree_jours) || 45}"></label>
     <button class="btn" type="submit">Accorder l'accès</button></form>
-  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 1 à 6). Vous pouvez ré-accorder pour prolonger.</p></section>
+  <p class="muted" style="font-size:12px">L'email doit déjà avoir un compte (inscription gratuite). « Tout » = <b>Pack complet</b> (Modules 1 à 7). Vous pouvez ré-accorder pour prolonger.</p></section>
   ${gererAcces}
   ${parrainageHtml}
   ${emploiHtml}
   <section class="card"><h2>Paiements à valider (${pend.length})</h2>
   ${pend.length ? pend.map(p => `<div class="row2"><span>${esc(p.email)} — ${esc(p.titre)} — ${money(p.montant)} — réf <code>${esc(p.reference || '')}</code></span>
     <form method="post" action="/admin/valider" class="inline">${csrfField(sess)}<input type="hidden" name="pid" value="${esc(p.id)}"><button class="btn small">Valider</button></form></div>`).join('') : '<p class="muted">Aucun paiement en attente.</p>'}</section>
-  ${(function () { const a = annonceActive(); const suggestion = "🎁 Bonne nouvelle ! Pendant la promo, TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + ((((cfg.promo) || {}).jusqu_au || '').slice(0, 10)) + ". Connectez-vous et profitez-en — attestation de fin de formation à la clé !"; return `<section class="card"><h2>📣 Message aux apprenants (annonce dans leur espace)</h2>
+  ${(function () { const a = annonceActive(); const suggestion = "🎁 Bonne nouvelle ! Pendant la promo, TOUS les modules (1 à 7) sont GRATUITS jusqu’au " + ((((cfg.promo) || {}).jusqu_au || '').slice(0, 10)) + ". Connectez-vous et profitez-en — attestation de fin de formation à la clé !"; return `<section class="card"><h2>📣 Message aux apprenants (annonce dans leur espace)</h2>
   ${a ? `<p class="muted" style="font-size:12px">Annonce actuellement affichée à tous les apprenants (publiée le ${esc((a.cree_le || '').slice(0, 10))}) :</p><div class="offre" style="margin:6px 0"><p style="margin:0;white-space:pre-wrap">${esc(a.message)}</p></div><form method="post" action="/admin/annonce-off" class="inline" style="margin:0 0 10px">${csrfField(sess)}<button class="btn small ghost" type="submit">Désactiver l'annonce</button></form>` : '<p class="muted">Aucune annonce active pour le moment.</p>'}
   <form method="post" action="/admin/annonce" class="form" style="margin:0">${csrfField(sess)}
     <textarea name="message" rows="4" maxlength="2000" required placeholder="Votre message aux apprenants…" style="width:100%">${esc(a ? a.message : suggestion)}</textarea>
@@ -1492,7 +1492,7 @@ function serveStatic(res, baseDir, relPath, { course = false } = {}) {
 }
 
 // --- Cours protégé : filigrane personnalisé + anti-copie + blocage impression ---
-// --- Droits d'accès par module (paywall : mod1 gratuit, mod2→mod6 payants) ---
+// --- Droits d'accès par module (paywall : mod1 gratuit, mod2→mod7 payants) ---
 const FREE_MODS = new Set((cfg.apercu && cfg.apercu.modules_gratuits) || ['mod1']);
 function offerModules(code) { const o = (cfg.offres || []).find(x => x.code === code); return (o && o.modules) || []; }
 function entitledModules(user) {
@@ -1579,7 +1579,7 @@ function serveAttestation(res, sess, forceType) {
   const isStage = forceType === 'stage' ? true : forceType === 'fin' ? false : (cfg.attestation_stage || []).map(e => String(e).toLowerCase().trim()).includes((u.email || '').toLowerCase().trim());
   const aTitre = isStage ? 'ATTESTATION DE STAGE' : 'ATTESTATION DE FIN DE FORMATION';
   const aSub = isStage ? 'Stage de formation pratique en comptabilité française externalisée' : 'Formation complète en comptabilité française externalisée depuis Madagascar';
-  const aNarr = isStage ? 'a effectué un <b>stage de formation pratique</b> en « <b>Comptabilité française externalisée</b> » (6 modules).' : 'a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (6 modules).';
+  const aNarr = isStage ? 'a effectué un <b>stage de formation pratique</b> en « <b>Comptabilité française externalisée</b> » (7 modules).' : 'a suivi la formation « <b>Comptabilité française externalisée depuis Madagascar</b> » (7 modules).';
   const aLegal = isStage ? ('Attestation de stage interne délivrée par ' + esc(s.nom || '') + ', attestant la réalisation d\'un stage pratique de formation ; sans valeur de diplôme d\'État.') : ('Attestation de fin de formation interne, sans valeur de diplôme d\'État ; elle atteste du suivi de la formation et du niveau opérationnel constaté à l\'évaluation finale.');
   const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Attestation — ${esc(s.nom || '')}</title>
@@ -1705,7 +1705,7 @@ function chatSystemPrompt(learner) {
     "LONGUEUR : pour une demande commerciale, sois CONCIS (2 à 5 phrases). Pour une explication technique, sois structuré et complet : définition → exemple chiffré → écriture → réflexe cabinet, sans bavardage.",
     "N'INVENTE JAMAIS de prix ni de chiffres COMMERCIAUX : pour la formation, utilise uniquement les informations ci-dessous ; si tu ignores une info, dis-le et renvoie vers WhatsApp " + wa + " ou la page Programme.",
     "INFORMATIONS OFFICIELLES (formation) :",
-    promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 6) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 6 modules, TOUS payants (aucun module gratuit). Créer un compte est gratuit et permet de voir les aperçus ; le contenu complet de chaque module se débloque après paiement.",
+    promoLive() ? "- 🎁 PROMO EN COURS : TOUS les modules (1 à 7) sont GRATUITS jusqu’au " + promoFinFR() + " — il suffit de s'inscrire gratuitement, aucun paiement. Mets cette info en avant. L'attestation reste à la clé." : "- 7 modules, TOUS payants (aucun module gratuit). Créer un compte est gratuit et permet de voir les aperçus ; le contenu complet de chaque module se débloque après paiement.",
     promoLive() ? "- Tarifs HORS PROMO (à titre indicatif seulement, NE PAS demander de payer pendant la promo) :" : "- Offres payantes :",
     off,
     "- Accès : " + (acc.illimite ? "illimité" : ((acc.duree_jours || 45) + " jours")) + " après paiement.",
